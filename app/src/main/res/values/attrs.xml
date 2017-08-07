@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HeaderViewAttr">
+        <attr name="main_title" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="HeaderView">
+        <attr name="headerViewStyle" format="reference"/>
+    </declare-styleable>
+</resources>
