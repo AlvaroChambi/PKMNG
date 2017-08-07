@@ -1,12 +1,9 @@
 package es.developer.achambi.pkmng.core.ui;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import es.developer.achambi.pkmng.R;
@@ -37,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
+        //getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
     }
 
