@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Base fragment, can override onBack event and allows options menu on action bar
+ */
 public abstract class BaseFragment extends Fragment {
 
     @Override

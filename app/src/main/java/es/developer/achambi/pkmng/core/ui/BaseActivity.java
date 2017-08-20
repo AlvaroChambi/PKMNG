@@ -4,12 +4,10 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 
 import es.developer.achambi.pkmng.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
     public static final String BASE_ARGUMENTS = "base_arguments";
     private BaseFragment fragment;
 
@@ -17,8 +15,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_activity);
+        setTitle(getScreenTitle());
         attachFragment();
     }
+
+    public abstract int getScreenTitle();
 
     public void attachFragment() {
         FragmentManager manager = getFragmentManager();
@@ -30,12 +31,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         transaction.add(R.id.fragment_frame, fragment);
         transaction.commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.search_menu, menu);
-        return true;
     }
 
     public abstract BaseFragment getFragment();
