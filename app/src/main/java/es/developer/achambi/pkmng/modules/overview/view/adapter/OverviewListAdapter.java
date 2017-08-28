@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.overview;
+package es.developer.achambi.pkmng.modules.overview.view.adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;

@@ -10,13 +10,12 @@ import android.view.View;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
-import es.developer.achambi.pkmng.modules.overview.OverviewListAdapter;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
+import es.developer.achambi.pkmng.modules.overview.view.adapter.OverviewListAdapter;
+import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
 
 public class OverviewFragment extends BaseFragment implements IOverviewView{
-    private static final String TAG = OverviewFragment.class.getCanonicalName();
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -50,20 +49,38 @@ public class OverviewFragment extends BaseFragment implements IOverviewView{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu, menu);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.overview_search_action).getActionView();
+        final SearchView searchView = (SearchView) menu.findItem(R.id.overview_search_action).getActionView();
         searchView.setQueryHint(getResources().getString(R.string.search_pokemon_hint));
+        final PokemonSuggestionsAdapter pokemonCursorAdapter = new PokemonSuggestionsAdapter(
+                getActivity());
+        searchView.setSuggestionsAdapter(pokemonCursorAdapter);
+
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return true;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                searchView.setQuery(pokemonCursorAdapter.getValue(position), false);
+                return true;
+            }
+        });
 
         //TODO Maybe some basic custom FilterSearchView: can translate this events to something more precise
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 presenter.onQueryTextSubmit(query);
+                searchView.clearFocus(); //hide soft keyboard
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 presenter.onQueryTextChanged(newText);
+                pokemonCursorAdapter.onQueryTextChanged(newText);
                 return true;
             }
         });
