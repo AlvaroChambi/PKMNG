@@ -39,7 +39,7 @@ public class OverviewFragment extends BaseFragment implements IOverviewView{
 
         recyclerView = view.findViewById(R.id.overview_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity());
-        adapter = new OverviewListAdapter();
+        adapter = new OverviewListAdapter(presenter.getPokemonList());
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
