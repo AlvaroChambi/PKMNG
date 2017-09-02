@@ -5,7 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
 
 public class OverviewPresenter implements IOverviewPresenter{
@@ -27,8 +29,8 @@ public class OverviewPresenter implements IOverviewPresenter{
     }
 
     @Override
-    public List<Pokemon> getPokemonList() {
-        List<Pokemon> pokemonList = new ArrayList<>(800);
+    public List<BasePokemon> getPokemonList() {
+        List<BasePokemon> pokemonList = new ArrayList<>(800);
         for(int i = 0; i < 800; i++) {
             Pokemon pokemon = new Pokemon();
             pokemon.setName("Pikachu");
@@ -39,7 +41,17 @@ public class OverviewPresenter implements IOverviewPresenter{
             pokemon.setSpAttack(50);
             pokemon.setSpDefense(55);
             pokemon.setSpeed(50);
-            pokemonList.add(pokemon);
+
+            if( i < 5 ) {
+                PokemonConfig config = new PokemonConfig(pokemon);
+                config.setName("Special sweeper awesone pikachu");
+                config.setItem("Item: Eviolite");
+                config.setAbility("Ability: Magic guard");
+                config.setNature("Nature: Modest");
+                pokemonList.add(config);
+            } else {
+                pokemonList.add(pokemon);
+            }
         }
         return pokemonList;
     }

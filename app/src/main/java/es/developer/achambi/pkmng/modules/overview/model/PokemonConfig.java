@@ -1,6 +1,43 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
 public class PokemonConfig extends BaseConfig{
+    private String item;
+    private String ability;
+    private String nature;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
+    }
+
+    public String getAbility() {
+        return ability;
+    }
+
+    public void setAbility(String ability) {
+        this.ability = ability;
+    }
+
+    public String getNature() {
+        return nature;
+    }
+
+    public void setNature(String nature) {
+        this.nature = nature;
+    }
 
     public PokemonConfig(BasePokemon basePokemon) {
         super(basePokemon);
@@ -34,5 +71,14 @@ public class PokemonConfig extends BaseConfig{
     @Override
     public int getSpeed() {
         return pokemon.getSpeed() + stats.getSpeed();
+    }
+
+    public Pokemon getPokemon() {
+        return (Pokemon) pokemon;
+    }
+
+    @Override
+    public int getViewType() {
+        return 2;
     }
 }

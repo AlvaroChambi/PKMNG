@@ -7,4 +7,5 @@ public interface BasePokemon {
     int getSpAttack();
     int getSPDefense();
     int getSpeed();
+    int getViewType();
 }

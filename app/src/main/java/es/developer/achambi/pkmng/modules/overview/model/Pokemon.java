@@ -90,4 +90,9 @@ public class Pokemon implements BasePokemon {
     public int getSpeed() {
         return stats.getSpeed();
     }
+
+    @Override
+    public int getViewType() {
+        return 1;
+    }
 }
