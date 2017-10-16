@@ -8,14 +8,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
+import java.util.List;
+
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
+import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.OverviewListAdapter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewViewDataBuilder;
+import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 
-public class OverviewFragment extends BaseFragment implements IOverviewView{
+public class OverviewFragment extends BaseRequestFragment implements IOverviewView{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -33,14 +38,30 @@ public class OverviewFragment extends BaseFragment implements IOverviewView{
     }
 
     @Override
+    public ViewPresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = new OverviewPresenter(this);
 
         recyclerView = view.findViewById(R.id.overview_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity());
-        adapter = new OverviewListAdapter(presenter.getPokemonList());
 
+        if(!isViewRecreated()) {
+            doRequest();
+        }
+    }
+
+    @Override
+    public void doRequest() {
+        List<BasePokemon> pokemonList = presenter.fetchPokemonList();
+        OverviewViewDataBuilder dataBuilder = new OverviewViewDataBuilder();
+
+        adapter = new OverviewListAdapter(
+                dataBuilder.buildViewRepresentation(getResources(),pokemonList));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }

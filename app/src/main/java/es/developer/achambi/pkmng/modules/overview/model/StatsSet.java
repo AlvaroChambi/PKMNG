@@ -62,4 +62,16 @@ public class StatsSet {
     public int getSpeed() {
         return stats.get(Stat.SPEED);
     }
+
+    public int getTotalStats() {
+        int result = 0;
+        result += stats.get(Stat.HP);
+        result += stats.get(Stat.ATTACK);
+        result += stats.get(Stat.DEFENSE);
+        result += stats.get(Stat.SP_ATTACK);
+        result += stats.get(Stat.SP_DEFENSE);
+        result += stats.get(Stat.SPEED);
+
+        return result;
+    }
 }

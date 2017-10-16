@@ -5,13 +5,13 @@ import android.util.Pair;
 public class Pokemon implements BasePokemon {
     public enum Type {
         ELECTRIC,
-        GROUND,
         EMPTY;
     }
 
     private String name;
     private Pair<Type, Type> type;
     private StatsSet stats;
+    private String imageURL;
 
     public Pokemon() {
         stats = new StatsSet();
@@ -19,6 +19,14 @@ public class Pokemon implements BasePokemon {
 
     public String getName() {
         return name;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public StatsSet getStats() {
+        return stats;
     }
 
     public void setName(String name) {
@@ -92,7 +100,7 @@ public class Pokemon implements BasePokemon {
     }
 
     @Override
-    public int getViewType() {
-        return 1;
+    public boolean hasConfig() {
+        return false;
     }
 }

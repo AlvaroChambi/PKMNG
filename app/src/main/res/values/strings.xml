@@ -3,4 +3,17 @@
 
     <string name="search_pokemon_hint">Search pokemon</string>
     <string name="overview_activity_title">Overview</string>
+
+    <string name="pokemon_type_electric">electric</string>
+
+    <string name="pokemon_item_total_stats_tag">BST: </string>
+    <string name="pokemon_item_ability_tag">Ability: </string>
+    <string name="pokemon_item_item_tag">Item: </string>
+    <string name="pokemon_item_nature_tag">Nature: </string>
+    <string name="pokemon_item_hp_tag">Hp: </string>
+    <string name="pokemon_item_attack_tag">Atk: </string>
+    <string name="pokemon_item_defense_tag">Def: </string>
+    <string name="pokemon_item_sp_attack_tag">Spa: </string>
+    <string name="pokemon_item_sp_defense_tag">Spd: </string>
+    <string name="pokemon_item_speed_tag">Spe: </string>
 </resources>

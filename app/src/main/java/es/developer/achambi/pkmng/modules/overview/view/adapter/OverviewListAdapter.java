@@ -9,14 +9,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewListItemViewRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
 public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int POKEMON_VIEW_TYPE = 1;
-    private static final int CONFIGURATION_VIEW_TYPE = 2;
-    private List<BasePokemon> pokemonList;
+    private List<OverviewListItemViewRepresentation> pokemonList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView pokemonName;
@@ -57,16 +55,16 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public OverviewListAdapter(List<BasePokemon> pokemonList) {
+    public OverviewListAdapter(List<OverviewListItemViewRepresentation> pokemonList) {
         this.pokemonList = pokemonList;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View rootView = null;
         RecyclerView.ViewHolder holder = null;
-        if( viewType == POKEMON_VIEW_TYPE ) {
-            rootView =  LayoutInflater.from(parent.getContext())
+
+        if( viewType == OverviewListItemViewRepresentation.ViewType.POKEMON.ordinal() ) {
+            View rootView =  LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.pokemon_list_item_layout, parent, false);
             ViewHolder viewHolder = new ViewHolder(rootView);
             holder = viewHolder;
@@ -80,8 +78,8 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewHolder.pokemonSpAttack = rootView.findViewById(R.id.pokemon_spa_text);
             viewHolder.pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
             viewHolder.pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
-        } else if( viewType == CONFIGURATION_VIEW_TYPE ) {
-            rootView = LayoutInflater.from(parent.getContext())
+        } else if( viewType == OverviewListItemViewRepresentation.ViewType.POKEMON_CONFIG.ordinal() ) {
+            View rootView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.pokemon_config_list_item_layout, parent, false);
             ConfigViewHolder viewHolder = new ConfigViewHolder(rootView);
             holder = viewHolder;
@@ -108,41 +106,37 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if( getItemViewType(position) == POKEMON_VIEW_TYPE ) {
-            Pokemon pokemon = (Pokemon) pokemonList.get(position);
-            ((ViewHolder)holder).pokemonName.setText(pokemon.getName());
-            ((ViewHolder)holder).pokemonType.setText(pokemon.getType().first.toString().toLowerCase());
-            ((ViewHolder)holder).baseStats.setText("BST: 320");
-            ((ViewHolder)holder).pokemonHP.setText(String.valueOf( "Hp " + pokemon.getHP() ));
-            ((ViewHolder)holder).pokemonAttack.setText(String.valueOf( "Atk " + pokemon.getAttack() ));
-            ((ViewHolder)holder).pokemonDefense.setText(String.valueOf( "Def " + pokemon.getDefense() ));
-            ((ViewHolder)holder).pokemonSpAttack.setText(String.valueOf( "Spa " + pokemon.getSpAttack() ));
-            ((ViewHolder)holder).pokemonSpDefense.setText(String.valueOf( "Spd " + pokemon.getSPDefense() ));
-            ((ViewHolder)holder).pokemonSpeed.setText(String.valueOf( "Spe " + pokemon.getSpeed() ));
-        } else if( getItemViewType(position) == CONFIGURATION_VIEW_TYPE ) {
-            PokemonConfig pokemonConfig = (PokemonConfig) pokemonList.get(position);
-            Pokemon pokemon = pokemonConfig.getPokemon();
-            ((ConfigViewHolder)holder).configName.setText(pokemonConfig.getName());
+        if( getItemViewType(position) == OverviewListItemViewRepresentation.ViewType
+                .POKEMON.ordinal() ) {
+            OverviewPokemonRepresentation pokemon =
+                    (OverviewPokemonRepresentation) pokemonList.get(position);
+            ((ViewHolder)holder).pokemonName.setText(pokemon.name);
+            ((ViewHolder)holder).pokemonType.setText(pokemon.type);
+            ((ViewHolder)holder).baseStats.setText(pokemon.totalStats);
+            ((ViewHolder)holder).pokemonHP.setText(pokemon.hp);
+            ((ViewHolder)holder).pokemonAttack.setText(pokemon.attack);
+            ((ViewHolder)holder).pokemonDefense.setText(pokemon.defense);
+            ((ViewHolder)holder).pokemonSpAttack.setText(pokemon.spAttack);
+            ((ViewHolder)holder).pokemonSpDefense.setText(pokemon.spDefense);
+            ((ViewHolder)holder).pokemonSpeed.setText(pokemon.speed);
+        } else if( getItemViewType(position) == OverviewListItemViewRepresentation.ViewType
+                .POKEMON_CONFIG.ordinal() ) {
+            OverviewConfigurationRepresentation configuration =
+                    (OverviewConfigurationRepresentation) pokemonList.get(position);
+            ((ConfigViewHolder)holder).configName.setText(configuration.name);
 
-            ((ConfigViewHolder)holder).pokemonName.setText(pokemon.getName());
-            ((ConfigViewHolder)holder).pokemonType.setText(pokemon.getType().first.toString().toLowerCase());//BAD!!!
-            ((ConfigViewHolder)holder).baseStats.setText("BST: 320");
-//            ((ConfigViewHolder)holder).pokemonHP.setText(String.valueOf( pokemon.getHP() ));
-//            ((ConfigViewHolder)holder).pokemonAttack.setText(String.valueOf( pokemon.getAttack() ));
-//            ((ConfigViewHolder)holder).pokemonDefense.setText(String.valueOf( pokemon.getDefense() ));
-//            ((ConfigViewHolder)holder).pokemonSpAttack.setText(String.valueOf( pokemon.getSpAttack() ));
-//            ((ConfigViewHolder)holder).pokemonSpDefense.setText(String.valueOf( pokemon.getSPDefense() ));
-//            ((ConfigViewHolder)holder).pokemonSpeed.setText(String.valueOf( pokemon.getSpeed() ));
-
-            ((ConfigViewHolder)holder).item.setText(String.valueOf( pokemonConfig.getItem() ));
-            ((ConfigViewHolder)holder).ability.setText(String.valueOf( pokemonConfig.getAbility() ));
-            ((ConfigViewHolder)holder).nature.setText(String.valueOf( pokemonConfig.getNature() ));
+            ((ConfigViewHolder)holder).pokemonName.setText(configuration.pokemonName);
+            ((ConfigViewHolder)holder).pokemonType.setText(configuration.type);
+            ((ConfigViewHolder)holder).baseStats.setText(configuration.totalStats);
+            ((ConfigViewHolder)holder).item.setText(configuration.item);
+            ((ConfigViewHolder)holder).ability.setText(configuration.ability);
+            ((ConfigViewHolder)holder).nature.setText(configuration.nature);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return pokemonList.get(position).getViewType();
+        return pokemonList.get(position).getViewType().ordinal();
     }
 
     @Override
