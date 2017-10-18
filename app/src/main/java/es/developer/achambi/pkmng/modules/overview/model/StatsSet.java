@@ -1,8 +1,13 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.HashMap;
 
-public class StatsSet {
+import es.developer.achambi.pkmng.core.ui.ParcelUtil;
+
+public class StatsSet implements Parcelable{
     private HashMap<Stat, Integer> stats;
     
     public StatsSet() {
@@ -73,5 +78,30 @@ public class StatsSet {
         result += stats.get(Stat.SPEED);
 
         return result;
+    }
+
+    protected StatsSet(Parcel in) {
+        stats = ParcelUtil.readParcelableMap(in, Stat.class, Integer.class);
+    }
+
+    public static final Creator<StatsSet> CREATOR = new Creator<StatsSet>() {
+        @Override
+        public StatsSet createFromParcel(Parcel in) {
+            return new StatsSet(in);
+        }
+
+        @Override
+        public StatsSet[] newArray(int size) {
+            return new StatsSet[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
     }
 }
