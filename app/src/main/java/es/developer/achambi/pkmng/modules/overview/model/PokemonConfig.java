@@ -1,5 +1,7 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
+import android.os.Parcel;
+
 public class PokemonConfig extends BaseConfig{
     private Configuration configuration;
 
@@ -7,6 +9,23 @@ public class PokemonConfig extends BaseConfig{
         super(basePokemon);
         this.configuration = configuration;
     }
+
+    protected PokemonConfig(Parcel in) {
+        super( (BasePokemon) (in.readParcelable(BasePokemon.class.getClassLoader())) );
+        configuration = in.readParcelable(Configuration.class.getClassLoader());
+    }
+
+    public static final Creator<PokemonConfig> CREATOR = new Creator<PokemonConfig>() {
+        @Override
+        public PokemonConfig createFromParcel(Parcel in) {
+            return new PokemonConfig(in);
+        }
+
+        @Override
+        public PokemonConfig[] newArray(int size) {
+            return new PokemonConfig[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -70,5 +89,15 @@ public class PokemonConfig extends BaseConfig{
     }
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

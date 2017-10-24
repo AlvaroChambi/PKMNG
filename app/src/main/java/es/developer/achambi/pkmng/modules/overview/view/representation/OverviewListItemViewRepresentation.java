@@ -1,6 +1,8 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
-public interface OverviewListItemViewRepresentation {
+import android.os.Parcelable;
+
+public interface OverviewListItemViewRepresentation extends Parcelable{
     enum ViewType {
         POKEMON,
         POKEMON_CONFIG,

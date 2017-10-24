@@ -1,8 +1,43 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
+import android.os.Parcel;
 import android.util.Pair;
 
-public class Pokemon implements BasePokemon {
+import es.developer.achambi.pkmng.core.ui.ParcelUtil;
+
+public class Pokemon implements BasePokemon{
+    protected Pokemon(Parcel in) {
+        name = in.readString();
+        type = ParcelUtil.readParcelablePair(in, Type.class, Type.class);
+        stats = in.readParcelable(StatsSet.class.getClassLoader());
+        imageURL = in.readString();
+    }
+
+    public static final Creator<Pokemon> CREATOR = new Creator<Pokemon>() {
+        @Override
+        public Pokemon createFromParcel(Parcel in) {
+            return new Pokemon(in);
+        }
+
+        @Override
+        public Pokemon[] newArray(int size) {
+            return new Pokemon[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        ParcelUtil.writeParcelablePair(dest, type);
+        dest.writeParcelable(stats, flags);
+        dest.writeString(imageURL);
+    }
+
     public enum Type {
         ELECTRIC,
         EMPTY;

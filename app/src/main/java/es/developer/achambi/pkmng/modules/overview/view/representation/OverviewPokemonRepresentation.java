@@ -1,6 +1,10 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
-public class OverviewPokemonRepresentation implements OverviewListItemViewRepresentation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class OverviewPokemonRepresentation
+        implements OverviewListItemViewRepresentation, Parcelable {
     public final String name;
     public final String image;
     public final String type;
@@ -35,8 +39,52 @@ public class OverviewPokemonRepresentation implements OverviewListItemViewRepres
         this.speed = speed;
     }
 
+    protected OverviewPokemonRepresentation(Parcel in) {
+        name = in.readString();
+        image = in.readString();
+        type = in.readString();
+        totalStats = in.readString();
+        hp = in.readString();
+        defense = in.readString();
+        attack = in.readString();
+        spAttack = in.readString();
+        spDefense = in.readString();
+        speed = in.readString();
+    }
+
+    public static final Creator<OverviewPokemonRepresentation> CREATOR = new Creator<OverviewPokemonRepresentation>() {
+        @Override
+        public OverviewPokemonRepresentation createFromParcel(Parcel in) {
+            return new OverviewPokemonRepresentation(in);
+        }
+
+        @Override
+        public OverviewPokemonRepresentation[] newArray(int size) {
+            return new OverviewPokemonRepresentation[size];
+        }
+    };
+
     @Override
     public ViewType getViewType() {
         return ViewType.POKEMON;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(image);
+        dest.writeString(type);
+        dest.writeString(totalStats);
+        dest.writeString(hp);
+        dest.writeString(defense);
+        dest.writeString(attack);
+        dest.writeString(spAttack);
+        dest.writeString(spDefense);
+        dest.writeString(speed);
     }
 }

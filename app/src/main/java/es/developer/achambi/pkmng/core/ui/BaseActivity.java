@@ -15,8 +15,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_activity);
-        setTitle(getScreenTitle());
-        attachFragment();
+        if(savedInstanceState == null) {
+            setTitle(getScreenTitle());
+            attachFragment();
+        }
     }
 
     public abstract int getScreenTitle();
@@ -34,6 +36,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public abstract BaseFragment getFragment();
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 
     @Override
     public void onBackPressed() {

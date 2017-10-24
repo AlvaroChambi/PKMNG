@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.core.ui;
 
 import android.os.Parcel;
+import android.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class ParcelUtil {
     }
 
     public static <K extends Enum,V extends  Integer> void writeParcelableMap(
-            Parcel parcel, int flags, Map<K, V > map) {
+            Parcel parcel, Map<K, V > map) {
         parcel.writeInt(map.size());
         for(Map.Entry<K, V> e : map.entrySet()){
             ParcelUtil.writeEnumToParcel(parcel, e.getKey());
@@ -33,5 +34,22 @@ public class ParcelUtil {
                     vClass.cast(parcel.readParcelable(vClass.getClassLoader())));
         }
         return map;
+    }
+
+    public static <K extends Enum, V extends Enum> void writeParcelablePair(
+            Parcel parcel, Pair<K,V> pair ) {
+        ParcelUtil.writeEnumToParcel(parcel, pair.first);
+        ParcelUtil.writeEnumToParcel(parcel, pair.second);
+    }
+
+
+    public static <K extends Enum, V extends Enum> Pair<K,V> readParcelablePair(
+            Parcel parcel, Class<K> kClass, Class<V> vClass ) {
+        Pair<K,V> pair = new Pair<>(
+                ParcelUtil.readEnumFromParcel(parcel, kClass),
+                ParcelUtil.readEnumFromParcel(parcel, vClass)
+        );
+
+        return pair;
     }
 }

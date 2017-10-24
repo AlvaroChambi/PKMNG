@@ -103,5 +103,6 @@ public class StatsSet implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        ParcelUtil.writeParcelableMap(parcel, stats);
     }
 }
