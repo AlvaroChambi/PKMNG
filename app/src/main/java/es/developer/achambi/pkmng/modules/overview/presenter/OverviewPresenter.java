@@ -15,13 +15,13 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewV
 
 public class OverviewPresenter implements IOverviewPresenter{
     private static final String TAG = OverviewPresenter.class.getCanonicalName();
+    private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
+
     private IOverviewView view;
     private List<BasePokemon> dataList;
-    private OverviewViewDataBuilder viewDataAdapter;
 
     public OverviewPresenter(IOverviewView view) {
         this.view = view;
-        viewDataAdapter = new OverviewViewDataBuilder();
     }
 
     @Override
@@ -36,13 +36,16 @@ public class OverviewPresenter implements IOverviewPresenter{
 
     @Override
     public List<BasePokemon> fetchPokemonList() {
-        dataList = buildPokemonData();
+        if(dataList == null) {
+            dataList = buildPokemonData();
+        }
         return dataList;
     }
 
     private List<BasePokemon> buildPokemonData() {
-        List<BasePokemon> pokemonList = new ArrayList<>(800);
-        for(int i = 0; i < 800; i++) {
+        int numberOfPokemon = 1580;
+        List<BasePokemon> pokemonList = new ArrayList<>(numberOfPokemon);
+        for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon();
             pokemon.setName("Pikachu");
             pokemon.setType(Pokemon.Type.ELECTRIC);
@@ -70,11 +73,11 @@ public class OverviewPresenter implements IOverviewPresenter{
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
+        //bundle.putParcelableArrayList(DATA_SAVED_STATE, (ArrayList)dataList);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
-
+        //dataList = bundle.getParcelableArrayList(DATA_SAVED_STATE);
     }
 }

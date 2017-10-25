@@ -98,6 +98,7 @@ public class PokemonConfig extends BaseConfig{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeParcelable(pokemon, flags);
+        dest.writeParcelable(configuration, flags);
     }
 }

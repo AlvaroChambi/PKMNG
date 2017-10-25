@@ -48,25 +48,26 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    public void onViewSetup(View view, Bundle savedInstanceState) {
         presenter = new OverviewPresenter(this);
         recyclerView = view.findViewById(R.id.overview_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity());
 
-        if(savedInstanceState != null) {
-            onRestoreInstanceState(savedInstanceState);
-        } else if(!isViewRecreated()) {
-            doRequest();
+        if(!isViewRecreated() && savedInstanceState == null) {
+
         }
+        doRequest();
     }
 
+    @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        viewRepresentation = savedInstanceState.getParcelableArrayList(VIEW_SAVED_STATE);
-        adapter = new OverviewListAdapter( viewRepresentation );
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        super.onRestoreInstanceState(savedInstanceState);
+        //viewRepresentation = savedInstanceState.getParcelableArrayList(VIEW_SAVED_STATE);
+//        viewRepresentation = new OverviewViewDataBuilder()
+//                .buildViewRepresentation(getResources(),presenter.fetchPokemonList());
+//        adapter = new OverviewListAdapter( viewRepresentation );
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -124,6 +125,6 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(VIEW_SAVED_STATE, (ArrayList)viewRepresentation);
+        //outState.putParcelableArrayList(VIEW_SAVED_STATE, (ArrayList)viewRepresentation);
     }
 }

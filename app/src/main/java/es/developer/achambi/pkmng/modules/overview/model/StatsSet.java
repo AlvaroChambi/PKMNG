@@ -81,7 +81,7 @@ public class StatsSet implements Parcelable{
     }
 
     protected StatsSet(Parcel in) {
-        stats = ParcelUtil.readParcelableMap(in, Stat.class, Integer.class);
+        stats = ParcelUtil.readParcelableMap(in, Stat.class);
     }
 
     public static final Creator<StatsSet> CREATOR = new Creator<StatsSet>() {

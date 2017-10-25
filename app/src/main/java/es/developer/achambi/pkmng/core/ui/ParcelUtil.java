@@ -25,13 +25,13 @@ public class ParcelUtil {
         }
     }
 
-    public static <K extends Enum,V extends  Integer> HashMap<K,V> readParcelableMap(
-            Parcel parcel, Class<K> kClass, Class<V> vClass) {
+    public static <K extends Enum> HashMap<K, Integer> readParcelableMap(
+            Parcel parcel, Class<K> kClass) {
         int size = parcel.readInt();
-        HashMap<K, V> map = new HashMap<K, V>(size);
+        HashMap<K, Integer> map = new HashMap<K, Integer>(size);
         for(int i = 0; i < size; i++){
             map.put(ParcelUtil.readEnumFromParcel(parcel, kClass),
-                    vClass.cast(parcel.readParcelable(vClass.getClassLoader())));
+                    Integer.valueOf(parcel.readInt()));
         }
         return map;
     }
