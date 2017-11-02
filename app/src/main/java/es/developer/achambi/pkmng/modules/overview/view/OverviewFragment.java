@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.developer.achambi.pkmng.R;
@@ -23,8 +22,6 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewV
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 
 public class OverviewFragment extends BaseRequestFragment implements IOverviewView{
-    private static final String VIEW_SAVED_STATE = "VIEW_SAVED_STATE";
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -54,20 +51,18 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
         layoutManager = new LinearLayoutManager(getActivity());
 
         if(!isViewRecreated() && savedInstanceState == null) {
-
+            doRequest();
         }
-        doRequest();
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //viewRepresentation = savedInstanceState.getParcelableArrayList(VIEW_SAVED_STATE);
-//        viewRepresentation = new OverviewViewDataBuilder()
-//                .buildViewRepresentation(getResources(),presenter.fetchPokemonList());
-//        adapter = new OverviewListAdapter( viewRepresentation );
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(adapter);
+        viewRepresentation = new OverviewViewDataBuilder()
+                .buildViewRepresentation(getResources(),presenter.fetchPokemonList());
+        adapter = new OverviewListAdapter( viewRepresentation );
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -120,11 +115,5 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
                 return true;
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //outState.putParcelableArrayList(VIEW_SAVED_STATE, (ArrayList)viewRepresentation);
     }
 }

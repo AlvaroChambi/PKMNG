@@ -43,7 +43,7 @@ public class OverviewPresenter implements IOverviewPresenter{
     }
 
     private List<BasePokemon> buildPokemonData() {
-        int numberOfPokemon = 1580;
+        int numberOfPokemon = 900;
         List<BasePokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon();
@@ -73,11 +73,11 @@ public class OverviewPresenter implements IOverviewPresenter{
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        //bundle.putParcelableArrayList(DATA_SAVED_STATE, (ArrayList)dataList);
+        bundle.putParcelableArrayList(DATA_SAVED_STATE, (ArrayList)dataList);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
-        //dataList = bundle.getParcelableArrayList(DATA_SAVED_STATE);
+        dataList = bundle.getParcelableArrayList(DATA_SAVED_STATE);
     }
 }
