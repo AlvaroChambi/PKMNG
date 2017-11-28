@@ -6,3 +6,5 @@
 /build
 /captures
 app/app.iml
+perftesting/*
+buildSrc/build/*

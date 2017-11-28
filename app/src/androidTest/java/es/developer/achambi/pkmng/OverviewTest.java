@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 
 import es.developer.achambi.pkmng.modules.overview.view.OverviewActivity;
 import es.developer.achambi.pkmng.perftesting.TestListener;
+import es.developer.achambi.pkmng.perftesting.common.PerfTest;
 import es.developer.achambi.pkmng.perftesting.testrules.EnablePostTestDumpsys;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -25,6 +26,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+
+@PerfTest
 public class OverviewTest {
     @Rule
     public ActivityTestRule<OverviewActivity> customActivityTestRule =
@@ -44,6 +47,7 @@ public class OverviewTest {
     }
 
     @Test
+    @PerfTest
     public void test() throws InterruptedException{
         onView(withId(R.id.overview_recycler_view)).check(matches(isDisplayed()));
         RecyclerView recyclerView = (RecyclerView) customActivityTestRule.getActivity()

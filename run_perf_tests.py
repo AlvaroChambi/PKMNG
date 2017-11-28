@@ -39,8 +39,8 @@ def perform_test(device, package_name):
     print 'Starting test'
 
     params = dict({
-        'listener': 'com.google.android.perftesting.TestListener',
-        'annotation': 'com.google.android.perftesting.common.PerfTest',
+        'listener': 'es.developer.achambi.pkmng.perftesting.TestListener',
+        'annotation': 'es.developer.achambi.pkmng.perftesting.PerfTest',
         'disableAnalytics': 'true'
     })
 
