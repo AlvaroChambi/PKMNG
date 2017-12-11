@@ -278,7 +278,7 @@ def analyze_data_files(dest_dir):
                 print 'PASS. No issues detected.'
             else:
                 overall_passed = False
-    test_complete_file = os.path.join(dest_dir, 'testdata',
+    test_complete_file = os.path.join(dest_dir, 'testdata/testdata',
                                       'testRunComplete.log')
     if not os.path.isfile(test_complete_file):
         overall_passed = False

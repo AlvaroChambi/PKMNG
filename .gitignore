@@ -10,3 +10,5 @@ app/app.iml
 buildSrc/build
 buildSrc/.gradle
 /.idea
+buildSrc/buildSrc.iml
+PKMNG.iml

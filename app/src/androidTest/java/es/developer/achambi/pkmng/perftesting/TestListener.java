@@ -47,7 +47,6 @@ public class TestListener extends RunListener {
 
     @Override
     public void testRunStarted(Description description) throws Exception {
-        Log.w(LOG_TAG, "Test run started.");
         // Cleanup data from past test runs.
         deleteExistingTestFilesInAppData();
         deleteExistingTestFilesInExternalData();
@@ -57,12 +56,12 @@ public class TestListener extends RunListener {
 
     @Override
     public void testRunFinished(Result result) throws Exception {
-        Log.w(LOG_TAG, "Test run finished.");
-
         super.testRunFinished(result);
 
         try {
             Log.w(LOG_TAG, "Test run finished");
+            File testRunFinishedFile = PerfTestingUtils.getTestRunFile("testRunComplete.log");
+            testRunFinishedFile.createNewFile();
 
             copyTestFilesToExternalData();
 
