@@ -9,6 +9,11 @@ public class Configuration implements Parcelable{
     private String nature;
     private StatsSet statsSet;
 
+    private String move0;
+    private String move1;
+    private String move2;
+    private String move3;
+
     public Configuration() {
         statsSet = new StatsSet();
     }
@@ -18,6 +23,11 @@ public class Configuration implements Parcelable{
         ability = in.readString();
         nature = in.readString();
         statsSet = in.readParcelable(StatsSet.class.getClassLoader());
+
+        move0 = in.readString();
+        move1 = in.readString();
+        move2 = in.readString();
+        move3 = in.readString();
     }
 
     public static final Creator<Configuration> CREATOR = new Creator<Configuration>() {
@@ -31,6 +41,38 @@ public class Configuration implements Parcelable{
             return new Configuration[size];
         }
     };
+
+    public String getMove0() {
+        return move0;
+    }
+
+    public void setMove0(String move0) {
+        this.move0 = move0;
+    }
+
+    public String getMove1() {
+        return move1;
+    }
+
+    public void setMove1(String move1) {
+        this.move1 = move1;
+    }
+
+    public String getMove2() {
+        return move2;
+    }
+
+    public void setMove2(String move2) {
+        this.move2 = move2;
+    }
+
+    public String getMove3() {
+        return move3;
+    }
+
+    public void setMove3(String move3) {
+        this.move3 = move3;
+    }
 
     public String getItem() {
         return item;
@@ -75,5 +117,10 @@ public class Configuration implements Parcelable{
         dest.writeString(ability);
         dest.writeString(nature);
         dest.writeParcelable(statsSet, flags);
+
+        dest.writeString(move0);
+        dest.writeString(move1);
+        dest.writeString(move2);
+        dest.writeString(move3);
     }
 }

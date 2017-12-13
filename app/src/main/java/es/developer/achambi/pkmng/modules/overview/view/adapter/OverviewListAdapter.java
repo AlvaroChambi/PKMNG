@@ -129,13 +129,6 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewHolder.pokemonType = rootView.findViewById(R.id.pokemon_type_text);
             viewHolder.baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
 
-            viewHolder.pokemonHP = rootView.findViewById(R.id.pokemon_hp_text);
-            viewHolder.pokemonAttack = rootView.findViewById(R.id.pokemon_atk_text);
-            viewHolder.pokemonDefense = rootView.findViewById(R.id.pokemon_def_text);
-            viewHolder.pokemonSpAttack = rootView.findViewById(R.id.pokemon_spa_text);
-            viewHolder.pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
-            viewHolder.pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
-
             viewHolder.item = rootView.findViewById(R.id.pokemon_item_text);
             viewHolder.ability = rootView.findViewById(R.id.pokemon_ability_text);
             viewHolder.nature = rootView.findViewById(R.id.pokemon_nature_text);

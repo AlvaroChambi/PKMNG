@@ -13,7 +13,8 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
-import es.developer.achambi.pkmng.modules.details.PokemonDetailsFragment;
+import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
+import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
@@ -27,6 +28,7 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 
 public class OverviewFragment extends BaseRequestFragment implements IOverviewView{
     private static final String POKEMON_DETAILS_DIALOG_TAG = "POKEMON_DETAILS_DIALOG_TAG";
+    private static final String CONFIGURATION_DETAILS_DIALOG_TAG = "CONFIGURATION_DETAILS_DIALOG_TAG";
 
     private RecyclerView recyclerView;
     private OverviewListAdapter adapter;
@@ -93,7 +95,9 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
 
     @Override
     public void showConfigurationDetails(PokemonConfig configuration) {
-
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        ConfigurationDetailsFragment.newInstance(configuration)
+                .show(transaction, CONFIGURATION_DETAILS_DIALOG_TAG );
     }
 
     @Override
