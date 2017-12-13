@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.overview.view;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,10 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
+import es.developer.achambi.pkmng.modules.details.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
+import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.OverviewListAdapter;
@@ -22,8 +26,10 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewV
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 
 public class OverviewFragment extends BaseRequestFragment implements IOverviewView{
+    private static final String POKEMON_DETAILS_DIALOG_TAG = "POKEMON_DETAILS_DIALOG_TAG";
+
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private OverviewListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private List<OverviewListItemViewRepresentation> viewRepresentation;
 
@@ -61,6 +67,7 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
         viewRepresentation = new OverviewViewDataBuilder()
                 .buildViewRepresentation(getResources(),presenter.fetchPokemonList());
         adapter = new OverviewListAdapter( viewRepresentation );
+        adapter.setOnItemClickedListener(presenter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
@@ -72,8 +79,21 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
 
         viewRepresentation = dataBuilder.buildViewRepresentation(getResources(),pokemonList);
         adapter = new OverviewListAdapter( viewRepresentation );
+        adapter.setOnItemClickedListener(presenter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showPokemonDetails(Pokemon pokemon) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        PokemonDetailsFragment.newInstance(pokemon)
+            .show(transaction, POKEMON_DETAILS_DIALOG_TAG );
+    }
+
+    @Override
+    public void showConfigurationDetails(PokemonConfig configuration) {
+
     }
 
     @Override

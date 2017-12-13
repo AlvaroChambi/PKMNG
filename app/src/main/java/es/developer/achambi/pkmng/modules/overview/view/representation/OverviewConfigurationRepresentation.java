@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class OverviewConfigurationRepresentation
         implements OverviewListItemViewRepresentation, Parcelable{
+    public final int id;
     public final String name;
     public final String image;
     public final String pokemonName;
@@ -15,6 +16,7 @@ public class OverviewConfigurationRepresentation
     public final String nature;
 
     public OverviewConfigurationRepresentation(
+            int id,
             String name,
             String image,
             String pokemonName,
@@ -24,6 +26,7 @@ public class OverviewConfigurationRepresentation
             String item,
             String nature
             ) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.pokemonName = pokemonName;
@@ -35,6 +38,7 @@ public class OverviewConfigurationRepresentation
     }
 
     protected OverviewConfigurationRepresentation(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         image = in.readString();
         pokemonName = in.readString();
@@ -69,6 +73,7 @@ public class OverviewConfigurationRepresentation
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(image);
         dest.writeString(pokemonName);

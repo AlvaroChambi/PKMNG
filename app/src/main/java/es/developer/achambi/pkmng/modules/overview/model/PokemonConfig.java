@@ -4,15 +4,22 @@ import android.os.Parcel;
 
 public class PokemonConfig extends BaseConfig{
     private Configuration configuration;
+    private final int id;
+    private String name;
 
-    public PokemonConfig(BasePokemon basePokemon, Configuration configuration) {
+    public PokemonConfig( int id,
+            BasePokemon basePokemon, Configuration configuration) {
         super(basePokemon);
+
+        this.id = id;
         this.configuration = configuration;
     }
 
     protected PokemonConfig(Parcel in) {
         super( (BasePokemon) (in.readParcelable(BasePokemon.class.getClassLoader())) );
         configuration = in.readParcelable(Configuration.class.getClassLoader());
+        id = in.readInt();
+        name = in.readString();
     }
 
     public static final Creator<PokemonConfig> CREATOR = new Creator<PokemonConfig>() {
@@ -34,8 +41,6 @@ public class PokemonConfig extends BaseConfig{
     public void setName(String name) {
         this.name = name;
     }
-
-    private String name;
 
     public String getItem() {
         return configuration.getItem();
@@ -84,6 +89,11 @@ public class PokemonConfig extends BaseConfig{
         return true;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     public Pokemon getPokemon() {
         return (Pokemon) pokemon;
     }
@@ -100,5 +110,7 @@ public class PokemonConfig extends BaseConfig{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(pokemon, flags);
         dest.writeParcelable(configuration, flags);
+        dest.writeInt(id);
+        dest.writeString(name);
     }
 }

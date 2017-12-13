@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.HashMap;
 
-import es.developer.achambi.pkmng.core.ui.ParcelUtil;
+import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
 public class StatsSet implements Parcelable{
     private HashMap<Stat, Integer> stats;

@@ -16,4 +16,8 @@
     <string name="pokemon_item_sp_attack_tag">Spa: </string>
     <string name="pokemon_item_sp_defense_tag">Spd: </string>
     <string name="pokemon_item_speed_tag">Spe: </string>
+
+    <string name="pokemon_details_dialog_title">Pokemon details</string>
+
+    <string name="details_action_button_create_configuration">New Configuration</string>
 </resources>

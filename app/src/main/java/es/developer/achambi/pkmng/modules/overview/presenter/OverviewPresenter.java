@@ -11,9 +11,12 @@ import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
+import es.developer.achambi.pkmng.modules.overview.view.adapter.OverviewListAdapter;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewViewDataBuilder;
 
-public class OverviewPresenter implements IOverviewPresenter{
+public class OverviewPresenter implements IOverviewPresenter {
     private static final String TAG = OverviewPresenter.class.getCanonicalName();
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
 
@@ -42,11 +45,30 @@ public class OverviewPresenter implements IOverviewPresenter{
         return dataList;
     }
 
+    @Override
+    public void onPokemonClicked(OverviewPokemonRepresentation pokemonRepresentation) {
+        for( BasePokemon baseItem : dataList ) {
+            if( pokemonRepresentation.id == baseItem.getId() ) {
+                view.showPokemonDetails( ((Pokemon)baseItem) );
+            }
+        }
+    }
+
+    @Override
+    public void onConfigurationClicked
+            (OverviewConfigurationRepresentation configurationRepresentation) {
+        for( BasePokemon baseItem : dataList ) {
+            if( configurationRepresentation.id == baseItem.getId() ) {
+                view.showConfigurationDetails( ((PokemonConfig) baseItem) );
+            }
+        }
+    }
+
     private List<BasePokemon> buildPokemonData() {
         int numberOfPokemon = 900;
         List<BasePokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
-            Pokemon pokemon = new Pokemon();
+            Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
             pokemon.setType(Pokemon.Type.ELECTRIC);
             pokemon.setHP(35);
@@ -58,7 +80,7 @@ public class OverviewPresenter implements IOverviewPresenter{
 
             if( i < 5 ) {
                 Configuration config = new Configuration();
-                PokemonConfig pokemonConfig = new PokemonConfig(pokemon, config);
+                PokemonConfig pokemonConfig = new PokemonConfig(i,pokemon, config);
                 pokemonConfig.setName("Special sweeper awesome pikachu");
                 config.setItem("Eviolite");
                 config.setAbility("Magic guard");

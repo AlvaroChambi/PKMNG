@@ -15,8 +15,17 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewP
 
 public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<OverviewListItemViewRepresentation> pokemonList;
+    private OnItemClickedListener listener;
+
+    public interface OnItemClickedListener {
+        void onPokemonClicked( OverviewPokemonRepresentation pokemonRepresentation );
+        void onConfigurationClicked( OverviewConfigurationRepresentation pokemonRepresentation );
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public OverviewPokemonRepresentation pokemon;
+        private OnItemClickedListener listener;
+
         public TextView pokemonName;
         public TextView pokemonType;
         public TextView baseStats;
@@ -31,9 +40,23 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public ViewHolder(View rootView) {
             super(rootView);
         }
+        public void bindListener( final OnItemClickedListener listener,
+                                  final OverviewPokemonRepresentation pokemon ) {
+            this.pokemon = pokemon;
+            this.listener = listener;
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ViewHolder.this.listener.onPokemonClicked( ViewHolder.this.pokemon );
+                }
+            });
+        }
     }
 
     public static class ConfigViewHolder extends RecyclerView.ViewHolder {
+        public OverviewConfigurationRepresentation configuration;
+        private OnItemClickedListener listener;
+
         public TextView configName;
 
         public TextView item;
@@ -53,10 +76,27 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public ConfigViewHolder(View rootView) {
             super(rootView);
         }
+
+        public void bindListener( final OnItemClickedListener listener,
+                                  final OverviewConfigurationRepresentation configuration ) {
+            this.configuration = configuration;
+            this.listener = listener;
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ConfigViewHolder.this.listener.onConfigurationClicked(
+                            ConfigViewHolder.this.configuration );
+                }
+            });
+        }
     }
 
     public OverviewListAdapter(List<OverviewListItemViewRepresentation> pokemonList) {
         this.pokemonList = pokemonList;
+    }
+
+    public void setOnItemClickedListener( OnItemClickedListener listener ) {
+        this.listener = listener;
     }
 
     @Override
@@ -110,6 +150,10 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .POKEMON.ordinal() ) {
             OverviewPokemonRepresentation pokemon =
                     (OverviewPokemonRepresentation) pokemonList.get(position);
+            if( listener != null ) {
+                ((ViewHolder)holder).bindListener(listener, pokemon);
+            }
+
             ((ViewHolder)holder).pokemonName.setText(pokemon.name);
             ((ViewHolder)holder).pokemonType.setText(pokemon.type);
             ((ViewHolder)holder).baseStats.setText(pokemon.totalStats);
@@ -123,6 +167,10 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .POKEMON_CONFIG.ordinal() ) {
             OverviewConfigurationRepresentation configuration =
                     (OverviewConfigurationRepresentation) pokemonList.get(position);
+            if( listener != null ) {
+                ((ConfigViewHolder)holder).bindListener(listener, configuration);
+            }
+
             ((ConfigViewHolder)holder).configName.setText(configuration.name);
 
             ((ConfigViewHolder)holder).pokemonName.setText(configuration.pokemonName);

@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.core.ui;
+package es.developer.achambi.pkmng.core.utils;
 
 import android.os.Parcel;
 import android.util.Pair;

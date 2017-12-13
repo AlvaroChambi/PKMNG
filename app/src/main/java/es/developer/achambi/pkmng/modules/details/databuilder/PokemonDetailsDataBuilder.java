@@ -1,40 +1,21 @@
-package es.developer.achambi.pkmng.modules.overview.view.representation;
+package es.developer.achambi.pkmng.modules.details.databuilder;
 
 import android.content.res.Resources;
 import android.util.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
-public class OverviewViewDataBuilder {
+public class PokemonDetailsDataBuilder {
     private Resources resources;
 
-    public List<OverviewListItemViewRepresentation> buildViewRepresentation(
-        Resources resources,
-        List<BasePokemon> pokemonList ) {
-
+    public OverviewPokemonRepresentation buildViewRepresentation(
+            Resources resources, Pokemon pokemon ) {
         this.resources = resources;
-        List<OverviewListItemViewRepresentation> viewRepresentationList = new ArrayList<>();
 
-        for( BasePokemon pokemon : pokemonList ) {
-            if( pokemon.hasConfig() ) {
-                viewRepresentationList.add( configurationItemView( (PokemonConfig) pokemon ) );
-            } else {
-                viewRepresentationList.add( pokemonItemView( (Pokemon) pokemon ) );
-            }
-        }
-
-        return viewRepresentationList;
-    }
-
-    private OverviewPokemonRepresentation pokemonItemView( Pokemon pokemon ) {
         OverviewPokemonRepresentation viewRepresentation = new OverviewPokemonRepresentation(
                 pokemon.getId(),
                 pokemon.getName(),
@@ -91,24 +72,5 @@ public class OverviewViewDataBuilder {
         }
 
         return formattedType;
-    }
-
-    private OverviewConfigurationRepresentation configurationItemView( PokemonConfig configuration ) {
-        OverviewConfigurationRepresentation configurationRepresentation =
-                new OverviewConfigurationRepresentation(
-                        configuration.getId(),
-                        configuration.getName(),
-                        configuration.getPokemon().getImageURL(),
-                        configuration.getPokemon().getName(),
-                        typeAttribute(configuration.getPokemon().getType()),
-                        totalStatsAttribute(configuration.getPokemon().getStats()),
-                        resources.getString(R.string.pokemon_item_ability_tag)
-                                + configuration.getAbility(),
-                        resources.getString(R.string.pokemon_item_item_tag)
-                                + configuration.getItem(),
-                        resources.getString(R.string.pokemon_item_nature_tag)
-                                + configuration.getNature()
-                );
-        return configurationRepresentation;
     }
 }
