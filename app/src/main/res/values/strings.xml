@@ -18,6 +18,7 @@
     <string name="pokemon_item_speed_tag">Spe: </string>
 
     <string name="pokemon_details_dialog_title">Pokemon details</string>
+    <string name="configuration_details_dialog_title">Pokemon Configuration details</string>
 
     <string name="details_action_button_create_configuration">New Configuration</string>
 </resources>

@@ -85,6 +85,12 @@ public class OverviewPresenter implements IOverviewPresenter {
                 config.setItem("Eviolite");
                 config.setAbility("Magic guard");
                 config.setNature("Modest");
+
+                config.setMove0("Thunderbolt");
+                config.setMove1("Grass Knot");
+                config.setMove2("Signal Beam");
+                config.setMove3("Hidden Power");
+
                 pokemonList.add(pokemonConfig);
             } else {
                 pokemonList.add(pokemon);
