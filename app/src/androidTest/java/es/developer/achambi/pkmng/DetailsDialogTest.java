@@ -24,4 +24,20 @@ public class DetailsDialogTest extends BaseAutomationTest {
         onView(withId(R.id.pokemon_type_text)).check(matches(isDisplayed()));
         onView(withId(R.id.pokemon_total_base_stats)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void showConfigurationDetailsDialogTest() {
+        onView( withId(R.id.overview_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, scrollTo()));
+        onView( withId(R.id.overview_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(withId(R.id.pokemon_name_text)).check(matches(isDisplayed()));
+        onView(withId(R.id.pokemon_type_text)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.configuration_details_move_0)).check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_details_move_1)).check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_details_move_2)).check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_details_move_3)).check(matches(isDisplayed()));
+    }
 }
