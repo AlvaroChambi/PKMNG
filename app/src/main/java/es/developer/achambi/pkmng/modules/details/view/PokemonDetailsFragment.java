@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.details;
+package es.developer.achambi.pkmng.modules.details.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
