@@ -1,17 +1,20 @@
 package es.developer.achambi.pkmng.modules.details.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.modules.create.CreateConfigurationActivity;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
-public class PokemonDetailsFragment extends BaseDialogFragment {
+public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     
     private Pokemon pokemon;
@@ -48,6 +51,19 @@ public class PokemonDetailsFragment extends BaseDialogFragment {
         }
 
         populateView(view);
+
+        Button createConfigButton = view.findViewById(R.id.details_create_config_action_button);
+        createConfigButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch ( v.getId() ) {
+            case R.id.details_create_config_action_button:
+                Intent intent = CreateConfigurationActivity.getStartIntent( getActivity(), pokemon );
+                startActivity(intent);
+                break;
+        }
     }
 
     private void populateView(View rootView) {

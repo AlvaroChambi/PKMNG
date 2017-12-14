@@ -7,11 +7,14 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorActivity;
+import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
 import es.developer.achambi.pkmng.modules.details.databuilder.ConfigurationDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 
-public class ConfigurationDetailsFragment extends BaseDialogFragment{
+public class ConfigurationDetailsFragment extends BaseDialogFragment
+        implements View.OnClickListener{
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private PokemonConfig pokemonConfig;
     private DetailsConfigurationRepresentation configurationRepresentation;
@@ -47,6 +50,22 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment{
         }
         
         populateView(view);
+        view.findViewById(R.id.details_edit_configuration_action_button).setOnClickListener(this);
+        view.findViewById(R.id.details_damage_calculator_action_button).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.details_edit_configuration_action_button:
+                startActivity(
+                        EditConfigurationActivity.getStartIntent(getActivity(), pokemonConfig) );
+                break;
+            case R.id.details_damage_calculator_action_button:
+                startActivity(
+                        DamageCalculatorActivity.getStartIntent(getActivity(), pokemonConfig));
+                break;
+        }
     }
     
     private void populateView(View rootView) {
