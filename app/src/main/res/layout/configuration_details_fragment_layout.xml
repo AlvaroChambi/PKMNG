@@ -281,18 +281,20 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/details_edit_configuration_action_button"
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_weight="1"
-            android:text="Edit configuration"
+            android:text="@string/details_action_button_edit_configuration"
             android:backgroundTint="@color/primary_light"
             />
 
         <Button
+            android:id="@+id/details_damage_calculator_action_button"
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_weight="1"
-            android:text="Damage calculator"
+            android:text="@string/details_action_button_damage_calculator"
             android:backgroundTint="@color/primary_light"
             />
     </LinearLayout>

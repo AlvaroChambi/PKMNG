@@ -19,6 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="es.developer.achambi.pkmng.modules.create.CreateConfigurationActivity">
+        </activity>
+        <activity
+            android:name="es.developer.achambi.pkmng.modules.create.EditConfigurationActivity">
+        </activity>
+        <activity
+            android:name="es.developer.achambi.pkmng.modules.calculator.DamageCalculatorActivity">
+        </activity>
     </application>
 
 </manifest>

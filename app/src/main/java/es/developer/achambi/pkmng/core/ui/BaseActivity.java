@@ -28,14 +28,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
 
         Bundle args = getIntent().getBundleExtra(BASE_ARGUMENTS);
-        fragment = getFragment();
-        fragment.setArguments(args);
+        fragment = getFragment(args);
 
         transaction.add(R.id.fragment_frame, fragment);
         transaction.commit();
     }
 
-    public abstract BaseFragment getFragment();
+    public abstract BaseFragment getFragment( Bundle args );
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
