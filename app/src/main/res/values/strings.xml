@@ -6,6 +6,7 @@
     <string name="damage_calculator_activity_title">Damage Calculator</string>
     <string name="create_config_activity_title">Create Configuration</string>
     <string name="edit_configuration_activity_title">Edit Configuration</string>
+    <string name="search_activity_title">Search Pokemon</string>
 
     <string name="pokemon_type_electric">electric</string>
 

@@ -10,6 +10,7 @@ import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.OverviewListAdapter;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
@@ -40,7 +41,15 @@ public class OverviewPresenter implements IOverviewPresenter {
     @Override
     public List<BasePokemon> fetchPokemonList() {
         if(dataList == null) {
-            dataList = buildPokemonData();
+            dataList = buildPokemonData( SearchFilter.ALL_FILTER );
+        }
+        return dataList;
+    }
+
+    @Override
+    public List<BasePokemon> fetchPokemonList( SearchFilter searchFilter ) {
+        if(dataList == null) {
+            dataList = buildPokemonData( searchFilter );
         }
         return dataList;
     }
@@ -64,7 +73,7 @@ public class OverviewPresenter implements IOverviewPresenter {
         }
     }
 
-    private List<BasePokemon> buildPokemonData() {
+    private List<BasePokemon> buildPokemonData( SearchFilter searchFilter ) {
         int numberOfPokemon = 900;
         List<BasePokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
@@ -91,9 +100,13 @@ public class OverviewPresenter implements IOverviewPresenter {
                 config.setMove2("Signal Beam");
                 config.setMove3("Hidden Power");
 
-                pokemonList.add(pokemonConfig);
+                if(pokemonConfig.isIncluded( searchFilter )) {
+                    pokemonList.add(pokemonConfig);
+                }
             } else {
-                pokemonList.add(pokemon);
+                if(pokemon.isIncluded( searchFilter )) {
+                    pokemonList.add(pokemon);
+                }
             }
         }
         return pokemonList;

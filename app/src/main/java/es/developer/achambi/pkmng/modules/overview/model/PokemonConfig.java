@@ -94,6 +94,17 @@ public class PokemonConfig extends BaseConfig{
         return id;
     }
 
+    @Override
+    public boolean isIncluded(SearchFilter searchFilter) {
+        switch( searchFilter ) {
+            case CONFIGURATION_FILTER:
+                return true;
+            case ALL_FILTER:
+                return true;
+        }
+        return false;
+    }
+
     public Pokemon getPokemon() {
         return (Pokemon) pokemon;
     }
