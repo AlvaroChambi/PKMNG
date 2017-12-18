@@ -13,6 +13,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.search.view.SearchItemActivity;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -60,6 +61,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
 
         populateView(view);
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
+        view.findViewById(R.id.configuration_item_name_text).setOnClickListener(this);
     }
 
     @Override
@@ -68,6 +70,9 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             case R.id.pokemon_image_view:
                 startActivityForResult(SearchActivity.getStartIntent(
                         getActivity(), SearchFilter.POKEMON_FILTER ), REPLACE_POKEMON_RESULT_CODE );
+                break;
+            case R.id.configuration_item_name_text:
+                startActivity(SearchItemActivity.getStartIntent(getActivity()));
                 break;
         }
     }

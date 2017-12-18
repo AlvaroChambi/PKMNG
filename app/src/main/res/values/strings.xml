@@ -7,6 +7,9 @@
     <string name="create_config_activity_title">Create Configuration</string>
     <string name="edit_configuration_activity_title">Edit Configuration</string>
     <string name="search_activity_title">Search Pokemon</string>
+    <string name="search_item_activity_title">Search Item</string>
+
+    <string name="item_description_text_placeholder">"Held: Holder has 1.5× Defense and Special Defense, as long as it's not fully evolved.</string>
 
     <string name="pokemon_type_electric">electric</string>
 

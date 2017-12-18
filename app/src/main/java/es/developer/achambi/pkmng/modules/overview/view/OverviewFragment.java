@@ -13,7 +13,6 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
-import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
@@ -66,12 +65,15 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
 
     @Override
     public ViewPresenter getPresenter() {
+        if(presenter == null) {
+            presenter = new OverviewPresenter(this);
+        }
         return presenter;
     }
 
     @Override
     public void onViewSetup(View view, Bundle savedInstanceState) {
-        presenter = new OverviewPresenter(this);
+        presenter = (IOverviewPresenter) getPresenter();
         recyclerView = view.findViewById(R.id.overview_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity());
 
