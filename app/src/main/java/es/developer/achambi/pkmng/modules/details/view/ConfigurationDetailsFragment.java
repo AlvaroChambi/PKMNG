@@ -60,10 +60,12 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
             case R.id.details_edit_configuration_action_button:
                 startActivity(
                         EditConfigurationActivity.getStartIntent(getActivity(), pokemonConfig) );
+                dismiss();
                 break;
             case R.id.details_damage_calculator_action_button:
                 startActivity(
                         DamageCalculatorActivity.getStartIntent(getActivity(), pokemonConfig));
+                dismiss();
                 break;
         }
     }

@@ -7,9 +7,10 @@ import es.developer.achambi.pkmng.core.ui.BaseActivity;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
 
 public class OverviewActivity extends BaseActivity{
+
     @Override
     public BaseFragment getFragment( Bundle args ) {
-        return OverviewFragment.newInstance();
+        return OverviewFragment.newInstance(args);
     }
 
     @Override

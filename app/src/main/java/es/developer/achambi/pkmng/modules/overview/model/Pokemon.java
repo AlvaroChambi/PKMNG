@@ -114,6 +114,17 @@ public class Pokemon implements BasePokemon{
         return id;
     }
 
+    @Override
+    public boolean isIncluded(SearchFilter searchFilter) {
+        switch( searchFilter ) {
+            case POKEMON_FILTER:
+                return true;
+            case ALL_FILTER:
+                return true;
+        }
+        return false;
+    }
+
     protected Pokemon(Parcel in) {
         id = in.readInt();
         name = in.readString();

@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.details.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,19 +11,24 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.create.CreateConfigurationActivity;
+import es.developer.achambi.pkmng.modules.create.CreateConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
-    
+    private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
+
     private Pokemon pokemon;
     private OverviewPokemonRepresentation pokemonRepresentation;
 
-    public static PokemonDetailsFragment newInstance( Pokemon pokemon ) {
+    public static PokemonDetailsFragment newInstance( Pokemon pokemon,
+                                                      OverviewFragment.UseContext useContext ) {
         Bundle args = new Bundle();
         args.putParcelable(POKEMON_ARGUMENT_KEY, pokemon);
+        args.putInt(USE_CONTEXT_ARGUMENT_KEY, useContext.ordinal());
 
         PokemonDetailsFragment fragment = new PokemonDetailsFragment();
         fragment.setArguments(args);
@@ -51,9 +57,12 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         }
 
         populateView(view);
-
         Button createConfigButton = view.findViewById(R.id.details_create_config_action_button);
-        createConfigButton.setOnClickListener(this);
+        Button choosePokemonButton = view.findViewById(R.id.details_choose_pokemon_action_button);
+
+        actionButtonsSetup(  createConfigButton, choosePokemonButton,
+                OverviewFragment.UseContext
+                .values()[getArguments().getInt(USE_CONTEXT_ARGUMENT_KEY)] );
     }
 
     @Override
@@ -62,6 +71,31 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
             case R.id.details_create_config_action_button:
                 Intent intent = CreateConfigurationActivity.getStartIntent( getActivity(), pokemon );
                 startActivity(intent);
+                dismiss();
+                break;
+            case R.id.details_choose_pokemon_action_button:
+                Intent dataIntent = getActivity().getIntent();
+                dataIntent.putExtra(CreateConfigurationFragment.POKEMON_ACTIVITY_RESULT_DATA_KEY,
+                        pokemon );
+                getActivity().setResult(Activity.RESULT_OK, dataIntent);
+                getActivity().finish();
+                dismiss();
+                break;
+        }
+    }
+
+    private void actionButtonsSetup( Button createConfigButton, Button choosePokemonButton,
+             OverviewFragment.UseContext useContext ) {
+        switch ( useContext ) {
+            case OVERVIEW_SEARCH_CONTEXT:
+                createConfigButton.setVisibility(View.VISIBLE);
+                choosePokemonButton.setVisibility(View.GONE);
+                createConfigButton.setOnClickListener(this);
+                break;
+            case REPLACE_SEARCH_CONTEXT:
+                choosePokemonButton.setVisibility(View.VISIBLE);
+                createConfigButton.setVisibility(View.GONE);
+                choosePokemonButton.setOnClickListener(this);
                 break;
         }
     }

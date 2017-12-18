@@ -181,6 +181,16 @@
             android:layout_weight="1"
             android:text="@string/details_action_button_create_configuration"
             android:backgroundTint="@color/primary_light"
+            android:visibility="gone"
+            />
+        <Button
+            android:id="@+id/details_choose_pokemon_action_button"
+            android:layout_width="0dp"
+            android:layout_height="68dp"
+            android:layout_weight="1"
+            android:text="Choose Pokemon"
+            android:backgroundTint="@color/primary_light"
+            android:visibility="gone"
             />
     </LinearLayout>
 </LinearLayout>

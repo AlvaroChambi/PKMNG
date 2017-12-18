@@ -66,12 +66,6 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public TextView pokemonName;
         public TextView pokemonType;
-        public TextView pokemonHP;
-        public TextView pokemonAttack;
-        public TextView pokemonDefense;
-        public TextView pokemonSpAttack;
-        public TextView pokemonSpDefense;
-        public TextView pokemonSpeed;
 
         public ConfigViewHolder(View rootView) {
             super(rootView);
@@ -141,6 +135,7 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if( getItemViewType(position) == OverviewListItemViewRepresentation.ViewType
                 .POKEMON.ordinal() ) {
+
             OverviewPokemonRepresentation pokemon =
                     (OverviewPokemonRepresentation) pokemonList.get(position);
             if( listener != null ) {
@@ -158,6 +153,7 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ViewHolder)holder).pokemonSpeed.setText(pokemon.speed);
         } else if( getItemViewType(position) == OverviewListItemViewRepresentation.ViewType
                 .POKEMON_CONFIG.ordinal() ) {
+
             OverviewConfigurationRepresentation configuration =
                     (OverviewConfigurationRepresentation) pokemonList.get(position);
             if( listener != null ) {
