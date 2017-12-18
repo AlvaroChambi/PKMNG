@@ -9,7 +9,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewListItemViewRepresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
@@ -17,7 +16,6 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewP
 public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<OverviewListItemViewRepresentation> pokemonList;
     private OnItemClickedListener listener;
-    private SearchFilter searchFilter = SearchFilter.ALL_FILTER;
 
     public interface OnItemClickedListener {
         void onPokemonClicked( OverviewPokemonRepresentation pokemonRepresentation );
@@ -85,10 +83,6 @@ public class OverviewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
         }
-    }
-
-    public void setSearchFilter( SearchFilter searchFilter ) {
-        this.searchFilter = searchFilter;
     }
 
     public OverviewListAdapter(List<OverviewListItemViewRepresentation> pokemonList) {

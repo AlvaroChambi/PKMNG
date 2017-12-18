@@ -61,8 +61,4 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract int getLayoutResource();
     public abstract void onViewSetup(View view, @Nullable Bundle savedInstanceState);
-
-    public boolean onBackPressed() {
-        return false;
-    }
 }

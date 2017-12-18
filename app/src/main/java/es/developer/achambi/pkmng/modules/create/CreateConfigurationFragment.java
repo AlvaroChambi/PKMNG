@@ -11,7 +11,6 @@ import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
-import es.developer.achambi.pkmng.modules.overview.view.OverviewActivity;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
@@ -67,8 +66,8 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     public void onClick(View v) {
         switch( v.getId() ) {
             case R.id.pokemon_image_view:
-                startActivity(SearchActivity.getStartIntent(
-                        getActivity(), SearchFilter.POKEMON_FILTER ) );
+                startActivityForResult(SearchActivity.getStartIntent(
+                        getActivity(), SearchFilter.POKEMON_FILTER ), REPLACE_POKEMON_RESULT_CODE );
                 break;
         }
     }

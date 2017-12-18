@@ -106,7 +106,6 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
         viewRepresentation = new OverviewViewDataBuilder()
                 .buildViewRepresentation(getResources(),presenter.fetchPokemonList());
         adapter = new OverviewListAdapter( viewRepresentation );
-        adapter.setSearchFilter(getSearchFilter());
         adapter.setOnItemClickedListener(presenter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -119,7 +118,6 @@ public class OverviewFragment extends BaseRequestFragment implements IOverviewVi
 
         viewRepresentation = dataBuilder.buildViewRepresentation(getResources(),pokemonList);
         adapter = new OverviewListAdapter( viewRepresentation );
-        adapter.setSearchFilter(getSearchFilter());
         adapter.setOnItemClickedListener(presenter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
