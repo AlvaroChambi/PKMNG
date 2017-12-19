@@ -158,27 +158,45 @@
             android:id="@+id/configuration_item_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:text="Item"
-            app:layout_constraintRight_toRightOf="@+id/configuration_item_name_text"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="@+id/configuration_item_name_text" />
+            app:layout_constraintLeft_toLeftOf="@+id/item_name_frame_holder"
+            app:layout_constraintRight_toRightOf="@+id/item_name_frame_holder"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/configuration_item_name_text"
-            style="@style/primary_text_with_background_style"
+        <FrameLayout
+            android:id="@+id/item_name_frame_holder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="16dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="0dp"
-            android:drawableLeft="@drawable/item_placeholder"
-            android:gravity="center_vertical"
-            android:text="Eviolite"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/configuration_item_title_text" />
+            app:layout_constraintTop_toBottomOf="@+id/configuration_item_title_text">
+
+            <TextView
+                android:id="@+id/configuration_item_name_text"
+                style="@style/primary_text_with_background_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/item_placeholder"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:visibility="gone"
+                tools:text="eviolite" />
+
+            <TextView
+                android:id="@+id/configuration_item_empty_state"
+                style="@style/primary_text_with_background_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/add_icon"
+                android:drawableTint="@color/text_primary"
+                android:gravity="center_vertical"
+                android:visibility="visible" />
+        </FrameLayout>
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

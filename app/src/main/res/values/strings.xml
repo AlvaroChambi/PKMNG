@@ -26,8 +26,11 @@
 
     <string name="pokemon_details_dialog_title">Pokemon details</string>
     <string name="configuration_details_dialog_title">Pokemon Configuration details</string>
+    <string name="item_details_dialog_title">Item details</string>
 
     <string name="details_action_button_create_configuration">New Configuration</string>
     <string name="details_action_button_edit_configuration">Edit Configuration</string>
     <string name="details_action_button_damage_calculator">Damage Calculator</string>
+    <string name="details_action_button_choose_pokemon">Choose Pokemon</string>
+    <string name="details_action_button_choose_item">Choose Item</string>
 </resources>

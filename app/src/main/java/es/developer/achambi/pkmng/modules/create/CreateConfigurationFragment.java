@@ -13,17 +13,23 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.search.model.Item;
 import es.developer.achambi.pkmng.modules.search.view.SearchItemActivity;
 
 import static android.app.Activity.RESULT_OK;
 
 public class CreateConfigurationFragment extends BaseRequestFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
-    public static final String POKEMON_ACTIVITY_RESULT_DATA_KEY = "POKEMON_DATA_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
+    private static final int REPLACE_ITEM_RESULT_CODE = 101;
+
+    public static final String POKEMON_ACTIVITY_RESULT_DATA_KEY = "POKEMON_DATA_KEY";
+    public static final String ITEM_ACTIVITY_RESULT_DATA_KEY = "ITEM_DATA_KEY";
 
     private Pokemon pokemon;
     private OverviewPokemonRepresentation pokemonRepresentation;
+
+    private Item item;
 
     public static CreateConfigurationFragment newInstance( Bundle args ) {
         CreateConfigurationFragment fragment = new CreateConfigurationFragment();
@@ -59,9 +65,9 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
                     dataBuilder.buildViewRepresentation(getResources(), pokemon);
         }
 
-        populateView(view);
+        populatePokemonView(view);
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
-        view.findViewById(R.id.configuration_item_name_text).setOnClickListener(this);
+        view.findViewById(R.id.item_name_frame_holder).setOnClickListener(this);
     }
 
     @Override
@@ -71,13 +77,14 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
                 startActivityForResult(SearchActivity.getStartIntent(
                         getActivity(), SearchFilter.POKEMON_FILTER ), REPLACE_POKEMON_RESULT_CODE );
                 break;
-            case R.id.configuration_item_name_text:
-                startActivity(SearchItemActivity.getStartIntent(getActivity()));
+            case R.id.item_name_frame_holder:
+                startActivityForResult(SearchItemActivity.getStartIntent(getActivity()),
+                        REPLACE_ITEM_RESULT_CODE);
                 break;
         }
     }
 
-    private void populateView(View rootView) {
+    private void populatePokemonView(View rootView) {
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
         TextView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
         TextView baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
@@ -100,6 +107,14 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         pokemonSpeed.setText(pokemonRepresentation.speed);
     }
 
+    private void populateItemView(View rootView, String name) {
+        TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
+        itemName.setText(name);
+
+        itemName.setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.configuration_item_empty_state).setVisibility(View.GONE);
+    }
+
     @Override
     public void doRequest() {
 
@@ -117,7 +132,11 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             pokemonRepresentation =
                     dataBuilder.buildViewRepresentation(getResources(), pokemon);
 
-            populateView(getView());
+            populatePokemonView(getView());
+        } else if( resultCode == RESULT_OK &&
+                    requestCode == REPLACE_ITEM_RESULT_CODE ) {
+            item = data.getParcelableExtra( ITEM_ACTIVITY_RESULT_DATA_KEY );
+            populateItemView( getView(), item.getName() );
         }
     }
 }

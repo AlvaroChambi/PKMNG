@@ -1,14 +1,17 @@
 package es.developer.achambi.pkmng.modules.search.view.representation;
 
 public class ItemResultViewRepresentation {
+    public final int id;
     public final String name;
     public final String imageUrl;
-    public final String shortDescription;
+    public final String description;
 
     public ItemResultViewRepresentation (
-            String name, String imageUrl, String shortDescription ) {
+            int id,
+            String name, String imageUrl, String description) {
+        this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
-        this.shortDescription = shortDescription;
+        this.description = description;
     }
 }

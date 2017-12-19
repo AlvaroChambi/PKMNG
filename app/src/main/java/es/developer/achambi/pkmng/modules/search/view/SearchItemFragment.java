@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.view;
 
-import android.content.res.Resources;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +15,14 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.model.Item;
 import es.developer.achambi.pkmng.modules.search.presenter.SearchItemsPresenter;
 import es.developer.achambi.pkmng.modules.search.view.representation.ItemResultViewRepresentation;
 
-public class SearchItemFragment extends BaseRequestFragment{
+public class SearchItemFragment extends BaseRequestFragment
+        implements ISearchItemView {
+    private static final String ITEM_DETAILS_DIALOG_TAG = "ITEM_DETAILS_DIALOG_TAG";
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -52,7 +55,7 @@ public class SearchItemFragment extends BaseRequestFragment{
     @Override
     public ViewPresenter getPresenter() {
         if( presenter == null ) {
-            presenter = new SearchItemsPresenter();
+            presenter = new SearchItemsPresenter(this);
         }
         return presenter;
     }
@@ -62,19 +65,26 @@ public class SearchItemFragment extends BaseRequestFragment{
         ArrayList<Item> itemsList = presenter.fetchItems();
         ItemResultDataBuilder dataBuilder = new ItemResultDataBuilder();
 
-        adapter = new SearchListAdapter( dataBuilder.buildViewRepresentation(
-                getResources(), itemsList ) );
+        adapter = new SearchListAdapter( dataBuilder.buildViewRepresentation( itemsList ) );
+        adapter.setListener(presenter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void showItemDetails(Item item) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        ItemDetailsFragment.newInstance( item ).show( transaction, ITEM_DETAILS_DIALOG_TAG );
+    }
+
     public class ItemResultDataBuilder {
         public ArrayList<ItemResultViewRepresentation> buildViewRepresentation(
-                Resources resources, ArrayList<Item> items ) {
+                ArrayList<Item> items ) {
             ArrayList<ItemResultViewRepresentation> representations = new ArrayList<>();
             for( Item item: items ) {
                 representations.add(
                         new ItemResultViewRepresentation(
+                                item.getId(),
                                 item.getName(),
                                 item.getImageUrl(),
                                 item.getDescriptionShort()
@@ -86,8 +96,17 @@ public class SearchItemFragment extends BaseRequestFragment{
         }
     }
 
+    public interface OnItemClickedListener {
+        void onItemClicked( ItemResultViewRepresentation itemRepresentation );
+    }
+
     public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ItemViewHolder> {
         private ArrayList<ItemResultViewRepresentation> itemsList;
+        private OnItemClickedListener listener;
+
+        public void setListener( OnItemClickedListener listener ) {
+            this.listener = listener;
+        }
 
         @Override
         public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -103,9 +122,18 @@ public class SearchItemFragment extends BaseRequestFragment{
 
         @Override
         public void onBindViewHolder(ItemViewHolder holder, int position) {
-            ItemResultViewRepresentation itemResultViewRepresentation = itemsList.get( position );
+            final ItemResultViewRepresentation itemResultViewRepresentation = itemsList.get( position );
             holder.itemName.setText( itemResultViewRepresentation.name );
-            holder.itemDescription.setText( itemResultViewRepresentation.shortDescription );
+            holder.itemDescription.setText( itemResultViewRepresentation.description);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if( listener != null ) {
+                        listener.onItemClicked( itemResultViewRepresentation );
+                    }
+                }
+            });
         }
 
         @Override
