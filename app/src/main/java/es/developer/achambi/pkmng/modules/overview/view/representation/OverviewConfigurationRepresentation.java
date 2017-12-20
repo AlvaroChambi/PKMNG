@@ -3,8 +3,10 @@ package es.developer.achambi.pkmng.modules.overview.view.representation;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import es.developer.achambi.pkmng.R;
+
 public class OverviewConfigurationRepresentation
-        implements OverviewListItemViewRepresentation, Parcelable{
+        implements SearchListData, Parcelable{
     public final int id;
     public final String name;
     public final String image;
@@ -62,8 +64,8 @@ public class OverviewConfigurationRepresentation
     };
 
     @Override
-    public ViewType getViewType() {
-        return ViewType.POKEMON_CONFIG;
+    public int getViewType() {
+        return R.id.pokemon_configuration_view_id;
     }
 
     @Override

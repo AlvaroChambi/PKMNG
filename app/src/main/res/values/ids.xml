@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="pokemon_view_id" type="id"/>
+    <item name="pokemon_configuration_view_id" type="id"/>
+    <item name="item_view_id" type="id"/>
+</resources>
