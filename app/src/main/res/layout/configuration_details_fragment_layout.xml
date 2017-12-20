@@ -6,20 +6,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <FrameLayout
+    <TextView
+        android:id="@+id/pokemon_details_dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_light">
-        <TextView
-            android:id="@+id/pokemon_details_dialog_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/text_primary"
-            android:text="@string/configuration_details_dialog_title"/>
-    </FrameLayout>
+        android:textSize="18dp"
+        android:padding="8dp"
+        android:gravity="center"
+        android:background="@color/primary_light"
+        android:textColor="@color/text_primary"
+        android:text="@string/configuration_details_dialog_title"/>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -222,7 +218,7 @@
 
         <TextView
             android:id="@+id/configuration_details_move_0"
-            style="@style/primary_text_with_background_style"
+            style="@style/secondary_text_with_background_style"
             android:layout_marginLeft="0dp"
             tools:text="Signal beam"
             app:layout_constraintLeft_toLeftOf="@+id/configuration_details_move_1"
@@ -234,7 +230,7 @@
 
         <TextView
             android:id="@+id/configuration_details_move_1"
-            style="@style/primary_text_with_background_style"
+            style="@style/secondary_text_with_background_style"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             tools:text="Thunderbolt"
@@ -246,7 +242,7 @@
 
         <TextView
             android:id="@+id/configuration_details_move_2"
-            style="@style/primary_text_with_background_style"
+            style="@style/secondary_text_with_background_style"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
@@ -258,7 +254,7 @@
 
         <TextView
             android:id="@+id/configuration_details_move_3"
-            style="@style/primary_text_with_background_style"
+            style="@style/secondary_text_with_background_style"
             android:text="Grass knot"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"

@@ -32,6 +32,9 @@
         <activity
             android:name="es.developer.achambi.pkmng.modules.calculator.DamageCalculatorActivity">
         </activity>
+        <activity
+            android:name="es.developer.achambi.pkmng.modules.search.view.SearchItemActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -29,4 +29,21 @@ public class CreateConfigurationTest extends BaseAutomationTest {
 
         onView( withText("Pikachu") ).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void changeCurrentItemTest() {
+        onView( withId(R.id.overview_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+        onView( withId(R.id.overview_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+
+        onView(withId(R.id.details_create_config_action_button)).perform(click());
+        onView(withId(R.id.configuration_item_frame)).perform(click());
+
+        onView( withId(R.id.search_result_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_choose_item_action_button));
+
+        onView(withText("eviolite")).check(matches(isDisplayed()));
+    }
 }

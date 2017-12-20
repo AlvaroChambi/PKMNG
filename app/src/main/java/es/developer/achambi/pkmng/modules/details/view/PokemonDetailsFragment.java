@@ -60,7 +60,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         Button createConfigButton = view.findViewById(R.id.details_create_config_action_button);
         Button choosePokemonButton = view.findViewById(R.id.details_choose_pokemon_action_button);
 
-        actionButtonsSetup(  createConfigButton, choosePokemonButton,
+        actionButtonsSetup( createConfigButton, choosePokemonButton,
                 OverviewFragment.UseContext
                 .values()[getArguments().getInt(USE_CONTEXT_ARGUMENT_KEY)] );
     }
