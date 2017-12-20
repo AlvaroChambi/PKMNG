@@ -162,12 +162,12 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:text="Item"
-            app:layout_constraintLeft_toLeftOf="@+id/item_name_frame_holder"
-            app:layout_constraintRight_toRightOf="@+id/item_name_frame_holder"
+            app:layout_constraintLeft_toLeftOf="@+id/configuration_item_frame"
+            app:layout_constraintRight_toRightOf="@+id/configuration_item_frame"
             app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
-            android:id="@+id/item_name_frame_holder"
+            android:id="@+id/configuration_item_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"

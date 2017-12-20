@@ -75,7 +75,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         populateItemView(view);
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
-        view.findViewById(R.id.item_name_frame_holder).setOnClickListener(this);
+        view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
                 startActivityForResult(SearchActivity.getStartIntent(
                         getActivity(), SearchFilter.POKEMON_FILTER ), REPLACE_POKEMON_RESULT_CODE );
                 break;
-            case R.id.item_name_frame_holder:
+            case R.id.configuration_item_frame:
                 startActivityForResult(SearchItemActivity.getStartIntent(getActivity()),
                         REPLACE_ITEM_RESULT_CODE);
                 break;
