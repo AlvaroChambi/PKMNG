@@ -39,7 +39,7 @@ public class SearchItemsPresenter implements ISearchItemsPresenter {
         for( int i = 0; i < 959; i++ ) {
             Item item = new Item();
             item.setId(i);
-            item.setDescriptionShort("\"Held: Holder has 1.5× Defense and Special Defense, as long as it's not fully evolved.");
+            item.setDescriptionShort("Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.");
             item.setDescription("Held by a Pokémon that is not fully evolved\n:   Holder has 1.5× Defense and Special Defense.");
             item.setName("eviolite");
             items.add(item);

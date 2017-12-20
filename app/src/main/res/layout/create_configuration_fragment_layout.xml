@@ -179,7 +179,7 @@
                 android:id="@+id/configuration_item_name_text"
                 style="@style/primary_text_with_background_style"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/item_placeholder"
                 android:gravity="center_vertical"
@@ -187,14 +187,14 @@
                 android:visibility="gone"
                 tools:text="eviolite" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/configuration_item_empty_state"
                 style="@style/primary_text_with_background_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/add_icon"
-                android:drawableTint="@color/text_primary"
-                android:gravity="center_vertical"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_add_circle_black_24dp"
+                android:tint="@color/text_primary"
+                android:gravity="center"
                 android:visibility="visible" />
         </FrameLayout>
     </android.support.constraint.ConstraintLayout>

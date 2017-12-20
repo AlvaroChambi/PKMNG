@@ -19,6 +19,9 @@ import es.developer.achambi.pkmng.modules.search.view.SearchItemActivity;
 import static android.app.Activity.RESULT_OK;
 
 public class CreateConfigurationFragment extends BaseRequestFragment implements View.OnClickListener {
+    private static final String POKEMON_SAVED_STATE = "POKEMON_SAVED_STATE";
+    private static final String ITEM_SAVED_STATE = "ITEM_SAVED_STATE";
+
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
     private static final int REPLACE_ITEM_RESULT_CODE = 101;
@@ -50,6 +53,10 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         super.onCreate(savedInstanceState);
 
         pokemon = getArguments().getParcelable(POKEMON_ARGUMENT_KEY);
+        if( savedInstanceState != null ) {
+            pokemon = savedInstanceState.getParcelable( POKEMON_SAVED_STATE );
+            item = savedInstanceState.getParcelable( ITEM_SAVED_STATE );
+        }
     }
 
     @Override
@@ -60,12 +67,13 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            PokemonDetailsDataBuilder dataBuilder = new PokemonDetailsDataBuilder();
-            pokemonRepresentation =
-                    dataBuilder.buildViewRepresentation(getResources(), pokemon);
+            pokemonRepresentation = new PokemonDetailsDataBuilder()
+                    .buildViewRepresentation(getResources(), pokemon);
         }
 
         populatePokemonView(view);
+        populateItemView(view);
+
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.item_name_frame_holder).setOnClickListener(this);
     }
@@ -107,12 +115,14 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         pokemonSpeed.setText(pokemonRepresentation.speed);
     }
 
-    private void populateItemView(View rootView, String name) {
-        TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
-        itemName.setText(name);
+    private void populateItemView(View rootView) {
+        if( item != null ) {
+            TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
+            itemName.setText(item.getName());
 
-        itemName.setVisibility(View.VISIBLE);
-        rootView.findViewById(R.id.configuration_item_empty_state).setVisibility(View.GONE);
+            itemName.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.configuration_item_empty_state).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -136,7 +146,14 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_ITEM_RESULT_CODE ) {
             item = data.getParcelableExtra( ITEM_ACTIVITY_RESULT_DATA_KEY );
-            populateItemView( getView(), item.getName() );
+            populateItemView( getView() );
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable( POKEMON_SAVED_STATE, pokemon );
+        outState.putParcelable( ITEM_SAVED_STATE, item );
     }
 }
