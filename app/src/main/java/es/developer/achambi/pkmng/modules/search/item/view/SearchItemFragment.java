@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.search.view;
+package es.developer.achambi.pkmng.modules.search.item.view;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
-import es.developer.achambi.pkmng.modules.search.model.Item;
-import es.developer.achambi.pkmng.modules.search.presenter.SearchItemsPresenter;
-import es.developer.achambi.pkmng.modules.search.view.representation.ItemResultViewRepresentation;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
+import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenter;
+import es.developer.achambi.pkmng.modules.search.item.view.representation.ItemResultViewRepresentation;
 
 public class SearchItemFragment extends BaseSearchListFragment
         implements ISearchItemView {

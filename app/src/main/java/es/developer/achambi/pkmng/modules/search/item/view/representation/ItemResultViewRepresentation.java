@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.search.view.representation;
+package es.developer.achambi.pkmng.modules.search.item.view.representation;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;

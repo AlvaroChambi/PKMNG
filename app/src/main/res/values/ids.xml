@@ -3,4 +3,5 @@
     <item name="pokemon_view_id" type="id"/>
     <item name="pokemon_configuration_view_id" type="id"/>
     <item name="item_view_id" type="id"/>
+    <item name="ability_view_id" type="id"/>
 </resources>

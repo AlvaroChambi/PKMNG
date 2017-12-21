@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.search.model;
+package es.developer.achambi.pkmng.modules.search.item.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

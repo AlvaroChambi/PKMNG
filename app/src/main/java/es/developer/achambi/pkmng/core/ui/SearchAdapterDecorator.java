@@ -70,8 +70,8 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
         return false;
     }
 
-    public abstract int getAdapterViewType();
-    public abstract void bindViewHolder( VH holder, D item );
-    public abstract VH createViewHolder( View rootView );
     public abstract int getLayoutResource();
+    public abstract VH createViewHolder( View rootView );
+    public abstract void bindViewHolder( VH holder, D item );
+    public abstract int getAdapterViewType();
 }
