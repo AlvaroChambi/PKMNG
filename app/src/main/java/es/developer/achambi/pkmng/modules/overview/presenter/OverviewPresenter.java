@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
@@ -17,11 +16,12 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewP
 
 public class OverviewPresenter implements IOverviewPresenter {
     private static final String TAG = OverviewPresenter.class.getCanonicalName();
-    private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
+    private static final String POKEMON_DATA_SAVED_STATE = "POKEMON_DATA_SAVED_STATE";
+    private static final String CONFIGURATION_DATA_SAVED_STATE = "CONFIGURATION_DATA_SAVED_STATE";
 
     private IOverviewView view;
-    private List<Pokemon> pokemonDataList;
-    private List<PokemonConfig> pokemonConfigList;
+    private ArrayList<Pokemon> pokemonDataList;
+    private ArrayList<PokemonConfig> pokemonConfigList;
 
     private OnPokemonClickedListener pokemonClickedListener;
     private  OnConfigurationClickedListener configurationClickedListener;
@@ -43,11 +43,25 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     @Override
-    public List<Pokemon> fetchPokemonList() {
-        if(pokemonDataList == null) {
-            pokemonDataList = buildPokemonData( );
-        }
+    public ArrayList<Pokemon> fetchPokemonList() {
+        pokemonDataList = buildPokemonData();
         return pokemonDataList;
+    }
+
+    @Override
+    public ArrayList<PokemonConfig> fetchConfigurationList() {
+        pokemonConfigList = buildConfigurationData();
+        return pokemonConfigList;
+    }
+
+    @Override
+    public ArrayList<Pokemon> getPokemonList() {
+        return pokemonDataList;
+    }
+
+    @Override
+    public ArrayList<PokemonConfig> getConfigurationList() {
+        return pokemonConfigList;
     }
 
     @Override
@@ -58,14 +72,6 @@ public class OverviewPresenter implements IOverviewPresenter {
     @Override
     public OnConfigurationClickedListener provideConfigurationListener() {
         return configurationClickedListener;
-    }
-
-    @Override
-    public List<PokemonConfig> fetchConfigurationList() {
-        if (pokemonConfigList == null) {
-            pokemonConfigList = buildConfigurationData();
-        }
-        return pokemonConfigList;
     }
 
     public class OnPokemonClickedListener
@@ -101,9 +107,9 @@ public class OverviewPresenter implements IOverviewPresenter {
         }
     }
 
-    private List<Pokemon> buildPokemonData( ) {
+    private ArrayList<Pokemon> buildPokemonData( ) {
         int numberOfPokemon = 900;
-        List<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
+        ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
@@ -120,9 +126,9 @@ public class OverviewPresenter implements IOverviewPresenter {
         return pokemonList;
     }
 
-    private List<PokemonConfig> buildConfigurationData() {
+    private ArrayList<PokemonConfig> buildConfigurationData() {
         int numberOfPokemon = 3;
-        List<PokemonConfig> pokemonList = new ArrayList<>(numberOfPokemon);
+        ArrayList<PokemonConfig> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
@@ -137,7 +143,7 @@ public class OverviewPresenter implements IOverviewPresenter {
             Configuration config = new Configuration();
             PokemonConfig pokemonConfig = new PokemonConfig(i,pokemon, config);
             pokemonConfig.setName("Special sweeper awesome pikachu");
-            config.setItem("Eviolite");
+            config.setItem("eviolite");
             config.setAbility("Magic guard");
             config.setNature("Modest");
 
@@ -152,11 +158,13 @@ public class OverviewPresenter implements IOverviewPresenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        bundle.putParcelableArrayList(DATA_SAVED_STATE, (ArrayList)pokemonDataList);
+        bundle.putParcelableArrayList(POKEMON_DATA_SAVED_STATE, pokemonDataList);
+        bundle.putParcelableArrayList(CONFIGURATION_DATA_SAVED_STATE, pokemonConfigList);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
-        pokemonDataList = bundle.getParcelableArrayList(DATA_SAVED_STATE);
+        pokemonDataList = bundle.getParcelableArrayList(POKEMON_DATA_SAVED_STATE);
+        pokemonConfigList = bundle.getParcelableArrayList(CONFIGURATION_DATA_SAVED_STATE);
     }
 }

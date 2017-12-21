@@ -4,9 +4,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -97,14 +95,17 @@ public class SearchItemFragment extends BaseSearchListFragment
         }
 
         @Override
+        public int getLayoutResource() {
+            return R.layout.item_list_item_layout;
+        }
+
+        @Override
         public int getAdapterViewType() {
             return R.id.item_view_id;
         }
 
         @Override
-        public ItemViewHolder createViewHolder(ViewGroup parent) {
-            View rootView = LayoutInflater.from( parent.getContext())
-                    .inflate(R.layout.item_list_item_layout, parent, false );
+        public ItemViewHolder createViewHolder( View rootView ) {
             ItemViewHolder viewHolder = new ItemViewHolder(rootView);
 
             viewHolder.itemName = rootView.findViewById(R.id.item_name_text);

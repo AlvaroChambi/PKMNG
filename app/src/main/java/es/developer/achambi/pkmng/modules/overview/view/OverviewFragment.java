@@ -4,11 +4,9 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -126,9 +124,9 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         pokemonList = new OverviewViewDataBuilder().buildPokemonPresentation(
-                getResources(), presenter.fetchPokemonList());
+                getResources(), presenter.getPokemonList());
         configurationList = new OverviewViewDataBuilder().buildConfigurationPresentation(
-                getResources(), presenter.fetchConfigurationList());
+                getResources(), presenter.getConfigurationList());
         refreshAdapter();
     }
 
@@ -195,14 +193,17 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         }
 
         @Override
+        public int getLayoutResource() {
+            return R.layout.pokemon_config_list_item_layout;
+        }
+
+        @Override
         public int getAdapterViewType() {
             return R.id.pokemon_configuration_view_id;
         }
 
         @Override
-        public ConfigViewHolder createViewHolder(ViewGroup parent) {
-            View rootView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pokemon_config_list_item_layout, parent, false);
+        public ConfigViewHolder createViewHolder( View rootView ) {
             ConfigViewHolder viewHolder = new ConfigViewHolder(rootView);
             viewHolder.configName = rootView.findViewById(R.id.pokemon_config_name_text);
 
@@ -253,14 +254,17 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         }
 
         @Override
+        public int getLayoutResource() {
+            return R.layout.pokemon_list_item_layout;
+        }
+
+        @Override
         public int getAdapterViewType() {
             return R.id.pokemon_view_id;
         }
 
         @Override
-        public PokemonViewHolder createViewHolder( ViewGroup parent ) {
-            View rootView =  LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pokemon_list_item_layout, parent, false);
+        public PokemonViewHolder createViewHolder( View rootView ) {
             PokemonViewHolder viewHolder = new PokemonViewHolder(rootView);
 
             viewHolder.pokemonName = rootView.findViewById(R.id.pokemon_name_text);

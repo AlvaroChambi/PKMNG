@@ -1,11 +1,13 @@
 package es.developer.achambi.pkmng.core.ui;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
 
 public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends RecyclerView.ViewHolder> {
@@ -31,7 +33,9 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if( isValidAdapter( viewType ) ) {
-            return createViewHolder(parent);
+            View rootView = LayoutInflater.from(parent.getContext())
+                    .inflate(getLayoutResource(), parent, false);
+            return createViewHolder( rootView );
         }
         return adapter.onCreateViewHolder( parent, viewType );
     }
@@ -68,5 +72,6 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
 
     public abstract int getAdapterViewType();
     public abstract void bindViewHolder( VH holder, D item );
-    public abstract VH createViewHolder( ViewGroup parent );
+    public abstract VH createViewHolder( View rootView );
+    public abstract int getLayoutResource();
 }
