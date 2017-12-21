@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
-import es.developer.achambi.pkmng.core.ui.ISearchAdapter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
@@ -45,7 +44,7 @@ public class SearchItemFragment extends BaseSearchListFragment
     }
 
     @Override
-    public ISearchAdapter provideAdapter() {
+    public SearchAdapterDecorator provideAdapter() {
         ItemListAdapter adapter = new ItemListAdapter( items );
         adapter.setListener(presenter);
         return adapter;

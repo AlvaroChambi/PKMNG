@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
-import es.developer.achambi.pkmng.core.ui.ISearchAdapter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
@@ -27,7 +26,6 @@ import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
-import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewViewDataBuilder;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 
@@ -68,7 +66,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     }
 
     @Override
-    public ISearchAdapter provideAdapter() {
+    public SearchAdapterDecorator provideAdapter() {
         PokemonSearchAdapter adapter = new PokemonSearchAdapter( pokemonList );
         adapter.setListener( presenter.providePokemonListener() );
 
@@ -192,7 +190,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     public class ConfigurationSearchAdapter extends SearchAdapterDecorator<OverviewConfigurationRepresentation,
             ConfigurationSearchAdapter.ConfigViewHolder> {
 
-        public ConfigurationSearchAdapter(ArrayList data, ISearchAdapter adapter) {
+        public ConfigurationSearchAdapter(ArrayList data, SearchAdapterDecorator adapter) {
             super(data, adapter);
         }
 
@@ -221,6 +219,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         @Override
         public void bindViewHolder(ConfigViewHolder holder,
                                      OverviewConfigurationRepresentation configuration) {
+            holder.configName.setText(configuration.name);
             holder.pokemonName.setText(configuration.pokemonName);
             holder.pokemonType.setText(configuration.type);
             holder.baseStats.setText(configuration.totalStats);

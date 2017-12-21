@@ -29,5 +29,5 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
         recyclerView.setAdapter( new BaseSearchAdapter( provideAdapter() ) );
     }
 
-    public abstract ISearchAdapter provideAdapter();
+    public abstract SearchAdapterDecorator provideAdapter();
 }

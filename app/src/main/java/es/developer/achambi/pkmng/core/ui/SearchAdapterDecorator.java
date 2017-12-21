@@ -8,10 +8,11 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
 
-public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends RecyclerView.ViewHolder>
-        implements ISearchAdapter<D,VH> {
-
-    protected ISearchAdapter<D,VH> adapter;
+public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends RecyclerView.ViewHolder> {
+    public interface OnItemClickedListener<D> {
+        void onItemClicked( D item );
+    }
+    protected SearchAdapterDecorator<D,VH> adapter;
     protected ArrayList<D> data;
     private OnItemClickedListener<D> listener;
 
@@ -19,17 +20,15 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
         this.data = data;
     }
 
-    public SearchAdapterDecorator( ArrayList<D> data, ISearchAdapter<D,VH> adapter  ) {
+    public SearchAdapterDecorator( ArrayList<D> data, SearchAdapterDecorator<D,VH> adapter  ) {
         this.adapter = adapter;
         this.data = data;
     }
 
-    @Override
     public void setListener( OnItemClickedListener<D> listener ) {
         this.listener = listener;
     }
 
-    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if( isValidAdapter( viewType ) ) {
             return createViewHolder(parent);
@@ -37,7 +36,6 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
         return adapter.onCreateViewHolder( parent, viewType );
     }
 
-    @Override
     public void onBindViewHolder( RecyclerView.ViewHolder holder, final SearchListData item) {
         if( item.getViewType() == getAdapterViewType() ) {
             bindViewHolder( (VH)holder, (D)item );
@@ -54,7 +52,6 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
         }
     }
 
-    @Override
     public ArrayList<D> getData() {
         if( adapter != null && adapter.getData() != null ) {
             data.addAll( adapter.getData() );
@@ -68,4 +65,8 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
         }
         return false;
     }
+
+    public abstract int getAdapterViewType();
+    public abstract void bindViewHolder( VH holder, D item );
+    public abstract VH createViewHolder( ViewGroup parent );
 }

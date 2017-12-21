@@ -9,9 +9,9 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.SearchLis
 
 public class BaseSearchAdapter extends RecyclerView.Adapter{
     private ArrayList<SearchListData> data;
-    private ISearchAdapter adapter;
+    private SearchAdapterDecorator adapter;
 
-    public BaseSearchAdapter( ISearchAdapter adapter ) {
+    public BaseSearchAdapter( SearchAdapterDecorator adapter ) {
         this.adapter = adapter;
         data = this.adapter.getData();
     }
