@@ -14,7 +14,6 @@ import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.AbilityDetailsFragment;
-import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenter;
 import es.developer.achambi.pkmng.modules.search.ability.view.representation.AbilityViewPresentation;

@@ -16,24 +16,6 @@ import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 public class OverviewViewDataBuilder {
     private Resources resources;
 
-    public List<SearchListData> buildViewRepresentation(
-        Resources resources,
-        List<BasePokemon> pokemonList ) {
-
-        this.resources = resources;
-        List<SearchListData> viewRepresentationList = new ArrayList<>();
-
-        for( BasePokemon pokemon : pokemonList ) {
-            if( pokemon.hasConfig() ) {
-                viewRepresentationList.add( configurationItemView( (PokemonConfig) pokemon ) );
-            } else {
-                viewRepresentationList.add( pokemonItemView( (Pokemon) pokemon ) );
-            }
-        }
-
-        return viewRepresentationList;
-    }
-
     public ArrayList<OverviewPokemonRepresentation> buildPokemonPresentation(Resources resources,
                                                                              List<Pokemon> pokemonList ) {
         this.resources = resources;

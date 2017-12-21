@@ -30,6 +30,16 @@
     <string name="pokemon_item_sp_defense_tag">Spd: </string>
     <string name="pokemon_item_speed_tag">Spe: </string>
 
+    <string name="stat_hp_text">HP</string>
+    <string name="stat_attack_text">Attack</string>
+    <string name="stat_defense_text">Defense</string>
+    <string name="stat_sp_attack_text">Sp.Attack</string>
+    <string name="stat_sp_defense_text">Sp.Defense</string>
+    <string name="stat_speed_text">Speed</string>
+
+    <string name="nature_increased_stat_text">+ %1$s</string>
+    <string name="nature_decreased_stat_text">- %1$s</string>
+
     <string name="pokemon_details_dialog_title">Pokemon details</string>
     <string name="configuration_details_dialog_title">Pokemon Configuration details</string>
     <string name="item_details_dialog_title">Item details</string>
