@@ -10,8 +10,8 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.create.CreateConfigurationFragment;
-import es.developer.achambi.pkmng.modules.search.model.Item;
-import es.developer.achambi.pkmng.modules.search.view.representation.ItemResultViewRepresentation;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
+import es.developer.achambi.pkmng.modules.search.item.view.representation.ItemResultViewRepresentation;
 
 public class ItemDetailsFragment extends BaseDialogFragment implements View.OnClickListener{
     private static final String ITEM_ARGUMENT_KEY = "ITEM_ARGUMENT_KEY";

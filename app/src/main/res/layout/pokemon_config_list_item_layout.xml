@@ -39,7 +39,6 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingRight="4dp"
-            android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="@+id/pokemon_type_text"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Pikachu" />

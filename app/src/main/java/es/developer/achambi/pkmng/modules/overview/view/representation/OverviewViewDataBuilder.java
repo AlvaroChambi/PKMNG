@@ -16,21 +16,23 @@ import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 public class OverviewViewDataBuilder {
     private Resources resources;
 
-    public List<OverviewListItemViewRepresentation> buildViewRepresentation(
-        Resources resources,
-        List<BasePokemon> pokemonList ) {
-
+    public ArrayList<OverviewPokemonRepresentation> buildPokemonPresentation(Resources resources,
+                                                                             List<Pokemon> pokemonList ) {
         this.resources = resources;
-        List<OverviewListItemViewRepresentation> viewRepresentationList = new ArrayList<>();
-
-        for( BasePokemon pokemon : pokemonList ) {
-            if( pokemon.hasConfig() ) {
-                viewRepresentationList.add( configurationItemView( (PokemonConfig) pokemon ) );
-            } else {
-                viewRepresentationList.add( pokemonItemView( (Pokemon) pokemon ) );
-            }
+        ArrayList<OverviewPokemonRepresentation> viewRepresentationList = new ArrayList<>();
+        for( Pokemon pokemon : pokemonList ) {
+            viewRepresentationList.add( pokemonItemView( pokemon ) );
         }
+        return viewRepresentationList;
+    }
 
+    public ArrayList<OverviewConfigurationRepresentation> buildConfigurationPresentation(Resources resources,
+                                                                                         List<PokemonConfig> configList ) {
+        this.resources = resources;
+        ArrayList<OverviewConfigurationRepresentation> viewRepresentationList = new ArrayList<>();
+        for( PokemonConfig config : configList ) {
+            viewRepresentationList.add( configurationItemView(config) );
+        }
         return viewRepresentationList;
     }
 

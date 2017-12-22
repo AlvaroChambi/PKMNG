@@ -8,10 +8,16 @@
     <string name="edit_configuration_activity_title">Edit Configuration</string>
     <string name="search_activity_title">Search Pokemon</string>
     <string name="search_item_activity_title">Search Item</string>
+    <string name="search_nature_activity_title">Search Nature</string>
+    <string name="search_ability_activity_title">Search Ability</string>
 
     <string name="item_description_text_placeholder">Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.</string>
+    <string name="ability_description_text_placeholder">Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.</string>
 
     <string name="pokemon_type_electric">electric</string>
+    <string name="configuration_item_title">Item</string>
+    <string name="configuration_nature_title">Nature</string>
+    <string name="configuration_ability_title">Ability</string>
 
     <string name="pokemon_item_total_stats_tag">BST: </string>
     <string name="pokemon_item_ability_tag">Ability: </string>
@@ -24,9 +30,20 @@
     <string name="pokemon_item_sp_defense_tag">Spd: </string>
     <string name="pokemon_item_speed_tag">Spe: </string>
 
+    <string name="stat_hp_text">HP</string>
+    <string name="stat_attack_text">Attack</string>
+    <string name="stat_defense_text">Defense</string>
+    <string name="stat_sp_attack_text">Sp.Attack</string>
+    <string name="stat_sp_defense_text">Sp.Defense</string>
+    <string name="stat_speed_text">Speed</string>
+
+    <string name="nature_increased_stat_text">+ %1$s</string>
+    <string name="nature_decreased_stat_text">- %1$s</string>
+
     <string name="pokemon_details_dialog_title">Pokemon details</string>
     <string name="configuration_details_dialog_title">Pokemon Configuration details</string>
     <string name="item_details_dialog_title">Item details</string>
+    <string name="ability_details_dialog_title">Ability details</string>
 
     <string name="details_action_button_create_configuration">New Configuration</string>
     <string name="details_action_button_edit_configuration">Edit Configuration</string>

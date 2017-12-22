@@ -1,14 +1,16 @@
-package es.developer.achambi.pkmng.modules.search.presenter;
+package es.developer.achambi.pkmng.modules.search.item.presenter;
 
 import android.os.Bundle;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.modules.search.model.Item;
-import es.developer.achambi.pkmng.modules.search.view.ISearchItemView;
-import es.developer.achambi.pkmng.modules.search.view.representation.ItemResultViewRepresentation;
+import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
+import es.developer.achambi.pkmng.modules.search.item.view.ISearchItemView;
+import es.developer.achambi.pkmng.modules.search.item.view.representation.ItemResultViewRepresentation;
 
-public class SearchItemsPresenter implements ISearchItemsPresenter {
+public class SearchItemsPresenter implements ISearchItemsPresenter,
+        SearchAdapterDecorator.OnItemClickedListener<ItemResultViewRepresentation> {
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Item> data;
     private ISearchItemView view;

@@ -16,9 +16,9 @@ public class DetailsDialogTest extends BaseAutomationTest {
 
     @Test
     public void showDetailsDialogTest() {
-        onView( withId(R.id.overview_recycler_view) )
+        onView( withId(R.id.base_search_recycler_view) )
             .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
-        onView( withId(R.id.overview_recycler_view) )
+        onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
 
         onView(withId(R.id.pokemon_name_text)).check(matches(isDisplayed()));
@@ -28,7 +28,7 @@ public class DetailsDialogTest extends BaseAutomationTest {
 
     @Test
     public void showConfigurationDetailsDialogTest() {
-        onView( withId(R.id.overview_recycler_view) )
+        onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         onView(withId(R.id.pokemon_name_text)).check(matches(isDisplayed()));
@@ -42,9 +42,9 @@ public class DetailsDialogTest extends BaseAutomationTest {
 
     @Test
     public void createConfigurationSelectedTest() {
-        onView( withId(R.id.overview_recycler_view) )
+        onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
-        onView( withId(R.id.overview_recycler_view) )
+        onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
 
         onView(withId(R.id.details_create_config_action_button)).perform(click());
@@ -54,7 +54,7 @@ public class DetailsDialogTest extends BaseAutomationTest {
 
     @Test
     public void editConfigurationSelectedTest() {
-        onView( withId(R.id.overview_recycler_view) )
+        onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
@@ -64,7 +64,7 @@ public class DetailsDialogTest extends BaseAutomationTest {
 
     @Test
     public void damageCalculatorSelectedTest() {
-        onView( withId(R.id.overview_recycler_view) )
+        onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
