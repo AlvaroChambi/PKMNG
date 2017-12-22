@@ -50,7 +50,7 @@ public class SearchNaturePresenter implements ISearchNaturePresenter,
         ArrayList<Nature> natureList = new ArrayList<>();
         for( int i = 0; i < 25 ; i++ ) {
             Nature nature = new Nature();
-            nature.setName("Modest");
+            nature.setName("modest");
             nature.setIncreasedStat(Stat.ATTACK);
             nature.setDecreasedStat(Stat.DEFENSE);
             natureList.add( nature );
