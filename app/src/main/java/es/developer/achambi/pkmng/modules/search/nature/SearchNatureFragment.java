@@ -35,14 +35,13 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        presenter = (SearchNaturePresenter)getPresenter();
         if( !isViewRecreated() ) {
             doRequest();
         }
     }
 
     @Override
-    public ViewPresenter getPresenter() {
+    public ViewPresenter setupPresenter() {
         if( presenter == null ) {
             presenter = new SearchNaturePresenter( this );
         }

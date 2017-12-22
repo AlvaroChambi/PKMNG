@@ -33,14 +33,13 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        presenter = (SearchAbilityPresenter)getPresenter();
         if( !isViewRecreated() ) {
             doRequest();
         }
     }
 
     @Override
-    public ViewPresenter getPresenter() {
+    public ViewPresenter setupPresenter() {
         if( presenter == null ) {
             presenter = new SearchAbilityPresenter(this);
         }

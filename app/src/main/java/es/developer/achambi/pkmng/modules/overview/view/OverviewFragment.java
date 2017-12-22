@@ -56,7 +56,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     }
 
     @Override
-    public ViewPresenter getPresenter() {
+    public ViewPresenter setupPresenter() {
         if(presenter == null) {
             presenter = new OverviewPresenter(this);
         }
@@ -82,8 +82,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onViewSetup(View view, Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        presenter = (IOverviewPresenter) getPresenter();
-
         if(!isViewRecreated() && savedInstanceState == null) {
             doRequest();
         }

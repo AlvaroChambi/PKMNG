@@ -29,7 +29,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getPresenter();
+        setupPresenter();
         onViewSetup(view, savedInstanceState);
         if(savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
@@ -43,7 +43,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getPresenter().onSaveInstanceState(outState);
+        setupPresenter().onSaveInstanceState(outState);
     }
 
     /**
@@ -53,10 +53,10 @@ public abstract class BaseFragment extends Fragment {
      * @param savedInstanceState
      */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        getPresenter().onRestoreInstanceState(savedInstanceState);
+        setupPresenter().onRestoreInstanceState(savedInstanceState);
     }
 
-    public ViewPresenter getPresenter() {
+    public ViewPresenter setupPresenter() {
         return new NullPresenter();
     }
 
