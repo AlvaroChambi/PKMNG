@@ -8,6 +8,7 @@ import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 public class Pokemon implements BasePokemon{
     public enum Type {
         ELECTRIC,
+        GROUND,
         EMPTY;
     }
 

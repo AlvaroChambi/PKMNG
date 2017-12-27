@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
+import es.developer.achambi.pkmng.modules.create.view.MoveConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
@@ -17,6 +20,8 @@ import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.SearchAbilityActivity;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.view.SearchItemActivity;
+import es.developer.achambi.pkmng.modules.search.move.model.Move;
+import es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity;
 import es.developer.achambi.pkmng.modules.search.nature.SearchNatureActivity;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
@@ -33,11 +38,16 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     private static final int REPLACE_ITEM_RESULT_CODE = 101;
     private static final int REPLACE_ABILITY_RESULT_CODE = 102;
     private static final int REPLACE_NATURE_RESULT_CODE = 103;
+    private static final int REPLACE_MOVE0_RESULT_CODE = 104;
+    private static final int REPLACE_MOVE1_RESULT_CODE = 105;
+    private static final int REPLACE_MOVE2_RESULT_CODE = 106;
+    private static final int REPLACE_MOVE3_RESULT_CODE = 107;
 
     public static final String POKEMON_ACTIVITY_RESULT_DATA_KEY = "POKEMON_DATA_KEY";
     public static final String ITEM_ACTIVITY_RESULT_DATA_KEY = "ITEM_DATA_KEY";
     public static final String ABILITY_ACTIVITY_RESULT_DATA_KEY = "ABILITY_DATA_KEY";
-    public static final String NATURE_ACTIVITY_RESULT_DATA_KEY = "NATURE_DATE_KEY";
+    public static final String NATURE_ACTIVITY_RESULT_DATA_KEY = "NATURE_DATA_KEY";
+    public static final String MOVE_ACTIVITY_RESULT_DATA_KEY = "MOVE_DATA_KEY";
 
     private Pokemon pokemon;
     private OverviewPokemonRepresentation pokemonRepresentation;
@@ -45,6 +55,11 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     private Item item;
     private Ability ability;
     private Nature nature;
+
+    private MoveConfigurationRepresentation move0;
+    private MoveConfigurationRepresentation move1;
+    private MoveConfigurationRepresentation move2;
+    private MoveConfigurationRepresentation move3;
 
     public static CreateConfigurationFragment newInstance( Bundle args ) {
         CreateConfigurationFragment fragment = new CreateConfigurationFragment();
@@ -89,11 +104,19 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         populateItemView(view);
         populateAbilityView(view);
         populateNatureView(view);
+        populateMoveView( view.findViewById(R.id.configuration_move_0_frame), move0 );
+        populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
+        populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
+        populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_nature_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_ability_frame).setOnClickListener(this);
+        view.findViewById(R.id.configuration_move_0_frame).setOnClickListener(this);
+        view.findViewById(R.id.configuration_move_1_frame).setOnClickListener(this);
+        view.findViewById(R.id.configuration_move_2_frame).setOnClickListener(this);
+        view.findViewById(R.id.configuration_move_3_frame).setOnClickListener(this);
     }
 
     @Override
@@ -114,6 +137,12 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             case R.id.configuration_nature_frame:
                 startActivityForResult(SearchNatureActivity.getStartIntent(getActivity()),
                         REPLACE_NATURE_RESULT_CODE);
+                break;
+            case R.id.configuration_move_0_frame:
+            case R.id.configuration_move_1_frame:
+            case R.id.configuration_move_2_frame:
+            case R.id.configuration_move_3_frame:
+                startActivity(SearchMoveActivity.getStartIntent(getActivity()));
                 break;
         }
     }
@@ -168,6 +197,18 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         }
     }
 
+    private void populateMoveView( View moveRootView, MoveConfigurationRepresentation move ) {
+        if( move != null ) {
+            TextView moveName = moveRootView.findViewById(R.id.move_view_name_text);
+            TextView moveType = moveRootView.findViewById(R.id.move_view_type_text);
+            TextView movePower = moveRootView.findViewById(R.id.move_view_power_text);
+
+            moveName.setText(move.name);
+            movePower.setText(move.power);
+            moveType.setText(move.type);
+        }
+    }
+
     @Override
     public void doRequest() {
 
@@ -185,7 +226,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             pokemonRepresentation =
                     dataBuilder.buildViewRepresentation(getResources(), pokemon);
 
-            populatePokemonView(getView());
+            populatePokemonView( getView() );
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_ITEM_RESULT_CODE ) {
             item = data.getParcelableExtra( ITEM_ACTIVITY_RESULT_DATA_KEY );
@@ -198,6 +239,25 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
                     requestCode == REPLACE_NATURE_RESULT_CODE ) {
             nature = data.getParcelableExtra( NATURE_ACTIVITY_RESULT_DATA_KEY );
             populateNatureView( getView() );
+        } else  {
+            if( resultCode == RESULT_OK ) {
+                MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
+                Move move = data.getParcelableExtra( MOVE_ACTIVITY_RESULT_DATA_KEY );
+                MoveConfigurationRepresentation movePresentation = builder.build( move );
+                if( requestCode == REPLACE_MOVE0_RESULT_CODE ) {
+                    populateMoveView( getView().findViewById(R.id.configuration_move_0_frame),
+                            movePresentation );
+                } else if( requestCode == REPLACE_MOVE1_RESULT_CODE ) {
+                    populateMoveView( getView().findViewById(R.id.configuration_move_1_frame),
+                            movePresentation );
+                } else if( requestCode == REPLACE_MOVE2_RESULT_CODE ) {
+                    populateMoveView( getView().findViewById(R.id.configuration_move_2_frame),
+                            movePresentation );
+                } else if( requestCode == REPLACE_MOVE3_RESULT_CODE ) {
+                    populateMoveView( getView().findViewById(R.id.configuration_move_3_frame),
+                            movePresentation );
+                }
+            }
         }
     }
 
@@ -208,5 +268,30 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         outState.putParcelable( ITEM_SAVED_STATE, item );
         outState.putParcelable( ABILITY_SAVED_STATE, ability );
         outState.putParcelable( NATURE_SAVED_STATE, nature );
+    }
+
+    public class MoveRepresentationBuilder {
+        public MoveConfigurationRepresentation build( Move move ) {
+            MoveConfigurationRepresentation representation = new MoveConfigurationRepresentation(
+                    move.getId(),
+                    move.getName(),
+                    formatType( move.getType() ),
+                    "Pow. " + move.getPower()
+            );
+            return representation;
+        }
+
+        private String formatType( Pokemon.Type type ) {
+            switch (type) {
+
+                case ELECTRIC:
+                    return "ELECTRIC";
+                case GROUND:
+                    return "GROUND";
+                case EMPTY:
+                    return "";
+            }
+            return "";
+        }
     }
 }
