@@ -29,6 +29,7 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
         ArrayList<Ability> abilities = new ArrayList<>();
         for( int i = 0; i < 5; i++ ) {
             Ability ability = new Ability();
+            ability.setId(i);
             ability.setName("overgrow");
             ability.setDescription("When this Pokémon has 1/3 or less of its HP remaining, its grass-type moves inflict 1.5× as much regular damage.");
             ability.setDescriptionShort("Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.");
@@ -53,6 +54,7 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
         for( Ability ability : data ) {
             if( item.id == ability.getId() ) {
                 searchAbilityView.showAbilityDetails( ability );
+                return;
             }
         }
     }

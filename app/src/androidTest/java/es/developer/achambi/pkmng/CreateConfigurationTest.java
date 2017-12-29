@@ -8,9 +8,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 public class CreateConfigurationTest extends BaseAutomationTest {
     @Test
@@ -76,5 +78,69 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         onView(withText("modest")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void changeCurrentMove0Test() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+        onView(withId(R.id.details_create_config_action_button)).perform(click());
+
+        onView(withId(R.id.configuration_move_0_frame)).perform(click());
+        onView(withId(R.id.base_search_recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView( allOf(
+                isDescendantOfA(withId(R.id.configuration_move_0_frame)), withText("Earthquake") ) )
+                .check( matches(isDisplayed()) );
+    }
+
+    @Test
+    public void changeCurrentMove1Test() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+        onView(withId(R.id.details_create_config_action_button)).perform(click());
+
+        onView(withId(R.id.configuration_move_1_frame)).perform(click());
+        onView(withId(R.id.base_search_recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView( allOf(
+                isDescendantOfA(withId(R.id.configuration_move_1_frame)), withText("Earthquake") ) )
+                .check( matches(isDisplayed()) );
+    }
+
+    @Test
+    public void changeCurrentMove2Test() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+        onView(withId(R.id.details_create_config_action_button)).perform(click());
+
+        onView(withId(R.id.configuration_move_2_frame)).perform(click());
+        onView(withId(R.id.base_search_recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView( allOf(
+                isDescendantOfA(withId(R.id.configuration_move_2_frame)), withText("Earthquake") ) )
+                .check( matches(isDisplayed()) );
+    }
+
+    @Test
+    public void changeCurrentMove3Test() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+        onView(withId(R.id.details_create_config_action_button)).perform(click());
+
+        onView(withId(R.id.configuration_move_3_frame)).perform(click());
+        onView(withId(R.id.base_search_recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView( allOf(
+                isDescendantOfA(withId(R.id.configuration_move_3_frame)), withText("Earthquake") ) )
+                .check( matches(isDisplayed()) );
     }
 }
