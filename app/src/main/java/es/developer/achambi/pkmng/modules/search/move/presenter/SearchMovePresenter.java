@@ -4,11 +4,22 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
+import es.developer.achambi.pkmng.modules.search.move.view.ISearchMoveView;
+import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
 
-public class SearchMovePresenter implements ISearchMovePresenter{
+public class SearchMovePresenter implements ISearchMovePresenter,
+        SearchAdapterDecorator.OnItemClickedListener<MoveItemPresentation>{
+    private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
+
     private ArrayList<Move> data;
+    private ISearchMoveView view;
+
+    public SearchMovePresenter( ISearchMoveView view ) {
+        this.view = view;
+    }
 
     @Override
     public ArrayList<Move> fetchMoves() {
@@ -35,11 +46,20 @@ public class SearchMovePresenter implements ISearchMovePresenter{
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-
+        bundle.putParcelableArrayList( DATA_SAVED_STATE, data );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        data = bundle.getParcelableArrayList( DATA_SAVED_STATE );
+    }
 
+    @Override
+    public void onItemClicked(MoveItemPresentation item) {
+        for( Move move : data ) {
+            if( item.id == move.getId() ) {
+                view.returnSelectedMove( move );
+            }
+        }
     }
 }

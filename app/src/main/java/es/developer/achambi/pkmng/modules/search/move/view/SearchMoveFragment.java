@@ -1,5 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.move.view;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +15,14 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.create.CreateConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenter;
 import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
 
-public class SearchMoveFragment extends BaseSearchListFragment {
+public class SearchMoveFragment extends BaseSearchListFragment
+    implements ISearchMoveView {
 
     private SearchMovePresenter presenter;
     private ArrayList<MoveItemPresentation> movesPresentation;
@@ -46,7 +50,7 @@ public class SearchMoveFragment extends BaseSearchListFragment {
     @Override
     public ViewPresenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchMovePresenter();
+            presenter = new SearchMovePresenter(this);
         }
         return presenter;
     }
@@ -54,7 +58,16 @@ public class SearchMoveFragment extends BaseSearchListFragment {
     @Override
     public SearchAdapterDecorator provideAdapter() {
         MovesListAdapter adapter = new MovesListAdapter(movesPresentation);
+        adapter.setListener(presenter);
         return adapter;
+    }
+
+    @Override
+    public void returnSelectedMove(Move move) {
+        Intent dataIntent = getActivity().getIntent();
+        dataIntent.putExtra(CreateConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY, move);
+        getActivity().setResult(Activity.RESULT_OK, dataIntent);
+        getActivity().finish();
     }
 
     public class MovesListAdapter extends

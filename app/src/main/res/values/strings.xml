@@ -19,6 +19,7 @@
     <string name="configuration_item_title">Item</string>
     <string name="configuration_nature_title">Nature</string>
     <string name="configuration_ability_title">Ability</string>
+    <string name="configuration_moves_title">Moves</string>
 
     <string name="pokemon_item_total_stats_tag">BST: </string>
     <string name="pokemon_item_ability_tag">Ability: </string>

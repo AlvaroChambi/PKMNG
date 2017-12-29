@@ -65,7 +65,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     }
 
     @Override
-    public void onNatureClicked(Nature nature) {
+    public void returnSelectedNature(Nature nature) {
         Intent dataIntent = getActivity().getIntent();
         dataIntent.putExtra(CreateConfigurationFragment.NATURE_ACTIVITY_RESULT_DATA_KEY, nature);
         getActivity().setResult(Activity.RESULT_OK, dataIntent);

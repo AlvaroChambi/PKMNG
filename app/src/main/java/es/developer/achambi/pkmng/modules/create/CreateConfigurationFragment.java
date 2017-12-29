@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.modules.create.view.MoveConfigurationRepresentation;
@@ -32,6 +30,10 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     private static final String ITEM_SAVED_STATE = "ITEM_SAVED_STATE";
     private static final String ABILITY_SAVED_STATE = "ABILITY_SAVED_STATE";
     private static final String NATURE_SAVED_STATE = "NATURE_SAVED_STATE";
+    private static final String MOVE_0_SAVED_STATE = "MOVE_0_SAVED_STATE";
+    private static final String MOVE_1_SAVED_STATE = "MOVE_1_SAVED_STATE";
+    private static final String MOVE_2_SAVED_STATE = "MOVE_2_SAVED_STATE";
+    private static final String MOVE_3_SAVED_STATE = "MOVE_3_SAVED_STATE";
 
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
@@ -85,6 +87,10 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             item = savedInstanceState.getParcelable( ITEM_SAVED_STATE );
             ability = savedInstanceState.getParcelable( ABILITY_SAVED_STATE );
             nature = savedInstanceState.getParcelable( NATURE_SAVED_STATE );
+            move0 = savedInstanceState.getParcelable( MOVE_0_SAVED_STATE );
+            move1 = savedInstanceState.getParcelable( MOVE_1_SAVED_STATE );
+            move2 = savedInstanceState.getParcelable( MOVE_2_SAVED_STATE );
+            move3 = savedInstanceState.getParcelable( MOVE_3_SAVED_STATE );
         }
     }
 
@@ -139,10 +145,20 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
                         REPLACE_NATURE_RESULT_CODE);
                 break;
             case R.id.configuration_move_0_frame:
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                        REPLACE_MOVE0_RESULT_CODE );
+                break;
             case R.id.configuration_move_1_frame:
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                        REPLACE_MOVE1_RESULT_CODE );
+                break;
             case R.id.configuration_move_2_frame:
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                        REPLACE_MOVE2_RESULT_CODE );
+                break;
             case R.id.configuration_move_3_frame:
-                startActivity(SearchMoveActivity.getStartIntent(getActivity()));
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                        REPLACE_MOVE3_RESULT_CODE );
                 break;
         }
     }
@@ -206,6 +222,10 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             moveName.setText(move.name);
             movePower.setText(move.power);
             moveType.setText(move.type);
+            moveName.setVisibility(View.VISIBLE);
+            movePower.setVisibility(View.VISIBLE);
+            moveType.setVisibility(View.VISIBLE);
+            moveRootView.findViewById(R.id.move_view_empty_state_image).setVisibility(View.GONE);
         }
     }
 
@@ -245,15 +265,19 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
                 Move move = data.getParcelableExtra( MOVE_ACTIVITY_RESULT_DATA_KEY );
                 MoveConfigurationRepresentation movePresentation = builder.build( move );
                 if( requestCode == REPLACE_MOVE0_RESULT_CODE ) {
+                    move0 = builder.build( move );
                     populateMoveView( getView().findViewById(R.id.configuration_move_0_frame),
                             movePresentation );
                 } else if( requestCode == REPLACE_MOVE1_RESULT_CODE ) {
+                    move1 = builder.build( move );
                     populateMoveView( getView().findViewById(R.id.configuration_move_1_frame),
                             movePresentation );
                 } else if( requestCode == REPLACE_MOVE2_RESULT_CODE ) {
+                    move2 = builder.build( move );
                     populateMoveView( getView().findViewById(R.id.configuration_move_2_frame),
                             movePresentation );
                 } else if( requestCode == REPLACE_MOVE3_RESULT_CODE ) {
+                    move3 = builder.build( move );
                     populateMoveView( getView().findViewById(R.id.configuration_move_3_frame),
                             movePresentation );
                 }
@@ -268,6 +292,10 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         outState.putParcelable( ITEM_SAVED_STATE, item );
         outState.putParcelable( ABILITY_SAVED_STATE, ability );
         outState.putParcelable( NATURE_SAVED_STATE, nature );
+        outState.putParcelable( MOVE_0_SAVED_STATE, move0 );
+        outState.putParcelable( MOVE_1_SAVED_STATE, move1 );
+        outState.putParcelable( MOVE_2_SAVED_STATE, move2 );
+        outState.putParcelable( MOVE_3_SAVED_STATE, move3 );
     }
 
     public class MoveRepresentationBuilder {
