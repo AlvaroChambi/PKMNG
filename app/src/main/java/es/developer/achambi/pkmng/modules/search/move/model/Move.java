@@ -9,6 +9,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 public class Move implements Parcelable{
     private int id;
     private String name;
+    private String effect;
     private Pokemon.Type type;
     private String category;
     private int power;
@@ -22,6 +23,7 @@ public class Move implements Parcelable{
     protected Move(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        effect = in.readString();
         type = ParcelUtil.readEnumFromParcel(in, Pokemon.Type.class);
         category = in.readString();
         power = in.readInt();
@@ -85,6 +87,14 @@ public class Move implements Parcelable{
         this.name = name;
     }
 
+    public String getEffect() {
+        return effect;
+    }
+
+    public void setEffect(String effect) {
+        this.effect = effect;
+    }
+
     public static final Creator<Move> CREATOR = new Creator<Move>() {
         @Override
         public Move createFromParcel(Parcel in) {
@@ -106,6 +116,7 @@ public class Move implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
+        dest.writeString(effect);
         ParcelUtil.writeEnumToParcel(dest, type);
         dest.writeString(category);
         dest.writeInt(power);

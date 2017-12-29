@@ -16,6 +16,7 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenter;
+import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
 
 public class SearchMoveFragment extends BaseSearchListFragment {
 
@@ -70,12 +71,25 @@ public class SearchMoveFragment extends BaseSearchListFragment {
         @Override
         public MovesViewHolder createViewHolder(View rootView) {
             MovesViewHolder viewHolder = new MovesViewHolder(rootView);
+            viewHolder.name = rootView.findViewById(R.id.move_name_text);
+            viewHolder.effect = rootView.findViewById(R.id.move_effect_text);
+            viewHolder.category = rootView.findViewById(R.id.move_category_image);
+            viewHolder.type = rootView.findViewById(R.id.move_type_image);
+            viewHolder.power = rootView.findViewById(R.id.move_power_value_text);
+            viewHolder.accuracy = rootView.findViewById(R.id.move_accuracy_value_text);
+            viewHolder.pp = rootView.findViewById(R.id.move_pp_value_text);
             return viewHolder;
         }
 
         @Override
         public void bindViewHolder(MovesViewHolder holder, MoveItemPresentation item) {
-
+            holder.name.setText( item.name );
+            holder.effect.setText( item.effect );
+            holder.category.setImageResource( item.categoryImageResource );
+            holder.type.setImageResource( item.typeImageResource );
+            holder.power.setText( item.power );
+            holder.accuracy.setText( item.accuracy );
+            holder.pp.setText( item.pp );
         }
 
         @Override
@@ -84,6 +98,8 @@ public class SearchMoveFragment extends BaseSearchListFragment {
         }
 
         public class MovesViewHolder extends RecyclerView.ViewHolder{
+            public TextView name;
+            public TextView effect;
             public TextView power;
             public TextView accuracy;
             public TextView pp;
@@ -102,11 +118,13 @@ public class SearchMoveFragment extends BaseSearchListFragment {
             for( Move move : moves ) {
                 MoveItemPresentation presentation = new MoveItemPresentation(
                         move.getId(),
+                        move.getName(),
+                        move.getEffect(),
                         buildCategory(move.getCategory()),
                         buildType(move.getType()),
-                        "Power: " + move.getPower(),
-                        "PP: " + move.getPp(),
-                        "Accuracy: " + move.getAccuracy()
+                        "Pow. " + move.getPower(),
+                        "PP " + move.getPp(),
+                        "Acc. " + move.getAccuracy()
 
                 );
                 movePresentations.add(presentation);

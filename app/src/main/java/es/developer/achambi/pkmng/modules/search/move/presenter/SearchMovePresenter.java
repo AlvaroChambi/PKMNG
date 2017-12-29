@@ -21,6 +21,8 @@ public class SearchMovePresenter implements ISearchMovePresenter{
         for( int i = 0; i < 802; i++ ) {
             Move move = new Move();
             move.setId( i );
+            move.setName("Earthquake");
+            move.setEffect("Inflicts regular damage with no additional effect.");
             move.setAccuracy(100);
             move.setPower(90);
             move.setPp(20);
