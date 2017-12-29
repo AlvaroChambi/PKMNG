@@ -5,4 +5,5 @@
     <item name="item_view_id" type="id"/>
     <item name="ability_view_id" type="id"/>
     <item name="nature_view_id" type="id"/>
+    <item name="move_view_id" type="id"/>
 </resources>

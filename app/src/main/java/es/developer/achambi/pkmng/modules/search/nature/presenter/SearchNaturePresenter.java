@@ -41,7 +41,7 @@ public class SearchNaturePresenter implements ISearchNaturePresenter,
     public void onItemClicked(NatureViewPresentation item) {
         for( Nature nature : data ) {
             if( item.id == nature.getId() ) {
-                searchNatureView.onNatureClicked( nature );
+                searchNatureView.returnSelectedNature( nature );
             }
         }
     }

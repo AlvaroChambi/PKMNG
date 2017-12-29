@@ -10,6 +10,7 @@
     <string name="search_item_activity_title">Search Item</string>
     <string name="search_nature_activity_title">Search Nature</string>
     <string name="search_ability_activity_title">Search Ability</string>
+    <string name="search_move_activity_title">Choose Move</string>
 
     <string name="item_description_text_placeholder">Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.</string>
     <string name="ability_description_text_placeholder">Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.</string>
@@ -18,6 +19,7 @@
     <string name="configuration_item_title">Item</string>
     <string name="configuration_nature_title">Nature</string>
     <string name="configuration_ability_title">Ability</string>
+    <string name="configuration_moves_title">Moves</string>
 
     <string name="pokemon_item_total_stats_tag">BST: </string>
     <string name="pokemon_item_ability_tag">Ability: </string>
