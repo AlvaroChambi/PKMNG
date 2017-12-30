@@ -9,9 +9,11 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.modules.create.view.MoveConfigurationRepresentation;
+import es.developer.achambi.pkmng.modules.create.view.StatEVView;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
+import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
@@ -34,6 +36,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     private static final String MOVE_1_SAVED_STATE = "MOVE_1_SAVED_STATE";
     private static final String MOVE_2_SAVED_STATE = "MOVE_2_SAVED_STATE";
     private static final String MOVE_3_SAVED_STATE = "MOVE_3_SAVED_STATE";
+    private static final String EV_SET_SAVED_STATE = "EV_SET_SAVED_STATE";
 
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
@@ -63,6 +66,8 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     private MoveConfigurationRepresentation move2;
     private MoveConfigurationRepresentation move3;
 
+    private StatsSet evSet;
+
     public static CreateConfigurationFragment newInstance( Bundle args ) {
         CreateConfigurationFragment fragment = new CreateConfigurationFragment();
         fragment.setArguments(args);
@@ -82,6 +87,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         super.onCreate(savedInstanceState);
 
         pokemon = getArguments().getParcelable(POKEMON_ARGUMENT_KEY);
+        evSet = new StatsSet();
         if( savedInstanceState != null ) {
             pokemon = savedInstanceState.getParcelable( POKEMON_SAVED_STATE );
             item = savedInstanceState.getParcelable( ITEM_SAVED_STATE );
@@ -91,6 +97,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             move1 = savedInstanceState.getParcelable( MOVE_1_SAVED_STATE );
             move2 = savedInstanceState.getParcelable( MOVE_2_SAVED_STATE );
             move3 = savedInstanceState.getParcelable( MOVE_3_SAVED_STATE );
+            evSet = savedInstanceState.getParcelable( EV_SET_SAVED_STATE );
         }
     }
 
@@ -114,6 +121,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
         populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
         populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
+        populateEvSetView(view);
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
@@ -161,6 +169,28 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
                         REPLACE_MOVE3_RESULT_CODE );
                 break;
         }
+    }
+
+    private void populateEvSetView( View rootView ) {
+        StatEVView hp = rootView.findViewById(R.id.configuration_hp_ev_stat_bar);
+        StatEVView attack = rootView.findViewById(R.id.configuration_attack_ev_stat_bar);
+        StatEVView defense = rootView.findViewById(R.id.configuration_defense_ev_stat_bar);
+        StatEVView spAttack = rootView.findViewById(R.id.configuration_sp_attack_ev_stat_bar);
+        StatEVView spDefense = rootView.findViewById(R.id.configuration_sp_defense_ev_stat_bar);
+        StatEVView speed = rootView.findViewById(R.id.configuration_speed_ev_stat_bar);
+
+        hp.setBaseValue( pokemon.getHP() );
+        hp.setValue( evSet.getHP() );
+        attack.setBaseValue( pokemon.getAttack() );
+        attack.setValue( evSet.getAttack() );
+        defense.setBaseValue( pokemon.getDefense() );
+        defense.setValue( evSet.getDefense() );
+        spAttack.setBaseValue( pokemon.getSpAttack() );
+        spAttack.setValue( evSet.getSpAttack() );
+        spDefense.setBaseValue( pokemon.getSPDefense() );
+        spDefense.setValue( evSet.getSPDefense() );
+        speed.setBaseValue( pokemon.getSpeed() );
+        speed.setValue( evSet.getSpeed() );
     }
 
     private void populatePokemonView(View rootView) {
@@ -296,6 +326,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         outState.putParcelable( MOVE_1_SAVED_STATE, move1 );
         outState.putParcelable( MOVE_2_SAVED_STATE, move2 );
         outState.putParcelable( MOVE_3_SAVED_STATE, move3 );
+        outState.putParcelable( EV_SET_SAVED_STATE, evSet );
     }
 
     public class MoveRepresentationBuilder {

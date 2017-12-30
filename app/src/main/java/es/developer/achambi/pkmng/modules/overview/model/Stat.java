@@ -2,8 +2,8 @@ package es.developer.achambi.pkmng.modules.overview.model;
 
 public enum Stat {
     HP,
-    DEFENSE,
     ATTACK,
+    DEFENSE,
     SP_ATTACK,
     SP_DEFENSE,
     SPEED;
