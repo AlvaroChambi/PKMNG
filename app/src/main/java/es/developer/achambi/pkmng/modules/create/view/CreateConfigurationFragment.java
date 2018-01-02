@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.create;
+package es.developer.achambi.pkmng.modules.create.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,12 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
-import es.developer.achambi.pkmng.modules.create.view.MoveConfigurationRepresentation;
-import es.developer.achambi.pkmng.modules.create.view.StatEVView;
+import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.create.presenter.CreateConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
+import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
@@ -27,7 +28,8 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateConfigurationFragment extends BaseRequestFragment implements View.OnClickListener {
+public class CreateConfigurationFragment extends BaseRequestFragment implements View.OnClickListener,
+    ICreateConfigurationView{
     private static final String POKEMON_SAVED_STATE = "POKEMON_SAVED_STATE";
     private static final String ITEM_SAVED_STATE = "ITEM_SAVED_STATE";
     private static final String ABILITY_SAVED_STATE = "ABILITY_SAVED_STATE";
@@ -66,7 +68,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     private MoveConfigurationRepresentation move2;
     private MoveConfigurationRepresentation move3;
 
-    private StatsSet evSet;
+    private CreateConfigurationPresenter presenter;
 
     public static CreateConfigurationFragment newInstance( Bundle args ) {
         CreateConfigurationFragment fragment = new CreateConfigurationFragment();
@@ -87,7 +89,6 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         super.onCreate(savedInstanceState);
 
         pokemon = getArguments().getParcelable(POKEMON_ARGUMENT_KEY);
-        evSet = new StatsSet();
         if( savedInstanceState != null ) {
             pokemon = savedInstanceState.getParcelable( POKEMON_SAVED_STATE );
             item = savedInstanceState.getParcelable( ITEM_SAVED_STATE );
@@ -97,7 +98,6 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
             move1 = savedInstanceState.getParcelable( MOVE_1_SAVED_STATE );
             move2 = savedInstanceState.getParcelable( MOVE_2_SAVED_STATE );
             move3 = savedInstanceState.getParcelable( MOVE_3_SAVED_STATE );
-            evSet = savedInstanceState.getParcelable( EV_SET_SAVED_STATE );
         }
     }
 
@@ -121,7 +121,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
         populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
         populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
-        populateEvSetView(view);
+        populateEvSetView( presenter.getEvSet(), view);
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
@@ -131,6 +131,14 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         view.findViewById(R.id.configuration_move_1_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_move_2_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_move_3_frame).setOnClickListener(this);
+    }
+
+    @Override
+    public ViewPresenter setupPresenter() {
+        if( presenter == null ) {
+            presenter = new CreateConfigurationPresenter(this);
+        }
+        return presenter;
     }
 
     @Override
@@ -171,13 +179,20 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         }
     }
 
-    private void populateEvSetView( View rootView ) {
+    private void populateEvSetView( StatsSet evSet, View rootView ) {
         StatEVView hp = rootView.findViewById(R.id.configuration_hp_ev_stat_bar);
         StatEVView attack = rootView.findViewById(R.id.configuration_attack_ev_stat_bar);
         StatEVView defense = rootView.findViewById(R.id.configuration_defense_ev_stat_bar);
         StatEVView spAttack = rootView.findViewById(R.id.configuration_sp_attack_ev_stat_bar);
         StatEVView spDefense = rootView.findViewById(R.id.configuration_sp_defense_ev_stat_bar);
         StatEVView speed = rootView.findViewById(R.id.configuration_speed_ev_stat_bar);
+
+        hp.setOnValueChangedListener(presenter);
+        attack.setOnValueChangedListener(presenter);
+        defense.setOnValueChangedListener(presenter);
+        spAttack.setOnValueChangedListener(presenter);
+        spDefense.setOnValueChangedListener(presenter);
+        speed.setOnValueChangedListener(presenter);
 
         hp.setBaseValue( pokemon.getHP() );
         hp.setValue( evSet.getHP() );
@@ -326,7 +341,11 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         outState.putParcelable( MOVE_1_SAVED_STATE, move1 );
         outState.putParcelable( MOVE_2_SAVED_STATE, move2 );
         outState.putParcelable( MOVE_3_SAVED_STATE, move3 );
-        outState.putParcelable( EV_SET_SAVED_STATE, evSet );
+    }
+
+    @Override
+    public void onEVValueUpdated( StatsSet evSet ) {
+        populateEvSetView( evSet, getView() );
     }
 
     public class MoveRepresentationBuilder {

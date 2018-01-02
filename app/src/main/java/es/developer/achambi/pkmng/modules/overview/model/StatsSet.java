@@ -68,6 +68,10 @@ public class StatsSet implements Parcelable{
         return stats.get(Stat.SPEED);
     }
 
+    public HashMap<Stat, Integer> getStats() {
+        return stats;
+    }
+
     public int getTotalStats() {
         int result = 0;
         result += stats.get(Stat.HP);

@@ -21,7 +21,7 @@
         </activity>
 
         <activity android:name="es.developer.achambi.pkmng.modules.overview.view.SearchActivity"/>
-        <activity android:name="es.developer.achambi.pkmng.modules.create.CreateConfigurationActivity"
+        <activity android:name="es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name="es.developer.achambi.pkmng.modules.create.EditConfigurationActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.calculator.DamageCalculatorActivity"/>

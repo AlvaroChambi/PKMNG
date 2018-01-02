@@ -58,7 +58,8 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         valueEditText = findViewById(R.id.ev_stat_value_text);
         totalValueText = findViewById(R.id.ev_stat_total_value_text);
         seekBar = findViewById(R.id.ev_stat_seekbar);
-
+        valueEditText.setSaveEnabled(false);
+        seekBar.setSaveEnabled(false);
         if(attrs != null) {
             final TypedArray typedArray =
                     context.obtainStyledAttributes(attrs, R.styleable.StatEVView);
@@ -73,8 +74,6 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         if(!isInEditMode()) {
             seekBar.setOnSeekBarChangeListener(this);
             valueEditText.addTextChangedListener(this);
-            valueEditText.setText( String.valueOf(value) );
-            totalValueText.setText( String.valueOf(getTotalValue()) );
 
             valueEditText.setFilters(new InputFilter[]{ new InputFilterMax(255)});
         }
@@ -103,6 +102,10 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         }
     }
 
+    public void setOnValueChangedListener( OnValueChangedListener listener ) {
+        this.listener = listener;
+    }
+
     public void setValue( int value ) {
         this.value = value;
         valueEditText.setText( String.valueOf(value) );
@@ -124,10 +127,17 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        value = progress;
+        setValue( progress );
+    }
 
-        valueEditText.setText( String.valueOf(value) );
-        totalValueText.setText( String.valueOf(getTotalValue()) );
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
     }
 
     @Override
@@ -148,12 +158,12 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         try {
             this.value = Integer.valueOf( s.toString() );
+            totalValueText.setText( String.valueOf(getTotalValue()) );
             seekBar.setOnSeekBarChangeListener(null);
             seekBar.setProgress(value);
-            totalValueText.setText( String.valueOf( getTotalValue() ) );
             seekBar.setOnSeekBarChangeListener(this);
         } catch( NumberFormatException e ) {
-            valueEditText.setText("0");
+            setValue( 0 );
         }
     }
 
@@ -161,66 +171,10 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     public void afterTextChanged(Editable s) {
         if( s.length() > 1 && s.toString().startsWith("0") ) {
             String trimmed = s.toString().substring(1);
-            valueEditText.setText(trimmed);
+            setValue( Integer.valueOf( trimmed ) );
         } else if( s.length() == 0 ) {
-            valueEditText.setText("0");
+            setValue( 0 );
         }
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState ss = new SavedState(superState);
-
-        ss.savedValue = value;
-        ss.savedBaseValue = baseValue;
-        return ss;
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        if(state instanceof SavedState) {
-            SavedState ss = (SavedState)state;
-            super.onRestoreInstanceState(ss.getSuperState());
-            this.value = ss.savedValue;
-            this.baseValue = ss.savedBaseValue;
-            valueEditText.setText( String.valueOf(value) );
-            totalValueText.setText( String.valueOf(getTotalValue()) );
-            return;
-        }
-        super.onRestoreInstanceState(state);
-    }
-
-    static class SavedState extends BaseSavedState{
-        public int savedValue;
-        public int savedBaseValue;
-
-        public SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        public SavedState(Parcel source) {
-            super(source);
-            this.savedValue = source.readInt();
-            this.savedBaseValue = source.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeInt(this.savedValue);
-            out.writeInt(this.savedBaseValue);
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    public SavedState createFromParcel(Parcel in) {
-                        return new SavedState(in);
-                    }
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
     }
 
     public class InputFilterMax implements InputFilter {
