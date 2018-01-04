@@ -13,7 +13,6 @@ import es.developer.achambi.pkmng.modules.create.presenter.CreateConfigurationPr
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
-import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
@@ -28,8 +27,8 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateConfigurationFragment extends BaseRequestFragment implements View.OnClickListener,
-    ICreateConfigurationView{
+public class CreateConfigurationFragment extends BaseRequestFragment
+        implements View.OnClickListener {
     private static final String POKEMON_SAVED_STATE = "POKEMON_SAVED_STATE";
     private static final String ITEM_SAVED_STATE = "ITEM_SAVED_STATE";
     private static final String ABILITY_SAVED_STATE = "ABILITY_SAVED_STATE";
@@ -111,17 +110,17 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         if(!isViewRecreated()) {
             pokemonRepresentation = new PokemonDetailsDataBuilder()
                     .buildViewRepresentation(getResources(), pokemon);
-        }
 
-        populatePokemonView(view);
-        populateItemView(view);
-        populateAbilityView(view);
-        populateNatureView(view);
-        populateMoveView( view.findViewById(R.id.configuration_move_0_frame), move0 );
-        populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
-        populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
-        populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
-        populateEvSetView( presenter.getEvSet(), view);
+            populatePokemonView(view);
+            populateItemView(view);
+            populateAbilityView(view);
+            populateNatureView(view);
+            populateMoveView( view.findViewById(R.id.configuration_move_0_frame), move0 );
+            populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
+            populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
+            populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
+            populateEvSetView( presenter.getEvSet(), view);
+        }
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
@@ -136,7 +135,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     @Override
     public ViewPresenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new CreateConfigurationPresenter(this);
+            presenter = new CreateConfigurationPresenter();
         }
         return presenter;
     }
@@ -187,12 +186,12 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
         StatEVView spDefense = rootView.findViewById(R.id.configuration_sp_defense_ev_stat_bar);
         StatEVView speed = rootView.findViewById(R.id.configuration_speed_ev_stat_bar);
 
-        hp.setOnValueChangedListener(presenter);
-        attack.setOnValueChangedListener(presenter);
-        defense.setOnValueChangedListener(presenter);
-        spAttack.setOnValueChangedListener(presenter);
-        spDefense.setOnValueChangedListener(presenter);
-        speed.setOnValueChangedListener(presenter);
+        hp.setProgressUpdateProvider(presenter);
+        attack.setProgressUpdateProvider(presenter);
+        defense.setProgressUpdateProvider(presenter);
+        spAttack.setProgressUpdateProvider(presenter);
+        spDefense.setProgressUpdateProvider(presenter);
+        speed.setProgressUpdateProvider(presenter);
 
         hp.setBaseValue( pokemon.getHP() );
         hp.setValue( evSet.getHP() );
@@ -344,8 +343,17 @@ public class CreateConfigurationFragment extends BaseRequestFragment implements 
     }
 
     @Override
-    public void onEVValueUpdated( StatsSet evSet ) {
-        populateEvSetView( evSet, getView() );
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        populatePokemonView(getView());
+        populateItemView(getView());
+        populateAbilityView(getView());
+        populateNatureView(getView());
+        populateMoveView( getView().findViewById(R.id.configuration_move_0_frame), move0 );
+        populateMoveView( getView().findViewById(R.id.configuration_move_1_frame), move1 );
+        populateMoveView( getView().findViewById(R.id.configuration_move_2_frame), move2 );
+        populateMoveView( getView().findViewById(R.id.configuration_move_3_frame), move3 );
+        populateEvSetView( presenter.getEvSet(), getView());
     }
 
     public class MoveRepresentationBuilder {

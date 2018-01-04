@@ -34,7 +34,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     private int maxValue;
 
     private Stat stat;
-    private ProgressUpdateProvider listener;
+    private ProgressUpdateProvider progressProvider;
 
     public StatEVView(Context context) {
         super(context);
@@ -105,8 +105,8 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         }
     }
 
-    public void setOnValueChangedListener( ProgressUpdateProvider listener ) {
-        this.listener = listener;
+    public void setProgressUpdateProvider(ProgressUpdateProvider listener ) {
+        this.progressProvider = listener;
     }
 
     public void setValue( int value ) {
@@ -126,7 +126,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        int adjustedProgress = listener.requestValueIncrement( stat, progress );
+        int adjustedProgress = progressProvider.requestValueIncrement( stat, progress );
         if( adjustedProgress != progress ) {
             setValue( adjustedProgress );
         } else {
@@ -189,7 +189,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
                 String inputText = dest.toString().substring(0, dstart) + source +
                         dest.toString().substring(dstart, dest.toString().length());
                 int input = Integer.parseInt( inputText );
-                int adjustedProgress = listener.requestValueIncrement( stat, input );
+                int adjustedProgress = progressProvider.requestValueIncrement( stat, input );
                 if (isInRange(0, maxValue, input) && adjustedProgress == input )
                     return null;
             } catch (NumberFormatException nfe) { }
