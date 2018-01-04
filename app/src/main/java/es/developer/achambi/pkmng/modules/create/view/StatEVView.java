@@ -2,7 +2,6 @@ package es.developer.achambi.pkmng.modules.create.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
@@ -17,12 +16,13 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
+import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
 
 public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarChangeListener,
         TextWatcher{
-    public interface OnValueChangedListener {
-        void onValueChanged( Stat stat, int value );
+    public interface ProgressUpdateProvider {
+        int requestValueIncrement( Stat stat, int progress );
     }
     private TextView statName;
     private EditText valueEditText;
@@ -31,9 +31,10 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
 
     private int baseValue;
     private int value;
+    private int maxValue;
 
     private Stat stat;
-    private OnValueChangedListener listener;
+    private ProgressUpdateProvider listener;
 
     public StatEVView(Context context) {
         super(context);
@@ -60,6 +61,8 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         seekBar = findViewById(R.id.ev_stat_seekbar);
         valueEditText.setSaveEnabled(false);
         seekBar.setSaveEnabled(false);
+        maxValue = StatsSet.MAX_STAT_EV;
+        seekBar.setMax( maxValue );
         if(attrs != null) {
             final TypedArray typedArray =
                     context.obtainStyledAttributes(attrs, R.styleable.StatEVView);
@@ -75,7 +78,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
             seekBar.setOnSeekBarChangeListener(this);
             valueEditText.addTextChangedListener(this);
 
-            valueEditText.setFilters(new InputFilter[]{ new InputFilterMax(255)});
+            valueEditText.setFilters(new InputFilter[]{ new InputFilterMax()});
         }
     }
 
@@ -102,7 +105,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         }
     }
 
-    public void setOnValueChangedListener( OnValueChangedListener listener ) {
+    public void setOnValueChangedListener( ProgressUpdateProvider listener ) {
         this.listener = listener;
     }
 
@@ -110,10 +113,6 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         this.value = value;
         valueEditText.setText( String.valueOf(value) );
         totalValueText.setText( String.valueOf(getTotalValue()) );
-
-        if( listener != null ) {
-            listener.onValueChanged( stat, value );
-        }
     }
 
     public int getTotalValue() {
@@ -127,17 +126,12 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        setValue( progress );
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        return super.onSaveInstanceState();
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
+        int adjustedProgress = listener.requestValueIncrement( stat, progress );
+        if( adjustedProgress != progress ) {
+            setValue( adjustedProgress );
+        } else {
+            setValue( progress );
+        }
     }
 
     @Override
@@ -151,6 +145,16 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     }
 
     @Override
+    protected Parcelable onSaveInstanceState() {
+        return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
@@ -158,7 +162,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         try {
             this.value = Integer.valueOf( s.toString() );
-            totalValueText.setText( String.valueOf(getTotalValue()) );
+            totalValueText.setText( String.valueOf( getTotalValue() ) );
             seekBar.setOnSeekBarChangeListener(null);
             seekBar.setProgress(value);
             seekBar.setOnSeekBarChangeListener(this);
@@ -178,18 +182,15 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     }
 
     public class InputFilterMax implements InputFilter {
-        private int max;
-
-        public InputFilterMax( int max ) {
-            this.max = max;
-        }
-
         @Override
         public CharSequence filter(CharSequence source, int start, int end,
                                    Spanned dest, int dstart, int dend) {
             try {
-                int input = Integer.parseInt(dest.toString() + source.toString());
-                if (isInRange(0, max, input))
+                String inputText = dest.toString().substring(0, dstart) + source +
+                        dest.toString().substring(dstart, dest.toString().length());
+                int input = Integer.parseInt( inputText );
+                int adjustedProgress = listener.requestValueIncrement( stat, input );
+                if (isInRange(0, maxValue, input) && adjustedProgress == input )
                     return null;
             } catch (NumberFormatException nfe) { }
             return "";

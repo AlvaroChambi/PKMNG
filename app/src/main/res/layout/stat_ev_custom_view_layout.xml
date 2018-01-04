@@ -51,7 +51,6 @@
         app:layout_constraintRight_toLeftOf="@+id/ev_stat_value_text"
         android:layout_marginRight="8dp"
         app:layout_constraintLeft_toRightOf="@+id/ev_stat_name_text"
-        android:max="255"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp" />

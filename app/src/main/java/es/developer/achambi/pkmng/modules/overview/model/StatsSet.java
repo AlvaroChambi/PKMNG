@@ -8,6 +8,8 @@ import java.util.HashMap;
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
 public class StatsSet implements Parcelable{
+    public static final int MAX_STAT_EV = 252;
+    public static final int MAX_TOTAL_EVS = 510;
     private HashMap<Stat, Integer> stats;
     
     public StatsSet() {
@@ -82,6 +84,10 @@ public class StatsSet implements Parcelable{
         result += stats.get(Stat.SPEED);
 
         return result;
+    }
+
+    public int getTotalStatsPreview( Stat stat, int candidateValue ) {
+        return ( getTotalStats() - stats.get( stat ) ) + candidateValue;
     }
 
     protected StatsSet(Parcel in) {

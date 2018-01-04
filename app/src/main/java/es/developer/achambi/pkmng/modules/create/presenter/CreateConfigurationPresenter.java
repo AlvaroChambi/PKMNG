@@ -8,7 +8,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
 public class CreateConfigurationPresenter implements ICreateConfigurationPresenter,
-        StatEVView.OnValueChangedListener {
+        StatEVView.ProgressUpdateProvider {
     private static final String EV_SAVED_DATA_TAG = "EV_SAVED_DATA_TAG";
     private ICreateConfigurationView view;
     private StatsSet evData;
@@ -19,11 +19,15 @@ public class CreateConfigurationPresenter implements ICreateConfigurationPresent
     }
 
     @Override
-    public void onValueChanged(Stat stat, int value) {
-        if(evData.getStats().get(stat) != value) {
-            evData.getStats().put(stat, value);
-            view.onEVValueUpdated( evData );
+    public int requestValueIncrement(Stat stat, int progress) {
+        int totalStatsPreview = evData.getTotalStatsPreview( stat, progress );
+        if( totalStatsPreview <= StatsSet.MAX_TOTAL_EVS ) {
+            evData.getStats().put(stat, progress);
+            return progress;
+        } else if( totalStatsPreview > StatsSet.MAX_TOTAL_EVS ){
+            return progress + ( StatsSet.MAX_TOTAL_EVS - totalStatsPreview );
         }
+        return progress;
     }
 
     @Override
