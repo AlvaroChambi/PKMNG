@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.create;
+package es.developer.achambi.pkmng.modules.create.view;
 
 import android.content.Context;
 import android.content.Intent;

@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.modules.create.CreateConfigurationActivity;
-import es.developer.achambi.pkmng.modules.create.CreateConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity;
+import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
