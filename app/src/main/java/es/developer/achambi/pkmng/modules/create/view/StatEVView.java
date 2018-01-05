@@ -31,7 +31,6 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
 
     private int baseValue;
     private int value;
-    private int maxValue;
 
     private Stat stat;
     private ProgressUpdateProvider progressProvider;
@@ -59,10 +58,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         valueEditText = findViewById(R.id.ev_stat_value_text);
         totalValueText = findViewById(R.id.ev_stat_total_value_text);
         seekBar = findViewById(R.id.ev_stat_seekbar);
-        valueEditText.setSaveEnabled(false);
-        seekBar.setSaveEnabled(false);
-        maxValue = StatsSet.MAX_STAT_EV;
-        seekBar.setMax( maxValue );
+        seekBar.setMax( StatsSet.MAX_STAT_EV );
         if(attrs != null) {
             final TypedArray typedArray =
                     context.obtainStyledAttributes(attrs, R.styleable.StatEVView);
@@ -85,22 +81,22 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     private void updateName() {
         switch (stat) {
             case HP:
-                statName.setText( "Hp" );
+                statName.setText( getResources().getText(R.string.ev_bar_hp_text) );
                 break;
             case ATTACK:
-                statName.setText( "Attack" );
+                statName.setText( getResources().getText(R.string.ev_bar_attack_text) );
                 break;
             case DEFENSE:
-                statName.setText( "Defense" );
+                statName.setText( getResources().getText(R.string.ev_bar_defense_text) );
                 break;
             case SP_ATTACK:
-                statName.setText( "Sp.Attk" );
+                statName.setText( getResources().getText(R.string.ev_bar_sp_attack_text) );
                 break;
             case SP_DEFENSE:
-                statName.setText( "Sp.Def" );
+                statName.setText( getResources().getText(R.string.ev_bar_sp_defense_text) );
                 break;
             case SPEED:
-                statName.setText( "Speed" );
+                statName.setText( getResources().getText(R.string.ev_bar_speed_text) );
                 break;
         }
     }
@@ -190,7 +186,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
                         dest.toString().substring(dstart, dest.toString().length());
                 int input = Integer.parseInt( inputText );
                 int adjustedProgress = progressProvider.requestValueIncrement( stat, input );
-                if (isInRange(0, maxValue, input) && adjustedProgress == input )
+                if (isInRange(0, StatsSet.MAX_STAT_EV, input) && adjustedProgress == input )
                     return null;
             } catch (NumberFormatException nfe) { }
             return "";

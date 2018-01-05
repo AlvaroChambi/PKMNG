@@ -39,6 +39,13 @@
     <string name="stat_sp_defense_text">Sp.Defense</string>
     <string name="stat_speed_text">Speed</string>
 
+    <string name="ev_bar_hp_text">HP</string>
+    <string name="ev_bar_attack_text">Attack</string>
+    <string name="ev_bar_defense_text">Defense</string>
+    <string name="ev_bar_sp_attack_text">Sp.Attk</string>
+    <string name="ev_bar_sp_defense_text">Sp.Def</string>
+    <string name="ev_bar_speed_text">Speed</string>
+
     <string name="nature_increased_stat_text">+ %1$s</string>
     <string name="nature_decreased_stat_text">- %1$s</string>
 
