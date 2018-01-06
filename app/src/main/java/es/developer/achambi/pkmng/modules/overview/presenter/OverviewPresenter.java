@@ -13,6 +13,10 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
+import es.developer.achambi.pkmng.modules.search.move.model.Move;
+import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class OverviewPresenter implements IOverviewPresenter {
     private static final String TAG = OverviewPresenter.class.getCanonicalName();
@@ -143,14 +147,32 @@ public class OverviewPresenter implements IOverviewPresenter {
             Configuration config = new Configuration();
             PokemonConfig pokemonConfig = new PokemonConfig(i,pokemon, config);
             pokemonConfig.setName("Special sweeper awesome pikachu");
-            config.setItem("eviolite");
-            config.setAbility("Magic guard");
-            config.setNature("Modest");
+            Item item = new Item();
+            item.setName("eviolite");
+            config.setItem( item );
+            Ability ability = new Ability();
+            ability.setName("Magic guard");
+            config.setAbility(ability);
+            Nature nature = new Nature();
+            nature.setName("Modest");
+            config.setNature(nature);
 
-            config.setMove0("Thunderbolt");
-            config.setMove1("Grass Knot");
-            config.setMove2("Signal Beam");
-            config.setMove3("Hidden Power");
+            Move move0 = new Move();
+            move0.setName("Thunderbolt");
+            move0.setType(Pokemon.Type.ELECTRIC);
+            config.setMove0(move0);
+            Move move1 = new Move();
+            move1.setName("Grass knot");
+            move1.setType(Pokemon.Type.ELECTRIC);
+            config.setMove1(move1);
+            Move move2 = new Move();
+            move2.setName("Signal Beam");
+            move2.setType(Pokemon.Type.ELECTRIC);
+            config.setMove2(move2);
+            Move move3 = new Move();
+            move3.setName("Hidden power");
+            move3.setType(Pokemon.Type.ELECTRIC);
+            config.setMove3(move3);
             pokemonList.add(pokemonConfig);
         }
         return pokemonList;

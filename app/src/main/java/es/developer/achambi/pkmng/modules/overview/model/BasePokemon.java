@@ -9,8 +9,5 @@ public interface BasePokemon extends Parcelable {
     int getSpAttack();
     int getSPDefense();
     int getSpeed();
-    boolean hasConfig();
     int getId();
-
-    boolean isIncluded( SearchFilter searchFilter );
 }

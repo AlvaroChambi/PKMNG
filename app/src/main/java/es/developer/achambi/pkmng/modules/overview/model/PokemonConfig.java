@@ -43,15 +43,15 @@ public class PokemonConfig extends BaseConfig{
     }
 
     public String getItem() {
-        return configuration.getItem();
+        return configuration.getItem().getName();
     }
 
     public String getAbility() {
-        return configuration.getAbility();
+        return configuration.getAbility().getName();
     }
 
     public String getNature() {
-        return configuration.getNature();
+        return configuration.getNature().getName();
     }
 
     @Override
@@ -85,24 +85,8 @@ public class PokemonConfig extends BaseConfig{
     }
 
     @Override
-    public boolean hasConfig() {
-        return true;
-    }
-
-    @Override
     public int getId() {
         return id;
-    }
-
-    @Override
-    public boolean isIncluded(SearchFilter searchFilter) {
-        switch( searchFilter ) {
-            case CONFIGURATION_FILTER:
-                return true;
-            case ALL_FILTER:
-                return true;
-        }
-        return false;
     }
 
     public Pokemon getPokemon() {

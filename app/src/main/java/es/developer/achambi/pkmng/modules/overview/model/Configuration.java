@@ -3,31 +3,52 @@ package es.developer.achambi.pkmng.modules.overview.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
+import es.developer.achambi.pkmng.modules.search.move.model.Move;
+import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
+
 public class Configuration implements Parcelable{
-    private String item;
-    private String ability;
-    private String nature;
+    private Item item;
+    private Ability ability;
+    private Nature nature;
     private StatsSet statsSet;
 
-    private String move0;
-    private String move1;
-    private String move2;
-    private String move3;
+    private Move move0;
+    private Move move1;
+    private Move move2;
+    private Move move3;
 
     public Configuration() {
         statsSet = new StatsSet();
     }
 
     protected Configuration(Parcel in) {
-        item = in.readString();
-        ability = in.readString();
-        nature = in.readString();
+        item = in.readParcelable(Item.class.getClassLoader());
+        ability = in.readParcelable(Ability.class.getClassLoader());
+        nature = in.readParcelable(Nature.class.getClassLoader());
         statsSet = in.readParcelable(StatsSet.class.getClassLoader());
+        move0 = in.readParcelable(Move.class.getClassLoader());
+        move1 = in.readParcelable(Move.class.getClassLoader());
+        move2 = in.readParcelable(Move.class.getClassLoader());
+        move3 = in.readParcelable(Move.class.getClassLoader());
+    }
 
-        move0 = in.readString();
-        move1 = in.readString();
-        move2 = in.readString();
-        move3 = in.readString();
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(item, flags);
+        dest.writeParcelable(ability, flags);
+        dest.writeParcelable(nature, flags);
+        dest.writeParcelable(statsSet, flags);
+        dest.writeParcelable(move0, flags);
+        dest.writeParcelable(move1, flags);
+        dest.writeParcelable(move2, flags);
+        dest.writeParcelable(move3, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Configuration> CREATOR = new Creator<Configuration>() {
@@ -42,59 +63,27 @@ public class Configuration implements Parcelable{
         }
     };
 
-    public String getMove0() {
-        return move0;
-    }
-
-    public void setMove0(String move0) {
-        this.move0 = move0;
-    }
-
-    public String getMove1() {
-        return move1;
-    }
-
-    public void setMove1(String move1) {
-        this.move1 = move1;
-    }
-
-    public String getMove2() {
-        return move2;
-    }
-
-    public void setMove2(String move2) {
-        this.move2 = move2;
-    }
-
-    public String getMove3() {
-        return move3;
-    }
-
-    public void setMove3(String move3) {
-        this.move3 = move3;
-    }
-
-    public String getItem() {
+    public Item getItem() {
         return item;
     }
 
-    public void setItem(String item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
-    public String getAbility() {
+    public Ability getAbility() {
         return ability;
     }
 
-    public void setAbility(String ability) {
+    public void setAbility(Ability ability) {
         this.ability = ability;
     }
 
-    public String getNature() {
+    public Nature getNature() {
         return nature;
     }
 
-    public void setNature(String nature) {
+    public void setNature(Nature nature) {
         this.nature = nature;
     }
 
@@ -106,21 +95,35 @@ public class Configuration implements Parcelable{
         this.statsSet = statsSet;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Move getMove0() {
+        return move0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(item);
-        dest.writeString(ability);
-        dest.writeString(nature);
-        dest.writeParcelable(statsSet, flags);
+    public void setMove0(Move move0) {
+        this.move0 = move0;
+    }
 
-        dest.writeString(move0);
-        dest.writeString(move1);
-        dest.writeString(move2);
-        dest.writeString(move3);
+    public Move getMove1() {
+        return move1;
+    }
+
+    public void setMove1(Move move1) {
+        this.move1 = move1;
+    }
+
+    public Move getMove2() {
+        return move2;
+    }
+
+    public void setMove2(Move move2) {
+        this.move2 = move2;
+    }
+
+    public Move getMove3() {
+        return move3;
+    }
+
+    public void setMove3(Move move3) {
+        this.move3 = move3;
     }
 }
