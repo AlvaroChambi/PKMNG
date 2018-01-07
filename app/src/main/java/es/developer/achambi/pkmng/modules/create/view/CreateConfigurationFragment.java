@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.create.view;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.create.presenter.CreateConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
@@ -30,10 +32,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateConfigurationFragment extends BaseRequestFragment
         implements View.OnClickListener {
-    private static final String POKEMON_SAVED_STATE = "POKEMON_SAVED_STATE";
-    private static final String ITEM_SAVED_STATE = "ITEM_SAVED_STATE";
-    private static final String ABILITY_SAVED_STATE = "ABILITY_SAVED_STATE";
-    private static final String NATURE_SAVED_STATE = "NATURE_SAVED_STATE";
     private static final String MOVE_0_SAVED_STATE = "MOVE_0_SAVED_STATE";
     private static final String MOVE_1_SAVED_STATE = "MOVE_1_SAVED_STATE";
     private static final String MOVE_2_SAVED_STATE = "MOVE_2_SAVED_STATE";
@@ -58,6 +56,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     public static final String NATURE_ACTIVITY_RESULT_DATA_KEY = "NATURE_DATA_KEY";
     public static final String MOVE_ACTIVITY_RESULT_DATA_KEY = "MOVE_DATA_KEY";
     public static final String CONFIGURATION_NAME_DATA_KEY = "CONFIGURATION_NAME_DATA_KEY";
+    public static final String POKEMON_CONFIG_RESULT_DATA_KEY = "PK_CONFIG_DATA_KEY";
 
     private OverviewPokemonRepresentation pokemonRepresentation;
 
@@ -304,7 +303,11 @@ public class CreateConfigurationFragment extends BaseRequestFragment
             populateAbilityView( getView() );
         } else if( resultCode == RESULT_OK &&
                     requestCode == SAVE_CONFIGURATION_REQUEST_CODE ) {
-            presenter.createConfiguration( data.getStringExtra( CONFIGURATION_NAME_DATA_KEY ) );
+            PokemonConfig pokemonConfig =
+                    presenter.createConfiguration( data.getStringExtra( CONFIGURATION_NAME_DATA_KEY ) );
+            data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, pokemonConfig );
+            getActivity().setResult(Activity.RESULT_OK, data);
+            getActivity().finish();
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_NATURE_RESULT_CODE ) {
             presenter.setNature( (Nature)data.getParcelableExtra( NATURE_ACTIVITY_RESULT_DATA_KEY ) );

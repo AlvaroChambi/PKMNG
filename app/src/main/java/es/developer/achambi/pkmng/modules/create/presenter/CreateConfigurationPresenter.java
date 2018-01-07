@@ -57,7 +57,9 @@ public class CreateConfigurationPresenter implements ICreateConfigurationPresent
 
     @Override
     public PokemonConfig createConfiguration(String name) {
-        return new PokemonConfig( 1001, pokemon, configuration );
+        PokemonConfig pokemonConfig = new PokemonConfig( 1001, pokemon, configuration );
+        pokemonConfig.setName( name );
+        return pokemonConfig;
     }
 
     public void setPokemon(Pokemon pokemon) {

@@ -21,6 +21,13 @@ public class Configuration implements Parcelable{
 
     public Configuration() {
         statsSet = new StatsSet();
+        item = new Item();
+        ability = new Ability();
+        nature = new Nature();
+        move0 = new Move();
+        move1 = new Move();
+        move2 = new Move();
+        move3 = new Move();
     }
 
     protected Configuration(Parcel in) {

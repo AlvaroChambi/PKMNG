@@ -17,7 +17,7 @@ public class Move implements Parcelable{
     private int pp;
 
     public Move() {
-
+        type = Pokemon.Type.EMPTY;
     }
 
     protected Move(Parcel in) {
