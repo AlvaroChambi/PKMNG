@@ -232,7 +232,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateItemView(View rootView) {
-        if( presenter.getItem() != null ) {
+        if( presenter.getItem().getName() != null ) {
             TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
             itemName.setText(presenter.getItem().getName());
             itemName.setVisibility(View.VISIBLE);
@@ -241,7 +241,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateAbilityView( View rootView ) {
-        if( presenter.getAbility() != null ) {
+        if( presenter.getAbility().getName() != null ) {
             TextView abilityName = rootView.findViewById(R.id.configuration_ability_name_text);
             abilityName.setText(presenter.getAbility().getName());
             abilityName.setVisibility(View.VISIBLE);
@@ -250,7 +250,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateNatureView( View rootView ) {
-        if( presenter.getNature() != null ) {
+        if( presenter.getNature().getName() != null ) {
             TextView natureName = rootView.findViewById(R.id.configuration_nature_name_text);
             natureName.setText(presenter.getNature().getName());
             natureName.setVisibility(View.VISIBLE);

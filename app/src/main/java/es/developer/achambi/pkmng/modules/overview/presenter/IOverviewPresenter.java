@@ -15,6 +15,8 @@ public interface IOverviewPresenter extends ViewPresenter {
     ArrayList<Pokemon> getPokemonList();
     ArrayList<PokemonConfig> getConfigurationList();
 
+    void onConfigurationCreated( PokemonConfig config );
+
     OverviewPresenter.OnPokemonClickedListener providePokemonListener();
     OverviewPresenter.OnConfigurationClickedListener provideConfigurationListener();
 }

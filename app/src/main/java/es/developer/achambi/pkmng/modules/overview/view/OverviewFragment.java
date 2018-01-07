@@ -197,12 +197,14 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 requestCode == CREATE_CONFIGURATION_REQUEST_CODE ) {
             PokemonConfig pokemonConfig = data.getParcelableExtra(
                     CreateConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY );
+            OverviewConfigurationRepresentation configPresentation =
+                    new OverviewViewDataBuilder().configurationItemView( pokemonConfig,
+                            getResources() );
+            presenter.onConfigurationCreated(pokemonConfig);
 
-            presenter.getConfigurationList().add(pokemonConfig);
             configurationList = new OverviewViewDataBuilder().buildConfigurationPresentation(
-                    getResources(), presenter.getConfigurationList());
+                    getResources(), presenter.getConfigurationList() );
             refreshAdapter();
-
         }
     }
 

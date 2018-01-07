@@ -2,6 +2,10 @@ package es.developer.achambi.pkmng.modules.overview.model;
 
 import android.os.Parcel;
 
+import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
+import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
+
 public class PokemonConfig extends BaseConfig{
     private Configuration configuration;
     private final int id;
@@ -42,16 +46,16 @@ public class PokemonConfig extends BaseConfig{
         this.name = name;
     }
 
-    public String getItem() {
-        return configuration.getItem().getName();
+    public Item getItem() {
+        return configuration.getItem();
     }
 
-    public String getAbility() {
-        return configuration.getAbility().getName();
+    public Ability getAbility() {
+        return configuration.getAbility();
     }
 
-    public String getNature() {
-        return configuration.getNature().getName();
+    public Nature getNature() {
+        return configuration.getNature();
     }
 
     @Override

@@ -26,7 +26,9 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
     }
 
     public void refreshAdapter(){
-        recyclerView.setAdapter( new BaseSearchAdapter( provideAdapter() ) );
+        if( !recyclerView.isComputingLayout() ) {
+            recyclerView.setAdapter( new BaseSearchAdapter( provideAdapter() ) );
+        }
     }
 
     public abstract SearchAdapterDecorator provideAdapter();

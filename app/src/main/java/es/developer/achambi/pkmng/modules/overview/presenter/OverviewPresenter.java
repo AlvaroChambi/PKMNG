@@ -69,6 +69,11 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     @Override
+    public void onConfigurationCreated(PokemonConfig config) {
+        pokemonConfigList.add( config );
+    }
+
+    @Override
     public OnPokemonClickedListener providePokemonListener() {
         return pokemonClickedListener;
     }
@@ -112,7 +117,7 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     private ArrayList<Pokemon> buildPokemonData( ) {
-        int numberOfPokemon = 2;
+        int numberOfPokemon = 800;
         ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
@@ -131,7 +136,7 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     private ArrayList<PokemonConfig> buildConfigurationData() {
-        int numberOfPokemon = 3;
+        int numberOfPokemon = 2;
         ArrayList<PokemonConfig> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
