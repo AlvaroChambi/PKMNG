@@ -7,6 +7,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -142,5 +143,22 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView( allOf(
                 isDescendantOfA(withId(R.id.configuration_move_3_frame)), withText("Earthquake") ) )
                 .check( matches(isDisplayed()) );
+    }
+
+    @Test
+    public void saveConfigurationTest() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+        onView(withId(R.id.details_create_config_action_button)).perform(click());
+
+        onView(withId( R.id.configuration_floating_save_button )).perform(click());
+        onView(withId( R.id.create_configuration_dialog_edit_text )).perform( typeText( "Test" ) );
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView( withText("Test") ).check(matches(isDisplayed()));
     }
 }

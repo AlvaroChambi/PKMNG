@@ -74,7 +74,6 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
             case R.id.details_create_config_action_button:
                 Intent intent = CreateConfigurationActivity.getStartIntent( getActivity(), pokemon );
                 startActivityForResult( intent, CREATE_CONFIGURATION_REQUEST_CODE );
-                //dismiss();
                 break;
             case R.id.details_choose_pokemon_action_button:
                 Intent dataIntent = getActivity().getIntent();
