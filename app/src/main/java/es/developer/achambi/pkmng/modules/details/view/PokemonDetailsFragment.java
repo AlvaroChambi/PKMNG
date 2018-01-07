@@ -14,12 +14,15 @@ import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivit
 import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
+
+    private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
 
     private Pokemon pokemon;
     private OverviewPokemonRepresentation pokemonRepresentation;
@@ -70,8 +73,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         switch ( v.getId() ) {
             case R.id.details_create_config_action_button:
                 Intent intent = CreateConfigurationActivity.getStartIntent( getActivity(), pokemon );
-                startActivity(intent);
-                dismiss();
+                startActivityForResult( intent, CREATE_CONFIGURATION_REQUEST_CODE );
                 break;
             case R.id.details_choose_pokemon_action_button:
                 Intent dataIntent = getActivity().getIntent();
@@ -121,5 +123,12 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         pokemonSpAttack.setText(pokemonRepresentation.spAttack);
         pokemonSpDefense.setText(pokemonRepresentation.spDefense);
         pokemonSpeed.setText(pokemonRepresentation.speed);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getTargetFragment().onActivityResult( getTargetRequestCode(), resultCode, data );
+        dismiss();
     }
 }

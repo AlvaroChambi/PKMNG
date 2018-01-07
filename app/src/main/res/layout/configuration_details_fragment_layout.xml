@@ -139,6 +139,7 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintVertical_bias="1.0"
             android:layout_marginLeft="8dp"
+            android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/pokemon_type_text"
             android:layout_marginRight="8dp" />

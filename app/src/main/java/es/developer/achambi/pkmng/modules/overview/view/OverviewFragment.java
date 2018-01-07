@@ -1,6 +1,8 @@
 package es.developer.achambi.pkmng.modules.overview.view;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -32,6 +35,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private static final String CONFIGURATION_DETAILS_DIALOG_TAG = "CONFIGURATION_DETAILS_DIALOG_TAG";
     private static final String SEARCH_FILTER_ARGUMENT_KEY = "SEARCH_FILTER_ARGUMENT_KEY";
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
+
+    private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
 
     private IOverviewPresenter presenter;
     private ArrayList<OverviewPokemonRepresentation> pokemonList;
@@ -131,8 +136,10 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void showPokemonDetails(Pokemon pokemon) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        PokemonDetailsFragment.newInstance( pokemon, getUseContext() )
-            .show( transaction, POKEMON_DETAILS_DIALOG_TAG );
+        PokemonDetailsFragment detailsFragment =
+                PokemonDetailsFragment.newInstance( pokemon, getUseContext() );
+        detailsFragment.setTargetFragment( this, CREATE_CONFIGURATION_REQUEST_CODE );
+        detailsFragment.show( transaction, POKEMON_DETAILS_DIALOG_TAG );
     }
 
     @Override
@@ -181,6 +188,24 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if( resultCode == Activity.RESULT_OK &&
+                requestCode == CREATE_CONFIGURATION_REQUEST_CODE ) {
+            PokemonConfig pokemonConfig = data.getParcelableExtra(
+                    CreateConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY );
+            OverviewConfigurationRepresentation configPresentation =
+                    new OverviewViewDataBuilder().configurationItemView( pokemonConfig,
+                            getResources() );
+            presenter.onConfigurationCreated(pokemonConfig);
+
+            configurationList = new OverviewViewDataBuilder().buildConfigurationPresentation(
+                    getResources(), presenter.getConfigurationList() );
+            refreshAdapter();
+        }
     }
 
     public class ConfigurationSearchAdapter extends SearchAdapterDecorator<OverviewConfigurationRepresentation,

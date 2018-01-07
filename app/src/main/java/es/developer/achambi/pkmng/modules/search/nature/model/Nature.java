@@ -13,7 +13,8 @@ public class Nature implements Parcelable{
     private Stat decreasedStat;
 
     public Nature() {
-
+        increasedStat = Stat.NONE;
+        decreasedStat = Stat.NONE;
     }
 
     protected Nature(Parcel in) {

@@ -2,6 +2,10 @@ package es.developer.achambi.pkmng.modules.overview.model;
 
 import android.os.Parcel;
 
+import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
+import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
+
 public class PokemonConfig extends BaseConfig{
     private Configuration configuration;
     private final int id;
@@ -42,15 +46,15 @@ public class PokemonConfig extends BaseConfig{
         this.name = name;
     }
 
-    public String getItem() {
+    public Item getItem() {
         return configuration.getItem();
     }
 
-    public String getAbility() {
+    public Ability getAbility() {
         return configuration.getAbility();
     }
 
-    public String getNature() {
+    public Nature getNature() {
         return configuration.getNature();
     }
 
@@ -85,24 +89,8 @@ public class PokemonConfig extends BaseConfig{
     }
 
     @Override
-    public boolean hasConfig() {
-        return true;
-    }
-
-    @Override
     public int getId() {
         return id;
-    }
-
-    @Override
-    public boolean isIncluded(SearchFilter searchFilter) {
-        switch( searchFilter ) {
-            case CONFIGURATION_FILTER:
-                return true;
-            case ALL_FILTER:
-                return true;
-        }
-        return false;
     }
 
     public Pokemon getPokemon() {

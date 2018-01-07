@@ -106,24 +106,8 @@ public class Pokemon implements BasePokemon{
     }
 
     @Override
-    public boolean hasConfig() {
-        return false;
-    }
-
-    @Override
     public int getId() {
         return id;
-    }
-
-    @Override
-    public boolean isIncluded(SearchFilter searchFilter) {
-        switch( searchFilter ) {
-            case POKEMON_FILTER:
-                return true;
-            case ALL_FILTER:
-                return true;
-        }
-        return false;
     }
 
     protected Pokemon(Parcel in) {
