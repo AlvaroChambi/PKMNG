@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
-import es.developer.achambi.pkmng.modules.create.presenter.CreateConfigurationPresenter;
+import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
@@ -30,7 +31,7 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateConfigurationFragment extends BaseRequestFragment
+public class ConfigurationFragment extends BaseRequestFragment
         implements View.OnClickListener {
     private static final String MOVE_0_SAVED_STATE = "MOVE_0_SAVED_STATE";
     private static final String MOVE_1_SAVED_STATE = "MOVE_1_SAVED_STATE";
@@ -38,6 +39,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     private static final String MOVE_3_SAVED_STATE = "MOVE_3_SAVED_STATE";
 
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
+    private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
     private static final int REPLACE_ITEM_RESULT_CODE = 101;
     private static final int REPLACE_ABILITY_RESULT_CODE = 102;
@@ -65,13 +67,19 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     private MoveConfigurationRepresentation move2;
     private MoveConfigurationRepresentation move3;
 
-    private CreateConfigurationPresenter presenter;
+    private ConfigurationPresenter presenter;
 
-    public static CreateConfigurationFragment newInstance( Bundle args ) {
-        CreateConfigurationFragment fragment = new CreateConfigurationFragment();
+    public static ConfigurationFragment newInstance(Bundle args ) {
+        ConfigurationFragment fragment = new ConfigurationFragment();
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    public static Bundle getFragmentArgs( PokemonConfig pokemonConfig ) {
+        Bundle args = new Bundle();
+        args.putParcelable( CONFIGURATION_ARGUMENT_KEY, pokemonConfig );
+        return args;
     }
 
     public static Bundle getFragmentArgs( Pokemon pokemon ) {
@@ -85,7 +93,13 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupPresenter();
-        presenter.setPokemon( (Pokemon)getArguments().getParcelable(POKEMON_ARGUMENT_KEY) );
+        if( getArguments().containsKey( POKEMON_ARGUMENT_KEY ) ) {
+            presenter.setPokemon( (Pokemon)getArguments().getParcelable(POKEMON_ARGUMENT_KEY) );
+        } else if( getArguments().containsKey( CONFIGURATION_ARGUMENT_KEY ) ) {
+            presenter.setPokemonConfiguration(
+                    (PokemonConfig)getArguments().getParcelable( CONFIGURATION_ARGUMENT_KEY ) );
+        }
+
         if( savedInstanceState != null ) {
             move0 = savedInstanceState.getParcelable( MOVE_0_SAVED_STATE );
             move1 = savedInstanceState.getParcelable( MOVE_1_SAVED_STATE );
@@ -130,7 +144,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     @Override
     public ViewPresenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new CreateConfigurationPresenter();
+            presenter = new ConfigurationPresenter();
         }
         return presenter;
     }
@@ -172,7 +186,8 @@ public class CreateConfigurationFragment extends BaseRequestFragment
                 break;
             case R.id.configuration_floating_save_button:
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                CreateConfigurationDialog dialog = CreateConfigurationDialog.newInstance();
+                CreateConfigurationDialog dialog = CreateConfigurationDialog.newInstance(
+                        presenter.getConfigurationName() );
                 dialog.setTargetFragment( this, SAVE_CONFIGURATION_REQUEST_CODE );
                 dialog.show( transaction,CREATE_CONFIGURATION_DIALOG_TAG );
                 break;
@@ -274,6 +289,19 @@ public class CreateConfigurationFragment extends BaseRequestFragment
         }
     }
 
+    private void saveConfigurationRequest( String configurationName ) {
+        PokemonConfig pokemonConfig = presenter.createConfiguration( configurationName );
+        Intent data = new Intent();
+        if( pokemonConfig == null ) {
+            getActivity().setResult( Activity.RESULT_CANCELED );
+        } else {
+            data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, pokemonConfig );
+            getActivity().setResult(Activity.RESULT_OK, data);
+            Toast.makeText(getActivity(), "CONFIGURATION SAVED", Toast.LENGTH_LONG);
+        }
+       // getActivity().finish();
+    }
+
     @Override
     public void doRequest() {
 
@@ -303,11 +331,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
             populateAbilityView( getView() );
         } else if( resultCode == RESULT_OK &&
                     requestCode == SAVE_CONFIGURATION_REQUEST_CODE ) {
-            PokemonConfig pokemonConfig =
-                    presenter.createConfiguration( data.getStringExtra( CONFIGURATION_NAME_DATA_KEY ) );
-            data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, pokemonConfig );
-            getActivity().setResult(Activity.RESULT_OK, data);
-            getActivity().finish();
+            saveConfigurationRequest( data.getStringExtra( CONFIGURATION_NAME_DATA_KEY ) );
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_NATURE_RESULT_CODE ) {
             presenter.setNature( (Nature)data.getParcelableExtra( NATURE_ACTIVITY_RESULT_DATA_KEY ) );

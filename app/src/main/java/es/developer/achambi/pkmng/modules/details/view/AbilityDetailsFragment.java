@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.representation.AbilityViewPresentation;
 
@@ -63,7 +63,7 @@ public class AbilityDetailsFragment extends BaseDialogFragment implements View.O
         switch (v.getId()) {
             case R.id.details_choose_ability_action_button:
                 Intent dataIntent = getActivity().getIntent();
-                dataIntent.putExtra(CreateConfigurationFragment.ABILITY_ACTIVITY_RESULT_DATA_KEY,
+                dataIntent.putExtra(ConfigurationFragment.ABILITY_ACTIVITY_RESULT_DATA_KEY,
                         ability );
                 getActivity().setResult(Activity.RESULT_OK,dataIntent);
                 getActivity().finish();

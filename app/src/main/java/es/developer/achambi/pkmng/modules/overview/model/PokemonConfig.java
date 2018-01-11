@@ -12,7 +12,7 @@ public class PokemonConfig extends BaseConfig{
     private String name;
 
     public PokemonConfig( int id,
-            BasePokemon basePokemon, Configuration configuration) {
+            Pokemon basePokemon, Configuration configuration) {
         super(basePokemon);
 
         this.id = id;
@@ -20,10 +20,33 @@ public class PokemonConfig extends BaseConfig{
     }
 
     protected PokemonConfig(Parcel in) {
-        super( (BasePokemon) (in.readParcelable(BasePokemon.class.getClassLoader())) );
+        super( (Pokemon) (in.readParcelable(Pokemon.class.getClassLoader())) );
         configuration = in.readParcelable(Configuration.class.getClassLoader());
         id = in.readInt();
         name = in.readString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if( this == obj ) {
+            return true;
+        }
+
+        if( obj == null ) {
+            return false;
+        }
+
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        PokemonConfig pokemonConfig = (PokemonConfig)obj;
+        if( pokemon.getName().equals( pokemonConfig.getPokemon().getName() ) &&
+                configuration.equals( pokemonConfig.getConfiguration() ) &&
+                name.equals( pokemonConfig.getName() ) ) {
+            return true;
+        }
+
+        return false;
     }
 
     public static final Creator<PokemonConfig> CREATOR = new Creator<PokemonConfig>() {
@@ -94,7 +117,7 @@ public class PokemonConfig extends BaseConfig{
     }
 
     public Pokemon getPokemon() {
-        return (Pokemon) pokemon;
+        return pokemon;
     }
     public Configuration getConfiguration() {
         return configuration;

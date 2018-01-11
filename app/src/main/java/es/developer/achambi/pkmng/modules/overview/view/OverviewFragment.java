@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -196,7 +196,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         if( resultCode == Activity.RESULT_OK &&
                 requestCode == CREATE_CONFIGURATION_REQUEST_CODE ) {
             PokemonConfig pokemonConfig = data.getParcelableExtra(
-                    CreateConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY );
+                    ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY );
             OverviewConfigurationRepresentation configPresentation =
                     new OverviewViewDataBuilder().configurationItemView( pokemonConfig,
                             getResources() );

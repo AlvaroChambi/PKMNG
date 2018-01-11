@@ -20,6 +20,23 @@ public class Move implements Parcelable{
         type = Pokemon.Type.EMPTY;
     }
 
+    public Move(int id, String name, String effect, Pokemon.Type type, String category,
+                int power, int accuracy, int pp) {
+        this.id = id;
+        this.name = name;
+        this.effect = effect;
+        this.type = type;
+        this.category = category;
+        this.power = power;
+        this.accuracy = accuracy;
+        this.pp = pp;
+    }
+
+    public Move( Move move ) {
+        this( move.getId(), move.getName(), move.getEffect(), move.getType(), move.getCategory(),
+                move.getPower(), move.getAccuracy(), move.getPp() );
+    }
+
     protected Move(Parcel in) {
         id = in.readInt();
         name = in.readString();

@@ -7,14 +7,14 @@ import android.os.Bundle;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseActivity;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 
 public class EditConfigurationActivity extends BaseActivity {
 
     public static Intent getStartIntent( Context context, PokemonConfig pokemonConfig ) {
         Intent intent = new Intent( context, EditConfigurationActivity.class );
-        intent.putExtra( BASE_ARGUMENTS,
-                EditConfigurationFragment.getFragmentArgs( pokemonConfig ) );
+        intent.putExtra( BASE_ARGUMENTS, ConfigurationFragment.getFragmentArgs( pokemonConfig ) );
 
         return intent;
     }
@@ -26,6 +26,6 @@ public class EditConfigurationActivity extends BaseActivity {
 
     @Override
     public BaseFragment getFragment(Bundle args) {
-        return EditConfigurationFragment.newInstance(args);
+        return ConfigurationFragment.newInstance(args);
     }
 }

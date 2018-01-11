@@ -13,7 +13,7 @@ public class CreateConfigurationActivity extends BaseActivity {
 
     public static Intent getStartIntent( Context context, Pokemon pokemon ) {
         Intent intent = new Intent( context, CreateConfigurationActivity.class );
-        Bundle args = CreateConfigurationFragment.getFragmentArgs( pokemon );
+        Bundle args = ConfigurationFragment.getFragmentArgs( pokemon );
         intent.putExtra( BASE_ARGUMENTS, args );
         return intent;
     }
@@ -25,6 +25,6 @@ public class CreateConfigurationActivity extends BaseActivity {
 
     @Override
     public BaseFragment getFragment(Bundle args) {
-        return CreateConfigurationFragment.newInstance(args);
+        return ConfigurationFragment.newInstance(args);
     }
 }

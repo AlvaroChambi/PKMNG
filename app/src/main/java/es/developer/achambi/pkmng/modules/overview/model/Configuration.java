@@ -30,6 +30,46 @@ public class Configuration implements Parcelable{
         move3 = new Move();
     }
 
+    public Configuration(Configuration configuration ) {
+        this.item = new Item( configuration.getItem() );
+        this.ability = new Ability( configuration.getAbility() );
+        this.nature = new Nature( configuration.getNature() );
+        this.statsSet = new StatsSet( configuration.getStatsSet() );
+        this.move0 = new Move( configuration.getMove0() );
+        this.move1 = new Move( configuration.getMove1() );
+        this.move2 = new Move( configuration.getMove2() );
+        this.move3 = new Move( configuration.getMove3() );
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if( this == obj ) {
+            return true;
+        }
+
+        if( obj == null ) {
+            return false;
+        }
+
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+
+        Configuration configuration = (Configuration)obj;
+        if( item.getName().equals( configuration.item.getName() )&&
+                ability.getName().equals( configuration.ability.getName() ) &&
+                nature.getName().equals( configuration.nature.getName() )&&
+                statsSet.equals( configuration.getStatsSet() ) &&
+                move0.getName().equals( move0.getName() ) &&
+                move1.getName().equals( move1.getName() ) &&
+                move2.getName().equals( move2.getName() ) &&
+                move3.getName().equals( move3.getName() ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected Configuration(Parcel in) {
         item = in.readParcelable(Item.class.getClassLoader());
         ability = in.readParcelable(Ability.class.getClassLoader());

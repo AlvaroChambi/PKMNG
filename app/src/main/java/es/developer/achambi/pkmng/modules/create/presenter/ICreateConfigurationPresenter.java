@@ -7,4 +7,5 @@ import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 public interface ICreateConfigurationPresenter extends ViewPresenter {
     StatsSet getEvSet();
     PokemonConfig createConfiguration( String name );
+    boolean saveConfiguration();
 }

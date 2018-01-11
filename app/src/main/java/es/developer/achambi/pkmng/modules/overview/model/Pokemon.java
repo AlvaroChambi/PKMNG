@@ -23,6 +23,14 @@ public class Pokemon implements BasePokemon{
         stats = new StatsSet();
     }
 
+    public Pokemon( Pokemon pokemon ) {
+        this.id = pokemon.getId();
+        this.name = pokemon.getName();
+        this.type = new Pair<>(pokemon.getType().first, pokemon.getType().second);
+        this.stats = new StatsSet( pokemon.getStats() );
+        this.imageURL = pokemon.getImageURL();
+    }
+
     public String getName() {
         return name;
     }

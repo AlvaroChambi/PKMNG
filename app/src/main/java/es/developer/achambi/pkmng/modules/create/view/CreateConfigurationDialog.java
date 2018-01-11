@@ -12,10 +12,14 @@ import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 
 public class CreateConfigurationDialog extends BaseDialogFragment
     implements View.OnClickListener {
+    private static final String CONFIGURATION_NAME_EXTRA = "CONFIGURATION_NAME_EXTRA";
     private EditText nameEditText;
 
-    public static CreateConfigurationDialog newInstance(  ) {
+    public static CreateConfigurationDialog newInstance( String name ) {
         CreateConfigurationDialog fragment = new CreateConfigurationDialog();
+        Bundle args = new Bundle();
+        args.putString( CONFIGURATION_NAME_EXTRA, name );
+        fragment.setArguments( args );
         return fragment;
     }
 
@@ -28,6 +32,10 @@ public class CreateConfigurationDialog extends BaseDialogFragment
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         nameEditText = view.findViewById(R.id.create_configuration_dialog_edit_text);
         view.findViewById(R.id.create_configuration_dialog_save_button).setOnClickListener(this);
+
+        if( getArguments().containsKey( CONFIGURATION_NAME_EXTRA ) ) {
+            nameEditText.setText( getArguments().getString( CONFIGURATION_NAME_EXTRA ) );
+        }
     }
 
     @Override
@@ -35,7 +43,7 @@ public class CreateConfigurationDialog extends BaseDialogFragment
         switch (v.getId()) {
             case R.id.create_configuration_dialog_save_button:
                 Intent data = new Intent();
-                data.putExtra( CreateConfigurationFragment.CONFIGURATION_NAME_DATA_KEY,
+                data.putExtra( ConfigurationFragment.CONFIGURATION_NAME_DATA_KEY,
                         nameEditText.getText().toString() );
                 getTargetFragment().onActivityResult( getTargetRequestCode(), Activity.RESULT_OK,
                         data );

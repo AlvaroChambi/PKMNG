@@ -14,6 +14,20 @@ public class Item implements Parcelable{
 
     }
 
+    public Item( int id, String imageUrl, String name,
+                 String descriptionShort, String description ) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.name = name;
+        this.descriptionShort = descriptionShort;
+        this.description = description;
+    }
+
+    public Item( Item item ) {
+        this( item.getId(), item.getImageUrl(), item.getName(),
+                item.getDescriptionShort(), item.getDescription() );
+    }
+
     protected Item(Parcel in) {
         id = in.readInt();
         imageUrl = in.readString();

@@ -15,7 +15,7 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
-import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenter;
@@ -65,7 +65,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
     @Override
     public void returnSelectedMove(Move move) {
         Intent dataIntent = getActivity().getIntent();
-        dataIntent.putExtra(CreateConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY, move);
+        dataIntent.putExtra(ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY, move);
         getActivity().setResult(Activity.RESULT_OK, dataIntent);
         getActivity().finish();
     }
