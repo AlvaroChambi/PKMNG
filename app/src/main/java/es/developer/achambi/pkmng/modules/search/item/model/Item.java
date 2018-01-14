@@ -11,7 +11,10 @@ public class Item implements Parcelable{
     private String description;
 
     public Item() {
-
+        name = "";
+        imageUrl = "";
+        descriptionShort = "";
+        description = "";
     }
 
     public Item( int id, String imageUrl, String name,

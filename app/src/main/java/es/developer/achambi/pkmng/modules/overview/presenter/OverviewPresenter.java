@@ -74,6 +74,12 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     @Override
+    public void onConfigurationUpdated(PokemonConfig config) {
+        int indexToReplace = pokemonConfigList.indexOf( config );
+        pokemonConfigList.set( indexToReplace, config );
+    }
+
+    @Override
     public OnPokemonClickedListener providePokemonListener() {
         return pokemonClickedListener;
     }

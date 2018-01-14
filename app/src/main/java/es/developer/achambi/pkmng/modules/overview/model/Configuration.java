@@ -60,10 +60,10 @@ public class Configuration implements Parcelable{
                 ability.getName().equals( configuration.ability.getName() ) &&
                 nature.getName().equals( configuration.nature.getName() )&&
                 statsSet.equals( configuration.getStatsSet() ) &&
-                move0.getName().equals( move0.getName() ) &&
-                move1.getName().equals( move1.getName() ) &&
-                move2.getName().equals( move2.getName() ) &&
-                move3.getName().equals( move3.getName() ) ) {
+                move0.getName().equals( configuration.move0.getName() ) &&
+                move1.getName().equals( configuration.move1.getName() ) &&
+                move2.getName().equals( configuration.move2.getName() ) &&
+                move3.getName().equals( configuration.move3.getName() ) ) {
             return true;
         }
 

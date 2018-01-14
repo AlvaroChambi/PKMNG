@@ -1,7 +1,6 @@
 package es.developer.achambi.pkmng.modules.create.presenter;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import es.developer.achambi.pkmng.modules.create.view.StatEVView;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
@@ -16,23 +15,23 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class ConfigurationPresenter implements ICreateConfigurationPresenter,
         StatEVView.ProgressUpdateProvider {
+
     private static final String CONFIGURATION_SAVED_DATA_TAG = "CONFIGURATION_SAVED_DATA_TAG";
     private static final String ACTUAL_CONFIGURATION_SAVED_DATA_TAG = "ACTUAL_CONFIGURATION_SAVED_DATA_TAG";
     private static final String POKEMON_SAVED_DATA_TAG = "POKEMON_SAVED_DATA_TAG";
 
-    private Pokemon pokemon;
-    private Configuration configuration;
+    private Pokemon editablePokemon;
+    private Configuration editableConfiguration;
     private PokemonConfig pokemonConfiguration;
 
     public ConfigurationPresenter( ) {
-        pokemonConfiguration = new PokemonConfig( 1003, new Pokemon(1), new Configuration() );
-        configuration = new Configuration();
-        pokemon = new Pokemon(1);
+        editableConfiguration = new Configuration();
+        editablePokemon = new Pokemon(1);
     }
 
     @Override
     public int requestValueIncrement(Stat stat, int progress) {
-        StatsSet evData = configuration.getStatsSet();
+        StatsSet evData = editableConfiguration.getStatsSet();
         int totalStatsPreview = evData.getTotalStatsPreview( stat, progress );
         if( totalStatsPreview <= StatsSet.MAX_TOTAL_EVS ) {
             evData.getStats().put(stat, progress);
@@ -45,100 +44,114 @@ public class ConfigurationPresenter implements ICreateConfigurationPresenter,
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        bundle.putParcelable( POKEMON_SAVED_DATA_TAG, pokemon );
-        bundle.putParcelable( CONFIGURATION_SAVED_DATA_TAG, configuration );
+        bundle.putParcelable( POKEMON_SAVED_DATA_TAG, editablePokemon);
+        bundle.putParcelable( CONFIGURATION_SAVED_DATA_TAG, editableConfiguration);
         bundle.putParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG, pokemonConfiguration );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
-        pokemon = bundle.getParcelable( POKEMON_SAVED_DATA_TAG );
-        configuration = bundle.getParcelable( CONFIGURATION_SAVED_DATA_TAG );
+        editablePokemon = bundle.getParcelable( POKEMON_SAVED_DATA_TAG );
+        editableConfiguration = bundle.getParcelable( CONFIGURATION_SAVED_DATA_TAG );
         pokemonConfiguration = bundle.getParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG );
     }
 
     @Override
     public StatsSet getEvSet() {
-        return configuration.getStatsSet();
+        return editableConfiguration.getStatsSet();
     }
 
     @Override
-    public PokemonConfig createConfiguration(String name) {
-        PokemonConfig pokemonConfig = new PokemonConfig( 1001, pokemon, configuration );
-        pokemonConfig.setName( name );
-
-        if( pokemonConfiguration.equals( pokemonConfig ) ) {
-            return null;
+    public ConfigurationAction saveConfiguration(String name) {
+        if( pokemonConfiguration == null ) {
+            PokemonConfig config = new PokemonConfig( 1002, editablePokemon, editableConfiguration);
+            config.setName( name );
+            pokemonConfiguration = config;
+            return ConfigurationAction.CREATED;
+        } else if( pokemonConfiguration.getName().equals( name ) &&
+               pokemonConfiguration.getPokemon().getName().equals(editablePokemon.getName()) &&
+               pokemonConfiguration.getConfiguration().equals(editableConfiguration)  ) {
+            return ConfigurationAction.NONE;
         } else {
-            return pokemonConfig;
-        }
-    }
-
-    @Override
-    public boolean saveConfiguration() {
-        PokemonConfig config = new PokemonConfig( 1002, pokemon, configuration );
-        if( !pokemonConfiguration.equals( config ) ) {
-            return true;
-        } else {
-            return false;
+            pokemonConfiguration.setName( name );
+            pokemonConfiguration.setPokemon( editablePokemon );
+            pokemonConfiguration.setConfiguration( editableConfiguration );
+            return ConfigurationAction.UPDATED;
         }
     }
 
     public void setPokemonConfiguration(PokemonConfig pokemonConfiguration) {
         this.pokemonConfiguration = pokemonConfiguration;
-        this.pokemon = new Pokemon( pokemonConfiguration.getPokemon() );
-        this.configuration = new Configuration( pokemonConfiguration.getConfiguration() );
+        this.editablePokemon = new Pokemon( pokemonConfiguration.getPokemon() );
+        this.editableConfiguration = new Configuration( pokemonConfiguration.getConfiguration() );
     }
 
+    public PokemonConfig getPokemonConfiguration() {
+        return pokemonConfiguration;
+    }
+
+    /**
+     *
+     * @return configuration name if there are a previously created configuration, empty string
+     * otherwise
+     */
     public String getConfigurationName() {
-        return pokemonConfiguration.getName();
+        if(pokemonConfiguration == null) {
+            return "";
+        } else {
+            return pokemonConfiguration.getName();
+        }
+    }
+
+    public Configuration getConfiguration() {
+        return editableConfiguration;
     }
 
     public void setPokemon(Pokemon pokemon) {
-        this.pokemon = pokemon;
+        this.editablePokemon = pokemon;
     }
 
     public Pokemon getPokemon() {
-        return pokemon;
+        return editablePokemon;
     }
 
     public Item getItem() {
-        return configuration.getItem();
+        return editableConfiguration.getItem();
     }
 
     public void setItem(Item item) {
-        this.configuration.setItem( item );
+        this.editableConfiguration.setItem( item );
     }
 
     public Ability getAbility() {
-        return configuration.getAbility();
+        return editableConfiguration.getAbility();
     }
 
     public void setAbility(Ability ability) {
-        this.configuration.setAbility( ability );
+        this.editableConfiguration.setAbility( ability );
     }
 
     public Nature getNature() {
-        return configuration.getNature();
+        return editableConfiguration.getNature();
     }
 
     public void setNature(Nature nature) {
-        configuration.setNature( nature );
+        editableConfiguration.setNature( nature );
     }
 
     public void setMove0(Move move0) {
-        configuration.setMove0( move0 );
+        editableConfiguration.setMove0( move0 );
     }
 
     public void setMove1(Move move1) {
-        configuration.setMove1( move1 );
+        editableConfiguration.setMove1( move1 );
     }
 
     public void setMove2(Move move2) {
-        configuration.setMove2( move2 );
+        editableConfiguration.setMove2( move2 );
     }
 
     public void setMove3(Move move3) {
-        configuration.setMove3( move3 );
+        editableConfiguration.setMove3( move3 );
     }
 }

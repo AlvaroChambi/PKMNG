@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,18 +94,13 @@ public class ConfigurationFragment extends BaseRequestFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupPresenter();
-        if( getArguments().containsKey( POKEMON_ARGUMENT_KEY ) ) {
-            presenter.setPokemon( (Pokemon)getArguments().getParcelable(POKEMON_ARGUMENT_KEY) );
-        } else if( getArguments().containsKey( CONFIGURATION_ARGUMENT_KEY ) ) {
-            presenter.setPokemonConfiguration(
-                    (PokemonConfig)getArguments().getParcelable( CONFIGURATION_ARGUMENT_KEY ) );
-        }
-
-        if( savedInstanceState != null ) {
-            move0 = savedInstanceState.getParcelable( MOVE_0_SAVED_STATE );
-            move1 = savedInstanceState.getParcelable( MOVE_1_SAVED_STATE );
-            move2 = savedInstanceState.getParcelable( MOVE_2_SAVED_STATE );
-            move3 = savedInstanceState.getParcelable( MOVE_3_SAVED_STATE );
+        if( savedInstanceState == null ) {
+            if( getArguments().containsKey( POKEMON_ARGUMENT_KEY ) ) {
+                presenter.setPokemon( (Pokemon)getArguments().getParcelable(POKEMON_ARGUMENT_KEY) );
+            } else if( getArguments().containsKey( CONFIGURATION_ARGUMENT_KEY ) ) {
+                presenter.setPokemonConfiguration(
+                        (PokemonConfig)getArguments().getParcelable( CONFIGURATION_ARGUMENT_KEY ) );
+            }
         }
     }
 
@@ -118,6 +114,11 @@ public class ConfigurationFragment extends BaseRequestFragment
         if(!isViewRecreated()) {
             pokemonRepresentation = new PokemonDetailsDataBuilder()
                     .buildViewRepresentation(getResources(), presenter.getPokemon());
+            MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
+            move0 = builder.build( presenter.getConfiguration().getMove0() );
+            move1 = builder.build( presenter.getConfiguration().getMove1() );
+            move2 = builder.build( presenter.getConfiguration().getMove2() );
+            move3 = builder.build( presenter.getConfiguration().getMove3() );
         }
 
         populatePokemonView(view);
@@ -247,7 +248,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateItemView(View rootView) {
-        if( presenter.getItem().getName() != null ) {
+        if( !presenter.getItem().getName().equals("") ) {
             TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
             itemName.setText(presenter.getItem().getName());
             itemName.setVisibility(View.VISIBLE);
@@ -256,7 +257,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateAbilityView( View rootView ) {
-        if( presenter.getAbility().getName() != null ) {
+        if( !presenter.getAbility().getName().equals("") ) {
             TextView abilityName = rootView.findViewById(R.id.configuration_ability_name_text);
             abilityName.setText(presenter.getAbility().getName());
             abilityName.setVisibility(View.VISIBLE);
@@ -265,7 +266,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateNatureView( View rootView ) {
-        if( presenter.getNature().getName() != null ) {
+        if( !presenter.getNature().getName().equals("") ) {
             TextView natureName = rootView.findViewById(R.id.configuration_nature_name_text);
             natureName.setText(presenter.getNature().getName());
             natureName.setVisibility(View.VISIBLE);
@@ -274,7 +275,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateMoveView( View moveRootView, MoveConfigurationRepresentation move ) {
-        if( move != null ) {
+        if( !move.isEmpty ) {
             TextView moveName = moveRootView.findViewById(R.id.move_view_name_text);
             TextView moveType = moveRootView.findViewById(R.id.move_view_type_text);
             TextView movePower = moveRootView.findViewById(R.id.move_view_power_text);
@@ -290,16 +291,29 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     private void saveConfigurationRequest( String configurationName ) {
-        PokemonConfig pokemonConfig = presenter.createConfiguration( configurationName );
         Intent data = new Intent();
-        if( pokemonConfig == null ) {
-            getActivity().setResult( Activity.RESULT_CANCELED );
-        } else {
-            data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, pokemonConfig );
-            getActivity().setResult(Activity.RESULT_OK, data);
-            Toast.makeText(getActivity(), "CONFIGURATION SAVED", Toast.LENGTH_LONG);
+        switch ( presenter.saveConfiguration(configurationName) ) {
+            case CREATED:
+                data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
+                getActivity().setResult(Activity.RESULT_OK, data);
+                Toast createdToast =
+                        Toast.makeText(getActivity(), "CONFIGURATION CREATED", Toast.LENGTH_SHORT);
+                createdToast.setGravity( Gravity.CENTER, 0, 0 );
+                createdToast.show();
+                break;
+            case UPDATED:
+                data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
+                getActivity().setResult(Activity.RESULT_OK, data);
+                Toast updatedToast =
+                        Toast.makeText(getActivity(), "CONFIGURATION UPDATED", Toast.LENGTH_SHORT);
+                updatedToast.setGravity( Gravity.CENTER, 0, 0 );
+                updatedToast.show();
+                break;
+            case NONE:
+                getActivity().setResult( Activity.RESULT_CANCELED );
+                break;
         }
-       // getActivity().finish();
+        getActivity().finish();
     }
 
     @Override
@@ -366,36 +380,14 @@ public class ConfigurationFragment extends BaseRequestFragment
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable( MOVE_0_SAVED_STATE, move0 );
-        outState.putParcelable( MOVE_1_SAVED_STATE, move1 );
-        outState.putParcelable( MOVE_2_SAVED_STATE, move2 );
-        outState.putParcelable( MOVE_3_SAVED_STATE, move3 );
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        populatePokemonView(getView());
-        populateItemView(getView());
-        populateAbilityView(getView());
-        populateNatureView(getView());
-        populateMoveView( getView().findViewById(R.id.configuration_move_0_frame), move0 );
-        populateMoveView( getView().findViewById(R.id.configuration_move_1_frame), move1 );
-        populateMoveView( getView().findViewById(R.id.configuration_move_2_frame), move2 );
-        populateMoveView( getView().findViewById(R.id.configuration_move_3_frame), move3 );
-        populateEvSetView( presenter.getEvSet(), getView());
-    }
-
     public class MoveRepresentationBuilder {
         public MoveConfigurationRepresentation build( Move move ) {
             MoveConfigurationRepresentation representation = new MoveConfigurationRepresentation(
                     move.getId(),
                     move.getName(),
                     formatType( move.getType() ),
-                    "Pow. " + move.getPower()
+                    "Pow. " + move.getPower(),
+                    move.getName().equals("")
             );
             return representation;
         }

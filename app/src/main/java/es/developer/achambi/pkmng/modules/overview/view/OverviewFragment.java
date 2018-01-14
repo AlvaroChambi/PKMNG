@@ -37,6 +37,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
 
     private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
+    private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 102;
 
     private IOverviewPresenter presenter;
     private ArrayList<OverviewPokemonRepresentation> pokemonList;
@@ -89,6 +90,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         super.onViewSetup(view, savedInstanceState);
         if(!isViewRecreated() && savedInstanceState == null) {
             doRequest();
+        } else {
+            refreshAdapter();
         }
     }
 
@@ -130,7 +133,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 getResources(), presenter.getPokemonList());
         configurationList = new OverviewViewDataBuilder().buildConfigurationPresentation(
                 getResources(), presenter.getConfigurationList());
-        refreshAdapter();
     }
 
     @Override
@@ -145,8 +147,10 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void showConfigurationDetails(PokemonConfig configuration) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        ConfigurationDetailsFragment.newInstance(configuration)
-                .show( transaction, CONFIGURATION_DETAILS_DIALOG_TAG );
+        ConfigurationDetailsFragment configDetails = ConfigurationDetailsFragment.newInstance(
+                configuration );
+        configDetails.setTargetFragment( this, UPDATE_CONFIGURATION_REQUEST_CODE );
+        configDetails.show( transaction, CONFIGURATION_DETAILS_DIALOG_TAG );
     }
 
     @Override
@@ -193,14 +197,20 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if( resultCode == Activity.RESULT_OK &&
-                requestCode == CREATE_CONFIGURATION_REQUEST_CODE ) {
+        if( resultCode == Activity.RESULT_OK && requestCode == CREATE_CONFIGURATION_REQUEST_CODE ) {
             PokemonConfig pokemonConfig = data.getParcelableExtra(
                     ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY );
-            OverviewConfigurationRepresentation configPresentation =
-                    new OverviewViewDataBuilder().configurationItemView( pokemonConfig,
-                            getResources() );
+
             presenter.onConfigurationCreated(pokemonConfig);
+
+            configurationList = new OverviewViewDataBuilder().buildConfigurationPresentation(
+                    getResources(), presenter.getConfigurationList() );
+            refreshAdapter();
+        } else if( resultCode == Activity.RESULT_OK &&
+                requestCode == UPDATE_CONFIGURATION_REQUEST_CODE ) {
+            PokemonConfig pokemonConfig = data.getParcelableExtra(
+                    ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY );
+            presenter.onConfigurationUpdated(pokemonConfig);
 
             configurationList = new OverviewViewDataBuilder().buildConfigurationPresentation(
                     getResources(), presenter.getConfigurationList() );

@@ -26,6 +26,12 @@ public class PokemonConfig extends BaseConfig{
         name = in.readString();
     }
 
+    /**
+     *
+     * @param obj Pokemon configuration to compare
+     * @return true if the obj id is the same as the actual configuration id, this will not compare
+     * anything but that, for a more detailed compare use Pokemon equals() and Configuration equals()
+     */
     @Override
     public boolean equals(Object obj) {
         if( this == obj ) {
@@ -40,9 +46,7 @@ public class PokemonConfig extends BaseConfig{
             return false;
         }
         PokemonConfig pokemonConfig = (PokemonConfig)obj;
-        if( pokemon.getName().equals( pokemonConfig.getPokemon().getName() ) &&
-                configuration.equals( pokemonConfig.getConfiguration() ) &&
-                name.equals( pokemonConfig.getName() ) ) {
+        if( pokemonConfig.getId() == this.getId() ) {
             return true;
         }
 
@@ -60,6 +64,14 @@ public class PokemonConfig extends BaseConfig{
             return new PokemonConfig[size];
         }
     };
+
+    public void setPokemon( Pokemon pokemon ) {
+        this.pokemon = pokemon;
+    }
+
+    public void setConfiguration( Configuration configuration ) {
+        this.configuration = configuration;
+    }
 
     public String getName() {
         return name;
