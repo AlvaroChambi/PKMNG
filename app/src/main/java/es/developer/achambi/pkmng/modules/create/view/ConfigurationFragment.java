@@ -296,16 +296,18 @@ public class ConfigurationFragment extends BaseRequestFragment
             case CREATED:
                 data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
                 getActivity().setResult(Activity.RESULT_OK, data);
-                Toast createdToast =
-                        Toast.makeText(getActivity(), "CONFIGURATION CREATED", Toast.LENGTH_SHORT);
+                Toast createdToast = Toast.makeText(getActivity(),
+                                R.string.configuration_created_toast_message,
+                                Toast.LENGTH_SHORT);
                 createdToast.setGravity( Gravity.CENTER, 0, 0 );
                 createdToast.show();
                 break;
             case UPDATED:
                 data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
                 getActivity().setResult(Activity.RESULT_OK, data);
-                Toast updatedToast =
-                        Toast.makeText(getActivity(), "CONFIGURATION UPDATED", Toast.LENGTH_SHORT);
+                Toast updatedToast = Toast.makeText(getActivity(),
+                                R.string.configuration_updated_toast_message,
+                                Toast.LENGTH_SHORT);
                 updatedToast.setGravity( Gravity.CENTER, 0, 0 );
                 updatedToast.show();
                 break;

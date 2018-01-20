@@ -34,7 +34,6 @@ public abstract class BaseFragment extends Fragment {
             onRestoreInstanceState(savedInstanceState);
         }
         onViewSetup(view, savedInstanceState);
-        onViewLayout(view, savedInstanceState);
     }
 
     public boolean isViewRecreated() {
@@ -62,10 +61,5 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public abstract int getLayoutResource();
-    public void onViewSetup(View view, @Nullable Bundle savedInstanceState){
-
-    }
-    public void onViewLayout(View view, @Nullable Bundle savedInstanceState){
-
-    }
+    public abstract void onViewSetup(View view, @Nullable Bundle savedInstanceState);
 }

@@ -64,4 +64,7 @@
     <string name="details_action_button_damage_calculator">Damage Calculator</string>
     <string name="details_action_button_choose_pokemon">Choose Pokemon</string>
     <string name="details_action_button_choose_item">Choose Item</string>
+
+    <string name="configuration_created_toast_message">Configuration created</string>
+    <string name="configuration_updated_toast_message">Configuration updated</string>
 </resources>

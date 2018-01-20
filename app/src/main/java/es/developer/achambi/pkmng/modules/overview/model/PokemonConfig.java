@@ -14,7 +14,7 @@ public class PokemonConfig extends BaseConfig{
     public PokemonConfig( int id,
             Pokemon basePokemon, Configuration configuration) {
         super(basePokemon);
-
+        this.name = "";
         this.id = id;
         this.configuration = configuration;
     }
