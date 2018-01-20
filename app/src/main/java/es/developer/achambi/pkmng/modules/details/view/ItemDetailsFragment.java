@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.view.representation.ItemResultViewRepresentation;
 
@@ -76,7 +76,7 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
         switch( v.getId() ) {
             case R.id.details_choose_item_action_button:
                 Intent dataIntent = getActivity().getIntent();
-                dataIntent.putExtra(CreateConfigurationFragment.ITEM_ACTIVITY_RESULT_DATA_KEY,
+                dataIntent.putExtra(ConfigurationFragment.ITEM_ACTIVITY_RESULT_DATA_KEY,
                         item);
                 getActivity().setResult(Activity.RESULT_OK, dataIntent);
                 getActivity().finish();

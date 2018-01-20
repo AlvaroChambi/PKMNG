@@ -11,17 +11,15 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity;
-import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
-
     private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
 
     private Pokemon pokemon;
@@ -77,7 +75,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
                 break;
             case R.id.details_choose_pokemon_action_button:
                 Intent dataIntent = getActivity().getIntent();
-                dataIntent.putExtra(CreateConfigurationFragment.POKEMON_ACTIVITY_RESULT_DATA_KEY,
+                dataIntent.putExtra(ConfigurationFragment.POKEMON_ACTIVITY_RESULT_DATA_KEY,
                         pokemon );
                 getActivity().setResult(Activity.RESULT_OK, dataIntent);
                 getActivity().finish();

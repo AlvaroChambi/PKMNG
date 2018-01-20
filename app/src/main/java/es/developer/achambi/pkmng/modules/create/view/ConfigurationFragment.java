@@ -5,13 +5,15 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
-import es.developer.achambi.pkmng.modules.create.presenter.CreateConfigurationPresenter;
+import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
@@ -30,7 +32,7 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateConfigurationFragment extends BaseRequestFragment
+public class ConfigurationFragment extends BaseRequestFragment
         implements View.OnClickListener {
     private static final String MOVE_0_SAVED_STATE = "MOVE_0_SAVED_STATE";
     private static final String MOVE_1_SAVED_STATE = "MOVE_1_SAVED_STATE";
@@ -38,6 +40,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     private static final String MOVE_3_SAVED_STATE = "MOVE_3_SAVED_STATE";
 
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
+    private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
     private static final int REPLACE_ITEM_RESULT_CODE = 101;
     private static final int REPLACE_ABILITY_RESULT_CODE = 102;
@@ -65,13 +68,19 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     private MoveConfigurationRepresentation move2;
     private MoveConfigurationRepresentation move3;
 
-    private CreateConfigurationPresenter presenter;
+    private ConfigurationPresenter presenter;
 
-    public static CreateConfigurationFragment newInstance( Bundle args ) {
-        CreateConfigurationFragment fragment = new CreateConfigurationFragment();
+    public static ConfigurationFragment newInstance(Bundle args ) {
+        ConfigurationFragment fragment = new ConfigurationFragment();
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    public static Bundle getFragmentArgs( PokemonConfig pokemonConfig ) {
+        Bundle args = new Bundle();
+        args.putParcelable( CONFIGURATION_ARGUMENT_KEY, pokemonConfig );
+        return args;
     }
 
     public static Bundle getFragmentArgs( Pokemon pokemon ) {
@@ -85,12 +94,13 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupPresenter();
-        presenter.setPokemon( (Pokemon)getArguments().getParcelable(POKEMON_ARGUMENT_KEY) );
-        if( savedInstanceState != null ) {
-            move0 = savedInstanceState.getParcelable( MOVE_0_SAVED_STATE );
-            move1 = savedInstanceState.getParcelable( MOVE_1_SAVED_STATE );
-            move2 = savedInstanceState.getParcelable( MOVE_2_SAVED_STATE );
-            move3 = savedInstanceState.getParcelable( MOVE_3_SAVED_STATE );
+        if( savedInstanceState == null ) {
+            if( getArguments().containsKey( POKEMON_ARGUMENT_KEY ) ) {
+                presenter.setPokemon( (Pokemon)getArguments().getParcelable(POKEMON_ARGUMENT_KEY) );
+            } else if( getArguments().containsKey( CONFIGURATION_ARGUMENT_KEY ) ) {
+                presenter.setPokemonConfiguration(
+                        (PokemonConfig)getArguments().getParcelable( CONFIGURATION_ARGUMENT_KEY ) );
+            }
         }
     }
 
@@ -104,6 +114,11 @@ public class CreateConfigurationFragment extends BaseRequestFragment
         if(!isViewRecreated()) {
             pokemonRepresentation = new PokemonDetailsDataBuilder()
                     .buildViewRepresentation(getResources(), presenter.getPokemon());
+            MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
+            move0 = builder.build( presenter.getConfiguration().getMove0() );
+            move1 = builder.build( presenter.getConfiguration().getMove1() );
+            move2 = builder.build( presenter.getConfiguration().getMove2() );
+            move3 = builder.build( presenter.getConfiguration().getMove3() );
         }
 
         populatePokemonView(view);
@@ -130,7 +145,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     @Override
     public ViewPresenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new CreateConfigurationPresenter();
+            presenter = new ConfigurationPresenter();
         }
         return presenter;
     }
@@ -172,7 +187,8 @@ public class CreateConfigurationFragment extends BaseRequestFragment
                 break;
             case R.id.configuration_floating_save_button:
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                CreateConfigurationDialog dialog = CreateConfigurationDialog.newInstance();
+                CreateConfigurationDialog dialog = CreateConfigurationDialog.newInstance(
+                        presenter.getConfigurationName() );
                 dialog.setTargetFragment( this, SAVE_CONFIGURATION_REQUEST_CODE );
                 dialog.show( transaction,CREATE_CONFIGURATION_DIALOG_TAG );
                 break;
@@ -232,7 +248,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateItemView(View rootView) {
-        if( presenter.getItem().getName() != null ) {
+        if( !presenter.getItem().getName().equals("") ) {
             TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
             itemName.setText(presenter.getItem().getName());
             itemName.setVisibility(View.VISIBLE);
@@ -241,7 +257,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateAbilityView( View rootView ) {
-        if( presenter.getAbility().getName() != null ) {
+        if( !presenter.getAbility().getName().equals("") ) {
             TextView abilityName = rootView.findViewById(R.id.configuration_ability_name_text);
             abilityName.setText(presenter.getAbility().getName());
             abilityName.setVisibility(View.VISIBLE);
@@ -250,7 +266,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateNatureView( View rootView ) {
-        if( presenter.getNature().getName() != null ) {
+        if( !presenter.getNature().getName().equals("") ) {
             TextView natureName = rootView.findViewById(R.id.configuration_nature_name_text);
             natureName.setText(presenter.getNature().getName());
             natureName.setVisibility(View.VISIBLE);
@@ -259,7 +275,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateMoveView( View moveRootView, MoveConfigurationRepresentation move ) {
-        if( move != null ) {
+        if( !move.isEmpty ) {
             TextView moveName = moveRootView.findViewById(R.id.move_view_name_text);
             TextView moveType = moveRootView.findViewById(R.id.move_view_type_text);
             TextView movePower = moveRootView.findViewById(R.id.move_view_power_text);
@@ -272,6 +288,34 @@ public class CreateConfigurationFragment extends BaseRequestFragment
             moveType.setVisibility(View.VISIBLE);
             moveRootView.findViewById(R.id.move_view_empty_state_image).setVisibility(View.GONE);
         }
+    }
+
+    private void saveConfigurationRequest( String configurationName ) {
+        Intent data = new Intent();
+        switch ( presenter.saveConfiguration(configurationName) ) {
+            case CREATED:
+                data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
+                getActivity().setResult(Activity.RESULT_OK, data);
+                Toast createdToast = Toast.makeText(getActivity(),
+                                R.string.configuration_created_toast_message,
+                                Toast.LENGTH_SHORT);
+                createdToast.setGravity( Gravity.CENTER, 0, 0 );
+                createdToast.show();
+                break;
+            case UPDATED:
+                data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
+                getActivity().setResult(Activity.RESULT_OK, data);
+                Toast updatedToast = Toast.makeText(getActivity(),
+                                R.string.configuration_updated_toast_message,
+                                Toast.LENGTH_SHORT);
+                updatedToast.setGravity( Gravity.CENTER, 0, 0 );
+                updatedToast.show();
+                break;
+            case NONE:
+                getActivity().setResult( Activity.RESULT_CANCELED );
+                break;
+        }
+        getActivity().finish();
     }
 
     @Override
@@ -303,11 +347,7 @@ public class CreateConfigurationFragment extends BaseRequestFragment
             populateAbilityView( getView() );
         } else if( resultCode == RESULT_OK &&
                     requestCode == SAVE_CONFIGURATION_REQUEST_CODE ) {
-            PokemonConfig pokemonConfig =
-                    presenter.createConfiguration( data.getStringExtra( CONFIGURATION_NAME_DATA_KEY ) );
-            data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, pokemonConfig );
-            getActivity().setResult(Activity.RESULT_OK, data);
-            getActivity().finish();
+            saveConfigurationRequest( data.getStringExtra( CONFIGURATION_NAME_DATA_KEY ) );
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_NATURE_RESULT_CODE ) {
             presenter.setNature( (Nature)data.getParcelableExtra( NATURE_ACTIVITY_RESULT_DATA_KEY ) );
@@ -342,36 +382,14 @@ public class CreateConfigurationFragment extends BaseRequestFragment
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable( MOVE_0_SAVED_STATE, move0 );
-        outState.putParcelable( MOVE_1_SAVED_STATE, move1 );
-        outState.putParcelable( MOVE_2_SAVED_STATE, move2 );
-        outState.putParcelable( MOVE_3_SAVED_STATE, move3 );
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        populatePokemonView(getView());
-        populateItemView(getView());
-        populateAbilityView(getView());
-        populateNatureView(getView());
-        populateMoveView( getView().findViewById(R.id.configuration_move_0_frame), move0 );
-        populateMoveView( getView().findViewById(R.id.configuration_move_1_frame), move1 );
-        populateMoveView( getView().findViewById(R.id.configuration_move_2_frame), move2 );
-        populateMoveView( getView().findViewById(R.id.configuration_move_3_frame), move3 );
-        populateEvSetView( presenter.getEvSet(), getView());
-    }
-
     public class MoveRepresentationBuilder {
         public MoveConfigurationRepresentation build( Move move ) {
             MoveConfigurationRepresentation representation = new MoveConfigurationRepresentation(
                     move.getId(),
                     move.getName(),
                     formatType( move.getType() ),
-                    "Pow. " + move.getPower()
+                    "Pow. " + move.getPower(),
+                    move.getName().equals("")
             );
             return representation;
         }

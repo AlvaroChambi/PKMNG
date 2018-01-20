@@ -10,7 +10,21 @@ public class Ability implements Parcelable {
     private String descriptionShort;
 
     public Ability() {
+        name = "";
+        description = "";
+        descriptionShort = "";
+    }
 
+    public Ability(int id, String name, String description, String descriptionShort) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.descriptionShort = descriptionShort;
+    }
+
+    public Ability( Ability ability ) {
+        this( ability.getId(), ability.getName(),
+                ability.getDescription(), ability.getDescriptionShort() );
     }
 
     protected Ability(Parcel in) {

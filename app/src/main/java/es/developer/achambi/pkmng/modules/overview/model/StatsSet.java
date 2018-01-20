@@ -3,7 +3,10 @@ package es.developer.achambi.pkmng.modules.overview.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
@@ -20,6 +23,41 @@ public class StatsSet implements Parcelable{
         stats.put(Stat.SP_ATTACK, 0);
         stats.put(Stat.SP_DEFENSE, 0);
         stats.put(Stat.SPEED, 0);
+    }
+
+    public StatsSet(HashMap<Stat, Integer> stats) {
+        this.stats = stats;
+    }
+
+    public StatsSet(StatsSet statsSet ) {
+        this( new HashMap<Stat, Integer>(statsSet.getStats() ) );
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if( this == obj ) {
+            return true;
+        }
+
+        if( obj == null ) {
+            return false;
+        }
+
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+
+        StatsSet statsSet = (StatsSet)obj;
+        Iterator<Integer> iterator = this.stats.values().iterator();
+        Iterator <Integer>compareIterator = statsSet.getStats().values().iterator();
+        while( iterator.hasNext() ) {
+            int value = iterator.next();
+            int compareValue = compareIterator.next();
+            if( value != compareValue ) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void setHP(int hp) {

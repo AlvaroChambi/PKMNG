@@ -30,10 +30,10 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupPresenter();
-        onViewSetup(view, savedInstanceState);
         if(savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         }
+        onViewSetup(view, savedInstanceState);
     }
 
     public boolean isViewRecreated() {

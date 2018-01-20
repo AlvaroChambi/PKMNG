@@ -39,9 +39,9 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
-
         onView(withId(R.id.details_create_config_action_button)).perform(click());
-        onView(withId(R.id.configuration_item_frame)).perform(click());
+
+        onView(withId(R.id.configuration_item_empty_state)).perform(click());
 
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -58,7 +58,8 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
-        onView(withId(R.id.configuration_ability_frame)).perform(click());
+
+        onView(withId(R.id.configuration_ability_empty_state)).perform(click());
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.details_choose_ability_action_button));
@@ -74,7 +75,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
-        onView(withId(R.id.configuration_nature_frame)).perform(click());
+        onView(withId(R.id.configuration_nature_empty_state)).perform(click());
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
@@ -89,7 +90,9 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
-        onView(withId(R.id.configuration_move_0_frame)).perform(click());
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_0_frame)) ) ).perform(scrollTo(),
+                click());
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(
@@ -105,7 +108,9 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
-        onView(withId(R.id.configuration_move_1_frame)).perform(click());
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_1_frame)) ) ).perform( scrollTo(),
+                click());
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(
@@ -121,7 +126,9 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
-        onView(withId(R.id.configuration_move_2_frame)).perform(click());
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_2_frame)) ) ).perform(scrollTo(),
+                click());
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(
@@ -137,7 +144,9 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
-        onView(withId(R.id.configuration_move_3_frame)).perform(click());
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_3_frame)) ) ).perform(scrollTo(),
+                click());
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(

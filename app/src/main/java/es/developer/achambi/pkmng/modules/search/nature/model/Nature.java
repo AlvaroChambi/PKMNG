@@ -13,8 +13,20 @@ public class Nature implements Parcelable{
     private Stat decreasedStat;
 
     public Nature() {
+        name = "";
         increasedStat = Stat.NONE;
         decreasedStat = Stat.NONE;
+    }
+
+    public Nature(int id, String name, Stat increasedStat, Stat decreasedStat) {
+        this.id = id;
+        this.name = name;
+        this.increasedStat = increasedStat;
+        this.decreasedStat = decreasedStat;
+    }
+
+    public Nature( Nature nature ) {
+        this( nature.getId(), nature.getName(), nature.getIncreasedStat(), nature.getDecreasedStat() );
     }
 
     protected Nature(Parcel in) {

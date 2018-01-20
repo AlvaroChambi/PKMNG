@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.details.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -16,6 +17,7 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 public class ConfigurationDetailsFragment extends BaseDialogFragment
         implements View.OnClickListener{
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
+    private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 100;
     private PokemonConfig pokemonConfig;
     private DetailsConfigurationRepresentation configurationRepresentation;
 
@@ -58,9 +60,9 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.details_edit_configuration_action_button:
-                startActivity(
-                        EditConfigurationActivity.getStartIntent(getActivity(), pokemonConfig) );
-                dismiss();
+                startActivityForResult(
+                        EditConfigurationActivity.getStartIntent(getActivity(), pokemonConfig),
+                        UPDATE_CONFIGURATION_REQUEST_CODE );
                 break;
             case R.id.details_damage_calculator_action_button:
                 startActivity(
@@ -110,5 +112,12 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         move1.setText(configurationRepresentation.move1);
         move2.setText(configurationRepresentation.move2);
         move3.setText(configurationRepresentation.move3);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getTargetFragment().onActivityResult( getTargetRequestCode(), resultCode, data );
+        dismiss();
     }
 }
