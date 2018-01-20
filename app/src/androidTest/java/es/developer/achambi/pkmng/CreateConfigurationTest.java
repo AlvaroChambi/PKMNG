@@ -24,7 +24,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
 
         onView(withId(R.id.details_create_config_action_button)).perform(click());
-        onView(withId(R.id.pokemon_image_view)).perform(click());
+        onView(withId(R.id.left_pokemon_image_view)).perform(click());
 
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));

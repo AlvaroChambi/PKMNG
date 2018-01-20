@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/pokemon_image_view"
+            android:id="@+id/left_pokemon_image_view"
             android:layout_width="64dp"
             android:layout_height="64dp"
             app:srcCompat="@drawable/pokemon_placeholder"
@@ -67,7 +67,7 @@
             android:maxLines="1"
             android:paddingRight="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/pokemon_image_view"
+            app:layout_constraintLeft_toRightOf="@+id/left_pokemon_image_view"
             app:layout_constraintTop_toBottomOf="@+id/pokemon_type_text"
             app:layout_constraintVertical_bias="0.0"
             tools:text="BST: 234"
@@ -88,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/pokemon_type_text"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/left_pokemon_image_view"
             app:layout_constraintVertical_bias="1.0"
             tools:text="Special sweeper "
             app:layout_constraintHorizontal_bias="1.0" />

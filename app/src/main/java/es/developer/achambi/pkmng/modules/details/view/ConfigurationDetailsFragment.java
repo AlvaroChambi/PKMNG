@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.details.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,22 +10,26 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorActivity;
+import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
 import es.developer.achambi.pkmng.modules.details.databuilder.ConfigurationDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 
 public class ConfigurationDetailsFragment extends BaseDialogFragment
         implements View.OnClickListener{
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
+    private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 100;
     private PokemonConfig pokemonConfig;
     private DetailsConfigurationRepresentation configurationRepresentation;
 
-    public static ConfigurationDetailsFragment newInstance( PokemonConfig config ) {
+    public static ConfigurationDetailsFragment newInstance(PokemonConfig config,
+                                                           OverviewFragment.UseContext useContext ) {
         Bundle args = new Bundle();
         args.putParcelable(CONFIGURATION_ARGUMENT_KEY, config);
-
+        args.putInt( USE_CONTEXT_ARGUMENT_KEY, useContext.ordinal() );
         ConfigurationDetailsFragment fragment = new ConfigurationDetailsFragment();
         fragment.setArguments(args);
 
@@ -54,6 +59,30 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         populateView(view);
         view.findViewById(R.id.details_edit_configuration_action_button).setOnClickListener(this);
         view.findViewById(R.id.details_damage_calculator_action_button).setOnClickListener(this);
+        view.findViewById(R.id.details_choose_configuration_action_button).setOnClickListener(this);
+        actionButtonsSetup( view, OverviewFragment.UseContext
+                .values()[getArguments().getInt(USE_CONTEXT_ARGUMENT_KEY)] );
+    }
+
+    public void actionButtonsSetup( View rootView, OverviewFragment.UseContext useContext ) {
+        switch ( useContext ) {
+            case OVERVIEW_SEARCH_CONTEXT:
+                rootView.findViewById(R.id.details_edit_configuration_action_button).setVisibility(
+                        View.VISIBLE );
+                rootView.findViewById(R.id.details_damage_calculator_action_button).setVisibility(
+                        View.VISIBLE );
+                rootView.findViewById(R.id.details_choose_configuration_action_button).setVisibility(
+                        View.GONE );
+                break;
+            case REPLACE_SEARCH_CONTEXT:
+                rootView.findViewById(R.id.details_edit_configuration_action_button).setVisibility(
+                        View.GONE );
+                rootView.findViewById(R.id.details_damage_calculator_action_button).setVisibility(
+                        View.GONE );
+                rootView.findViewById(R.id.details_choose_configuration_action_button).setVisibility(
+                        View.VISIBLE );
+                break;
+        }
     }
 
     @Override
@@ -67,6 +96,14 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
             case R.id.details_damage_calculator_action_button:
                 startActivity(
                         DamageCalculatorActivity.getStartIntent(getActivity(), pokemonConfig));
+                dismiss();
+                break;
+            case R.id.details_choose_configuration_action_button:
+                Intent dataIntent = getActivity().getIntent();
+                dataIntent.putExtra(DamageCalculatorFragment.POKEMON_CONFIGURATION_EXTRA_KEY,
+                        pokemonConfig );
+                getActivity().setResult(Activity.RESULT_OK, dataIntent);
+                getActivity().finish();
                 dismiss();
                 break;
         }
