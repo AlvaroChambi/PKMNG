@@ -13,7 +13,7 @@ import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
-public class ConfigurationPresenter implements ICreateConfigurationPresenter,
+public class ConfigurationPresenter implements IConfigurationPresenter,
         StatEVView.ProgressUpdateProvider {
 
     private static final String CONFIGURATION_SAVED_DATA_TAG = "CONFIGURATION_SAVED_DATA_TAG";
@@ -56,7 +56,6 @@ public class ConfigurationPresenter implements ICreateConfigurationPresenter,
         pokemonConfiguration = bundle.getParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG );
     }
 
-    @Override
     public StatsSet getEvSet() {
         return editableConfiguration.getStatsSet();
     }
