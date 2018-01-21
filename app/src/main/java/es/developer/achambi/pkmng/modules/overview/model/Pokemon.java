@@ -55,6 +55,10 @@ public class Pokemon implements BasePokemon{
         this.type = new Pair<>(type, Type.EMPTY);
     }
 
+    public void setType( Pair<Type, Type> type ) {
+        this.type = type;
+    }
+
     public void setType(Type type0, Type type1) {
         this.type = new Pair<>(type0, type1);
     }

@@ -73,15 +73,22 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     public SearchAdapterDecorator provideAdapter() {
         PokemonSearchAdapter adapter = new PokemonSearchAdapter( pokemonList );
         adapter.setListener( presenter.providePokemonListener() );
-
-        ConfigurationSearchAdapter configAdapter =
+        ConfigurationSearchAdapter configurationAdapter = new ConfigurationSearchAdapter(
+                configurationList );
+        configurationAdapter.setListener( presenter.provideConfigurationListener() );
+        ConfigurationSearchAdapter fullAdapter =
                 new ConfigurationSearchAdapter( configurationList, adapter );
-        configAdapter.setListener( presenter.provideConfigurationListener() );
+        fullAdapter.setListener( presenter.provideConfigurationListener() );
 
-        if ( getSearchFilter().equals( SearchFilter.ALL_FILTER ) ) {
-            return configAdapter;
-        } else {
-            return adapter;
+        switch ( getSearchFilter() ) {
+            case POKEMON_FILTER:
+                return adapter;
+            case CONFIGURATION_FILTER:
+                return  configurationAdapter;
+            case ALL_FILTER:
+                return fullAdapter;
+            default:
+                return fullAdapter;
         }
     }
 
@@ -148,7 +155,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     public void showConfigurationDetails(PokemonConfig configuration) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         ConfigurationDetailsFragment configDetails = ConfigurationDetailsFragment.newInstance(
-                configuration );
+                configuration, getUseContext() );
         configDetails.setTargetFragment( this, UPDATE_CONFIGURATION_REQUEST_CODE );
         configDetails.show( transaction, CONFIGURATION_DETAILS_DIALOG_TAG );
     }
@@ -220,6 +227,10 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     public class ConfigurationSearchAdapter extends SearchAdapterDecorator<OverviewConfigurationRepresentation,
             ConfigurationSearchAdapter.ConfigViewHolder> {
+
+        public ConfigurationSearchAdapter( ArrayList data ) {
+            super(data);
+        }
 
         public ConfigurationSearchAdapter(ArrayList data, SearchAdapterDecorator adapter) {
             super(data, adapter);
