@@ -131,7 +131,7 @@ public class ConfigurationFragment extends BaseRequestFragment
         populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
         populateEvSetView( presenter.getEvSet(), view);
 
-        view.findViewById(R.id.left_pokemon_image_view).setOnClickListener(this);
+        view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_nature_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_ability_frame).setOnClickListener(this);
@@ -153,7 +153,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     @Override
     public void onClick(View v) {
         switch( v.getId() ) {
-            case R.id.left_pokemon_image_view:
+            case R.id.pokemon_image_view:
                 startActivityForResult(SearchActivity.getStartIntent(
                         getActivity(), SearchFilter.POKEMON_FILTER ), REPLACE_POKEMON_RESULT_CODE );
                 break;

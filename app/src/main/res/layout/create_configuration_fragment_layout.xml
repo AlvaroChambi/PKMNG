@@ -14,7 +14,7 @@
         android:elevation="4dp">
 
         <ImageView
-            android:id="@+id/left_pokemon_image_view"
+            android:id="@+id/pokemon_image_view"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:background="@drawable/drawable_primary_background"
@@ -39,7 +39,7 @@
             android:inputType="textPersonName"
             android:textAlignment="center"
             tools:text="Pikachu"
-            app:layout_constraintLeft_toRightOf="@+id/left_pokemon_image_view"
+            app:layout_constraintLeft_toRightOf="@+id/pokemon_image_view"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
             app:layout_constraintRight_toLeftOf="@+id/guideline"
