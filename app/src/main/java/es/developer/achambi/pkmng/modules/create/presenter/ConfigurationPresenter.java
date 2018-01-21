@@ -44,8 +44,8 @@ public class ConfigurationPresenter implements IConfigurationPresenter,
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        bundle.putParcelable( POKEMON_SAVED_DATA_TAG, editablePokemon);
-        bundle.putParcelable( CONFIGURATION_SAVED_DATA_TAG, editableConfiguration);
+        bundle.putParcelable( POKEMON_SAVED_DATA_TAG, editablePokemon );
+        bundle.putParcelable( CONFIGURATION_SAVED_DATA_TAG, editableConfiguration );
         bundle.putParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG, pokemonConfiguration );
     }
 

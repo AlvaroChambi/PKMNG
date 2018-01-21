@@ -9,39 +9,52 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 public class DamageCalculatorPresenter implements ViewPresenter{
     private static final String LEFT_POKEMON_SAVED_DATA = "LEFT_POKEMON_SAVED_DATA";
     private static final String RIGHT_POKEMON_SAVED_DATA = "RIGHT_POKEMON_SAVED_DATA";
-    private PokemonConfig attackerPokemon;
-    private PokemonConfig attackedPokemon;
+    private static final String ATTACK_DIRECTION_SAVED_DATA = "ATTACK_DIRECTION_SAVED_DATA";
+    private PokemonConfig leftPokemon;
+    private PokemonConfig rightPokemon;
+    private boolean leftRightDirection;
 
     public DamageCalculatorPresenter() {
-        attackerPokemon = new EmptyPokemonConfig();
-        attackedPokemon = new EmptyPokemonConfig();
+        leftPokemon = new EmptyPokemonConfig();
+        rightPokemon = new EmptyPokemonConfig();
+        leftRightDirection = true;
     }
 
-    public PokemonConfig getAttackerPokemon() {
-        return attackerPokemon;
+    public PokemonConfig getLeftPokemon() {
+        return leftPokemon;
     }
 
-    public void setAttackerPokemon(PokemonConfig attackerPokemon) {
-        this.attackerPokemon = attackerPokemon;
+    public void setLeftPokemon(PokemonConfig leftPokemon) {
+        this.leftPokemon = leftPokemon;
     }
 
-    public PokemonConfig getAttackedPokemon() {
-        return attackedPokemon;
+    public PokemonConfig getRightPokemon() {
+        return rightPokemon;
     }
 
-    public void setAttackedPokemon(PokemonConfig attackedPokemon) {
-        this.attackedPokemon = attackedPokemon;
+    public void setRightPokemon(PokemonConfig rightPokemon) {
+        this.rightPokemon = rightPokemon;
+    }
+
+    public boolean isLeftRightDirection() {
+        return leftRightDirection;
+    }
+
+    public void setAttackDirection(boolean leftRightDirection) {
+        this.leftRightDirection = leftRightDirection;
     }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        bundle.putParcelable( LEFT_POKEMON_SAVED_DATA, attackerPokemon );
-        bundle.putParcelable( RIGHT_POKEMON_SAVED_DATA, attackedPokemon );
+        bundle.putParcelable( LEFT_POKEMON_SAVED_DATA, leftPokemon);
+        bundle.putParcelable( RIGHT_POKEMON_SAVED_DATA, rightPokemon);
+        bundle.putBoolean( ATTACK_DIRECTION_SAVED_DATA, leftRightDirection );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
-        attackerPokemon = bundle.getParcelable( LEFT_POKEMON_SAVED_DATA );
-        attackedPokemon = bundle.getParcelable( RIGHT_POKEMON_SAVED_DATA );
+        leftPokemon = bundle.getParcelable( LEFT_POKEMON_SAVED_DATA );
+        rightPokemon = bundle.getParcelable( RIGHT_POKEMON_SAVED_DATA );
+        leftRightDirection = bundle.getBoolean( ATTACK_DIRECTION_SAVED_DATA );
     }
 }

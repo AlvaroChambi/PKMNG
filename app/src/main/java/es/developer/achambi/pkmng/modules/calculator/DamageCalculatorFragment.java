@@ -50,7 +50,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         super.onCreate(savedInstanceState);
         setupPresenter();
         if( savedInstanceState == null ) {
-            presenter.setAttackerPokemon(
+            presenter.setLeftPokemon(
                     (PokemonConfig) getArguments().getParcelable( CONFIGURATION_ARGUMENT_KEY ) );
         }
     }
@@ -65,13 +65,14 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
 
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
-        leftPresentation = new PresentationBuilder().build( presenter.getAttackerPokemon() );
-        rightPresentation = new PresentationBuilder().build( presenter.getAttackedPokemon() );
+        leftPresentation = new PresentationBuilder().build( presenter.getLeftPokemon() );
+        rightPresentation = new PresentationBuilder().build( presenter.getRightPokemon() );
 
         view.findViewById(R.id.left_pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.right_pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.attack_direction_image_view).setOnClickListener(this);
         populateConfiguration( view );
+        populateAttackDirection();
     }
 
     private void populateConfiguration( View rootView ) {
@@ -100,6 +101,16 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         }
     }
 
+    private void populateAttackDirection() {
+        if( presenter.isLeftRightDirection() ) {
+            ImageView attackDirection = getView().findViewById(R.id.attack_direction_image_view);
+            attackDirection.setRotationY(0);
+        } else {
+            ImageView attackDirection = getView().findViewById(R.id.attack_direction_image_view);
+            attackDirection.setRotationY(180);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch ( v.getId() ) {
@@ -114,6 +125,8 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                         RIGHT_POKEMON_REQUEST_CODE);
                 break;
             case R.id.attack_direction_image_view:
+                presenter.setAttackDirection( !presenter.isLeftRightDirection() );
+                populateAttackDirection();
                 break;
         }
     }
@@ -124,12 +137,12 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         if( resultCode == Activity.RESULT_OK ) {
             PresentationBuilder builder = new PresentationBuilder();
             if( requestCode == LEFT_POKEMON_REQUEST_CODE ) {
-                presenter.setAttackerPokemon( (PokemonConfig)data.getParcelableExtra(
+                presenter.setLeftPokemon( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 leftPresentation = builder.build( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
             } else if( requestCode == RIGHT_POKEMON_REQUEST_CODE ) {
-                presenter.setAttackedPokemon( (PokemonConfig)data.getParcelableExtra(
+                presenter.setRightPokemon( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 rightPresentation = builder.build( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );

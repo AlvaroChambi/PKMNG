@@ -157,7 +157,7 @@ public class OverviewPresenter implements IOverviewPresenter {
 
             Configuration config = new Configuration();
             PokemonConfig pokemonConfig = new PokemonConfig(i,pokemon, config);
-            pokemonConfig.setName("Special sweeper awesome pikachu");
+            pokemonConfig.setName("Special");
             Item item = new Item();
             item.setName("eviolite");
             config.setItem( item );
