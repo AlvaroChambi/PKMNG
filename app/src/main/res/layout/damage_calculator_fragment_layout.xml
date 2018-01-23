@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -57,14 +57,10 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_forward_black_24dp"
             android:tint="@color/primary"
-            android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginRight="0dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="0dp" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/left_pokemon_configuration_name"
@@ -79,7 +75,9 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/attack_direction_image_view"
-            app:layout_constraintHorizontal_bias="1.0" />
+            app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/right_pokemon_configuration_name"
@@ -94,7 +92,45 @@
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/attack_direction_image_view"
-            app:layout_constraintHorizontal_bias="0.0" />
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
     </android.support.constraint.ConstraintLayout>
-</FrameLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/damage_result_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Damage results"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView
+            android:id="@+id/move_0_damage_result_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="7dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/damage_result_title_text">
+
+        </es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

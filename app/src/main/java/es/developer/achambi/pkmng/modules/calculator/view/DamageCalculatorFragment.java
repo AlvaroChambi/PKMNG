@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.calculator;
+package es.developer.achambi.pkmng.modules.calculator.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.calculator.view.presentation.CalculatorPokemonPresentation;
+import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenter;
+import es.developer.achambi.pkmng.modules.calculator.view.presentation.MoveDamagePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
@@ -25,6 +28,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     private DamageCalculatorPresenter presenter;
     private CalculatorPokemonPresentation leftPresentation;
     private CalculatorPokemonPresentation rightPresentation;
+    private MoveDamagePresentation move0Presentation;
 
     public static DamageCalculatorFragment newInstance( Bundle args ) {
         DamageCalculatorFragment fragment = new DamageCalculatorFragment();
@@ -67,12 +71,31 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         leftPresentation = new PresentationBuilder().build( presenter.getLeftPokemon() );
         rightPresentation = new PresentationBuilder().build( presenter.getRightPokemon() );
+        move0Presentation = new PresentationBuilder().build();
 
         view.findViewById(R.id.left_pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.right_pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.attack_direction_image_view).setOnClickListener(this);
         populateConfiguration( view );
         populateAttackDirection();
+        populateDamageResult( view.findViewById(R.id.move_0_damage_result_view),
+                move0Presentation );
+    }
+
+    private void populateDamageResult( View rootView, MoveDamagePresentation presentation ) {
+        TextView name = rootView.findViewById(R.id.move_damage_name_text);
+        TextView type = rootView.findViewById(R.id.move_damage_type_text);
+        TextView category = rootView.findViewById(R.id.move_damage_category_text);
+        TextView power = rootView.findViewById(R.id.move_damage_power_text);
+        TextView effect = rootView.findViewById(R.id.move_damage_effect_text);
+        TextView result = rootView.findViewById(R.id.move_damage_result_text);
+
+        name.setText( presentation.name );
+        type.setText( presentation.type );
+        category.setText( presentation.category );
+        power.setText( presentation.power );
+        effect.setText( presentation.effect );
+        result.setText( presentation.result );
     }
 
     private void populateConfiguration( View rootView ) {
@@ -155,6 +178,15 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         public CalculatorPokemonPresentation build( PokemonConfig pokemonConfig ) {
             return new CalculatorPokemonPresentation( pokemonConfig.getName(),
                     pokemonConfig.getId() == -1 );
+        }
+
+        public MoveDamagePresentation build(  ) {
+            return new MoveDamagePresentation(
+                    "Flamethrower",
+                    "Fire", "Special", "Power 90",
+                    "SuperEffective : x4.0",
+                    "Guaranteed 1HKO  94.5 112%", false
+            );
         }
     }
 }

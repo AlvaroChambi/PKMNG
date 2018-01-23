@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorActivity;
-import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorFragment;
+import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorActivity;
+import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
 import es.developer.achambi.pkmng.modules.details.databuilder.ConfigurationDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationRepresentation;
