@@ -5,12 +5,13 @@ import android.os.Parcelable;
 
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public class Move implements Parcelable{
     private int id;
     private String name;
     private String effect;
-    private Pokemon.Type type;
+    private Type type;
     private String category;
     private int power;
     private int accuracy;
@@ -18,10 +19,10 @@ public class Move implements Parcelable{
 
     public Move() {
         name = "";
-        type = Pokemon.Type.EMPTY;
+        type = Type.EMPTY;
     }
 
-    public Move(int id, String name, String effect, Pokemon.Type type, String category,
+    public Move(int id, String name, String effect, Type type, String category,
                 int power, int accuracy, int pp) {
         this.id = id;
         this.name = name;
@@ -42,7 +43,7 @@ public class Move implements Parcelable{
         id = in.readInt();
         name = in.readString();
         effect = in.readString();
-        type = ParcelUtil.readEnumFromParcel(in, Pokemon.Type.class);
+        type = ParcelUtil.readEnumFromParcel(in, Type.class);
         category = in.readString();
         power = in.readInt();
         accuracy = in.readInt();
@@ -57,11 +58,11 @@ public class Move implements Parcelable{
         this.id = id;
     }
 
-    public Pokemon.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Pokemon.Type type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

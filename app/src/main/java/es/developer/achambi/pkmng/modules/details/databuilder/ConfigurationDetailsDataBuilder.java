@@ -8,6 +8,7 @@ import es.developer.achambi.pkmng.modules.details.view.representation.DetailsCon
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
@@ -92,11 +93,11 @@ public class ConfigurationDetailsDataBuilder {
         }
     }
 
-    private String typeAttribute(Pair<Pokemon.Type, Pokemon.Type> type){
+    private String typeAttribute(Pair<Type, Type> type){
         return formatType(type.first) + formatType(type.second);
     }
 
-    private String formatType(Pokemon.Type type) {
+    private String formatType(Type type) {
         String formattedType = "";
         switch (type) {
             case ELECTRIC:

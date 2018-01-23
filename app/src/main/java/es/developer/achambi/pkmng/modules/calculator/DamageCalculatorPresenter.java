@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.EmptyPokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class DamageCalculatorPresenter implements ViewPresenter{
@@ -21,10 +23,13 @@ public class DamageCalculatorPresenter implements ViewPresenter{
     private boolean leftRightDirection;
 
     public class Damage {
+        private static final float CRITICAL_HIT_MODIFIER = 1.5f;
         private Pair<Float, Float> moveDamage;
         private int hitsToKO;
+        private float modifier;
 
-        public Damage( Pair<Float, Float> moveDamage, int hitsToKO ) {
+        public Damage( Pair<Float, Float> moveDamage, int hitsToKO, float modifier ) {
+            this.modifier = modifier;
             this.moveDamage = moveDamage;
             this.hitsToKO = hitsToKO;
         }
@@ -43,6 +48,14 @@ public class DamageCalculatorPresenter implements ViewPresenter{
 
         public void setHitsToKO(int hitsToKO) {
             this.hitsToKO = hitsToKO;
+        }
+
+        public float getModifier() {
+            return modifier;
+        }
+
+        public void setModifier(float modifier) {
+            this.modifier = modifier;
         }
     }
 
@@ -92,7 +105,7 @@ public class DamageCalculatorPresenter implements ViewPresenter{
     private ArrayList<Damage> damagePerMove( PokemonConfig attacker, PokemonConfig attacked ) {
         ArrayList<Damage> damageResult = new ArrayList<>();
         Pair<Float, Float> moveDamage0 = moveDamageResult( attacker, attacked,
-                attacker.getConfiguration().getMove0() );
+                attacker.getConfiguration().getMove0() ) ;
         Pair<Float, Float> moveDamage1 = moveDamageResult( attacker, attacked,
                 attacker.getConfiguration().getMove0() );
         Pair<Float, Float> moveDamage2 = moveDamageResult( attacker, attacked,
@@ -100,15 +113,24 @@ public class DamageCalculatorPresenter implements ViewPresenter{
         Pair<Float, Float> moveDamage3 = moveDamageResult( attacker, attacked,
                 attacker.getConfiguration().getMove0() );
 
+        float modifierMove0 = modifierValue( attacker, attacked,
+                attacker.getConfiguration().getMove0() );
+        float modifierMove1 = modifierValue( attacker, attacked,
+                attacker.getConfiguration().getMove1() );
+        float modifierMove2 = modifierValue( attacker, attacked,
+                attacker.getConfiguration().getMove2() );
+        float modifierMove3 = modifierValue( attacker, attacked,
+                attacker.getConfiguration().getMove3() );
+
         int hitsToKOMove0 = hitsToKO( moveDamage0, attacked.getHP() );
         int hitsToKOMove1 = hitsToKO( moveDamage1, attacked.getHP() );
         int hitsToKOMove2 = hitsToKO( moveDamage2, attacked.getHP() );
         int hitsToKOMove3 = hitsToKO( moveDamage3, attacked.getHP() );
 
-        damageResult.add( new Damage( moveDamage0, hitsToKOMove0 ) );
-        damageResult.add( new Damage( moveDamage1, hitsToKOMove1 ) );
-        damageResult.add( new Damage( moveDamage2, hitsToKOMove2 ) );
-        damageResult.add( new Damage( moveDamage3, hitsToKOMove3 ) );
+        damageResult.add( new Damage( moveDamage0, hitsToKOMove0, modifierMove0 ) );
+        damageResult.add( new Damage( moveDamage1, hitsToKOMove1, modifierMove1 ) );
+        damageResult.add( new Damage( moveDamage2, hitsToKOMove2, modifierMove2 ) );
+        damageResult.add( new Damage( moveDamage3, hitsToKOMove3, modifierMove3 ) );
         return damageResult;
     }
 
@@ -135,6 +157,61 @@ public class DamageCalculatorPresenter implements ViewPresenter{
         float max = ( ( ( ( ( (2 * Pokemon.FIXED_LEVEL) / 5 ) + 2 ) * move.getPower() * ( attack / defense ) ) / 50 )
                 + 2 ) * 1.0f;
         return new Pair<>( min, max );
+    }
+
+    private float modifierValue( PokemonConfig attacker,
+                                 PokemonConfig attacked, Move move ) {
+        float weatherModifier = 1.0f;
+        float criticalHit = 1.5f;
+        float stab = 1.0f;
+        if( isSTAB( attacker.getPokemon().getType(), move.getType() ) ) {
+            if( attacker.getAbility().equals("Adaptability") ) {
+                stab = 2.0f;
+            } else  {
+                stab = 1.5f;
+            }
+        }
+        float typeModifier = typeEffectiveness( attacked.getPokemon().getType().first,
+                move.getType() );
+        float burnModifier = burnModifier( attacker.getConfiguration(),
+                move, false );
+        float moveModifier = moveModifier();
+        float itemModifier = itemModifier();
+        return weatherModifier * stab * typeModifier * burnModifier * moveModifier *
+                itemModifier;
+    }
+
+    private boolean isSTAB( Pair<Type, Type> attackerType,
+                            Type moveType ) {
+        if( attackerType.first == moveType || attackerType.second == moveType ) {
+            return true;
+        }
+        return false;
+    }
+
+    private float typeEffectiveness( Type firstType,
+                                     Type secondType ) {
+        return 1.0f;
+    }
+
+    private float burnModifier( Configuration configuration, Move move,
+                                boolean isBurned ) {
+        if( isBurned && !configuration.getAbility().equals("Guts") &&
+               move.getCategory().equals("Physical") ) {
+            return 0.5f;
+        } else {
+            return 1.0f;
+        }
+    }
+
+    private float moveModifier() {
+        //move modifier can be affected by the equiped item
+        return 1.0f;
+    }
+
+    private float itemModifier() {
+        //can be affected by moves, and several modifiers...
+        return 1.0f;
     }
 
     @Override

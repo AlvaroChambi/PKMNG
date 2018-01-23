@@ -19,6 +19,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
@@ -394,7 +395,7 @@ public class ConfigurationFragment extends BaseRequestFragment
             return representation;
         }
 
-        private String formatType( Pokemon.Type type ) {
+        private String formatType( Type type ) {
             switch (type) {
 
                 case ELECTRIC:

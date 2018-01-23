@@ -12,6 +12,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
@@ -78,11 +79,11 @@ public class OverviewViewDataBuilder {
         }
     }
 
-    private String typeAttribute(Pair<Pokemon.Type, Pokemon.Type> type, Resources resources){
+    private String typeAttribute(Pair<Type, Type> type, Resources resources){
         return formatType(type.first, resources) + formatType(type.second, resources);
     }
 
-    private String formatType(Pokemon.Type type, Resources resources) {
+    private String formatType(Type type, Resources resources) {
         String formattedType = "";
         switch (type) {
             case ELECTRIC:

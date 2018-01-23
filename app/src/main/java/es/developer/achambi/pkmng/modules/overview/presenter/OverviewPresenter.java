@@ -10,6 +10,7 @@ import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
@@ -128,7 +129,7 @@ public class OverviewPresenter implements IOverviewPresenter {
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
-            pokemon.setType(Pokemon.Type.ELECTRIC);
+            pokemon.setType(Type.ELECTRIC);
             pokemon.setHP(35);
             pokemon.setAttack(55);
             pokemon.setDefense(40);
@@ -147,7 +148,7 @@ public class OverviewPresenter implements IOverviewPresenter {
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
-            pokemon.setType(Pokemon.Type.ELECTRIC);
+            pokemon.setType(Type.ELECTRIC);
             pokemon.setHP(35);
             pokemon.setAttack(55);
             pokemon.setDefense(40);
@@ -170,25 +171,25 @@ public class OverviewPresenter implements IOverviewPresenter {
 
             Move move0 = new Move();
             move0.setName("Thunderbolt");
-            move0.setType(Pokemon.Type.ELECTRIC);
+            move0.setType(Type.ELECTRIC);
             config.setMove0(move0);
             Move move1 = new Move();
             move1.setName("Grass knot");
-            move1.setType(Pokemon.Type.ELECTRIC);
+            move1.setType(Type.ELECTRIC);
             config.setMove1(move1);
             Move move2 = new Move();
             move2.setName("Signal Beam");
-            move2.setType(Pokemon.Type.ELECTRIC);
+            move2.setType(Type.ELECTRIC);
             config.setMove2(move2);
             Move move3 = new Move();
             move3.setName("Hidden power");
-            move3.setType(Pokemon.Type.ELECTRIC);
+            move3.setType(Type.ELECTRIC);
             config.setMove3(move3);
             pokemonList.add(pokemonConfig);
         }
         Pokemon pokemon = new Pokemon(1);
         pokemon.setName("Pikachu");
-        pokemon.setType(Pokemon.Type.ELECTRIC);
+        pokemon.setType(Type.ELECTRIC);
         pokemon.setHP(35);
         pokemon.setAttack(55);
         pokemon.setDefense(40);

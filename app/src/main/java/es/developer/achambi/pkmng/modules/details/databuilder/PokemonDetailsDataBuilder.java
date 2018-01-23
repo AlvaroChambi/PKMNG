@@ -7,6 +7,7 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 
 public class PokemonDetailsDataBuilder {
@@ -57,11 +58,11 @@ public class PokemonDetailsDataBuilder {
         }
     }
 
-    private String typeAttribute(Pair<Pokemon.Type, Pokemon.Type> type){
+    private String typeAttribute(Pair<Type, Type> type){
         return formatType(type.first) + formatType(type.second);
     }
 
-    private String formatType(Pokemon.Type type) {
+    private String formatType(Type type) {
         String formattedType = "";
         switch (type) {
             case ELECTRIC:
