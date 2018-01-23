@@ -6,6 +6,7 @@ import android.util.Pair;
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
 public class Pokemon implements BasePokemon{
+    public static final int FIXED_LEVEL = 50;
     public enum Type {
         ELECTRIC,
         GROUND,
