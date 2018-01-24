@@ -158,9 +158,14 @@ public class SearchMoveFragment extends BaseSearchListFragment
             return 0;
         }
 
-        private int buildCategory( String category ) {
-            if( category.equals("Physical") ) {
-                return R.drawable.move_category_physical;
+        private int buildCategory( Move.Category category ) {
+            switch (category) {
+                case PHYSICAL:
+                    return R.drawable.move_category_physical;
+                case SPECIAL:
+                    break;
+                case EMPTY:
+                    break;
             }
             return 0;
         }

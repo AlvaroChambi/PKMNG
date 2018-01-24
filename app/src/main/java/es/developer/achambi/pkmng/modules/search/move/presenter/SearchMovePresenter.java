@@ -39,7 +39,7 @@ public class SearchMovePresenter implements ISearchMovePresenter,
             move.setPower(90);
             move.setPp(20);
             move.setType(Type.GROUND);
-            move.setCategory("Physical");
+            move.setCategory(Move.Category.PHYSICAL);
             moves.add(move);
         }
         return moves;

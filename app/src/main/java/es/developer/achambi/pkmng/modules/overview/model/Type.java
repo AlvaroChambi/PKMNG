@@ -1,5 +1,7 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
+import android.util.Pair;
+
 import java.util.HashMap;
 
 public enum Type {
@@ -40,8 +42,15 @@ public enum Type {
         }
     }
 
-    public HashMap<Type, Float> getDeals() {
-        return deals;
+    public float modifier( Pair<Type, Type> type ) {
+        if( type.second == EMPTY ) {
+            return modifier( type.first );
+        } else {
+            float fistModifier = modifier( type.first );
+            float secondModifier = modifier( type.second );
+
+            return fistModifier * secondModifier;
+        }
     }
 
     public HashMap<Type, Float> getReceives() {

@@ -4,15 +4,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public class Move implements Parcelable{
+    public enum Category {
+        PHYSICAL,
+        SPECIAL,
+        EMPTY
+    }
     private int id;
     private String name;
     private String effect;
     private Type type;
-    private String category;
+    private Category category;
     private int power;
     private int accuracy;
     private int pp;
@@ -20,9 +24,10 @@ public class Move implements Parcelable{
     public Move() {
         name = "";
         type = Type.EMPTY;
+        category = Category.EMPTY;
     }
 
-    public Move(int id, String name, String effect, Type type, String category,
+    public Move(int id, String name, String effect, Type type, Category category,
                 int power, int accuracy, int pp) {
         this.id = id;
         this.name = name;
@@ -44,7 +49,7 @@ public class Move implements Parcelable{
         name = in.readString();
         effect = in.readString();
         type = ParcelUtil.readEnumFromParcel(in, Type.class);
-        category = in.readString();
+        category = ParcelUtil.readEnumFromParcel(in, Category.class);
         power = in.readInt();
         accuracy = in.readInt();
         pp = in.readInt();
@@ -66,11 +71,11 @@ public class Move implements Parcelable{
         this.type = type;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -137,7 +142,7 @@ public class Move implements Parcelable{
         dest.writeString(name);
         dest.writeString(effect);
         ParcelUtil.writeEnumToParcel(dest, type);
-        dest.writeString(category);
+        ParcelUtil.writeEnumToParcel(dest, category);
         dest.writeInt(power);
         dest.writeInt(accuracy);
         dest.writeInt(pp);
