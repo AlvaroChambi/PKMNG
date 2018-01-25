@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 public class EmptyPokemon extends Pokemon {
     public EmptyPokemon() {

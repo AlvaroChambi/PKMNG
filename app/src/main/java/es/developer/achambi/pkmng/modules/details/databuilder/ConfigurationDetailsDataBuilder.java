@@ -1,11 +1,10 @@
 package es.developer.achambi.pkmng.modules.details.databuilder;
 
 import android.content.res.Resources;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationRepresentation;
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;

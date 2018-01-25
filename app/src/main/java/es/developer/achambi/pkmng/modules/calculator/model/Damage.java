@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.calculator.model;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 public class Damage {
     private static final float CRITICAL_HIT_MODIFIER = 1.5f;

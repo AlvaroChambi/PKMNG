@@ -1,21 +1,16 @@
 package es.developer.achambi.pkmng.modules.calculator.utils;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import org.jetbrains.annotations.NotNull;
 
-import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
+import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class DamageCalculator {
-    public static int hitsToKO( Pair<Float, Float> moveDamage,
-                          int attackedHP ) {
-        return (int)(attackedHP / moveDamage.first);
-    }
 
     public static Pair<Float, Float> moveDamageResult( int attackerAttack, int attackerSpAttack,
                                                        int attackedDefense, int attackedSpDefense,
@@ -42,27 +37,58 @@ public class DamageCalculator {
         float max = ( ( ( ( ( (2 * Pokemon.FIXED_LEVEL) / 5 ) + 2 ) * move.getPower() *
                 ( attack / defense ) ) / 50 )
                 + 2 ) * 1.0f;
-        return new Pair<>( min, max );
+        Pair<Float, Float> result = new Pair<>( min, max );
+        return result;
+    }
+
+    public static int hitsToKO( @NotNull Pair<Float, Float> moveDamage,
+                                int attackedHP ) {
+        if( moveDamage.first < 0 ) {
+            throw new IllegalStateException();
+        }
+
+        if( attackedHP <= 0 ) {
+            throw new IllegalStateException();
+        }
+
+        if( moveDamage.first == 0 ) {
+            return 0;
+        }
+        return (int)Math.ceil(attackedHP / moveDamage.first);
     }
 
     public static float modifierValue( PokemonConfig attacker,
                                         PokemonConfig attacked, Move move ) {
         float weatherModifier = 1.0f;
-        float stab = 1.0f;
-        if( isSTAB( attacker.getPokemon().getType(), move.getType() ) ) {
-            if( attacker.getAbility().equals("Adaptability") ) {
-                stab = 2.0f;
-            } else  {
-                stab = 1.5f;
-            }
-        }
+        float stab = stabModifier( attacker.getPokemon().getType(), move.getType(),
+                                   attacker.getAbility() );
         float typeModifier = move.getType().modifier( attacked.getPokemon().getType() );
-        float burnModifier = burnModifier( attacker.getConfiguration(),
-                move, false );
+        float burnModifier = burnModifier( move.getCategory(),
+                attacker.getConfiguration().getAbility(),
+                false );
         float moveModifier = moveModifier();
         float itemModifier = itemModifier();
         return weatherModifier * stab * typeModifier * burnModifier * moveModifier *
                 itemModifier;
+    }
+
+    public static final float stabModifier( @NotNull Pair<Type, Type> attackerType,
+                                            @NotNull Type moveType,
+                                            @NotNull Ability ability ) {
+        if( attackerType.first.equals( Type.EMPTY ) ) {
+            throw new IllegalStateException();
+        }
+        if( moveType.equals( Type.EMPTY ) ){
+            throw new IllegalStateException();
+        }
+        if( isSTAB( attackerType, moveType ) ) {
+            if( ability.getName().equals( Ability.ADAPTABILITY ) ) {
+                return 2.0f;
+            } else {
+                return 1.5f;
+            }
+        }
+        return 1.0f;
     }
 
     private static boolean isSTAB( Pair<Type, Type> attackerType,
@@ -73,10 +99,14 @@ public class DamageCalculator {
         return false;
     }
 
-    private static float burnModifier( Configuration configuration, Move move,
-                                        boolean isBurned ) {
-        if( isBurned && !configuration.getAbility().equals("Guts") &&
-                move.getCategory().equals("Physical") ) {
+    public static float burnModifier( @NotNull Move.Category category,
+                                      @NotNull Ability ability,
+                                      boolean isBurned ) {
+        if( category.equals( Move.Category.EMPTY ) ) {
+            throw new IllegalStateException();
+        }
+        if( isBurned && !ability.getName().equals(Ability.GUTS) &&
+                category.equals(Move.Category.PHYSICAL) ) {
             return 0.5f;
         } else {
             return 1.0f;

@@ -1,7 +1,7 @@
 package es.developer.achambi.pkmng.modules.calculator;
 
 import android.os.Bundle;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 

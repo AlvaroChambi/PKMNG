@@ -1,13 +1,12 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
 import android.content.res.Resources;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;

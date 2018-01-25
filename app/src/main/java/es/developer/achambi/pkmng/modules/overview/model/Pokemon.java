@@ -1,7 +1,8 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
 import android.os.Parcel;
-import android.util.Pair;
+import android.support.v4.util.Pair;
+
 
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
