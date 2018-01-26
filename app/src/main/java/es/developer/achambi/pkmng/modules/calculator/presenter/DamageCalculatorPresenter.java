@@ -3,10 +3,12 @@ package es.developer.achambi.pkmng.modules.calculator.presenter;
 import android.os.Bundle;
 
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.EmptyPokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
-public class DamageCalculatorPresenter implements ViewPresenter{
+public class DamageCalculatorPresenter implements ViewPresenter {
     private static final String LEFT_POKEMON_SAVED_DATA = "LEFT_POKEMON_SAVED_DATA";
     private static final String RIGHT_POKEMON_SAVED_DATA = "RIGHT_POKEMON_SAVED_DATA";
     private static final String ATTACK_DIRECTION_SAVED_DATA = "ATTACK_DIRECTION_SAVED_DATA";

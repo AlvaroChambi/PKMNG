@@ -15,15 +15,25 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.calculator.view.presentation.CalculatorPokemonPresentation;
 import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenter;
 import es.developer.achambi.pkmng.modules.calculator.view.presentation.MoveDamagePresentation;
+import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
+import es.developer.achambi.pkmng.modules.search.move.model.Move;
+import es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity;
+import es.developer.achambi.pkmng.modules.search.move.view.SearchMoveFragment;
+import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
 
 public class DamageCalculatorFragment extends BaseFragment implements View.OnClickListener {
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     public static final String POKEMON_CONFIGURATION_EXTRA_KEY = "LEFT_POKEMON_EXTRA_KEY";
+    public static final String MOVE_CHANGE_EXTRA_KEY = "MOVE_CHANGE_EXTRA_KEY";
     private static final int LEFT_POKEMON_REQUEST_CODE = 100;
     private static final int RIGHT_POKEMON_REQUEST_CODE = 101;
+    private static final int MOVE_0_CHANGE_REQUEST_CODE = 102;
+    private static final int MOVE_1_CHANGE_REQUEST_CODE = 103;
+    private static final int MOVE_2_CHANGE_REQUEST_CODE = 104;
+    private static final int MOVE_3_CHANGE_REQUEST_CODE = 105;
 
     private DamageCalculatorPresenter presenter;
     private CalculatorPokemonPresentation leftPresentation;
@@ -76,26 +86,41 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         view.findViewById(R.id.left_pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.right_pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.attack_direction_image_view).setOnClickListener(this);
+        view.findViewById(R.id.move_0_damage_result_view).setOnClickListener(this);
+        view.findViewById(R.id.move_1_damage_result_view).setOnClickListener(this);
+        view.findViewById(R.id.move_2_damage_result_view).setOnClickListener(this);
+        view.findViewById(R.id.move_3_damage_result_view).setOnClickListener(this);
         populateConfiguration( view );
         populateAttackDirection();
         populateDamageResult( view.findViewById(R.id.move_0_damage_result_view),
                 move0Presentation );
+        populateDamageResult( view.findViewById(R.id.move_1_damage_result_view),
+                new PresentationBuilder().buildEmpty() );
+        populateDamageResult( view.findViewById(R.id.move_2_damage_result_view),
+                new PresentationBuilder().buildEmpty() );
+        populateDamageResult( view.findViewById(R.id.move_3_damage_result_view),
+                new PresentationBuilder().buildEmpty() );
     }
 
     private void populateDamageResult( View rootView, MoveDamagePresentation presentation ) {
-        TextView name = rootView.findViewById(R.id.move_damage_name_text);
-        TextView type = rootView.findViewById(R.id.move_damage_type_text);
-        TextView category = rootView.findViewById(R.id.move_damage_category_text);
-        TextView power = rootView.findViewById(R.id.move_damage_power_text);
-        TextView effect = rootView.findViewById(R.id.move_damage_effect_text);
-        TextView result = rootView.findViewById(R.id.move_damage_result_text);
+        if( !presentation.empty ) {
+            rootView.setVisibility(View.VISIBLE);
+            TextView name = rootView.findViewById(R.id.move_damage_name_text);
+            TextView type = rootView.findViewById(R.id.move_damage_type_text);
+            TextView category = rootView.findViewById(R.id.move_damage_category_text);
+            TextView power = rootView.findViewById(R.id.move_damage_power_text);
+            TextView effect = rootView.findViewById(R.id.move_damage_effect_text);
+            TextView result = rootView.findViewById(R.id.move_damage_result_text);
 
-        name.setText( presentation.name );
-        type.setText( presentation.type );
-        category.setText( presentation.category );
-        power.setText( presentation.power );
-        effect.setText( presentation.effect );
-        result.setText( presentation.result );
+            name.setText( presentation.name );
+            type.setText( presentation.type );
+            category.setText( presentation.category );
+            power.setText( presentation.power );
+            effect.setText( presentation.effect );
+            result.setText( presentation.result );
+        } else {
+            rootView.setVisibility(View.GONE);
+        }
     }
 
     private void populateConfiguration( View rootView ) {
@@ -151,6 +176,22 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 presenter.setAttackDirection( !presenter.isLeftRightDirection() );
                 populateAttackDirection();
                 break;
+            case R.id.move_0_damage_result_view:
+                startActivityForResult( SearchMoveActivity.getStartIntent( getActivity() ),
+                        MOVE_0_CHANGE_REQUEST_CODE );
+                break;
+            case R.id.move_1_damage_result_view:
+                startActivityForResult( SearchMoveActivity.getStartIntent( getActivity() ),
+                        MOVE_1_CHANGE_REQUEST_CODE );
+                break;
+            case R.id.move_2_damage_result_view:
+                startActivityForResult( SearchMoveActivity.getStartIntent( getActivity() ),
+                        MOVE_2_CHANGE_REQUEST_CODE );
+                break;
+            case R.id.move_3_damage_result_view:
+                startActivityForResult( SearchMoveActivity.getStartIntent( getActivity() ),
+                        MOVE_3_CHANGE_REQUEST_CODE );
+                break;
         }
     }
 
@@ -169,6 +210,26 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 rightPresentation = builder.build( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
+            } else if( requestCode == MOVE_0_CHANGE_REQUEST_CODE ) {
+                Move move = data.getParcelableExtra(
+                        ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
+                populateDamageResult( getView().findViewById(R.id.move_0_damage_result_view),
+                        builder.build( move ) );
+            } else if( requestCode == MOVE_1_CHANGE_REQUEST_CODE ) {
+                Move move = data.getParcelableExtra(
+                        ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
+                populateDamageResult( getView().findViewById(R.id.move_1_damage_result_view),
+                        builder.build( move ) );
+            } else if( requestCode == MOVE_2_CHANGE_REQUEST_CODE ) {
+                Move move = data.getParcelableExtra(
+                        ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
+                populateDamageResult( getView().findViewById(R.id.move_2_damage_result_view),
+                        builder.build( move ) );
+            } else if( requestCode == MOVE_3_CHANGE_REQUEST_CODE ) {
+                Move move = data.getParcelableExtra(
+                        ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
+                populateDamageResult( getView().findViewById(R.id.move_3_damage_result_view),
+                        builder.build( move ) );
             }
             populateConfiguration( getView() );
         }
@@ -180,12 +241,31 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                     pokemonConfig.getId() == -1 );
         }
 
+        public MoveDamagePresentation build( Move move ) {
+            return new MoveDamagePresentation(
+                    move.getName(),
+                    move.getType().toString(), move.getCategory(),
+                    "Power " + move.getPower(),
+                    "SuperEffective : x4.0",
+                    "Guaranteed 1HKO  94.5 112%", false
+            );
+        }
+
         public MoveDamagePresentation build(  ) {
             return new MoveDamagePresentation(
                     "Flamethrower",
                     "Fire", "Special", "Power 90",
                     "SuperEffective : x4.0",
                     "Guaranteed 1HKO  94.5 112%", false
+            );
+        }
+
+        public MoveDamagePresentation buildEmpty(  ) {
+            return new MoveDamagePresentation(
+                    "Flamethrower",
+                    "Fire", "Special", "Power 90",
+                    "SuperEffective : x4.0",
+                    "Guaranteed 1HKO  94.5 112%", true
             );
         }
     }

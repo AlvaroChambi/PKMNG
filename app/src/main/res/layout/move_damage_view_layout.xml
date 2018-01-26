@@ -89,7 +89,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Guaranteed 1HKO  94.5 112%"
+                tools:text="Guaranteed 1HKO  94.5 112%"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/move_damage_effect_text" />
         </android.support.constraint.ConstraintLayout>
