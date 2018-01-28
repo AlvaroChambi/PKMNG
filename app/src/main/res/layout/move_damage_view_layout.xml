@@ -8,10 +8,19 @@
         android:layout_height="80dp"
         android:orientation="horizontal">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="112dp"
+        <ImageView
+            android:id="@+id/move_damage_empty_view"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/damage_move_background_drawable">
+            android:src="@drawable/ic_add_circle_black_24dp"
+            android:padding="16dp"
+            android:tint="@color/text_primary"
+            android:background="@color/primary"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/damage_move_background_drawable"
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/move_damage_name_text"

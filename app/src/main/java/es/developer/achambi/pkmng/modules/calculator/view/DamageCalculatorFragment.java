@@ -16,6 +16,7 @@ import es.developer.achambi.pkmng.modules.calculator.view.presentation.Calculato
 import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenter;
 import es.developer.achambi.pkmng.modules.calculator.view.presentation.MoveDamagePresentation;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
+import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
@@ -104,7 +105,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
 
     private void populateDamageResult( View rootView, MoveDamagePresentation presentation ) {
         if( !presentation.empty ) {
-            rootView.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.move_damage_empty_view).setVisibility(View.GONE);
             TextView name = rootView.findViewById(R.id.move_damage_name_text);
             TextView type = rootView.findViewById(R.id.move_damage_type_text);
             TextView category = rootView.findViewById(R.id.move_damage_category_text);
@@ -119,7 +120,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
             effect.setText( presentation.effect );
             result.setText( presentation.result );
         } else {
-            rootView.setVisibility(View.GONE);
+            rootView.findViewById(R.id.move_damage_empty_view).setVisibility(View.VISIBLE);
         }
     }
 
@@ -244,7 +245,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         public MoveDamagePresentation build( Move move ) {
             return new MoveDamagePresentation(
                     move.getName(),
-                    move.getType().toString(), move.getCategory(),
+                    formatType( move.getType() ), move.getCategory(),
                     "Power " + move.getPower(),
                     "SuperEffective : x4.0",
                     "Guaranteed 1HKO  94.5 112%", false
@@ -267,6 +268,14 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                     "SuperEffective : x4.0",
                     "Guaranteed 1HKO  94.5 112%", true
             );
+        }
+
+        private String formatType( Pokemon.Type type ) {
+            switch ( type ) {
+                case GROUND:
+                    return "Ground";
+            }
+            return "";
         }
     }
 }
