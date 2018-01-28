@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.calculator;
+package es.developer.achambi.pkmng.modules.calculator.view.presentation;
 
 public class CalculatorPokemonPresentation {
     public final String name;
