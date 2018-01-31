@@ -17,9 +17,14 @@ public class DamageCalculator {
                                                        @NotNull Move move ) {
         int attack = 0;
         int defense = 0;
-        if( move.getPower() <= 0 || move.getCategory().equals(Move.Category.EMPTY ) ) {
+        if( move.getPower() <= 0 ) {
             throw new IllegalStateException();
         }
+
+        if( move.getCategory().equals( Move.Category.EMPTY ) ) {
+            throw new IllegalStateException();
+        }
+
         if( attackerAttack <= 0 && attackedDefense <= 0
                || attackerSpAttack <= 0 || attackedSpDefense <= 0 ) {
             throw  new IllegalStateException();

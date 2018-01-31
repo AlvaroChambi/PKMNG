@@ -18,7 +18,6 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
-
 public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarChangeListener,
         TextWatcher{
     public interface ProgressUpdateProvider {

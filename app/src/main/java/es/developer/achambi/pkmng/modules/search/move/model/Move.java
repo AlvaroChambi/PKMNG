@@ -21,10 +21,15 @@ public class Move implements Parcelable{
     private int accuracy;
     private int pp;
 
-    public Move() {
+    public Move( int id ) {
+        this.id = id;
         name = "";
         type = Type.EMPTY;
         category = Category.EMPTY;
+    }
+
+    public Move() {
+        this( -1 );
     }
 
     public Move(int id, String name, String effect, Type type, Category category,

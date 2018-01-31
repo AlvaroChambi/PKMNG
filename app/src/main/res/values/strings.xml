@@ -68,4 +68,7 @@
 
     <string name="configuration_created_toast_message">Configuration created</string>
     <string name="configuration_updated_toast_message">Configuration updated</string>
+    
+    <string name="damage_calculator_damage_result_title">Damage results</string>
+    <string name="damage_calculator_empty_opponent_text">Choose an opponent configuration to display the damage result</string>
 </resources>

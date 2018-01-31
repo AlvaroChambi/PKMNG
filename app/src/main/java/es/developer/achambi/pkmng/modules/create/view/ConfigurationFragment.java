@@ -35,11 +35,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class ConfigurationFragment extends BaseRequestFragment
         implements View.OnClickListener {
-    private static final String MOVE_0_SAVED_STATE = "MOVE_0_SAVED_STATE";
-    private static final String MOVE_1_SAVED_STATE = "MOVE_1_SAVED_STATE";
-    private static final String MOVE_2_SAVED_STATE = "MOVE_2_SAVED_STATE";
-    private static final String MOVE_3_SAVED_STATE = "MOVE_3_SAVED_STATE";
-
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;

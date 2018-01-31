@@ -169,21 +169,29 @@ public class OverviewPresenter implements IOverviewPresenter {
             nature.setName("Modest");
             config.setNature(nature);
 
-            Move move0 = new Move();
+            Move move0 = new Move(1);
             move0.setName("Thunderbolt");
             move0.setType(Type.ELECTRIC);
+            move0.setCategory(Move.Category.SPECIAL);
+            move0.setPower(90);
             config.setMove0(move0);
-            Move move1 = new Move();
+            Move move1 = new Move(2);
             move1.setName("Grass knot");
             move1.setType(Type.ELECTRIC);
+            move1.setCategory(Move.Category.SPECIAL);
+            move1.setPower(90);
             config.setMove1(move1);
-            Move move2 = new Move();
+            Move move2 = new Move(3);
             move2.setName("Signal Beam");
             move2.setType(Type.ELECTRIC);
+            move2.setCategory(Move.Category.SPECIAL);
+            move2.setPower(90);
             config.setMove2(move2);
-            Move move3 = new Move();
+            Move move3 = new Move(4);
             move3.setName("Hidden power");
             move3.setType(Type.ELECTRIC);
+            move3.setCategory(Move.Category.SPECIAL);
+            move3.setPower(90);
             config.setMove3(move3);
             pokemonList.add(pokemonConfig);
         }
