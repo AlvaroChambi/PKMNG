@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
+
+import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
 public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends RecyclerView.ViewHolder> {
     public interface OnItemClickedListener<D> {
@@ -31,26 +32,29 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
         this.listener = listener;
     }
 
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType,
+                                                      final ArrayList rootData ) {
         if( isValidAdapter( viewType ) ) {
             View rootView = LayoutInflater.from(parent.getContext())
                     .inflate(getLayoutResource(), parent, false);
-            return createViewHolder( rootView );
+            final RecyclerView.ViewHolder viewHolder = createViewHolder( rootView );
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = viewHolder.getAdapterPosition();
+                    if( position != NO_POSITION ) {
+                        listener.onItemClicked( (D)rootData.get( position ) );
+                    }
+                }
+            });
+            return viewHolder;
         }
-        return adapter.onCreateViewHolder( parent, viewType );
+        return adapter.onCreateViewHolder( parent, viewType, rootData );
     }
 
     public void onBindViewHolder( RecyclerView.ViewHolder holder, final SearchListData item) {
         if( item.getViewType() == getAdapterViewType() ) {
             bindViewHolder( (VH)holder, (D)item );
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if( listener != null ) {
-                        listener.onItemClicked( (D)item );
-                    }
-                }
-            });
         } else {
             adapter.onBindViewHolder( holder, item );
         }
