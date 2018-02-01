@@ -137,8 +137,6 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
             rightView.setColorFilter(null);
             rootView.findViewById( R.id.damage_results_frame_view ).setVisibility( View.VISIBLE );
             rootView.findViewById(R.id.empty_opponent_text).setVisibility( View.GONE );
-
-            requestDamageResults();
         } else {
             rightView.setImageResource( R.drawable.ic_add_circle_black_24dp );
             rightView.setColorFilter(ContextCompat.getColor(
@@ -217,12 +215,14 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 leftPresentation = builder.build( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 populateConfiguration( getView() );
+                requestDamageResults();
             } else if( requestCode == RIGHT_POKEMON_REQUEST_CODE ) {
                 presenter.setRightPokemon( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 rightPresentation = builder.build( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 populateConfiguration( getView() );
+                requestDamageResults();
             } else if( requestCode == MOVE_0_CHANGE_REQUEST_CODE ) {
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );

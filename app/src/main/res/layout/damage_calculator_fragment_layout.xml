@@ -102,6 +102,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/damage_calculator_empty_opponent_text"
+        android:padding="8dp"
         android:visibility="gone"/>
     <ScrollView
         android:id="@+id/damage_results_frame_view"
@@ -131,7 +132,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="7dp">
+                android:layout_marginTop="8dp">
             </es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView>
             <es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView
                 android:id="@+id/move_1_damage_result_view"
@@ -141,7 +142,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="7dp">
+                android:layout_marginTop="8dp">
             </es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView>
             <es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView
                 android:id="@+id/move_2_damage_result_view"
@@ -151,7 +152,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="7dp">
+                android:layout_marginTop="8dp">
             </es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView>
             <es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView
                 android:id="@+id/move_3_damage_result_view"
@@ -161,7 +162,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp">
             </es.developer.achambi.pkmng.modules.calculator.view.MoveDamageView>
         </LinearLayout>
