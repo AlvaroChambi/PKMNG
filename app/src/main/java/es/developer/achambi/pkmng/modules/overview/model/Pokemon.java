@@ -1,16 +1,13 @@
 package es.developer.achambi.pkmng.modules.overview.model;
 
 import android.os.Parcel;
-import android.util.Pair;
+import android.support.v4.util.Pair;
+
 
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
 public class Pokemon implements BasePokemon{
-    public enum Type {
-        ELECTRIC,
-        GROUND,
-        EMPTY;
-    }
+    public static final int FIXED_LEVEL = 50;
 
     private final int id;
     private String name;

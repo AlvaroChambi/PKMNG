@@ -19,6 +19,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
@@ -34,11 +35,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class ConfigurationFragment extends BaseRequestFragment
         implements View.OnClickListener {
-    private static final String MOVE_0_SAVED_STATE = "MOVE_0_SAVED_STATE";
-    private static final String MOVE_1_SAVED_STATE = "MOVE_1_SAVED_STATE";
-    private static final String MOVE_2_SAVED_STATE = "MOVE_2_SAVED_STATE";
-    private static final String MOVE_3_SAVED_STATE = "MOVE_3_SAVED_STATE";
-
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
@@ -394,7 +390,7 @@ public class ConfigurationFragment extends BaseRequestFragment
             return representation;
         }
 
-        private String formatType( Pokemon.Type type ) {
+        private String formatType( Type type ) {
             switch (type) {
 
                 case ELECTRIC:

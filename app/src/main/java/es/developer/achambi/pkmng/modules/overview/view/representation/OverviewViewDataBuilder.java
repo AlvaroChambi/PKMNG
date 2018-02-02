@@ -1,17 +1,17 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
 import android.content.res.Resources;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
@@ -78,11 +78,11 @@ public class OverviewViewDataBuilder {
         }
     }
 
-    private String typeAttribute(Pair<Pokemon.Type, Pokemon.Type> type, Resources resources){
+    private String typeAttribute(Pair<Type, Type> type, Resources resources){
         return formatType(type.first, resources) + formatType(type.second, resources);
     }
 
-    private String formatType(Pokemon.Type type, Resources resources) {
+    private String formatType(Type type, Resources resources) {
         String formattedType = "";
         switch (type) {
             case ELECTRIC:

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.view.ISearchMoveView;
 import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
@@ -37,8 +38,8 @@ public class SearchMovePresenter implements ISearchMovePresenter,
             move.setAccuracy(100);
             move.setPower(90);
             move.setPp(20);
-            move.setType(Pokemon.Type.GROUND);
-            move.setCategory("Physical");
+            move.setType(Type.GROUND);
+            move.setCategory(Move.Category.PHYSICAL);
             moves.add(move);
         }
         return moves;

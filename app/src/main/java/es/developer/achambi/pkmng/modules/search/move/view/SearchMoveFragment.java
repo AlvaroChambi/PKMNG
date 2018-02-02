@@ -17,6 +17,7 @@ import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenter;
 import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
@@ -145,7 +146,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
             return movePresentations;
         }
 
-        private int buildType( Pokemon.Type type ) {
+        private int buildType( Type type ) {
             switch (type) {
                 case ELECTRIC:
                     break;
@@ -157,9 +158,14 @@ public class SearchMoveFragment extends BaseSearchListFragment
             return 0;
         }
 
-        private int buildCategory( String category ) {
-            if( category.equals("Physical") ) {
-                return R.drawable.move_category_physical;
+        private int buildCategory( Move.Category category ) {
+            switch (category) {
+                case PHYSICAL:
+                    return R.drawable.move_category_physical;
+                case SPECIAL:
+                    break;
+                case EMPTY:
+                    break;
             }
             return 0;
         }

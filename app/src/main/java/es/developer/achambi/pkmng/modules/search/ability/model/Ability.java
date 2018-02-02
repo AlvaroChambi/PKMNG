@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Ability implements Parcelable {
+    public static final String ADAPTABILITY = "Adaptability";
+    public static final String GUTS = "Guts";
     private int id;
     private String name;
     private String description;
