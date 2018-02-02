@@ -532,7 +532,7 @@
             android:layout_height="match_parent"
             android:elevation="16dp"
             android:gravity="center"
-            android:text="SAVE"
+            android:text="@string/configuration_save_action_text"
             android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold" />
