@@ -18,7 +18,7 @@ public class BaseSearchAdapter extends RecyclerView.Adapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return adapter.onCreateViewHolder( parent, viewType );
+        return adapter.onCreateViewHolder( parent, viewType, data );
     }
 
     @Override
@@ -35,4 +35,6 @@ public class BaseSearchAdapter extends RecyclerView.Adapter{
     public int getItemViewType(int position) {
         return data.get(position).getViewType();
     }
+
+
 }
