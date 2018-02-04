@@ -64,7 +64,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
             if( typedArray.hasValue(R.styleable.StatEVView_stat_type) ) {
                 int statNameValue = typedArray.getInt(R.styleable.StatEVView_stat_type, 0);
                 stat = Stat.values()[statNameValue];
-                updateName();
+                setName();
             }
 
             typedArray.recycle();
@@ -77,7 +77,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         }
     }
 
-    private void updateName() {
+    private void setName() {
         switch (stat) {
             case HP:
                 statName.setText( getResources().getText(R.string.ev_bar_hp_text) );

@@ -135,7 +135,7 @@ public class ConfigurationFragment extends BaseRequestFragment
         view.findViewById(R.id.configuration_move_1_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_move_2_frame).setOnClickListener(this);
         view.findViewById(R.id.configuration_move_3_frame).setOnClickListener(this);
-        view.findViewById(R.id.configuration_floating_save_button).setOnClickListener(this);
+        view.findViewById(R.id.configuration_floating_save_button_middle).setOnClickListener(this);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class ConfigurationFragment extends BaseRequestFragment
                 startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
                         REPLACE_MOVE3_RESULT_CODE );
                 break;
-            case R.id.configuration_floating_save_button:
+            case R.id.configuration_floating_save_button_middle:
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 CreateConfigurationDialog dialog = CreateConfigurationDialog.newInstance(
                         presenter.getConfigurationName() );

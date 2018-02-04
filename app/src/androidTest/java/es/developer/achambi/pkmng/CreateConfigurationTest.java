@@ -162,7 +162,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
-        onView(withId( R.id.configuration_floating_save_button )).perform(click());
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
         onView(withId( R.id.create_configuration_dialog_edit_text )).perform( typeText( "Test" ) );
         onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
 
