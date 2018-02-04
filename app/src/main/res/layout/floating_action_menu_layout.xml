@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <es.developer.achambi.pkmng.core.ui.FloatingTextButton
         android:id="@+id/configuration_floating_save_button"
         android:layout_width="86dp"
         android:layout_height="86dp"
@@ -18,27 +18,9 @@
         app:layout_constraintRight_toRightOf="@+id/configuration_floating_save_button2"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/configuration_floating_save_button2">
+    </es.developer.achambi.pkmng.core.ui.FloatingTextButton>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:src="@android:color/transparent"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="16dp"
-            android:gravity="center"
-            android:text="@string/configuration_save_action_text"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </FrameLayout>
-
-    <FrameLayout
+    <es.developer.achambi.pkmng.core.ui.FloatingTextButton
         android:id="@+id/configuration_floating_save_button1"
         android:layout_width="86dp"
         android:layout_height="86dp"
@@ -51,27 +33,9 @@
         android:layout_marginBottom="0dp"
         app:layout_constraintRight_toLeftOf="@+id/configuration_floating_save_button"
         android:layout_marginRight="8dp">
+    </es.developer.achambi.pkmng.core.ui.FloatingTextButton>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:src="@android:color/transparent"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="16dp"
-            android:gravity="center"
-            android:text="@string/configuration_save_action_text"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </FrameLayout>
-
-    <FrameLayout
+    <es.developer.achambi.pkmng.core.ui.FloatingTextButton
         android:id="@+id/configuration_floating_save_button2"
         android:layout_width="86dp"
         android:layout_height="86dp"
@@ -84,27 +48,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp">
+    </es.developer.achambi.pkmng.core.ui.FloatingTextButton>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:src="@android:color/transparent"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="16dp"
-            android:gravity="center"
-            android:text="@string/configuration_save_action_text"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </FrameLayout>
-
-    <FrameLayout
+    <es.developer.achambi.pkmng.core.ui.FloatingTextButton
         android:id="@+id/configuration_floating_save_button3"
         android:layout_width="86dp"
         android:layout_height="86dp"
@@ -117,25 +63,7 @@
         app:layout_constraintLeft_toRightOf="@+id/configuration_floating_save_button"
         app:layout_constraintTop_toTopOf="@+id/configuration_floating_save_button"
         android:layout_marginTop="0dp">
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:src="@android:color/transparent"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="16dp"
-            android:gravity="center"
-            android:text="@string/configuration_save_action_text"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </FrameLayout>
+    </es.developer.achambi.pkmng.core.ui.FloatingTextButton>
 
 
 </android.support.constraint.ConstraintLayout>
