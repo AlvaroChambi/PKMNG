@@ -38,6 +38,7 @@ public class FloatingActionMenu extends ConstraintLayout
         findViewById(R.id.configuration_floating_save_button_left).setOnClickListener(this);
         findViewById(R.id.configuration_floating_save_button_main).setOnClickListener(this);
         findViewById(R.id.configuration_floating_save_button_right).setOnClickListener(this);
+        findViewById(R.id.configuration_floating_save_button_middle).setVisibility(INVISIBLE);
         findViewById(R.id.floating_menu_background).setOnClickListener(this);
     }
 
@@ -62,14 +63,12 @@ public class FloatingActionMenu extends ConstraintLayout
 
     private void showMenuOptions() {
         findViewById(R.id.configuration_floating_save_button_left).setVisibility(VISIBLE);
-        findViewById(R.id.configuration_floating_save_button_middle).setVisibility(VISIBLE);
         findViewById(R.id.configuration_floating_save_button_right).setVisibility(VISIBLE);
         findViewById(R.id.floating_menu_background).setVisibility(VISIBLE);
     }
 
     private void hideMenuOptions() {
         findViewById(R.id.configuration_floating_save_button_left).setVisibility(GONE);
-        findViewById(R.id.configuration_floating_save_button_middle).setVisibility(GONE);
         findViewById(R.id.configuration_floating_save_button_right).setVisibility(GONE);
         findViewById(R.id.floating_menu_background).setVisibility(GONE);
     }

@@ -101,24 +101,16 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         requestDamageResults();
     }
 
-    private void populateDamageResult( View rootView, MoveDamagePresentation presentation ) {
+    private void populateDamageResult( MoveDamageView rootView,
+                                       MoveDamagePresentation presentation ) {
         if( !presentation.empty ) {
-            rootView.findViewById(R.id.move_damage_empty_view).setVisibility(View.GONE);
-            TextView name = rootView.findViewById(R.id.move_damage_name_text);
-            TextView type = rootView.findViewById(R.id.move_damage_type_text);
-            TextView category = rootView.findViewById(R.id.move_damage_category_text);
-            TextView power = rootView.findViewById(R.id.move_damage_power_text);
-            TextView effect = rootView.findViewById(R.id.move_damage_effect_text);
-            TextView result = rootView.findViewById(R.id.move_damage_result_text);
-
-            name.setText( presentation.name );
-            type.setText( presentation.type );
-            category.setText( presentation.category );
-            power.setText( presentation.power );
-            effect.setText( presentation.effect );
-            result.setText( presentation.result );
-        } else {
-            rootView.findViewById(R.id.move_damage_empty_view).setVisibility(View.VISIBLE);
+            rootView.setIsEmpty(presentation.empty);
+            rootView.setMoveName( presentation.name );
+            rootView.setMoveType( presentation.type );
+            rootView.setMoveCategory( presentation.category );
+            rootView.setMovePower( presentation.power );
+            rootView.setMoveEffect( presentation.effect );
+            rootView.setMoveResult( presentation.result );
         }
     }
 
@@ -158,14 +150,40 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
 
     private void requestDamageResults() {
         PresentationBuilder builder = new PresentationBuilder();
-        populateDamageResult( getView().findViewById(R.id.move_0_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_0_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove0() ) ) );
-        populateDamageResult( getView().findViewById(R.id.move_1_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_1_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove1() ) ) );
-        populateDamageResult( getView().findViewById(R.id.move_2_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_2_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove2() ) ) );
-        populateDamageResult( getView().findViewById(R.id.move_3_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_3_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove3() ) ) );
+    }
+
+    private void requestDamageResults( int orientation ) {
+        requestDamageResults();
+        ((MoveDamageView)getView().findViewById(R.id.move_0_damage_result_view))
+                .setOrientation(orientation);
+        ((MoveDamageView)getView().findViewById(R.id.move_1_damage_result_view))
+                .setOrientation(orientation);
+        ((MoveDamageView)getView().findViewById(R.id.move_2_damage_result_view))
+                .setOrientation(orientation);
+        ((MoveDamageView)getView().findViewById(R.id.move_3_damage_result_view))
+                .setOrientation(orientation);
+    }
+
+    private void changeAttackDirection() {
+        if( presenter.isLeftRightDirection() ) {
+            presenter.setAttackDirection( !presenter.isLeftRightDirection() );
+            ImageView attackDirection = getView().findViewById(R.id.attack_direction_image_view);
+            attackDirection.setRotationY(0);
+            requestDamageResults( MoveDamageView.RIGHT_ORIENTATION );
+        } else {
+            presenter.setAttackDirection( !presenter.isLeftRightDirection() );
+            ImageView attackDirection = getView().findViewById(R.id.attack_direction_image_view);
+            attackDirection.setRotationY(180);
+            requestDamageResults( MoveDamageView.LEFT_ORIENTATION );
+        }
     }
 
     private void populateAttackDirection() {
@@ -193,7 +211,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 break;
             case R.id.attack_direction_image_view:
                 presenter.setAttackDirection( !presenter.isLeftRightDirection() );
-                populateAttackDirection();
+                changeAttackDirection();
                 break;
             case R.id.move_0_damage_result_view:
                 startActivityForResult( SearchMoveActivity.getStartIntent( getActivity() ),
@@ -237,25 +255,29 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove0( move );
-                populateDamageResult( getView().findViewById(R.id.move_0_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_0_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             } else if( requestCode == MOVE_1_CHANGE_REQUEST_CODE ) {
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove1( move );
-                populateDamageResult( getView().findViewById(R.id.move_1_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_1_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             } else if( requestCode == MOVE_2_CHANGE_REQUEST_CODE ) {
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove2( move );
-                populateDamageResult( getView().findViewById(R.id.move_2_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_2_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             } else if( requestCode == MOVE_3_CHANGE_REQUEST_CODE ) {
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove3( move );
-                populateDamageResult( getView().findViewById(R.id.move_3_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_3_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             }
         }
