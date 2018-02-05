@@ -16,7 +16,8 @@ public class DamageCalculatorPresenter implements ViewPresenter {
     private static final String LEFT_POKEMON_SAVED_DATA = "LEFT_POKEMON_SAVED_DATA";
     private static final String RIGHT_POKEMON_SAVED_DATA = "RIGHT_POKEMON_SAVED_DATA";
     private static final String ATTACK_DIRECTION_SAVED_DATA = "ATTACK_DIRECTION_SAVED_DATA";
-    private static final String EDITABLE_CONFIGURATION_SAVED_DATA = "EDITABLE_SAVED_DATA";
+    private static final String EDITABLE_LEFT_CONFIGURATION_SAVED_DATA = "EDITABLE_LEFT_SAVED_DATA";
+    private static final String EDITABLE_RIGHT_CONFIGURATION_SAVED_DATA = "EDITABLE_RIGHT_SAVED_DATA";
     private PokemonConfig leftPokemon;
     private PokemonConfig rightPokemon;
     private boolean leftRightDirection;
@@ -73,6 +74,14 @@ public class DamageCalculatorPresenter implements ViewPresenter {
         return damageResult;
     }
 
+    private Configuration getAttackerEditableConfiguration() {
+        if( leftRightDirection ) {
+            return editableLeftConfiguration;
+        } else {
+            return editableRightConfiguration;
+        }
+    }
+
     private Damage damageResult( PokemonConfig attacker, PokemonConfig attacked, Move move ) {
         Pair<Float, Float> moveDamage = DamageCalculator.moveDamageResult( attacker.getAttack(),
                 attacker.getSpAttack(), attacked.getDefense(), attacked.getSPDefense(), move ) ;
@@ -106,39 +115,35 @@ public class DamageCalculatorPresenter implements ViewPresenter {
     }
 
     public Move getMove0() {
-        return editableLeftConfiguration.getMove0();
+        return getAttackerEditableConfiguration().getMove0();
     }
 
     public void updateMove0( Move move ) {
-        editableLeftConfiguration.setMove0( move );
+        getAttackerEditableConfiguration().setMove0( move );
     }
 
     public Move getMove1() {
-        return editableLeftConfiguration.getMove1();
+        return getAttackerEditableConfiguration().getMove1();
     }
 
     public void updateMove1( Move move ) {
-        editableLeftConfiguration.setMove1( move );
+        getAttackerEditableConfiguration().setMove1( move );
     }
 
     public Move getMove2() {
-        return editableLeftConfiguration.getMove2();
+        return getAttackerEditableConfiguration().getMove2();
     }
 
     public void updateMove2( Move move ) {
-        editableLeftConfiguration.setMove2( move );
+        getAttackerEditableConfiguration().setMove2( move );
     }
 
     public Move getMove3() {
-        return editableLeftConfiguration.getMove3();
+        return getAttackerEditableConfiguration().getMove3();
     }
 
     public void updateMove3( Move move ) {
-        editableLeftConfiguration.setMove3( move );
-    }
-
-    public Configuration getEditableLeftConfiguration() {
-        return editableLeftConfiguration;
+        getAttackerEditableConfiguration().setMove3( move );
     }
 
     @Override
@@ -146,7 +151,8 @@ public class DamageCalculatorPresenter implements ViewPresenter {
         bundle.putParcelable( LEFT_POKEMON_SAVED_DATA, leftPokemon);
         bundle.putParcelable( RIGHT_POKEMON_SAVED_DATA, rightPokemon);
         bundle.putBoolean( ATTACK_DIRECTION_SAVED_DATA, leftRightDirection );
-        bundle.putParcelable( EDITABLE_CONFIGURATION_SAVED_DATA, editableLeftConfiguration);
+        bundle.putParcelable( EDITABLE_LEFT_CONFIGURATION_SAVED_DATA, editableLeftConfiguration );
+        bundle.putParcelable( EDITABLE_RIGHT_CONFIGURATION_SAVED_DATA, editableRightConfiguration );
     }
 
     @Override
@@ -154,6 +160,7 @@ public class DamageCalculatorPresenter implements ViewPresenter {
         leftPokemon = bundle.getParcelable( LEFT_POKEMON_SAVED_DATA );
         rightPokemon = bundle.getParcelable( RIGHT_POKEMON_SAVED_DATA );
         leftRightDirection = bundle.getBoolean( ATTACK_DIRECTION_SAVED_DATA );
-        editableLeftConfiguration = bundle.getParcelable( EDITABLE_CONFIGURATION_SAVED_DATA );
+        editableLeftConfiguration = bundle.getParcelable(EDITABLE_LEFT_CONFIGURATION_SAVED_DATA);
+
     }
 }

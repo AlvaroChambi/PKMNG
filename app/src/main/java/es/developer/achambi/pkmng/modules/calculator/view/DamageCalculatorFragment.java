@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
-import android.widget.ActionMenuView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -103,8 +102,8 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
 
     private void populateDamageResult( MoveDamageView rootView,
                                        MoveDamagePresentation presentation ) {
+        rootView.setIsEmpty(presentation.empty);
         if( !presentation.empty ) {
-            rootView.setIsEmpty(presentation.empty);
             rootView.setMoveName( presentation.name );
             rootView.setMoveType( presentation.type );
             rootView.setMoveCategory( presentation.category );
@@ -175,14 +174,10 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     private void changeAttackDirection() {
         if( presenter.isLeftRightDirection() ) {
             presenter.setAttackDirection( !presenter.isLeftRightDirection() );
-            ImageView attackDirection = getView().findViewById(R.id.attack_direction_image_view);
-            attackDirection.setRotationY(0);
-            requestDamageResults( MoveDamageView.RIGHT_ORIENTATION );
+            requestDamageResults( MoveDamageView.LEFT_ORIENTATION );
         } else {
             presenter.setAttackDirection( !presenter.isLeftRightDirection() );
-            ImageView attackDirection = getView().findViewById(R.id.attack_direction_image_view);
-            attackDirection.setRotationY(180);
-            requestDamageResults( MoveDamageView.LEFT_ORIENTATION );
+            requestDamageResults( MoveDamageView.RIGHT_ORIENTATION );
         }
     }
 
@@ -210,8 +205,8 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                         RIGHT_POKEMON_REQUEST_CODE);
                 break;
             case R.id.attack_direction_image_view:
-                presenter.setAttackDirection( !presenter.isLeftRightDirection() );
                 changeAttackDirection();
+                populateAttackDirection();
                 break;
             case R.id.move_0_damage_result_view:
                 startActivityForResult( SearchMoveActivity.getStartIntent( getActivity() ),
