@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -159,5 +160,81 @@ public class DamageCalculatorTest extends BaseAutomationTest {
 
         onView( allOf( isDescendantOfA(withId(R.id.move_3_damage_result_view)),
                 withText("Earthquake") ) ).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testAttackDirectionChange() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+        onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
+        onView(withId(R.id.right_pokemon_image_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+        onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
+
+        onView(withId(R.id.attack_direction_image_view)).perform(click());
+
+        onView(  allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
+                withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
+        onView(  allOf( isDescendantOfA(withId(R.id.move_1_damage_result_view)),
+                withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
+        onView(  allOf( isDescendantOfA(withId(R.id.move_2_damage_result_view)),
+                withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
+        onView(  allOf( isDescendantOfA(withId(R.id.move_3_damage_result_view)),
+                withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testSaveLeftConfiguration() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
+
+        onView(withId(R.id.right_pokemon_image_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+        onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
+
+        onView(withId(R.id.move_0_damage_result_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+
+        onView(withId(R.id.damage_calculator_floating_save_menu)).perform(click());
+        onView(withId(R.id.configuration_floating_save_button_left)).perform(click());
+
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView( allOf( isDescendantOfA(withId(R.id.configuration_move_0_frame)),
+                withText("Earthquake") ) ).perform(scrollTo()).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testSaveRightConfiguration() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
+
+        onView(withId(R.id.right_pokemon_image_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
+
+        onView(withId(R.id.attack_direction_image_view)).perform(click());
+
+        onView(withId(R.id.move_0_damage_result_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+
+        onView(withId(R.id.damage_calculator_floating_save_menu)).perform(click());
+        onView(withId(R.id.configuration_floating_save_button_right)).perform(click());
+
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView( allOf( isDescendantOfA(withId(R.id.configuration_move_0_frame)),
+                withText("Earthquake") ) ).perform(scrollTo()).check(matches(isDisplayed()));
     }
 }

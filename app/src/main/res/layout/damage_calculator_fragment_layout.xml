@@ -173,7 +173,7 @@
         </ScrollView>
     </LinearLayout>
     <es.developer.achambi.pkmng.core.ui.FloatingActionMenu
-        android:id="@+id/configuration_floating_save_menu"
+        android:id="@+id/damage_calculator_floating_save_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|bottom">

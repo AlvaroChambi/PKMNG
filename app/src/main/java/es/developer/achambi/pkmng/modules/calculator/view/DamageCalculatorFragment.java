@@ -93,7 +93,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         view.findViewById(R.id.move_1_damage_result_view).setOnClickListener(this);
         view.findViewById(R.id.move_2_damage_result_view).setOnClickListener(this);
         view.findViewById(R.id.move_3_damage_result_view).setOnClickListener(this);
-        FloatingActionMenu actionMenu = view.findViewById(R.id.configuration_floating_save_menu);
+        FloatingActionMenu actionMenu = view.findViewById(R.id.damage_calculator_floating_save_menu);
         actionMenu.setListener( this );
         populateConfiguration( view );
         populateAttackDirection();
@@ -159,25 +159,13 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 builder.build( presenter.getDamageResult( presenter.getMove3() ) ) );
     }
 
-    private void requestDamageResults( int orientation ) {
-        requestDamageResults();
-        ((MoveDamageView)getView().findViewById(R.id.move_0_damage_result_view))
-                .setOrientation(orientation);
-        ((MoveDamageView)getView().findViewById(R.id.move_1_damage_result_view))
-                .setOrientation(orientation);
-        ((MoveDamageView)getView().findViewById(R.id.move_2_damage_result_view))
-                .setOrientation(orientation);
-        ((MoveDamageView)getView().findViewById(R.id.move_3_damage_result_view))
-                .setOrientation(orientation);
-    }
-
     private void changeAttackDirection() {
         if( presenter.isLeftRightDirection() ) {
             presenter.setAttackDirection( !presenter.isLeftRightDirection() );
-            requestDamageResults( MoveDamageView.LEFT_ORIENTATION );
+            requestDamageResults();
         } else {
             presenter.setAttackDirection( !presenter.isLeftRightDirection() );
-            requestDamageResults( MoveDamageView.RIGHT_ORIENTATION );
+            requestDamageResults();
         }
     }
 

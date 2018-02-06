@@ -104,7 +104,7 @@ public class DamageCalculatorPresenter implements ViewPresenter {
     }
 
     public void saveRightConfiguration() {
-        if( rightPokemon.getConfiguration().equals( editableRightConfiguration ) ) {
+        if( !rightPokemon.getConfiguration().equals( editableRightConfiguration ) ) {
             rightPokemon.setConfiguration( editableRightConfiguration );
         }
     }
@@ -161,6 +161,6 @@ public class DamageCalculatorPresenter implements ViewPresenter {
         rightPokemon = bundle.getParcelable( RIGHT_POKEMON_SAVED_DATA );
         leftRightDirection = bundle.getBoolean( ATTACK_DIRECTION_SAVED_DATA );
         editableLeftConfiguration = bundle.getParcelable(EDITABLE_LEFT_CONFIGURATION_SAVED_DATA);
-
+        editableRightConfiguration = bundle.getParcelable(EDITABLE_RIGHT_CONFIGURATION_SAVED_DATA);
     }
 }
