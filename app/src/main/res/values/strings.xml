@@ -24,7 +24,7 @@
 
     <string name="configuration_save_dialog_title">Create Configuration</string>
     <string name="configuration_save_dialog_name_tag">Name</string>
-    <string name="configuration_save_dialog_action_text">SAVE</string>
+    <string name="configuration_save_dialog_action_text">Save</string>
 
     <string name="pokemon_item_total_stats_tag">BST: </string>
     <string name="pokemon_item_ability_tag">Ability: </string>

@@ -14,6 +14,7 @@ public class Damage {
     private Move.Category category;
     private Type type;
     private int power;
+    private float effectivenessModifier;
 
     //empty constructor
     public Damage() {
@@ -31,6 +32,14 @@ public class Damage {
         this.modifier = modifier;
         this.moveDamage = moveDamage;
         this.hitsToKO = hitsToKO;
+    }
+
+    public float getEffectivenessModifier() {
+        return effectivenessModifier;
+    }
+
+    public void setEffectivenessModifier(float effectivenessModifier) {
+        this.effectivenessModifier = effectivenessModifier;
     }
 
     public int getPower() {

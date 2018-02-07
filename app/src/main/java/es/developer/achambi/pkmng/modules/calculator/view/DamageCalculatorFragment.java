@@ -9,11 +9,13 @@ import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.core.ui.FloatingActionMenu;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.view.presentation.CalculatorPokemonPresentation;
@@ -27,7 +29,8 @@ import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity;
 
-public class DamageCalculatorFragment extends BaseFragment implements View.OnClickListener {
+public class DamageCalculatorFragment extends BaseFragment implements View.OnClickListener,
+        FloatingActionMenu.MenuOptionClickedListener {
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     public static final String POKEMON_CONFIGURATION_EXTRA_KEY = "LEFT_POKEMON_EXTRA_KEY";
     private static final int LEFT_POKEMON_REQUEST_CODE = 100;
@@ -90,29 +93,23 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         view.findViewById(R.id.move_1_damage_result_view).setOnClickListener(this);
         view.findViewById(R.id.move_2_damage_result_view).setOnClickListener(this);
         view.findViewById(R.id.move_3_damage_result_view).setOnClickListener(this);
+        FloatingActionMenu actionMenu = view.findViewById(R.id.damage_calculator_floating_save_menu);
+        actionMenu.setListener( this );
         populateConfiguration( view );
         populateAttackDirection();
         requestDamageResults();
     }
 
-    private void populateDamageResult( View rootView, MoveDamagePresentation presentation ) {
+    private void populateDamageResult( MoveDamageView rootView,
+                                       MoveDamagePresentation presentation ) {
+        rootView.setIsEmpty(presentation.empty);
         if( !presentation.empty ) {
-            rootView.findViewById(R.id.move_damage_empty_view).setVisibility(View.GONE);
-            TextView name = rootView.findViewById(R.id.move_damage_name_text);
-            TextView type = rootView.findViewById(R.id.move_damage_type_text);
-            TextView category = rootView.findViewById(R.id.move_damage_category_text);
-            TextView power = rootView.findViewById(R.id.move_damage_power_text);
-            TextView effect = rootView.findViewById(R.id.move_damage_effect_text);
-            TextView result = rootView.findViewById(R.id.move_damage_result_text);
-
-            name.setText( presentation.name );
-            type.setText( presentation.type );
-            category.setText( presentation.category );
-            power.setText( presentation.power );
-            effect.setText( presentation.effect );
-            result.setText( presentation.result );
-        } else {
-            rootView.findViewById(R.id.move_damage_empty_view).setVisibility(View.VISIBLE);
+            rootView.setMoveName( presentation.name );
+            rootView.setMoveType( presentation.type );
+            rootView.setMoveCategory( presentation.category );
+            rootView.setMovePower( presentation.power );
+            rootView.setMoveEffect( presentation.effect );
+            rootView.setMoveResult( presentation.result );
         }
     }
 
@@ -137,25 +134,39 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
             rightView.setColorFilter(null);
             rootView.findViewById( R.id.damage_results_frame_view ).setVisibility( View.VISIBLE );
             rootView.findViewById(R.id.empty_opponent_text).setVisibility( View.GONE );
+            rootView.findViewById(R.id.configuration_floating_save_button_main)
+                    .setVisibility(View.VISIBLE);
         } else {
             rightView.setImageResource( R.drawable.ic_add_circle_black_24dp );
             rightView.setColorFilter(ContextCompat.getColor(
                     getActivity(), R.color.text_primary));
             rootView.findViewById(R.id.empty_opponent_text).setVisibility( View.VISIBLE );
             rootView.findViewById( R.id.damage_results_frame_view ).setVisibility( View.GONE );
+            rootView.findViewById(R.id.configuration_floating_save_button_main)
+                    .setVisibility(View.GONE);
         }
     }
 
     private void requestDamageResults() {
         PresentationBuilder builder = new PresentationBuilder();
-        populateDamageResult( getView().findViewById(R.id.move_0_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_0_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove0() ) ) );
-        populateDamageResult( getView().findViewById(R.id.move_1_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_1_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove1() ) ) );
-        populateDamageResult( getView().findViewById(R.id.move_2_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_2_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove2() ) ) );
-        populateDamageResult( getView().findViewById(R.id.move_3_damage_result_view),
+        populateDamageResult( (MoveDamageView)getView().findViewById(R.id.move_3_damage_result_view),
                 builder.build( presenter.getDamageResult( presenter.getMove3() ) ) );
+    }
+
+    private void changeAttackDirection() {
+        if( presenter.isLeftRightDirection() ) {
+            presenter.setAttackDirection( !presenter.isLeftRightDirection() );
+            requestDamageResults();
+        } else {
+            presenter.setAttackDirection( !presenter.isLeftRightDirection() );
+            requestDamageResults();
+        }
     }
 
     private void populateAttackDirection() {
@@ -182,7 +193,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                         RIGHT_POKEMON_REQUEST_CODE);
                 break;
             case R.id.attack_direction_image_view:
-                presenter.setAttackDirection( !presenter.isLeftRightDirection() );
+                changeAttackDirection();
                 populateAttackDirection();
                 break;
             case R.id.move_0_damage_result_view:
@@ -227,27 +238,62 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove0( move );
-                populateDamageResult( getView().findViewById(R.id.move_0_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_0_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             } else if( requestCode == MOVE_1_CHANGE_REQUEST_CODE ) {
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove1( move );
-                populateDamageResult( getView().findViewById(R.id.move_1_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_1_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             } else if( requestCode == MOVE_2_CHANGE_REQUEST_CODE ) {
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove2( move );
-                populateDamageResult( getView().findViewById(R.id.move_2_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_2_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             } else if( requestCode == MOVE_3_CHANGE_REQUEST_CODE ) {
                 Move move = data.getParcelableExtra(
                         ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY );
                 presenter.updateMove3( move );
-                populateDamageResult( getView().findViewById(R.id.move_3_damage_result_view),
+                populateDamageResult( (MoveDamageView)
+                                getView().findViewById(R.id.move_3_damage_result_view),
                         builder.build( presenter.getDamageResult( move ) ) );
             }
+        }
+    }
+
+    @Override
+    public void onMenuOptionClicked(int id) {
+        Intent data = new Intent();
+        Toast updatedToast = Toast.makeText(getActivity(),
+                R.string.configuration_updated_toast_message,
+                Toast.LENGTH_SHORT);
+        switch ( id ) {
+            case R.id.configuration_floating_save_button_left:
+                presenter.saveLeftConfiguration();
+                data.putExtra( ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY,
+                        presenter.getLeftPokemon() );
+                getActivity().setResult( Activity.RESULT_OK, data );
+                updatedToast.show();
+                getActivity().finish();
+                break;
+            case R.id.configuration_floating_save_button_right:
+                presenter.saveRightConfiguration();
+                data.putExtra( ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY,
+                        presenter.getRightPokemon() );
+                getActivity().setResult( Activity.RESULT_OK, data );
+                updatedToast.show();
+                getActivity().finish();
+                break;
+            case R.id.configuration_floating_save_button_middle:
+                getActivity().setResult( Activity.RESULT_CANCELED );
+                presenter.saveBothConfigurations();
+                getActivity().finish();
+                break;
         }
     }
 
@@ -267,10 +313,22 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                         formatType( damage.getType() ),
                         formatCategory( damage.getCategory() ),
                         "Power " + damage.getPower(),
-                        "SuperEffective : x4.0",
+                        buildEffectivenessText( damage.getEffectivenessModifier() ),
                         formatDamage( damage ),
                         damage.getMoveName().equals("") );
             }
+        }
+
+        private String buildEffectivenessText( float modifier ) {
+            String result = "";
+            if( modifier >= 2 ) {
+                result = "SuperEffective: x" + modifier;
+            } else if( modifier == 1 ) {
+                result = "Effective: x" + modifier;
+            } else if ( modifier < 1 ) {
+                result = "Not Effective: x" + modifier;
+            }
+            return result;
         }
 
         private MoveDamagePresentation buildEmpty() {

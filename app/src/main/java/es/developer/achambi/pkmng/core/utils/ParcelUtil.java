@@ -52,4 +52,21 @@ public class ParcelUtil {
 
         return pair;
     }
+
+    public static void writeBoolean( Parcel parcel, boolean value ) {
+        if(value) {
+            parcel.writeInt(1);
+        } else {
+            parcel.writeInt(0);
+        }
+    }
+
+    public static Boolean readBoolean( Parcel parcel ) {
+        int value = parcel.readInt();
+        if( value == 0 ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

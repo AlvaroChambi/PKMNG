@@ -61,7 +61,7 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
 
-        onView(withId( R.id.configuration_floating_save_button )).perform(click());
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
         onView(withId( R.id.create_configuration_dialog_edit_text )).perform( clearText(),typeText( "Test" ) );
         onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
 
