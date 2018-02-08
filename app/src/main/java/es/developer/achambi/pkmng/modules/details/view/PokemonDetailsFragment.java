@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
@@ -54,7 +55,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         if(!isViewRecreated()) {
             PokemonDetailsDataBuilder dataBuilder = new PokemonDetailsDataBuilder();
             pokemonRepresentation =
-                    dataBuilder.buildViewRepresentation(getResources(), pokemon);
+                    dataBuilder.buildViewRepresentation(getActivity(), pokemon);
         }
 
         populateView(view);
@@ -102,7 +103,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
 
     private void populateView(View rootView) {
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
-        TextView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
+        TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
         TextView baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
 
         TextView pokemonHP = rootView.findViewById(R.id.pokemon_hp_text);
@@ -113,7 +114,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         TextView pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
 
         pokemonName.setText(pokemonRepresentation.name);
-        pokemonType.setText(pokemonRepresentation.type);
+        pokemonType.setType(pokemonRepresentation.type);
         baseStats.setText(pokemonRepresentation.totalStats);
         pokemonHP.setText(pokemonRepresentation.hp);
         pokemonAttack.setText(pokemonRepresentation.attack);

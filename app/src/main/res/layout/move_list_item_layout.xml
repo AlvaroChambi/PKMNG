@@ -40,13 +40,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/move_name_text" />
 
-        <ImageView
+        <TextView
             android:id="@+id/move_type_image"
             android:layout_width="48dp"
             android:layout_height="20dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+            style="@style/type_text_style"
             app:layout_constraintHorizontal_bias="0.538"
             app:layout_constraintLeft_toRightOf="@+id/move_category_image"
             app:layout_constraintRight_toLeftOf="@+id/guideline8"
