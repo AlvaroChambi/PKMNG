@@ -18,6 +18,7 @@ import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenter;
@@ -102,7 +103,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
             holder.name.setText( item.name );
             holder.effect.setText( item.effect );
             holder.category.setImageResource( item.categoryImageResource );
-            holder.type.setText( item.typePresentation.name );
+            holder.type.setType( item.typePresentation );
             holder.type.setBackgroundTintList( item.typePresentation.backgroundColor );
             holder.power.setText( item.power );
             holder.accuracy.setText( item.accuracy );
@@ -120,7 +121,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
             public TextView power;
             public TextView accuracy;
             public TextView pp;
-            public TextView type;
+            public TypeView type;
             public ImageView category;
 
             public MovesViewHolder(View itemView) {
