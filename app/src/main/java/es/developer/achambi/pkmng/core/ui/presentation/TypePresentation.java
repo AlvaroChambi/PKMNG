@@ -3,6 +3,9 @@ package es.developer.achambi.pkmng.core.ui.presentation;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
+
+import java.util.HashMap;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
@@ -11,12 +14,30 @@ public class TypePresentation {
     public final CharSequence name;
     public final ColorStateList backgroundColor;
 
-    public TypePresentation( CharSequence name, ColorStateList backgroundColor) {
+    public TypePresentation( CharSequence name, ColorStateList backgroundColor ) {
         this.name = name;
         this.backgroundColor = backgroundColor;
     }
 
     public static class TypePresentationBuilder {
+        public static String buildWeakTo(Context context, Pair<Type, Type> type) {
+            String result = "";
+            HashMap<Type, Float> weakAgainstList = Type.weakAgainst( type );
+            for( Type currentType : weakAgainstList.keySet() ) {
+                result += " x" + weakAgainstList.get( currentType );
+            }
+            return result;
+        }
+
+        public static String buildEffectiveAgains(Context context, Pair<Type, Type> type) {
+            String result = "";
+            HashMap<Type, Float> weakAgainstList = Type.weakAgainst( type );
+            for( Type currentType : weakAgainstList.keySet() ) {
+                result += build(context, currentType).name + " x" + weakAgainstList.get( currentType );
+            }
+            return result;
+        }
+
         public static TypePresentation build( Context context, Type type ) {
             CharSequence name = "";
             ColorStateList backgroundColor = null;

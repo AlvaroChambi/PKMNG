@@ -2,6 +2,7 @@ package es.developer.achambi.pkmng.modules.overview.model;
 
 import android.support.v4.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public enum Type {
@@ -55,6 +56,29 @@ public enum Type {
 
     public HashMap<Type, Float> getReceives() {
         return receives;
+    }
+
+    public static HashMap<Type, Float> weakAgainst( Pair<Type, Type> type ) {
+        if( type.second == EMPTY ) {
+            HashMap<Type, Float> singleTypeResult = new HashMap<>();
+            for( Type currentType : type.first.receives.keySet() ) {
+                if( type.first.receives.get(currentType) >= 2 ) {
+                    singleTypeResult.put( currentType, type.first.receives.get(currentType) );
+                }
+            }
+            return singleTypeResult;
+        } else {
+            HashMap<Type, Float> dualTypeResult = new HashMap<>();
+            for( Type currentType : Type.values() ) {
+                if( currentType != EMPTY ) {
+                    float modifier = currentType.modifier( type );
+                    if( modifier >= 2 ) {
+                        dualTypeResult.put( currentType, modifier );
+                    }
+                }
+            }
+            return dualTypeResult;
+        }
     }
 
     private static HashMap<Type, Float> normalDeals() {

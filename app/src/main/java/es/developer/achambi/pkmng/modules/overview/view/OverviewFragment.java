@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
+import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
@@ -23,6 +27,7 @@ import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
+import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
@@ -31,7 +36,9 @@ import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewP
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewViewDataBuilder;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 
-public class OverviewFragment extends BaseSearchListFragment implements IOverviewView{
+import static android.support.v7.widget.RecyclerView.NO_POSITION;
+
+public class OverviewFragment extends BaseSearchListFragment implements IOverviewView {
     private static final String POKEMON_DETAILS_DIALOG_TAG = "POKEMON_DETAILS_DIALOG_TAG";
     private static final String CONFIGURATION_DETAILS_DIALOG_TAG = "CONFIGURATION_DETAILS_DIALOG_TAG";
     private static final String SEARCH_FILTER_ARGUMENT_KEY = "SEARCH_FILTER_ARGUMENT_KEY";
@@ -226,6 +233,10 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         }
     }
 
+    private void showTypeQuickDetails( TypesPresentation type ) {
+        TypesPresentation a = type;
+    }
+
     public class ConfigurationSearchAdapter extends SearchAdapterDecorator<OverviewConfigurationRepresentation,
             ConfigurationSearchAdapter.ConfigViewHolder> {
 
@@ -249,11 +260,20 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
         @Override
         public ConfigViewHolder createViewHolder( View rootView ) {
-            ConfigViewHolder viewHolder = new ConfigViewHolder(rootView);
+            final ConfigViewHolder viewHolder = new ConfigViewHolder(rootView);
             viewHolder.configName = rootView.findViewById(R.id.pokemon_config_name_text);
 
             viewHolder.pokemonName = rootView.findViewById(R.id.pokemon_name_text);
             viewHolder.pokemonType = rootView.findViewById(R.id.pokemon_type_text);
+            viewHolder.pokemonType.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = viewHolder.getAdapterPosition();
+                    if( position != NO_POSITION ) {
+                        showTypeQuickDetails( data.get(position).type );
+                    }
+                }
+            });
             viewHolder.baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
 
             viewHolder.item = rootView.findViewById(R.id.pokemon_item_text);

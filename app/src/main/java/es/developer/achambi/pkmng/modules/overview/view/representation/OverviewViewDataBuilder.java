@@ -9,6 +9,7 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
@@ -80,11 +81,14 @@ public class OverviewViewDataBuilder {
         }
     }
 
-    private Pair<TypePresentation, TypePresentation> typeAttribute(
+    private TypesPresentation typeAttribute(
             Context context, Pair<Type, Type> type ){
         TypePresentation first = TypePresentation.TypePresentationBuilder.build(context, type.first);
         TypePresentation second = TypePresentation.TypePresentationBuilder.build(context, type.second);
-        return new Pair<>( first, second );
+        String weakAgainst = TypePresentation.TypePresentationBuilder.buildWeakTo(context, type);
+        String effectiveAgainst = TypePresentation.TypePresentationBuilder
+                .buildEffectiveAgains(context, type);
+        return new TypesPresentation( first, second, weakAgainst, effectiveAgainst );
     }
 
     public OverviewConfigurationRepresentation configurationItemView( PokemonConfig configuration,

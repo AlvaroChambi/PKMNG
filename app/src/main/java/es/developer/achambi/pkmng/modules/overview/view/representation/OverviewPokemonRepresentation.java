@@ -1,16 +1,13 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
-
-import android.support.v4.util.Pair;
-
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 
 public class OverviewPokemonRepresentation implements SearchListData {
     public final int id;
     public final String name;
     public final String image;
-    public final Pair<TypePresentation, TypePresentation> type;
+    public final TypesPresentation type;
     public final String totalStats;
     public final String hp;
     public final String defense;
@@ -23,7 +20,7 @@ public class OverviewPokemonRepresentation implements SearchListData {
             int id,
            String name,
            String image,
-           Pair<TypePresentation, TypePresentation> type,
+           TypesPresentation type,
            String totalStats,
            String hp,
            String defense,

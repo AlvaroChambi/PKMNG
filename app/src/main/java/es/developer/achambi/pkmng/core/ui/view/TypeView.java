@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 
 public class TypeView extends LinearLayout {
     private TextView typeFirst;
@@ -38,7 +39,7 @@ public class TypeView extends LinearLayout {
         typeSecond = findViewById(R.id.pokemon_type_1_text);
     }
 
-    public void setType( Pair<TypePresentation, TypePresentation> type ) {
+    public void setType( TypesPresentation type ) {
         typeFirst.setText(type.first.name);
         typeFirst.setBackgroundTintList(type.first.backgroundColor);
         typeSecond.setVisibility(View.GONE);
@@ -50,6 +51,6 @@ public class TypeView extends LinearLayout {
     }
 
     public void setType( TypePresentation type ) {
-        setType( new Pair<TypePresentation, TypePresentation>( type, null ) );
+        setType( new TypesPresentation( type, null, null, null ) );
     }
 }

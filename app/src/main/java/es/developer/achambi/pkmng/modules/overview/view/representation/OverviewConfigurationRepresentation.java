@@ -4,13 +4,14 @@ import android.support.v4.util.Pair;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 
 public class OverviewConfigurationRepresentation implements SearchListData{
     public final int id;
     public final String name;
     public final String image;
     public final String pokemonName;
-    public final Pair<TypePresentation, TypePresentation> type;
+    public final TypesPresentation type;
     public final String totalStats;
     public final String ability;
     public final String item;
@@ -21,7 +22,7 @@ public class OverviewConfigurationRepresentation implements SearchListData{
             String name,
             String image,
             String pokemonName,
-            Pair<TypePresentation, TypePresentation> type,
+            TypesPresentation type,
             String totalStats,
             String ability,
             String item,

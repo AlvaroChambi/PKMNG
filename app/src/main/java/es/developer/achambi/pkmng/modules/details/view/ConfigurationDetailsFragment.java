@@ -133,7 +133,8 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
 
         pokemonName.setText(configurationRepresentation.pokemonName);
         configurationName.setText(configurationRepresentation.name);
-        pokemonType.setType(configurationRepresentation.type);
+        //TODO
+        //pokemonType.setType(configurationRepresentation.type);
 
         item.setText(configurationRepresentation.item);
         ability.setText(configurationRepresentation.ability);
