@@ -1,9 +1,11 @@
 package es.developer.achambi.pkmng.modules.details.databuilder;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.util.Pair;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationRepresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
@@ -13,31 +15,29 @@ import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class ConfigurationDetailsDataBuilder {
-    private Resources resources;
 
-    public DetailsConfigurationRepresentation buildViewRepresentation(Resources resources,
+    public DetailsConfigurationRepresentation buildViewRepresentation(Context context,
                                                                       PokemonConfig configuration ) {
-        this.resources = resources;
 
         DetailsConfigurationRepresentation view = new DetailsConfigurationRepresentation(
                 configuration.getId(),
                 configuration.getName(),
                 configuration.getPokemon().getImageURL(),
                 configuration.getPokemon().getName(),
-                typeAttribute(configuration.getPokemon().getType()),
-                formatAbility( configuration.getAbility(), resources ),
-                formatItem( configuration.getItem(), resources ),
-                formatNature( configuration.getNature(), resources ),
+                typeAttribute(context, configuration.getPokemon().getType()),
+                formatAbility( configuration.getAbility(), context.getResources() ),
+                formatItem( configuration.getItem(), context.getResources() ),
+                formatNature( configuration.getNature(), context.getResources() ),
                 configuration.getConfiguration().getMove0().getName(),
                 configuration.getConfiguration().getMove1().getName(),
                 configuration.getConfiguration().getMove2().getName(),
                 configuration.getConfiguration().getMove3().getName(),
-                standaloneAttribute(Stat.HP, configuration.getHP()),
-                standaloneAttribute(Stat.ATTACK, configuration.getAttack()),
-                standaloneAttribute(Stat.DEFENSE, configuration.getDefense()),
-                standaloneAttribute(Stat.SP_ATTACK, configuration.getSpAttack()),
-                standaloneAttribute(Stat.SP_DEFENSE, configuration.getDefense()),
-                standaloneAttribute(Stat.SPEED, configuration.getSpeed())
+                standaloneAttribute(Stat.HP, configuration.getHP(), context.getResources()),
+                standaloneAttribute(Stat.ATTACK, configuration.getAttack(), context.getResources()),
+                standaloneAttribute(Stat.DEFENSE, configuration.getDefense(), context.getResources()),
+                standaloneAttribute(Stat.SP_ATTACK, configuration.getSpAttack(), context.getResources()),
+                standaloneAttribute(Stat.SP_DEFENSE, configuration.getDefense(), context.getResources()),
+                standaloneAttribute(Stat.SPEED, configuration.getSpeed(), context.getResources())
         );
 
         return view;
@@ -73,7 +73,7 @@ public class ConfigurationDetailsDataBuilder {
         return formatted;
     }
 
-    private String standaloneAttribute(Stat stat, int value) {
+    private String standaloneAttribute(Stat stat, int value, Resources resources) {
         switch (stat) {
             case HP:
                 return resources.getString(R.string.pokemon_item_hp_tag) + value;
@@ -92,20 +92,10 @@ public class ConfigurationDetailsDataBuilder {
         }
     }
 
-    private String typeAttribute(Pair<Type, Type> type){
-        return formatType(type.first) + formatType(type.second);
-    }
-
-    private String formatType(Type type) {
-        String formattedType = "";
-        switch (type) {
-            case ELECTRIC:
-                formattedType = resources.getString(R.string.pokemon_type_electric);
-                break;
-            case EMPTY:
-                break;
-        }
-
-        return formattedType;
+    private Pair<TypePresentation, TypePresentation> typeAttribute(
+            Context context, Pair<Type, Type> type ){
+        TypePresentation first = TypePresentation.TypePresentationBuilder.build(context, type.first);
+        TypePresentation second = TypePresentation.TypePresentationBuilder.build(context, type.second);
+        return new Pair<>( first, second );
     }
 }

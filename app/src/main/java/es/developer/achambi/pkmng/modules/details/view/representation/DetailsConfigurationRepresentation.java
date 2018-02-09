@@ -1,11 +1,15 @@
 package es.developer.achambi.pkmng.modules.details.view.representation;
 
+import android.support.v4.util.Pair;
+
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+
 public class DetailsConfigurationRepresentation {
     public final int id;
     public final String name;
     public final String image;
     public final String pokemonName;
-    public final String type;
+    public final Pair<TypePresentation, TypePresentation> type;
 
     public final String ability;
     public final String item;
@@ -26,7 +30,8 @@ public class DetailsConfigurationRepresentation {
     public DetailsConfigurationRepresentation(
             int id,
             String name, String image, String pokemonName,
-            String type, String ability, String item, String nature,
+            Pair<TypePresentation, TypePresentation> type,
+            String ability, String item, String nature,
             String move0, String move1, String move2, String move3,
             String hp, String defense, String attack, String spAttack, String spDefense,
             String speed) {

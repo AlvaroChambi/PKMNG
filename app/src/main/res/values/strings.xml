@@ -71,4 +71,23 @@
     
     <string name="damage_calculator_damage_result_title">Damage results</string>
     <string name="damage_calculator_empty_opponent_text">Choose an opponent configuration to display the damage result</string>
+
+    <string name="type_normal_text">NORMAL</string>
+    <string name="type_fire_text">FIRE</string>
+    <string name="type_water_text">WATER</string>
+    <string name="type_electric_text">ELECTRIC</string>
+    <string name="type_grass_text">GRASS</string>
+    <string name="type_ice_text">ICE</string>
+    <string name="type_fighting_text">FIGHTING</string>
+    <string name="type_poison_text">POISON</string>
+    <string name="type_ground_text">GROUND</string>
+    <string name="type_flying_text">FLYING</string>
+    <string name="type_psychic_text">PSYCHIC</string>
+    <string name="type_bug_text">BUG</string>
+    <string name="type_rock_text">ROCK</string>
+    <string name="type_ghost_text">GHOST</string>
+    <string name="type_dragon_text">DRAGON</string>
+    <string name="type_dark_text">DARK</string>
+    <string name="type_steel_text">STEEL</string>
+    <string name="type_fairy_text">FAIRY</string>
 </resources>

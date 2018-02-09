@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/pokemon_type_0_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/type_text_style"
+        tools:text="@string/type_electric_text"
+        tools:backgroundTint="@color/type_electric_color" />
+    <TextView
+        android:id="@+id/pokemon_type_1_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        style="@style/type_text_style"
+        tools:text="@string/type_water_text"
+        tools:backgroundTint="@color/type_water_color" />
+</merge>

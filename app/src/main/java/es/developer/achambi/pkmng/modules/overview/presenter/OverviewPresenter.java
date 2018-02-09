@@ -148,7 +148,7 @@ public class OverviewPresenter implements IOverviewPresenter {
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
-            pokemon.setType(Type.ELECTRIC);
+            pokemon.setType(Type.ELECTRIC, Type.WATER);
             pokemon.setHP(35);
             pokemon.setAttack(55);
             pokemon.setDefense(40);
@@ -197,7 +197,7 @@ public class OverviewPresenter implements IOverviewPresenter {
         }
         Pokemon pokemon = new Pokemon(1);
         pokemon.setName("Pikachu");
-        pokemon.setType(Type.ELECTRIC);
+        pokemon.setType(Type.ELECTRIC, Type.FAIRY);
         pokemon.setHP(35);
         pokemon.setAttack(55);
         pokemon.setDefense(40);

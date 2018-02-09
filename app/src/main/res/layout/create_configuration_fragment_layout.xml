@@ -45,7 +45,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp" />
 
-        <TextView
+        <es.developer.achambi.pkmng.core.ui.view.TypeView
             android:id="@+id/pokemon_type_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

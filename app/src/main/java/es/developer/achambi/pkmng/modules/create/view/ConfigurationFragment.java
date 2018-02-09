@@ -13,6 +13,7 @@ import android.widget.Toast;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -109,7 +110,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
             pokemonRepresentation = new PokemonDetailsDataBuilder()
-                    .buildViewRepresentation(getResources(), presenter.getPokemon());
+                    .buildViewRepresentation(getActivity(), presenter.getPokemon());
             MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
             move0 = builder.build( presenter.getConfiguration().getMove0() );
             move1 = builder.build( presenter.getConfiguration().getMove1() );
@@ -222,7 +223,7 @@ public class ConfigurationFragment extends BaseRequestFragment
 
     private void populatePokemonView( View rootView ) {
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
-        TextView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
+        TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
         TextView baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
 
         TextView pokemonHP = rootView.findViewById(R.id.pokemon_hp_text);
@@ -233,7 +234,7 @@ public class ConfigurationFragment extends BaseRequestFragment
         TextView pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
 
         pokemonName.setText(pokemonRepresentation.name);
-        pokemonType.setText(pokemonRepresentation.type);
+        pokemonType.setType(pokemonRepresentation.type);
         baseStats.setText(pokemonRepresentation.totalStats);
         pokemonHP.setText(pokemonRepresentation.hp);
         pokemonAttack.setText(pokemonRepresentation.attack);
@@ -330,7 +331,7 @@ public class ConfigurationFragment extends BaseRequestFragment
 
             PokemonDetailsDataBuilder dataBuilder = new PokemonDetailsDataBuilder();
             pokemonRepresentation =
-                    dataBuilder.buildViewRepresentation(getResources(), presenter.getPokemon());
+                    dataBuilder.buildViewRepresentation(getActivity(), presenter.getPokemon());
 
             populatePokemonView( getView() );
         } else if( resultCode == RESULT_OK &&

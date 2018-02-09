@@ -1,16 +1,16 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+
+import android.support.v4.util.Pair;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 
-public class OverviewPokemonRepresentation
-        implements SearchListData, Parcelable {
+public class OverviewPokemonRepresentation implements SearchListData {
     public final int id;
     public final String name;
     public final String image;
-    public final String type;
+    public final Pair<TypePresentation, TypePresentation> type;
     public final String totalStats;
     public final String hp;
     public final String defense;
@@ -23,7 +23,7 @@ public class OverviewPokemonRepresentation
             int id,
            String name,
            String image,
-           String type,
+           Pair<TypePresentation, TypePresentation> type,
            String totalStats,
            String hp,
            String defense,
@@ -44,54 +44,8 @@ public class OverviewPokemonRepresentation
         this.speed = speed;
     }
 
-    protected OverviewPokemonRepresentation(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        image = in.readString();
-        type = in.readString();
-        totalStats = in.readString();
-        hp = in.readString();
-        defense = in.readString();
-        attack = in.readString();
-        spAttack = in.readString();
-        spDefense = in.readString();
-        speed = in.readString();
-    }
-
-    public static final Creator<OverviewPokemonRepresentation> CREATOR = new Creator<OverviewPokemonRepresentation>() {
-        @Override
-        public OverviewPokemonRepresentation createFromParcel(Parcel in) {
-            return new OverviewPokemonRepresentation(in);
-        }
-
-        @Override
-        public OverviewPokemonRepresentation[] newArray(int size) {
-            return new OverviewPokemonRepresentation[size];
-        }
-    };
-
     @Override
     public int getViewType() {
         return R.id.pokemon_view_id;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(image);
-        dest.writeString(type);
-        dest.writeString(totalStats);
-        dest.writeString(hp);
-        dest.writeString(defense);
-        dest.writeString(attack);
-        dest.writeString(spAttack);
-        dest.writeString(spDefense);
-        dest.writeString(speed);
     }
 }

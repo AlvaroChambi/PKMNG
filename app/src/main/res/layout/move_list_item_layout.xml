@@ -33,24 +33,21 @@
 
         <ImageView
             android:id="@+id/move_category_image"
-            android:layout_width="48dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="8dp"
+            android:layout_width="32dp"
+            android:layout_height="14dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/move_name_text"
             app:layout_constraintTop_toBottomOf="@+id/move_name_text" />
 
-        <ImageView
+        <es.developer.achambi.pkmng.core.ui.view.TypeView
             android:id="@+id/move_type_image"
-            android:layout_width="48dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintHorizontal_bias="0.538"
-            app:layout_constraintLeft_toRightOf="@+id/move_category_image"
-            app:layout_constraintRight_toLeftOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/move_name_text" />
+            app:layout_constraintTop_toBottomOf="@+id/move_name_text"
+            app:layout_constraintRight_toRightOf="@+id/move_name_text" />
 
         <TextView
             android:id="@+id/move_power_value_text"

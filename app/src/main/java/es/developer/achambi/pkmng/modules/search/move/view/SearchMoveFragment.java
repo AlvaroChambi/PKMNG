@@ -1,9 +1,11 @@
 package es.developer.achambi.pkmng.modules.search.move.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,9 +17,9 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenter;
 import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
@@ -44,7 +46,8 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        movesPresentation = new MovesPresentationBuilder().build( presenter.fetchMoves() );
+        movesPresentation = new MovesPresentationBuilder().build( getActivity(),
+                presenter.fetchMoves() );
         refreshAdapter();
     }
 
@@ -100,7 +103,8 @@ public class SearchMoveFragment extends BaseSearchListFragment
             holder.name.setText( item.name );
             holder.effect.setText( item.effect );
             holder.category.setImageResource( item.categoryImageResource );
-            holder.type.setImageResource( item.typeImageResource );
+            holder.type.setType( item.typePresentation );
+            holder.type.setBackgroundTintList( item.typePresentation.backgroundColor );
             holder.power.setText( item.power );
             holder.accuracy.setText( item.accuracy );
             holder.pp.setText( item.pp );
@@ -117,7 +121,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
             public TextView power;
             public TextView accuracy;
             public TextView pp;
-            public ImageView type;
+            public TypeView type;
             public ImageView category;
 
             public MovesViewHolder(View itemView) {
@@ -127,7 +131,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
     }
 
     public class MovesPresentationBuilder {
-        ArrayList<MoveItemPresentation> build( ArrayList<Move> moves ) {
+        ArrayList<MoveItemPresentation> build( Context context, ArrayList<Move> moves ) {
             ArrayList<MoveItemPresentation> movePresentations = new ArrayList<>();
             for( Move move : moves ) {
                 MoveItemPresentation presentation = new MoveItemPresentation(
@@ -135,7 +139,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
                         move.getName(),
                         move.getEffect(),
                         buildCategory(move.getCategory()),
-                        buildType(move.getType()),
+                        TypePresentation.TypePresentationBuilder.build( context, move.getType()),
                         "Pow. " + move.getPower(),
                         "PP " + move.getPp(),
                         "Acc. " + move.getAccuracy()
@@ -144,18 +148,6 @@ public class SearchMoveFragment extends BaseSearchListFragment
                 movePresentations.add(presentation);
             }
             return movePresentations;
-        }
-
-        private int buildType( Type type ) {
-            switch (type) {
-                case ELECTRIC:
-                    break;
-                case GROUND:
-                    return R.drawable.type_ground_icon;
-                case EMPTY:
-                    break;
-            }
-            return 0;
         }
 
         private int buildCategory( Move.Category category ) {

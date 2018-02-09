@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.util.Pair;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
@@ -18,37 +20,37 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class OverviewViewDataBuilder {
 
-    public ArrayList<OverviewPokemonRepresentation> buildPokemonPresentation(Resources resources,
+    public ArrayList<OverviewPokemonRepresentation> buildPokemonPresentation(Context context,
                                                                              List<Pokemon> pokemonList ) {
         ArrayList<OverviewPokemonRepresentation> viewRepresentationList = new ArrayList<>();
         for( Pokemon pokemon : pokemonList ) {
-            viewRepresentationList.add( pokemonItemView( pokemon, resources ) );
+            viewRepresentationList.add( pokemonItemView( pokemon, context ) );
         }
         return viewRepresentationList;
     }
 
     public ArrayList<OverviewConfigurationRepresentation> buildConfigurationPresentation(
-            Resources resources, List<PokemonConfig> configList ) {
+            Context context, List<PokemonConfig> configList ) {
         ArrayList<OverviewConfigurationRepresentation> viewRepresentationList = new ArrayList<>();
         for( PokemonConfig config : configList ) {
-            viewRepresentationList.add( configurationItemView(config, resources) );
+            viewRepresentationList.add( configurationItemView(config, context) );
         }
         return viewRepresentationList;
     }
 
-    private OverviewPokemonRepresentation pokemonItemView( Pokemon pokemon, Resources resources ) {
+    private OverviewPokemonRepresentation pokemonItemView( Pokemon pokemon, Context context ) {
         OverviewPokemonRepresentation viewRepresentation = new OverviewPokemonRepresentation(
                 pokemon.getId(),
                 pokemon.getName(),
                 pokemon.getImageURL(),
-                typeAttribute(pokemon.getType(), resources),
-                totalStatsAttribute(pokemon.getStats(), resources),
-                standaloneAttribute(Stat.HP, pokemon.getStats(), resources),
-                standaloneAttribute(Stat.ATTACK, pokemon.getStats(), resources),
-                standaloneAttribute(Stat.DEFENSE, pokemon.getStats(), resources),
-                standaloneAttribute(Stat.SP_ATTACK, pokemon.getStats(), resources),
-                standaloneAttribute(Stat.SP_DEFENSE, pokemon.getStats(), resources),
-                standaloneAttribute(Stat.SPEED, pokemon.getStats(), resources)
+                typeAttribute(context, pokemon.getType()),
+                totalStatsAttribute(pokemon.getStats(), context.getResources()),
+                standaloneAttribute(Stat.HP, pokemon.getStats(), context.getResources()),
+                standaloneAttribute(Stat.ATTACK, pokemon.getStats(), context.getResources()),
+                standaloneAttribute(Stat.DEFENSE, pokemon.getStats(), context.getResources()),
+                standaloneAttribute(Stat.SP_ATTACK, pokemon.getStats(), context.getResources()),
+                standaloneAttribute(Stat.SP_DEFENSE, pokemon.getStats(), context.getResources()),
+                standaloneAttribute(Stat.SPEED, pokemon.getStats(), context.getResources())
         );
         return viewRepresentation;
     }
@@ -78,36 +80,27 @@ public class OverviewViewDataBuilder {
         }
     }
 
-    private String typeAttribute(Pair<Type, Type> type, Resources resources){
-        return formatType(type.first, resources) + formatType(type.second, resources);
-    }
-
-    private String formatType(Type type, Resources resources) {
-        String formattedType = "";
-        switch (type) {
-            case ELECTRIC:
-                formattedType = resources.getString(R.string.pokemon_type_electric);
-                break;
-            case EMPTY:
-                break;
-        }
-
-        return formattedType;
+    private Pair<TypePresentation, TypePresentation> typeAttribute(
+            Context context, Pair<Type, Type> type ){
+        TypePresentation first = TypePresentation.TypePresentationBuilder.build(context, type.first);
+        TypePresentation second = TypePresentation.TypePresentationBuilder.build(context, type.second);
+        return new Pair<>( first, second );
     }
 
     public OverviewConfigurationRepresentation configurationItemView( PokemonConfig configuration,
-                                                                      Resources resources ) {
+                                                                      Context context ) {
         OverviewConfigurationRepresentation configurationRepresentation =
                 new OverviewConfigurationRepresentation(
                         configuration.getId(),
                         configuration.getName(),
                         configuration.getPokemon().getImageURL(),
                         configuration.getPokemon().getName(),
-                        typeAttribute(configuration.getPokemon().getType(), resources),
-                        totalStatsAttribute(configuration.getPokemon().getStats(), resources),
-                        formatAbility( configuration.getAbility(), resources ),
-                        formatItem( configuration.getItem(), resources ),
-                        formatNature( configuration.getNature(), resources )
+                        typeAttribute( context, configuration.getPokemon().getType() ),
+                        totalStatsAttribute( configuration.getPokemon().getStats(),
+                                context.getResources()),
+                        formatAbility( configuration.getAbility(), context.getResources() ),
+                        formatItem( configuration.getItem(), context.getResources() ),
+                        formatNature( configuration.getNature(), context.getResources() )
                 );
         return configurationRepresentation;
     }

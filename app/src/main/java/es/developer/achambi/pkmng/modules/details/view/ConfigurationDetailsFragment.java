@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorActivity;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
@@ -53,7 +54,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         if(!isViewRecreated()) {
             ConfigurationDetailsDataBuilder dataBuilder = new ConfigurationDetailsDataBuilder();
             configurationRepresentation =
-                    dataBuilder.buildViewRepresentation(getResources(), pokemonConfig);
+                    dataBuilder.buildViewRepresentation(getActivity(), pokemonConfig);
         }
         
         populateView(view);
@@ -112,7 +113,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     private void populateView(View rootView) {
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
         TextView configurationName = rootView.findViewById(R.id.pokemon_config_name_text);
-        TextView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
+        TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
 
         TextView item = rootView.findViewById(R.id.pokemon_item_text);
         TextView ability = rootView.findViewById(R.id.pokemon_ability_text);
@@ -132,7 +133,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
 
         pokemonName.setText(configurationRepresentation.pokemonName);
         configurationName.setText(configurationRepresentation.name);
-        pokemonType.setText(configurationRepresentation.type);
+        pokemonType.setType(configurationRepresentation.type);
 
         item.setText(configurationRepresentation.item);
         ability.setText(configurationRepresentation.ability);
