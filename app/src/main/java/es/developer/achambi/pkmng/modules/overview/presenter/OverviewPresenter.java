@@ -124,7 +124,7 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     private ArrayList<Pokemon> buildPokemonData( ) {
-        int numberOfPokemon = 900;
+        int numberOfPokemon = 0;
         ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);

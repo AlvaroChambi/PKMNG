@@ -24,7 +24,8 @@ public class TypePresentation {
             String result = "";
             HashMap<Type, Float> weakAgainstList = Type.weakAgainst( type );
             for( Type currentType : weakAgainstList.keySet() ) {
-                result += " x" + weakAgainstList.get( currentType );
+                result += build(context, currentType).name.toString().toLowerCase()
+                        + " x" + weakAgainstList.get( currentType ) + " ";
             }
             return result;
         }
@@ -33,7 +34,8 @@ public class TypePresentation {
             String result = "";
             HashMap<Type, Float> weakAgainstList = Type.weakAgainst( type );
             for( Type currentType : weakAgainstList.keySet() ) {
-                result += build(context, currentType).name + " x" + weakAgainstList.get( currentType );
+                result += build(context, currentType).name.toString().toLowerCase()
+                        + " x" + weakAgainstList.get( currentType ) + " ";
             }
             return result;
         }

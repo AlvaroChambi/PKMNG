@@ -3,14 +3,21 @@ package es.developer.achambi.pkmng.modules.overview.view;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -233,8 +240,18 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         }
     }
 
-    private void showTypeQuickDetails( TypesPresentation type ) {
-        TypesPresentation a = type;
+    private void showTypeQuickDetails( TypesPresentation type, View anchor ) {
+        View quickDetail =
+                getActivity().getLayoutInflater().inflate(R.layout.type_quick_detail_view, null);
+        TextView effective = quickDetail.findViewById(R.id.type_quick_detail_effective_text);
+        TextView weak = quickDetail.findViewById(R.id.type_quick_details_weak_text);
+        effective.setText( type.effectiveAgainst );
+        weak.setText( type.weakAgainst );
+        PopupWindow popup = new PopupWindow( quickDetail, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT );
+        popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.setOutsideTouchable( true );
+        popup.showAsDropDown( anchor );
     }
 
     public class ConfigurationSearchAdapter extends SearchAdapterDecorator<OverviewConfigurationRepresentation,
@@ -270,7 +287,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 public void onClick(View v) {
                     int position = viewHolder.getAdapterPosition();
                     if( position != NO_POSITION ) {
-                        showTypeQuickDetails( data.get(position).type );
+                        showTypeQuickDetails( data.get(position).type, viewHolder.pokemonType );
                     }
                 }
             });
