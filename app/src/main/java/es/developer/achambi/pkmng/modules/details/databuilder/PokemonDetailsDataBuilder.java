@@ -63,8 +63,8 @@ public class PokemonDetailsDataBuilder {
         TypePresentation first = TypePresentation.TypePresentationBuilder.build(context, type.first);
         TypePresentation second = TypePresentation.TypePresentationBuilder.build(context, type.second);
         String weakAgainst = TypePresentation.TypePresentationBuilder.buildWeakTo(context, type);
-        String effectiveAgainst = TypePresentation.TypePresentationBuilder
-                .buildEffectiveAgains(context, type);
-        return new TypesPresentation( first, second, weakAgainst, effectiveAgainst );
+        String resistantTo = TypePresentation.TypePresentationBuilder
+                .buildResistantTo(context, type);
+        return new TypesPresentation( first, second, weakAgainst, resistantTo );
     }
 }

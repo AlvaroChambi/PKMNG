@@ -27,17 +27,19 @@ public class TypePresentation {
                 result += build(context, currentType).name.toString().toLowerCase()
                         + " x" + weakAgainstList.get( currentType ) + " ";
             }
-            return result;
+            return context.getResources().getString( R.string.quick_detail_weak_against_tag,
+                    result );
         }
 
-        public static String buildEffectiveAgains(Context context, Pair<Type, Type> type) {
+        public static String buildResistantTo(Context context, Pair<Type, Type> type) {
             String result = "";
-            HashMap<Type, Float> weakAgainstList = Type.weakAgainst( type );
-            for( Type currentType : weakAgainstList.keySet() ) {
+            HashMap<Type, Float> resistantTo = Type.resistantAgainst( type );
+            for( Type currentType : resistantTo.keySet() ) {
                 result += build(context, currentType).name.toString().toLowerCase()
-                        + " x" + weakAgainstList.get( currentType ) + " ";
+                        + " x" + resistantTo.get( currentType ) + " ";
             }
-            return result;
+            return context.getResources().getString( R.string.quick_detail_resistant_to_tag,
+                    result );
         }
 
         public static TypePresentation build( Context context, Type type ) {

@@ -90,4 +90,7 @@
     <string name="type_dark_text">DARK</string>
     <string name="type_steel_text">STEEL</string>
     <string name="type_fairy_text">FAIRY</string>
+
+    <string name="quick_detail_resistant_to_tag">Resistant to: %1$s</string>
+    <string name="quick_detail_weak_against_tag">Weak against: %1$s</string>
 </resources>

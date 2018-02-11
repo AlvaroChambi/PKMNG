@@ -2,83 +2,138 @@ package es.developer.achambi.pkmng.modules.overview.model;
 
 import android.support.v4.util.Pair;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public enum Type {
-    NORMAL( normalDeals(), normalReceives() ),
-    FIRE( fireDeals(), fireReceives() ),
-    WATER( waterDeals(), waterReceives() ),
-    ELECTRIC( electricDeals(), electricReceives() ),
-    GRASS( grassDeals(), grassReceives() ),
-    ICE( iceDeals(), iceReceives() ),
-    FIGHTING( fightingDeals(), fightingReceives() ),
-    POISON( poisonDeals(), poisonReceives() ),
-    GROUND( groundDeals(), groundReceives() ),
-    FLYING( flyingDeals(), flyingReceives() ),
-    PSYCHIC( psychicDeals(), psychicReceives() ),
-    BUG( bugDeals(), bugReceives() ),
-    ROCK( rockDeals(), rockReceives() ),
-    GHOST( ghostDeals(), ghostReceives() ),
-    DRAGON( dragonDeals(), dragonReceives() ),
-    DARK( darkDeals(), darkReceives() ),
-    STEEL( steelDeals(), steelReceives() ),
-    FAIRY( fairyDeals(), fairyReceives() ),
-    EMPTY( null, null );
+    NORMAL,
+    FIRE,
+    WATER,
+    ELECTRIC,
+    GRASS,
+    ICE,
+    FIGHTING,
+    POISON,
+    GROUND,
+    FLYING,
+    PSYCHIC,
+    BUG,
+    ROCK,
+    GHOST,
+    DRAGON,
+    DARK,
+    STEEL,
+    FAIRY,
+    EMPTY;
 
-    private HashMap<Type, Float> deals;
-    private HashMap<Type, Float> receives;
+    public enum Value{
+        NORMAL( normalDeals(), normalReceives() ),
+        FIRE( fireDeals(), fireReceives() ),
+        WATER( waterDeals(), waterReceives() ),
+        ELECTRIC( electricDeals(), electricReceives() ),
+        GRASS( grassDeals(), grassReceives() ),
+        ICE( iceDeals(), iceReceives() ),
+        FIGHTING( fightingDeals(), fightingReceives() ),
+        POISON( poisonDeals(), poisonReceives() ),
+        GROUND( groundDeals(), groundReceives() ),
+        FLYING( flyingDeals(), flyingReceives() ),
+        PSYCHIC( psychicDeals(), psychicReceives() ),
+        BUG( bugDeals(), bugReceives() ),
+        ROCK( rockDeals(), rockReceives() ),
+        GHOST( ghostDeals(), ghostReceives() ),
+        DRAGON( dragonDeals(), dragonReceives() ),
+        DARK( darkDeals(), darkReceives() ),
+        STEEL( steelDeals(), steelReceives() ),
+        FAIRY( fairyDeals(), fairyReceives() ),
+        EMPTY( null, null );
 
-    Type( HashMap<Type, Float> deals,
-          HashMap<Type, Float> receives ) {
-        this.deals = deals;
-        this.receives = receives;
-    }
+        private HashMap<Type, Float> deals;
+        private HashMap<Type, Float> receives;
 
-    public float modifier( Type type ) {
-        if( deals.containsKey( type ) ) {
-            return deals.get( type );
-        } else {
-            return 1.0f;
+        Value( HashMap<Type, Float> deals,
+              HashMap<Type, Float> receives ) {
+            this.deals = deals;
+            this.receives = receives;
+        }
+
+        public float modifier( Type type ) {
+            if( deals.containsKey( type ) ) {
+                return deals.get( type );
+            } else {
+                return 1.0f;
+            }
+        }
+
+        public float modifier( Pair<Type, Type> type ) {
+            if( type.second == Type.EMPTY ) {
+                return modifier( type.first );
+            } else {
+                float fistModifier = modifier( type.first );
+                float secondModifier = modifier( type.second );
+
+                return fistModifier * secondModifier;
+            }
+        }
+
+        public static HashMap<Type, Float> resistantTo( Pair<Type, Type> type ) {
+            if( type.second == Type.EMPTY ) {
+                HashMap<Type, Float> singleTypeResult = new HashMap<>();
+                for( Type currentType : cast( type.first ).receives.keySet() ) {
+                    if( cast( type.first ).receives.get(currentType) <= 0.5f ) {
+                        singleTypeResult.put( currentType, cast( type.first )
+                                .receives.get(currentType) );
+                    }
+                }
+                return singleTypeResult;
+            } else {
+                HashMap<Type, Float> dualTypeResult = new HashMap<>();
+                for( Type currentType : Type.values() ) {
+                    if( currentType != Type.EMPTY ) {
+                        float modifier = currentType.modifier( type );
+                        if( modifier <= 0.5 ) {
+                            dualTypeResult.put( currentType, modifier );
+                        }
+                    }
+                }
+                return dualTypeResult;
+            }
+        }
+
+        public static HashMap<Type, Float> weakAgainst( Pair<Type, Type> type ) {
+
+            if( type.second == Type.EMPTY ) {
+                HashMap<Type, Float> singleTypeResult = new HashMap<>();
+                for( Type currentType : cast( type.first ).receives.keySet() ) {
+                    if( cast( type.first ).receives.get(currentType) >= 2 ) {
+                        singleTypeResult.put( currentType, cast( type.first )
+                                .receives.get(currentType) );
+                    }
+                }
+                return singleTypeResult;
+            } else {
+                HashMap<Type, Float> dualTypeResult = new HashMap<>();
+                for( Type currentType : Type.values() ) {
+                    if( currentType != Type.EMPTY ) {
+                        float modifier = currentType.modifier( type );
+                        if( modifier >= 2 ) {
+                            dualTypeResult.put( currentType, modifier );
+                        }
+                    }
+                }
+                return dualTypeResult;
+            }
         }
     }
 
     public float modifier( Pair<Type, Type> type ) {
-        if( type.second == EMPTY ) {
-            return modifier( type.first );
-        } else {
-            float fistModifier = modifier( type.first );
-            float secondModifier = modifier( type.second );
-
-            return fistModifier * secondModifier;
-        }
-    }
-
-    public HashMap<Type, Float> getReceives() {
-        return receives;
+        return cast(this).modifier( type );
     }
 
     public static HashMap<Type, Float> weakAgainst( Pair<Type, Type> type ) {
-        if( type.second == EMPTY ) {
-            HashMap<Type, Float> singleTypeResult = new HashMap<>();
-            for( Type currentType : type.first.receives.keySet() ) {
-                if( type.first.receives.get(currentType) >= 2 ) {
-                    singleTypeResult.put( currentType, type.first.receives.get(currentType) );
-                }
-            }
-            return singleTypeResult;
-        } else {
-            HashMap<Type, Float> dualTypeResult = new HashMap<>();
-            for( Type currentType : Type.values() ) {
-                if( currentType != EMPTY ) {
-                    float modifier = currentType.modifier( type );
-                    if( modifier >= 2 ) {
-                        dualTypeResult.put( currentType, modifier );
-                    }
-                }
-            }
-            return dualTypeResult;
-        }
+        return Value.weakAgainst( type );
+    }
+
+    public static HashMap<Type, Float> resistantAgainst( Pair<Type, Type> type ) {
+        return Value.resistantTo( type );
     }
 
     private static HashMap<Type, Float> normalDeals() {
@@ -197,12 +252,13 @@ public enum Type {
     private static HashMap<Type, Float> iceDeals() {
         HashMap<Type,Float> values = new HashMap<>();
         values.put( FIRE, 0.5f );
-        values.put( WATER, 2.0f );
-        values.put( GRASS, 0.5f );
+        values.put( WATER, 0.5f );
+        values.put( GRASS, 2.0f );
         values.put( ICE, 0.5f );
         values.put( GROUND, 2.0f );
-        values.put( FLYING, 0.5f );
-        values.put( DRAGON, 0.5f );
+        values.put( FLYING, 2.0f );
+        values.put( DRAGON, 2.0f );
+        values.put( STEEL, 0.5f );
         return values;
     }
 
@@ -504,5 +560,48 @@ public enum Type {
         values.put( DARK, 0.5f );
         values.put( STEEL, 2.0f );
         return values;
+    }
+
+    private static Type.Value cast( Type type ) {
+        switch (type) {
+            case NORMAL:
+                return Value.NORMAL;
+            case FIRE:
+                return Value.FIRE;
+            case WATER:
+                return Value.WATER;
+            case ELECTRIC:
+                return Value.ELECTRIC;
+            case GRASS:
+                return Value.GRASS;
+            case ICE:
+                return Value.ICE;
+            case FIGHTING:
+                return Value.FIGHTING;
+            case POISON:
+                return Value.POISON;
+            case GROUND:
+                return Value.GROUND;
+            case FLYING:
+                return Value.FLYING;
+            case PSYCHIC:
+                return Value.PSYCHIC;
+            case BUG:
+                return Value.BUG;
+            case ROCK:
+                return Value.ROCK;
+            case GHOST:
+                return Value.GHOST;
+            case DRAGON:
+                return Value.DRAGON;
+            case DARK:
+                return Value.DARK;
+            case STEEL:
+                return Value.STEEL;
+            case FAIRY:
+                return Value.FAIRY;
+            default:
+                return Value.EMPTY;
+        }
     }
 }
