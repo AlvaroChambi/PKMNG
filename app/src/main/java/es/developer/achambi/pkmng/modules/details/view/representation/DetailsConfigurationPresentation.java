@@ -1,14 +1,14 @@
 package es.developer.achambi.pkmng.modules.details.view.representation;
 
 import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 
 public class DetailsConfigurationPresentation {
     public final int id;
     public final String name;
     public final String image;
     public final String pokemonName;
-    public final TypesPresentation type;
+    public final PokemonTypePresentation type;
 
     public final String ability;
     public final String item;
@@ -24,7 +24,7 @@ public class DetailsConfigurationPresentation {
     public DetailsConfigurationPresentation(
             int id,
             String name, String image, String pokemonName,
-            TypesPresentation type,
+            PokemonTypePresentation type,
             String ability, String item, String nature,
             String move0, String move1, String move2, String move3,
             StatsPresentation stats ) {

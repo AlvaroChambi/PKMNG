@@ -17,6 +17,7 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
@@ -139,7 +140,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
                         move.getName(),
                         move.getEffect(),
                         buildCategory(move.getCategory()),
-                        TypePresentation.Builder.build( context, move.getType()),
+                        MoveTypePresentation.Builder.buildPresentation( context, move.getType()),
                         "Pow. " + move.getPower(),
                         "PP " + move.getPp(),
                         "Acc. " + move.getAccuracy()

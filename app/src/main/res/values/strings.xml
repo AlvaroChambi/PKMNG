@@ -93,4 +93,5 @@
 
     <string name="quick_detail_resistant_to_tag">Resistant to: %1$s</string>
     <string name="quick_detail_weak_against_tag">Weak against: %1$s</string>
+    <string name="quick_detail_effective_against_tag">Effective against: %1$s</string>
 </resources>

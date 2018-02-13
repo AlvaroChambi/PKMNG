@@ -13,13 +13,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 
 public class TypeView extends LinearLayout implements View.OnClickListener {
     private TextView typeFirst;
     private TextView typeSecond;
-    private TypesPresentation presentation;
 
     public TypeView(Context context) {
         super(context);
@@ -46,8 +45,7 @@ public class TypeView extends LinearLayout implements View.OnClickListener {
         }
     }
 
-    public void setType( TypesPresentation pokemonType ) {
-        this.presentation = pokemonType;
+    public void setType( PokemonTypePresentation pokemonType ) {
         typeFirst.setText(pokemonType.first.name);
         typeFirst.setBackgroundTintList(pokemonType.first.backgroundColor);
         typeSecond.setVisibility(View.GONE);
@@ -58,8 +56,8 @@ public class TypeView extends LinearLayout implements View.OnClickListener {
         }
     }
 
-    public void setType( TypePresentation moveType ) {
-        setType( new TypesPresentation( moveType, null, null, null ) );
+    public void setType( MoveTypePresentation moveType ) {
+        setType( new PokemonTypePresentation( moveType, null, null, null ) );
     }
 
     @Override

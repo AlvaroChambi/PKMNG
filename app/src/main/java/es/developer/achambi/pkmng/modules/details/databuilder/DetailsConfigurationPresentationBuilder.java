@@ -5,7 +5,7 @@ import android.content.res.Resources;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
@@ -22,7 +22,7 @@ public class DetailsConfigurationPresentationBuilder {
                 configuration.getName(),
                 configuration.getPokemon().getImageURL(),
                 configuration.getPokemon().getName(),
-                TypesPresentation.Builder.buildPresentation( context,
+                PokemonTypePresentation.Builder.buildPresentation( context,
                         configuration.getPokemon().getType() ),
                 formatAbility( configuration.getAbility(), context.getResources() ),
                 formatItem( configuration.getItem(), context.getResources() ),

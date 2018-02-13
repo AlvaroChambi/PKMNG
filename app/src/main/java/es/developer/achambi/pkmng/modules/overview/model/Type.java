@@ -2,6 +2,7 @@ package es.developer.achambi.pkmng.modules.overview.model;
 
 import android.support.v4.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public enum Type {
@@ -122,6 +123,17 @@ public enum Type {
                 return dualTypeResult;
             }
         }
+
+        public HashMap<Type, Float> effectiveAgainst( ) {
+            HashMap<Type, Float> result = new HashMap<>();
+            for( Type currentType : deals.keySet() ) {
+                float modifier = deals.get( currentType );
+                if( modifier >= 2.0 ) {
+                    result.put( currentType, modifier );
+                }
+            }
+            return result;
+        }
     }
 
     public float modifier( Pair<Type, Type> type ) {
@@ -134,6 +146,10 @@ public enum Type {
 
     public static HashMap<Type, Float> resistantAgainst( Pair<Type, Type> type ) {
         return Value.resistantTo( type );
+    }
+
+    public HashMap<Type, Float> effectiveAgainst() {
+        return cast(this).effectiveAgainst();
     }
 
     private static HashMap<Type, Float> normalDeals() {

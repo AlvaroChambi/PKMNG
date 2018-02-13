@@ -2,13 +2,13 @@ package es.developer.achambi.pkmng.modules.overview.view.representation;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 
 public class PokemonPresentation implements SearchListData {
     public final int id;
     public final String name;
     public final String image;
-    public final TypesPresentation type;
+    public final PokemonTypePresentation type;
     public final String totalStats;
     public final StatsPresentation stats;
 
@@ -16,7 +16,7 @@ public class PokemonPresentation implements SearchListData {
             int id,
            String name,
            String image,
-           TypesPresentation type,
+           PokemonTypePresentation type,
            String totalStats,
            StatsPresentation stats ) {
         this.id = id;

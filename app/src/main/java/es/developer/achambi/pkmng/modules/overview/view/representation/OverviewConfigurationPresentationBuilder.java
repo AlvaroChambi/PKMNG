@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
@@ -20,7 +20,7 @@ public class OverviewConfigurationPresentationBuilder {
                         configuration.getName(),
                         configuration.getPokemon().getImageURL(),
                         configuration.getPokemon().getName(),
-                        TypesPresentation.Builder.buildPresentation( context,
+                        PokemonTypePresentation.Builder.buildPresentation( context,
                                 configuration.getPokemon().getType() ),
                         totalStatsAttribute( configuration.getPokemon().getStats(),
                                 context.getResources()),

@@ -11,14 +11,14 @@ import java.util.HashMap;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
-public class TypesPresentation {
+public class PokemonTypePresentation {
     public final String effectiveAgainst;
     public final String weakAgainst;
     public final TypePresentation first;
     public final TypePresentation second;
 
-    public TypesPresentation( TypePresentation first, TypePresentation second,
-                              String effectiveAgainst, String weakAgainst ) {
+    public PokemonTypePresentation(TypePresentation first, TypePresentation second,
+                                   String effectiveAgainst, String weakAgainst ) {
         this.effectiveAgainst = effectiveAgainst;
         this.weakAgainst = weakAgainst;
         this.first = first;
@@ -27,8 +27,8 @@ public class TypesPresentation {
 
     public static class Builder {
         @NotNull
-        public static TypesPresentation buildPresentation( Context context, Pair<Type, Type> type ) {
-            return new TypesPresentation(
+        public static PokemonTypePresentation buildPresentation(Context context, Pair<Type, Type> type ) {
+            return new PokemonTypePresentation(
                     TypePresentation.Builder.build( context, type.first ),
                     TypePresentation.Builder.build( context, type.second ),
                     buildResistantTo( context, type ),
