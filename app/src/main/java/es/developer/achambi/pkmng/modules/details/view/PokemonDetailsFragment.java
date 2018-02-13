@@ -13,10 +13,10 @@ import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
-import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
+import es.developer.achambi.pkmng.modules.details.databuilder.PokemonPresentationBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
@@ -24,7 +24,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
     private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
 
     private Pokemon pokemon;
-    private OverviewPokemonRepresentation pokemonRepresentation;
+    private PokemonPresentation pokemonPresentation;
 
     public static PokemonDetailsFragment newInstance( Pokemon pokemon,
                                                       OverviewFragment.UseContext useContext ) {
@@ -53,9 +53,9 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            PokemonDetailsDataBuilder dataBuilder = new PokemonDetailsDataBuilder();
-            pokemonRepresentation =
-                    dataBuilder.buildViewRepresentation(getActivity(), pokemon);
+            PokemonPresentationBuilder dataBuilder = new PokemonPresentationBuilder();
+            pokemonPresentation =
+                    dataBuilder.buildPresentation(getActivity(), pokemon);
         }
 
         populateView(view);
@@ -113,15 +113,15 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         TextView pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
         TextView pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
 
-        pokemonName.setText(pokemonRepresentation.name);
-        pokemonType.setType(pokemonRepresentation.type);
-        baseStats.setText(pokemonRepresentation.totalStats);
-        pokemonHP.setText(pokemonRepresentation.hp);
-        pokemonAttack.setText(pokemonRepresentation.attack);
-        pokemonDefense.setText(pokemonRepresentation.defense);
-        pokemonSpAttack.setText(pokemonRepresentation.spAttack);
-        pokemonSpDefense.setText(pokemonRepresentation.spDefense);
-        pokemonSpeed.setText(pokemonRepresentation.speed);
+        pokemonName.setText(pokemonPresentation.name);
+        pokemonType.setType(pokemonPresentation.type);
+        baseStats.setText(pokemonPresentation.totalStats);
+        pokemonHP.setText(pokemonPresentation.stats.hp);
+        pokemonAttack.setText(pokemonPresentation.stats.attack);
+        pokemonDefense.setText(pokemonPresentation.stats.defense);
+        pokemonSpAttack.setText(pokemonPresentation.stats.spAttack);
+        pokemonSpDefense.setText(pokemonPresentation.stats.spDefense);
+        pokemonSpeed.setText(pokemonPresentation.stats.speed);
     }
 
     @Override

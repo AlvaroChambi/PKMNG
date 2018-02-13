@@ -2,21 +2,17 @@ package es.developer.achambi.pkmng.modules.details.databuilder;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.util.Pair;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.model.Stat;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
-public class ConfigurationDetailsDataBuilder {
+public class DetailsConfigurationPresentationBuilder {
 
     public DetailsConfigurationPresentation buildViewRepresentation(Context context,
                                                                     PokemonConfig configuration ) {

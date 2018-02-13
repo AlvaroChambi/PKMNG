@@ -12,8 +12,8 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -91,31 +91,31 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     public class OnPokemonClickedListener
-            implements SearchAdapterDecorator.OnItemClickedListener<OverviewPokemonRepresentation>{
+            implements SearchAdapterDecorator.OnItemClickedListener<PokemonPresentation>{
         @Override
-        public void onItemClicked(OverviewPokemonRepresentation item) {
+        public void onItemClicked(PokemonPresentation item) {
             onPokemonClicked(item);
         }
     }
 
     public class OnConfigurationClickedListener
-            implements SearchAdapterDecorator.OnItemClickedListener<OverviewConfigurationRepresentation>{
+            implements SearchAdapterDecorator.OnItemClickedListener<OverviewConfigurationPresentation>{
         @Override
-        public void onItemClicked(OverviewConfigurationRepresentation item) {
+        public void onItemClicked(OverviewConfigurationPresentation item) {
             onConfigurationClicked(item);
         }
     }
 
-    public void onPokemonClicked(OverviewPokemonRepresentation pokemonRepresentation) {
+    public void onPokemonClicked(PokemonPresentation pokemonPresentation) {
         for( BasePokemon baseItem : pokemonDataList ) {
-            if( pokemonRepresentation.id == baseItem.getId() ) {
+            if( pokemonPresentation.id == baseItem.getId() ) {
                 view.showPokemonDetails( ((Pokemon)baseItem) );
             }
         }
     }
 
     public void onConfigurationClicked
-            (OverviewConfigurationRepresentation configurationRepresentation) {
+            (OverviewConfigurationPresentation configurationRepresentation) {
         for( BasePokemon baseItem : pokemonConfigList) {
             if( configurationRepresentation.id == baseItem.getId() ) {
                 view.showConfigurationDetails( ((PokemonConfig) baseItem) );
@@ -124,7 +124,7 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     private ArrayList<Pokemon> buildPokemonData( ) {
-        int numberOfPokemon = 0;
+        int numberOfPokemon = 900;
         ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);

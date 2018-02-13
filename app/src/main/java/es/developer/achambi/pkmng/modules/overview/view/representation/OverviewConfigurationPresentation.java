@@ -3,7 +3,7 @@ package es.developer.achambi.pkmng.modules.overview.view.representation;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 
-public class OverviewConfigurationRepresentation implements SearchListData{
+public class OverviewConfigurationPresentation implements SearchListData{
     public final int id;
     public final String name;
     public final String image;
@@ -14,7 +14,7 @@ public class OverviewConfigurationRepresentation implements SearchListData{
     public final String item;
     public final String nature;
 
-    public OverviewConfigurationRepresentation(
+    public OverviewConfigurationPresentation(
             int id,
             String name,
             String image,

@@ -1,21 +1,25 @@
 package es.developer.achambi.pkmng.core.ui.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 
-public class TypeView extends LinearLayout {
+public class TypeView extends LinearLayout implements View.OnClickListener {
     private TextView typeFirst;
     private TextView typeSecond;
+    private TypesPresentation presentation;
 
     public TypeView(Context context) {
         super(context);
@@ -37,20 +41,39 @@ public class TypeView extends LinearLayout {
         inflater.inflate(R.layout.type_view_layout, this );
         typeFirst = findViewById(R.id.pokemon_type_0_text);
         typeSecond = findViewById(R.id.pokemon_type_1_text);
+        if(!isInEditMode()) {
+            setOnClickListener( this );
+        }
     }
 
-    public void setType( TypesPresentation type ) {
-        typeFirst.setText(type.first.name);
-        typeFirst.setBackgroundTintList(type.first.backgroundColor);
+    public void setType( TypesPresentation pokemonType ) {
+        this.presentation = pokemonType;
+        typeFirst.setText(pokemonType.first.name);
+        typeFirst.setBackgroundTintList(pokemonType.first.backgroundColor);
         typeSecond.setVisibility(View.GONE);
-        if( type.second != null ) {
-            typeSecond.setText(type.second.name);
-            typeSecond.setBackgroundTintList(type.second.backgroundColor);
+        if( pokemonType.second != null ) {
+            typeSecond.setText(pokemonType.second.name);
+            typeSecond.setBackgroundTintList(pokemonType.second.backgroundColor);
             typeSecond.setVisibility(View.VISIBLE);
         }
     }
 
-    public void setType( TypePresentation type ) {
-        setType( new TypesPresentation( type, null, null, null ) );
+    public void setType( TypePresentation moveType ) {
+        setType( new TypesPresentation( moveType, null, null, null ) );
+    }
+
+    @Override
+    public void onClick(View v) {
+        View quickDetail =
+                LayoutInflater.from(v.getContext()).inflate(R.layout.type_quick_detail_view, null);
+        TextView effective = quickDetail.findViewById(R.id.type_quick_detail_effective_text);
+        TextView weak = quickDetail.findViewById(R.id.type_quick_details_weak_text);
+        effective.setText( presentation.effectiveAgainst );
+        weak.setText( presentation.weakAgainst );
+        PopupWindow popup = new PopupWindow( quickDetail, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT );
+        popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.setOutsideTouchable( true );
+        popup.showAsDropDown( v );
     }
 }

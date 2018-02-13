@@ -139,7 +139,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
                         move.getName(),
                         move.getEffect(),
                         buildCategory(move.getCategory()),
-                        TypePresentation.TypePresentationBuilder.build( context, move.getType()),
+                        TypePresentation.Builder.build( context, move.getType()),
                         "Pow. " + move.getPower(),
                         "PP " + move.getPp(),
                         "Acc. " + move.getAccuracy()
