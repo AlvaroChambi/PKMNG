@@ -5,8 +5,10 @@ import android.content.res.Resources;
 import android.support.v4.util.Pair;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
-import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationRepresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
+import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
@@ -16,15 +18,16 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class ConfigurationDetailsDataBuilder {
 
-    public DetailsConfigurationRepresentation buildViewRepresentation(Context context,
-                                                                      PokemonConfig configuration ) {
+    public DetailsConfigurationPresentation buildViewRepresentation(Context context,
+                                                                    PokemonConfig configuration ) {
 
-        DetailsConfigurationRepresentation view = new DetailsConfigurationRepresentation(
+        DetailsConfigurationPresentation view = new DetailsConfigurationPresentation(
                 configuration.getId(),
                 configuration.getName(),
                 configuration.getPokemon().getImageURL(),
                 configuration.getPokemon().getName(),
-                typeAttribute(context, configuration.getPokemon().getType()),
+                TypesPresentation.Builder.buildPresentation( context,
+                        configuration.getPokemon().getType() ),
                 formatAbility( configuration.getAbility(), context.getResources() ),
                 formatItem( configuration.getItem(), context.getResources() ),
                 formatNature( configuration.getNature(), context.getResources() ),
@@ -32,12 +35,8 @@ public class ConfigurationDetailsDataBuilder {
                 configuration.getConfiguration().getMove1().getName(),
                 configuration.getConfiguration().getMove2().getName(),
                 configuration.getConfiguration().getMove3().getName(),
-                standaloneAttribute(Stat.HP, configuration.getHP(), context.getResources()),
-                standaloneAttribute(Stat.ATTACK, configuration.getAttack(), context.getResources()),
-                standaloneAttribute(Stat.DEFENSE, configuration.getDefense(), context.getResources()),
-                standaloneAttribute(Stat.SP_ATTACK, configuration.getSpAttack(), context.getResources()),
-                standaloneAttribute(Stat.SP_DEFENSE, configuration.getDefense(), context.getResources()),
-                standaloneAttribute(Stat.SPEED, configuration.getSpeed(), context.getResources())
+                StatsPresentation.Builder.buildPresentation( context.getResources(),
+                        configuration.getStats() )
         );
 
         return view;
@@ -71,31 +70,5 @@ public class ConfigurationDetailsDataBuilder {
             formatted += " - ";
         }
         return formatted;
-    }
-
-    private String standaloneAttribute(Stat stat, int value, Resources resources) {
-        switch (stat) {
-            case HP:
-                return resources.getString(R.string.pokemon_item_hp_tag) + value;
-            case DEFENSE:
-                return resources.getString(R.string.pokemon_item_attack_tag) + value;
-            case ATTACK:
-                return resources.getString(R.string.pokemon_item_defense_tag) + value;
-            case SP_ATTACK:
-                return resources.getString(R.string.pokemon_item_sp_attack_tag) + value;
-            case SP_DEFENSE:
-                return resources.getString(R.string.pokemon_item_sp_defense_tag) + value;
-            case SPEED:
-                return resources.getString(R.string.pokemon_item_speed_tag) + value;
-            default:
-                return "";
-        }
-    }
-
-    private Pair<TypePresentation, TypePresentation> typeAttribute(
-            Context context, Pair<Type, Type> type ){
-        TypePresentation first = TypePresentation.TypePresentationBuilder.build(context, type.first);
-        TypePresentation second = TypePresentation.TypePresentationBuilder.build(context, type.second);
-        return new Pair<>( first, second );
     }
 }

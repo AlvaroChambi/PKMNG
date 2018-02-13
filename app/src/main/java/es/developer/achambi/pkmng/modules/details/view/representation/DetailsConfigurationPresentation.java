@@ -1,15 +1,15 @@
 package es.developer.achambi.pkmng.modules.details.view.representation;
 
-import android.support.v4.util.Pair;
-
+import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
 public class DetailsConfigurationRepresentation {
     public final int id;
     public final String name;
     public final String image;
     public final String pokemonName;
-    public final Pair<TypePresentation, TypePresentation> type;
+    public final TypePresentation type;
 
     public final String ability;
     public final String item;
@@ -20,21 +20,15 @@ public class DetailsConfigurationRepresentation {
     public final String move2;
     public final String move3;
 
-    public final String hp;
-    public final String defense;
-    public final String attack;
-    public final String spAttack;
-    public final String spDefense;
-    public final String speed;
+    StatsPresentation stats;
 
     public DetailsConfigurationRepresentation(
             int id,
             String name, String image, String pokemonName,
-            Pair<TypePresentation, TypePresentation> type,
+            TypePresentation type,
             String ability, String item, String nature,
             String move0, String move1, String move2, String move3,
-            String hp, String defense, String attack, String spAttack, String spDefense,
-            String speed) {
+            StatsPresentation stats ) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -47,11 +41,6 @@ public class DetailsConfigurationRepresentation {
         this.move1 = move1;
         this.move2 = move2;
         this.move3 = move3;
-        this.hp = hp;
-        this.defense = defense;
-        this.attack = attack;
-        this.spAttack = spAttack;
-        this.spDefense = spDefense;
-        this.speed = speed;
+        this.stats = stats;
     }
 }

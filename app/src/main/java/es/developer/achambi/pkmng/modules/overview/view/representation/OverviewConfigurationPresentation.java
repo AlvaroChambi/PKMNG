@@ -1,9 +1,6 @@
 package es.developer.achambi.pkmng.modules.overview.view.representation;
 
-import android.support.v4.util.Pair;
-
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypesPresentation;
 
 public class OverviewConfigurationRepresentation implements SearchListData{

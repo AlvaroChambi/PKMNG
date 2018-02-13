@@ -11,13 +11,13 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 
 public class PokemonDetailsDataBuilder {
-    public OverviewPokemonRepresentation buildViewRepresentation(
+    public PokemonPresentation buildViewRepresentation(
             Context context, Pokemon pokemon ) {
 
-        OverviewPokemonRepresentation viewRepresentation = new OverviewPokemonRepresentation(
+        PokemonPresentation viewRepresentation = new PokemonPresentation(
                 pokemon.getId(),
                 pokemon.getName(),
                 pokemon.getImageURL(),
