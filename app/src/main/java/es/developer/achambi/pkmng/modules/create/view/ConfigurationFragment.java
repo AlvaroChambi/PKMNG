@@ -13,6 +13,7 @@ import android.widget.Toast;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.details.databuilder.PokemonPresentationBuilder;
@@ -277,9 +278,10 @@ public class ConfigurationFragment extends BaseRequestFragment
             TextView moveType = moveRootView.findViewById(R.id.move_view_type_text);
             TextView movePower = moveRootView.findViewById(R.id.move_view_power_text);
 
-            moveName.setText(move.name);
-            movePower.setText(move.power);
-            moveType.setText(move.type);
+            moveName.setText( move.name );
+            movePower.setText( move.power );
+            moveType.setText( move.type.name );
+            moveRootView.setBackgroundTintList( move.type.backgroundColor );
             moveName.setVisibility(View.VISIBLE);
             movePower.setVisibility(View.VISIBLE);
             moveType.setVisibility(View.VISIBLE);
@@ -384,24 +386,11 @@ public class ConfigurationFragment extends BaseRequestFragment
             MoveConfigurationRepresentation representation = new MoveConfigurationRepresentation(
                     move.getId(),
                     move.getName(),
-                    formatType( move.getType() ),
+                    TypePresentation.Builder.build( getActivity(), move.getType() ),
                     "Pow. " + move.getPower(),
                     move.getName().equals("")
             );
             return representation;
-        }
-
-        private String formatType( Type type ) {
-            switch (type) {
-
-                case ELECTRIC:
-                    return "ELECTRIC";
-                case GROUND:
-                    return "GROUND";
-                case EMPTY:
-                    return "";
-            }
-            return "";
         }
     }
 }
