@@ -12,22 +12,23 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public class PokemonTypePresentation {
-    public final String effectiveAgainst;
+    public final String resistantTo;
     public final String weakAgainst;
     public final TypePresentation first;
     public final TypePresentation second;
 
     public PokemonTypePresentation(TypePresentation first, TypePresentation second,
-                                   String effectiveAgainst, String weakAgainst ) {
-        this.effectiveAgainst = effectiveAgainst;
-        this.weakAgainst = weakAgainst;
+                                   String resistantTo, String weakAgainst ) {
         this.first = first;
         this.second = second;
+        this.resistantTo = resistantTo;
+        this.weakAgainst = weakAgainst;
     }
 
     public static class Builder {
         @NotNull
-        public static PokemonTypePresentation buildPresentation(Context context, Pair<Type, Type> type ) {
+        public static PokemonTypePresentation buildPresentation(Context context,
+                                                                Pair<Type, Type> type ) {
             return new PokemonTypePresentation(
                     TypePresentation.Builder.build( context, type.first ),
                     TypePresentation.Builder.build( context, type.second ),
