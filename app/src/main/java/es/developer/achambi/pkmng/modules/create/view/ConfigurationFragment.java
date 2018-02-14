@@ -21,7 +21,6 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
@@ -104,7 +103,7 @@ public class ConfigurationFragment extends BaseRequestFragment
 
     @Override
     public int getLayoutResource() {
-        return R.layout.create_configuration_fragment_layout;
+        return R.layout.configuration_fragment_layout;
     }
 
     @Override

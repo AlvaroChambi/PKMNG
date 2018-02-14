@@ -19,6 +19,7 @@
             android:background="@color/primary"
             tools:visibility="gone"/>
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/move_damage_left_background"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/damage_move_background_drawable"
@@ -36,7 +37,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <es.developer.achambi.pkmng.core.ui.view.TypeView
                 android:id="@+id/move_damage_type_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

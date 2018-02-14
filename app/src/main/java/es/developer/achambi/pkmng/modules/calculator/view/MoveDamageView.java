@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.calculator.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
+import es.developer.achambi.pkmng.core.ui.view.TypeView;
 
 public class MoveDamageView extends CardView {
     public MoveDamageView(Context context) {
@@ -38,27 +41,31 @@ public class MoveDamageView extends CardView {
         }
     }
 
-    public void setMoveName( String text ) {
+    public void setLeftBackgroundColor( ColorStateList color ) {
+        findViewById(R.id.move_damage_left_background).setBackgroundTintList( color );
+    }
+
+    public void setMoveName( CharSequence text ) {
         ((TextView)findViewById(R.id.move_damage_name_text)).setText(text);
     }
 
-    public void setMoveType( String text ) {
-        ((TextView)findViewById(R.id.move_damage_type_text)).setText(text);
+    public void setMoveType( MoveTypePresentation type ) {
+        ((TypeView)findViewById(R.id.move_damage_type_text)).setType( type );
     }
 
-    public void setMoveCategory( String text ) {
+    public void setMoveCategory( CharSequence text ) {
         ((TextView)findViewById(R.id.move_damage_category_text)).setText(text);
     }
 
-    public void setMovePower( String text ) {
+    public void setMovePower( CharSequence text ) {
         ((TextView)findViewById(R.id.move_damage_power_text)).setText(text);
     }
 
-    public void setMoveEffect( String text ) {
+    public void setMoveEffect( CharSequence text ) {
         ((TextView)findViewById(R.id.move_damage_effect_text)).setText(text);
     }
 
-    public void setMoveResult( String text ) {
+    public void setMoveResult( CharSequence text ) {
         ((TextView)findViewById(R.id.move_damage_result_text)).setText(text);
     }
 }
