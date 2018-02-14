@@ -21,7 +21,6 @@ import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
-import es.developer.achambi.pkmng.modules.details.databuilder.PokemonPresentationBuilder;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -31,7 +30,6 @@ import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentationBuilder;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 
@@ -368,9 +366,9 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         public static ArrayList<PokemonPresentation> buildPokemonPresentation(
                 Context context, ArrayList<Pokemon> pokemonList ) {
             ArrayList<PokemonPresentation> presentations = new ArrayList<>();
-            PokemonPresentationBuilder builder = new PokemonPresentationBuilder();
             for( Pokemon pokemon : pokemonList ) {
-                presentations.add( builder.buildPresentation( context, pokemon ) );
+                presentations.add( PokemonPresentation.Builder
+                        .buildPresentation( context, pokemon ) );
             }
 
             return presentations;
@@ -380,10 +378,9 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         public static ArrayList<OverviewConfigurationPresentation> buildConfigurationPresentation(
                 Context context, ArrayList<PokemonConfig> configurations ) {
             ArrayList<OverviewConfigurationPresentation> presentations = new ArrayList<>();
-            OverviewConfigurationPresentationBuilder builder =
-                    new OverviewConfigurationPresentationBuilder();
             for( PokemonConfig configuration : configurations ) {
-                presentations.add( builder.buildPresentation( context, configuration ) );
+                presentations.add( OverviewConfigurationPresentation.Builder
+                        .buildPresentation( context, configuration ) );
             }
 
             return presentations;

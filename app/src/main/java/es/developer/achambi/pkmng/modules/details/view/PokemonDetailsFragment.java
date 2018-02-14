@@ -13,7 +13,6 @@ import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
-import es.developer.achambi.pkmng.modules.details.databuilder.PokemonPresentationBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
@@ -53,9 +52,8 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            PokemonPresentationBuilder dataBuilder = new PokemonPresentationBuilder();
-            pokemonPresentation =
-                    dataBuilder.buildPresentation(getActivity(), pokemon);
+            pokemonPresentation = PokemonPresentation.Builder
+                    .buildPresentation(getActivity(), pokemon);
         }
 
         populateView(view);

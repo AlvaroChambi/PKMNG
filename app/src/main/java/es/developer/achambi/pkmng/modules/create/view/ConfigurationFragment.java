@@ -16,7 +16,6 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
-import es.developer.achambi.pkmng.modules.details.databuilder.PokemonPresentationBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
@@ -109,7 +108,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            pokemonPresentation = new PokemonPresentationBuilder()
+            pokemonPresentation = PokemonPresentation.Builder
                     .buildPresentation(getActivity(), presenter.getPokemon());
             MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
             move0 = builder.build( presenter.getConfiguration().getMove0() );
@@ -329,10 +328,8 @@ public class ConfigurationFragment extends BaseRequestFragment
                 requestCode == REPLACE_POKEMON_RESULT_CODE ) {
             presenter.setPokemon( (Pokemon)data
                     .getParcelableExtra( POKEMON_ACTIVITY_RESULT_DATA_KEY ) );
-
-            PokemonPresentationBuilder dataBuilder = new PokemonPresentationBuilder();
-            pokemonPresentation =
-                    dataBuilder.buildPresentation(getActivity(), presenter.getPokemon());
+            pokemonPresentation = PokemonPresentation.Builder
+                            .buildPresentation(getActivity(), presenter.getPokemon());
 
             populatePokemonView( getView() );
         } else if( resultCode == RESULT_OK &&

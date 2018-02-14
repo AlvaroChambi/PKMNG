@@ -13,7 +13,6 @@ import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorActivity;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
-import es.developer.achambi.pkmng.modules.details.databuilder.DetailsConfigurationPresentationBuilder;
 import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
@@ -52,9 +51,8 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            DetailsConfigurationPresentationBuilder dataBuilder = new DetailsConfigurationPresentationBuilder();
-            configurationRepresentation =
-                    dataBuilder.buildViewRepresentation(getActivity(), pokemonConfig);
+            configurationRepresentation = DetailsConfigurationPresentation.Builder
+                    .buildPresentation(getActivity(), pokemonConfig);
         }
         
         populateView(view);
