@@ -6,7 +6,6 @@ import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class Damage {
-    private static final float CRITICAL_HIT_MODIFIER = 1.5f;
     private Pair<Float, Float> moveDamage;
     private int hitsToKO;
     private float modifier;
@@ -16,7 +15,6 @@ public class Damage {
     private int power;
     private float effectivenessModifier;
 
-    //empty constructor
     public Damage() {
         this.moveName = "";
     }
@@ -26,12 +24,6 @@ public class Damage {
         this.category = move.getCategory();
         this.type = move.getType();
         this.power = move.getPower();
-    }
-
-    public Damage( Pair<Float, Float> moveDamage, int hitsToKO, float modifier ) {
-        this.modifier = modifier;
-        this.moveDamage = moveDamage;
-        this.hitsToKO = hitsToKO;
     }
 
     public float getEffectivenessModifier() {
@@ -54,16 +46,8 @@ public class Damage {
         return moveName;
     }
 
-    public void setMoveName(String moveName) {
-        this.moveName = moveName;
-    }
-
     public Move.Category getCategory() {
         return category;
-    }
-
-    public void setCategory(Move.Category category) {
-        this.category = category;
     }
 
     public Type getType() {
@@ -88,10 +72,6 @@ public class Damage {
 
     public void setHitsToKO(int hitsToKO) {
         this.hitsToKO = hitsToKO;
-    }
-
-    public float getModifier() {
-        return modifier;
     }
 
     public void setModifier(float modifier) {
