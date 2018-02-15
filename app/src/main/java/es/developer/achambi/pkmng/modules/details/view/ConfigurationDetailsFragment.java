@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -184,7 +185,10 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
 
     private void populateMove( MovePresentation move, TextView moveView ) {
         if( move.empty ) {
-            moveView.setVisibility(View.GONE);
+            moveView.setText( move.name );
+            moveView.setBackgroundTintList( ContextCompat.getColorStateList(
+                    getActivity(), R.color.primary_innactive ) );
+            moveView.setOnClickListener( null );
         } else {
             moveView.setText( move.name );
             moveView.setBackgroundTintList( move.type.backgroundColor );
