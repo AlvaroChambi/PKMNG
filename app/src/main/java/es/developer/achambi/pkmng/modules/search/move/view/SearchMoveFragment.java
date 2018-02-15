@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +16,7 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -103,8 +102,9 @@ public class SearchMoveFragment extends BaseSearchListFragment
             holder.name.setText( item.name );
             holder.effect.setText( item.effect );
             holder.category.setImageResource( item.categoryImageResource );
-            holder.type.setType( item.typePresentation );
-            holder.type.setBackgroundTintList( item.typePresentation.backgroundColor );
+            holder.type.setType( item.moveTypePresentation);
+            holder.type.setBackgroundTintList(
+                    item.moveTypePresentation.typePresentation.backgroundColor );
             holder.power.setText( item.power );
             holder.accuracy.setText( item.accuracy );
             holder.pp.setText( item.pp );
@@ -139,7 +139,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
                         move.getName(),
                         move.getEffect(),
                         buildCategory(move.getCategory()),
-                        TypePresentation.TypePresentationBuilder.build( context, move.getType()),
+                        MoveTypePresentation.Builder.buildPresentation( context, move.getType()),
                         "Pow. " + move.getPower(),
                         "PP " + move.getPp(),
                         "Acc. " + move.getAccuracy()

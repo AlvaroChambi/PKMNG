@@ -13,16 +13,15 @@ import android.widget.Toast;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
-import es.developer.achambi.pkmng.modules.details.databuilder.PokemonDetailsDataBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.SearchAbilityActivity;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
@@ -58,7 +57,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     public static final String CONFIGURATION_NAME_DATA_KEY = "CONFIGURATION_NAME_DATA_KEY";
     public static final String POKEMON_CONFIG_RESULT_DATA_KEY = "PK_CONFIG_DATA_KEY";
 
-    private OverviewPokemonRepresentation pokemonRepresentation;
+    private PokemonPresentation pokemonPresentation;
 
     private MoveConfigurationRepresentation move0;
     private MoveConfigurationRepresentation move1;
@@ -103,14 +102,14 @@ public class ConfigurationFragment extends BaseRequestFragment
 
     @Override
     public int getLayoutResource() {
-        return R.layout.create_configuration_fragment_layout;
+        return R.layout.configuration_fragment_layout;
     }
 
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            pokemonRepresentation = new PokemonDetailsDataBuilder()
-                    .buildViewRepresentation(getActivity(), presenter.getPokemon());
+            pokemonPresentation = PokemonPresentation.Builder
+                    .buildPresentation(getActivity(), presenter.getPokemon());
             MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
             move0 = builder.build( presenter.getConfiguration().getMove0() );
             move1 = builder.build( presenter.getConfiguration().getMove1() );
@@ -233,15 +232,15 @@ public class ConfigurationFragment extends BaseRequestFragment
         TextView pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
         TextView pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
 
-        pokemonName.setText(pokemonRepresentation.name);
-        pokemonType.setType(pokemonRepresentation.type);
-        baseStats.setText(pokemonRepresentation.totalStats);
-        pokemonHP.setText(pokemonRepresentation.hp);
-        pokemonAttack.setText(pokemonRepresentation.attack);
-        pokemonDefense.setText(pokemonRepresentation.defense);
-        pokemonSpAttack.setText(pokemonRepresentation.spAttack);
-        pokemonSpDefense.setText(pokemonRepresentation.spDefense);
-        pokemonSpeed.setText(pokemonRepresentation.speed);
+        pokemonName.setText(pokemonPresentation.name);
+        pokemonType.setType(pokemonPresentation.type);
+        baseStats.setText(pokemonPresentation.totalStats);
+        pokemonHP.setText(pokemonPresentation.stats.hp);
+        pokemonAttack.setText(pokemonPresentation.stats.attack);
+        pokemonDefense.setText(pokemonPresentation.stats.defense);
+        pokemonSpAttack.setText(pokemonPresentation.stats.spAttack);
+        pokemonSpDefense.setText(pokemonPresentation.stats.spDefense);
+        pokemonSpeed.setText(pokemonPresentation.stats.speed);
     }
 
     private void populateItemView(View rootView) {
@@ -277,9 +276,10 @@ public class ConfigurationFragment extends BaseRequestFragment
             TextView moveType = moveRootView.findViewById(R.id.move_view_type_text);
             TextView movePower = moveRootView.findViewById(R.id.move_view_power_text);
 
-            moveName.setText(move.name);
-            movePower.setText(move.power);
-            moveType.setText(move.type);
+            moveName.setText( move.name );
+            movePower.setText( move.power );
+            moveType.setText( move.type.name );
+            moveRootView.setBackgroundTintList( move.type.backgroundColor );
             moveName.setVisibility(View.VISIBLE);
             movePower.setVisibility(View.VISIBLE);
             moveType.setVisibility(View.VISIBLE);
@@ -328,10 +328,8 @@ public class ConfigurationFragment extends BaseRequestFragment
                 requestCode == REPLACE_POKEMON_RESULT_CODE ) {
             presenter.setPokemon( (Pokemon)data
                     .getParcelableExtra( POKEMON_ACTIVITY_RESULT_DATA_KEY ) );
-
-            PokemonDetailsDataBuilder dataBuilder = new PokemonDetailsDataBuilder();
-            pokemonRepresentation =
-                    dataBuilder.buildViewRepresentation(getActivity(), presenter.getPokemon());
+            pokemonPresentation = PokemonPresentation.Builder
+                            .buildPresentation(getActivity(), presenter.getPokemon());
 
             populatePokemonView( getView() );
         } else if( resultCode == RESULT_OK &&
@@ -384,24 +382,11 @@ public class ConfigurationFragment extends BaseRequestFragment
             MoveConfigurationRepresentation representation = new MoveConfigurationRepresentation(
                     move.getId(),
                     move.getName(),
-                    formatType( move.getType() ),
+                    TypePresentation.Builder.build( getActivity(), move.getType() ),
                     "Pow. " + move.getPower(),
                     move.getName().equals("")
             );
             return representation;
-        }
-
-        private String formatType( Type type ) {
-            switch (type) {
-
-                case ELECTRIC:
-                    return "ELECTRIC";
-                case GROUND:
-                    return "GROUND";
-                case EMPTY:
-                    return "";
-            }
-            return "";
         }
     }
 }

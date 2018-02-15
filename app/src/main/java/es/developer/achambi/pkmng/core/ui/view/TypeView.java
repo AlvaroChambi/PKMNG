@@ -2,7 +2,6 @@ package es.developer.achambi.pkmng.core.ui.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.core.ui.QuickDetailPopup;
+import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 
 public class TypeView extends LinearLayout {
     private TextView typeFirst;
@@ -38,18 +39,46 @@ public class TypeView extends LinearLayout {
         typeSecond = findViewById(R.id.pokemon_type_1_text);
     }
 
-    public void setType( Pair<TypePresentation, TypePresentation> type ) {
-        typeFirst.setText(type.first.name);
-        typeFirst.setBackgroundTintList(type.first.backgroundColor);
+    public void setType(final PokemonTypePresentation pokemonType ) {
+        typeFirst.setText(pokemonType.first.name);
+        typeFirst.setBackgroundTintList(pokemonType.first.backgroundColor);
         typeSecond.setVisibility(View.GONE);
-        if( type.second != null ) {
-            typeSecond.setText(type.second.name);
-            typeSecond.setBackgroundTintList(type.second.backgroundColor);
+        if( pokemonType.second != null ) {
+            typeSecond.setText(pokemonType.second.name);
+            typeSecond.setBackgroundTintList(pokemonType.second.backgroundColor);
             typeSecond.setVisibility(View.VISIBLE);
         }
+
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View quickDetail =
+                        LayoutInflater.from(v.getContext())
+                                .inflate(R.layout.type_quick_detail_view, null);
+                TextView effective = quickDetail.findViewById(R.id.type_quick_detail_top_text);
+                TextView weak = quickDetail.findViewById(R.id.type_quick_details_bottom_text);
+                effective.setText( pokemonType.resistantTo );
+                weak.setText( pokemonType.weakAgainst );
+                QuickDetailPopup.displayDetails( quickDetail, TypeView.this );
+            }
+        });
     }
 
-    public void setType( TypePresentation type ) {
-        setType( new Pair<TypePresentation, TypePresentation>( type, null ) );
+    public void setType(final MoveTypePresentation moveType ) {
+        typeFirst.setText(moveType.typePresentation.name);
+        typeFirst.setBackgroundTintList(moveType.typePresentation.backgroundColor);
+        typeSecond.setVisibility(GONE);
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View quickDetail =
+                        LayoutInflater.from(v.getContext())
+                                .inflate(R.layout.type_quick_detail_view, null);
+                TextView effective = quickDetail.findViewById(R.id.type_quick_detail_top_text);
+                quickDetail.findViewById(R.id.type_quick_details_bottom_text).setVisibility(GONE);
+                effective.setText( moveType.effectiveAgainst );
+                QuickDetailPopup.displayDetails( quickDetail, TypeView.this );
+            }
+        });
     }
 }

@@ -15,11 +15,11 @@
     <string name="item_description_text_placeholder">Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.</string>
     <string name="ability_description_text_placeholder">Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.</string>
 
-    <string name="pokemon_type_electric">electric</string>
     <string name="configuration_item_title">Item</string>
     <string name="configuration_nature_title">Nature</string>
     <string name="configuration_ability_title">Ability</string>
     <string name="configuration_moves_title">Moves</string>
+    <string name="configuration_evs_title">EV\'s</string>
     <string name="configuration_save_action_text">SAVE</string>
 
     <string name="configuration_save_dialog_title">Create Configuration</string>
@@ -90,4 +90,8 @@
     <string name="type_dark_text">DARK</string>
     <string name="type_steel_text">STEEL</string>
     <string name="type_fairy_text">FAIRY</string>
+
+    <string name="quick_detail_resistant_to_tag">Resistant to: %1$s</string>
+    <string name="quick_detail_weak_against_tag">Weak against: %1$s</string>
+    <string name="quick_detail_effective_against_tag">Effective against: %1$s</string>
 </resources>

@@ -93,6 +93,17 @@ public class PokemonConfig extends BaseConfig{
         return configuration.getNature();
     }
 
+    public StatsSet getStats() {
+        StatsSet totalStats = new StatsSet();
+        totalStats.setHP(getHP());
+        totalStats.setAttack(getAttack());
+        totalStats.setDefense(getDefense());
+        totalStats.setSpAttack(getSpAttack());
+        totalStats.setSpDefense(getSPDefense());
+        totalStats.setSpeed(getSpeed());
+        return totalStats;
+    }
+
     @Override
     public int getHP() {
         return pokemon.getHP() + configuration.getStatsSet().getHP();

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
 
+import org.jetbrains.annotations.NotNull;
+
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
@@ -11,12 +13,13 @@ public class TypePresentation {
     public final CharSequence name;
     public final ColorStateList backgroundColor;
 
-    public TypePresentation( CharSequence name, ColorStateList backgroundColor) {
+    public TypePresentation( CharSequence name, ColorStateList backgroundColor ) {
         this.name = name;
         this.backgroundColor = backgroundColor;
     }
 
-    public static class TypePresentationBuilder {
+    public static class Builder {
+        @NotNull
         public static TypePresentation build( Context context, Type type ) {
             CharSequence name = "";
             ColorStateList backgroundColor = null;

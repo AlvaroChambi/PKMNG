@@ -10,11 +10,13 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 public class DamageCalculatorTest extends BaseAutomationTest {
     @Test
@@ -242,5 +244,37 @@ public class DamageCalculatorTest extends BaseAutomationTest {
 
         onView( allOf( isDescendantOfA(withId(R.id.configuration_move_0_frame)),
                 withText("Earthquake") ) ).perform(scrollTo()).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testMoveTypeDetails() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
+        onView(allOf( withId(R.id.right_pokemon_configuration_name), withText("")))
+                .check(matches(isDisplayed()));
+        onView(withText(R.string.damage_calculator_empty_opponent_text)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.right_pokemon_image_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+        onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
+
+        onView(  allOf( isDescendantOfA(withId(R.id.move_1_damage_result_view)),
+                withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
+
+        onView(withId(R.id.move_0_damage_result_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+
+        onView( allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
+                withText("Earthquake") ) ).check(matches(isDisplayed()));
+        onView( allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
+                withId(R.id.move_damage_type_text) ) ).perform(click());
+
+        onView( withId(R.id.type_quick_detail_top_text) ).inRoot( isPlatformPopup() )
+                .check( matches( isDisplayed() ) );
+        onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
+                .check( matches( not(isDisplayed()) ) );
     }
 }

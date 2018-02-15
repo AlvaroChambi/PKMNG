@@ -13,8 +13,7 @@ import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorActivity;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
-import es.developer.achambi.pkmng.modules.details.databuilder.ConfigurationDetailsDataBuilder;
-import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationRepresentation;
+import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 
@@ -24,7 +23,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 100;
     private PokemonConfig pokemonConfig;
-    private DetailsConfigurationRepresentation configurationRepresentation;
+    private DetailsConfigurationPresentation configurationRepresentation;
 
     public static ConfigurationDetailsFragment newInstance(PokemonConfig config,
                                                            OverviewFragment.UseContext useContext ) {
@@ -52,9 +51,8 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            ConfigurationDetailsDataBuilder dataBuilder = new ConfigurationDetailsDataBuilder();
-            configurationRepresentation =
-                    dataBuilder.buildViewRepresentation(getActivity(), pokemonConfig);
+            configurationRepresentation = DetailsConfigurationPresentation.Builder
+                    .buildPresentation(getActivity(), pokemonConfig);
         }
         
         populateView(view);
@@ -139,12 +137,12 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         ability.setText(configurationRepresentation.ability);
         nature.setText(configurationRepresentation.nature);
    
-        pokemonHP.setText(configurationRepresentation.hp);
-        pokemonAttack.setText(configurationRepresentation.attack);
-        pokemonDefense.setText(configurationRepresentation.defense);
-        pokemonSpAttack.setText(configurationRepresentation.spAttack);
-        pokemonSpDefense.setText(configurationRepresentation.spDefense);
-        pokemonSpeed.setText(configurationRepresentation.speed);
+        pokemonHP.setText(configurationRepresentation.stats.hp);
+        pokemonAttack.setText(configurationRepresentation.stats.attack);
+        pokemonDefense.setText(configurationRepresentation.stats.defense);
+        pokemonSpAttack.setText(configurationRepresentation.stats.spAttack);
+        pokemonSpDefense.setText(configurationRepresentation.stats.spDefense);
+        pokemonSpeed.setText(configurationRepresentation.stats.speed);
 
         move0.setText(configurationRepresentation.move0);
         move1.setText(configurationRepresentation.move1);

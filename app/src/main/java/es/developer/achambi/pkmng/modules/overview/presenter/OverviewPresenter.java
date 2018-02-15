@@ -12,8 +12,8 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationRepresentation;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewPokemonRepresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -91,31 +91,31 @@ public class OverviewPresenter implements IOverviewPresenter {
     }
 
     public class OnPokemonClickedListener
-            implements SearchAdapterDecorator.OnItemClickedListener<OverviewPokemonRepresentation>{
+            implements SearchAdapterDecorator.OnItemClickedListener<PokemonPresentation>{
         @Override
-        public void onItemClicked(OverviewPokemonRepresentation item) {
+        public void onItemClicked(PokemonPresentation item) {
             onPokemonClicked(item);
         }
     }
 
     public class OnConfigurationClickedListener
-            implements SearchAdapterDecorator.OnItemClickedListener<OverviewConfigurationRepresentation>{
+            implements SearchAdapterDecorator.OnItemClickedListener<OverviewConfigurationPresentation>{
         @Override
-        public void onItemClicked(OverviewConfigurationRepresentation item) {
+        public void onItemClicked(OverviewConfigurationPresentation item) {
             onConfigurationClicked(item);
         }
     }
 
-    public void onPokemonClicked(OverviewPokemonRepresentation pokemonRepresentation) {
+    public void onPokemonClicked(PokemonPresentation pokemonPresentation) {
         for( BasePokemon baseItem : pokemonDataList ) {
-            if( pokemonRepresentation.id == baseItem.getId() ) {
+            if( pokemonPresentation.id == baseItem.getId() ) {
                 view.showPokemonDetails( ((Pokemon)baseItem) );
             }
         }
     }
 
     public void onConfigurationClicked
-            (OverviewConfigurationRepresentation configurationRepresentation) {
+            (OverviewConfigurationPresentation configurationRepresentation) {
         for( BasePokemon baseItem : pokemonConfigList) {
             if( configurationRepresentation.id == baseItem.getId() ) {
                 view.showConfigurationDetails( ((PokemonConfig) baseItem) );
@@ -148,7 +148,7 @@ public class OverviewPresenter implements IOverviewPresenter {
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
-            pokemon.setType(Type.ELECTRIC, Type.WATER);
+            pokemon.setType(Type.STEEL);
             pokemon.setHP(35);
             pokemon.setAttack(55);
             pokemon.setDefense(40);
@@ -177,19 +177,19 @@ public class OverviewPresenter implements IOverviewPresenter {
             config.setMove0(move0);
             Move move1 = new Move(2);
             move1.setName("Grass knot");
-            move1.setType(Type.ELECTRIC);
+            move1.setType(Type.GRASS);
             move1.setCategory(Move.Category.SPECIAL);
             move1.setPower(90);
             config.setMove1(move1);
             Move move2 = new Move(3);
             move2.setName("Signal Beam");
-            move2.setType(Type.ELECTRIC);
+            move2.setType(Type.BUG);
             move2.setCategory(Move.Category.SPECIAL);
             move2.setPower(90);
             config.setMove2(move2);
             Move move3 = new Move(4);
             move3.setName("Hidden power");
-            move3.setType(Type.ELECTRIC);
+            move3.setType(Type.NORMAL);
             move3.setCategory(Move.Category.SPECIAL);
             move3.setPower(90);
             config.setMove3(move3);

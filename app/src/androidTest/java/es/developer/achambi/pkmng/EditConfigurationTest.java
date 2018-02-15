@@ -9,6 +9,7 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -68,5 +69,18 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView( withText("Test") ).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void configurationPokemonTypeDetail() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+        onView( withId( R.id.pokemon_type_text ) ).perform( click() );
+
+        onView( withId(R.id.type_quick_detail_top_text) ).inRoot( isPlatformPopup() )
+                .check( matches( isDisplayed() ) );
+        onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
+                .check( matches( isDisplayed() ) );
     }
 }

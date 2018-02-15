@@ -8,9 +8,12 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 public class DetailsDialogTest extends BaseAutomationTest {
 
@@ -70,5 +73,29 @@ public class DetailsDialogTest extends BaseAutomationTest {
         onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
 
         onView(withText(R.string.damage_calculator_activity_title)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void detailPokemonTypeDetail() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView( withId( R.id.pokemon_type_text ) ).perform( click() );
+
+        onView( withId(R.id.type_quick_detail_top_text) ).inRoot( isPlatformPopup() )
+                .check( matches( isDisplayed() ) );
+        onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
+                .check( matches( isDisplayed() ) );
+    }
+
+    @Test
+    public void detailConfigurationTypeDetail() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView( withId( R.id.pokemon_type_text ) ).perform( click() );
+
+        onView( withId(R.id.type_quick_detail_top_text) ).inRoot( isPlatformPopup() )
+                .check( matches( isDisplayed() ) );
+        onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
+                .check( matches( isDisplayed() ) );
     }
 }
