@@ -20,8 +20,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
         <ImageView
             android:id="@+id/pokemon_image_view"
             android:layout_width="64dp"
@@ -156,9 +156,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp"
-        android:paddingBottom="16dp">
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/pokemon_ability_text"
@@ -182,9 +182,7 @@
             tools:text="nature"
             app:layout_constraintRight_toLeftOf="@+id/guideline"
             android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="8dp" />
+            app:layout_constraintHorizontal_bias="0.0" />
 
         <TextView
             android:id="@+id/pokemon_item_text"
@@ -200,7 +198,7 @@
         <android.support.constraint.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintGuide_percent="0.33"
+            app:layout_constraintGuide_percent="0.5"
             android:orientation="vertical"
             android:id="@+id/guideline" />
 
@@ -209,7 +207,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.66" />
+            app:layout_constraintGuide_percent="0.75" />
 
         <TextView
             android:id="@+id/configuration_details_move_0"

@@ -71,8 +71,7 @@ public class TypeView extends LinearLayout {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                View quickDetail =
-                        LayoutInflater.from(v.getContext())
+                View quickDetail = LayoutInflater.from(v.getContext())
                                 .inflate(R.layout.type_quick_detail_view, null);
                 TextView effective = quickDetail.findViewById(R.id.type_quick_detail_top_text);
                 quickDetail.findViewById(R.id.type_quick_details_bottom_text).setVisibility(GONE);

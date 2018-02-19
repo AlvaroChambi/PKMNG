@@ -103,7 +103,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         if( !presentation.empty ) {
             rootView.setMoveName( presentation.name );
             rootView.setMoveType( presentation.type );
-            rootView.setMoveCategory( presentation.category );
+            rootView.setMoveCategory( presentation.category.name );
             rootView.setMovePower( presentation.power );
             rootView.setMoveEffect( presentation.effect );
             rootView.setMoveResult( presentation.result );

@@ -94,4 +94,10 @@
     <string name="quick_detail_resistant_to_tag">Resistant to: %1$s</string>
     <string name="quick_detail_weak_against_tag">Weak against: %1$s</string>
     <string name="quick_detail_effective_against_tag">Effective against: %1$s</string>
+
+    <string name="move_category_special_tag">Special</string>
+    <string name="move_category_physical_tag">Physical</string>
+
+    <string name="move_power_text_tag">Power</string>
+    <string name="move_accuracy_text_tag">Accuracy</string>
 </resources>

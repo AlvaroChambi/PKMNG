@@ -4,26 +4,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.core.ui.QuickDetailPopup;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorActivity;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
-import es.developer.achambi.pkmng.modules.details.view.representation.DetailsConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.details.view.presentation.DetailsConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.details.view.presentation.MovePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 
 public class ConfigurationDetailsFragment extends BaseDialogFragment
-        implements View.OnClickListener{
+        implements View.OnClickListener {
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 100;
     private PokemonConfig pokemonConfig;
-    private DetailsConfigurationPresentation configurationRepresentation;
+    private DetailsConfigurationPresentation configurationPresentation;
 
     public static ConfigurationDetailsFragment newInstance(PokemonConfig config,
                                                            OverviewFragment.UseContext useContext ) {
@@ -51,7 +55,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            configurationRepresentation = DetailsConfigurationPresentation.Builder
+            configurationPresentation = DetailsConfigurationPresentation.Builder
                     .buildPresentation(getActivity(), pokemonConfig);
         }
         
@@ -105,7 +109,36 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
                 getActivity().finish();
                 dismiss();
                 break;
+            case R.id.configuration_details_move_0:
+                displayMoveQuickDetails( configurationPresentation.move0, v );
+                break;
+            case R.id.configuration_details_move_1:
+                displayMoveQuickDetails( configurationPresentation.move1, v );
+                break;
+            case R.id.configuration_details_move_2:
+                displayMoveQuickDetails( configurationPresentation.move2, v );
+                break;
+            case R.id.configuration_details_move_3:
+                displayMoveQuickDetails( configurationPresentation.move3, v );
+                break;
         }
+    }
+
+    private void displayMoveQuickDetails( MovePresentation move, View anchor ) {
+        View quickDetail = LayoutInflater.from(getActivity())
+                .inflate(R.layout.move_quick_detail_view, null);
+        TextView power = quickDetail.findViewById( R.id.move_quick_detail_power_text );
+        TextView accuracy = quickDetail.findViewById( R.id.move_quick_detail_accuracy_text );
+        TextView category = quickDetail.findViewById( R.id.move_quick_detail_category_text );
+        TextView name = quickDetail.findViewById( R.id.move_quick_detail_name_text );
+        TextView type = quickDetail.findViewById( R.id.move_quick_detail_type_text );
+        power.setText( move.power );
+        accuracy.setText( move.accuracy );
+        category.setText( move.category.name );
+        name.setText( move.name );
+        type.setText( move.type.name );
+
+        QuickDetailPopup.displayDetails( quickDetail, anchor );
     }
     
     private void populateView(View rootView) {
@@ -129,25 +162,38 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         TextView move2 = rootView.findViewById(R.id.configuration_details_move_2);
         TextView move3 = rootView.findViewById(R.id.configuration_details_move_3);
 
-        pokemonName.setText(configurationRepresentation.pokemonName);
-        configurationName.setText(configurationRepresentation.name);
-        pokemonType.setType(configurationRepresentation.type);
+        pokemonName.setText(configurationPresentation.pokemon.name);
+        configurationName.setText(configurationPresentation.name);
+        pokemonType.setType(configurationPresentation.pokemon.type);
 
-        item.setText(configurationRepresentation.item);
-        ability.setText(configurationRepresentation.ability);
-        nature.setText(configurationRepresentation.nature);
+        item.setText(configurationPresentation.item.name);
+        ability.setText(configurationPresentation.ability.name);
+        nature.setText(configurationPresentation.nature.name);
    
-        pokemonHP.setText(configurationRepresentation.stats.hp);
-        pokemonAttack.setText(configurationRepresentation.stats.attack);
-        pokemonDefense.setText(configurationRepresentation.stats.defense);
-        pokemonSpAttack.setText(configurationRepresentation.stats.spAttack);
-        pokemonSpDefense.setText(configurationRepresentation.stats.spDefense);
-        pokemonSpeed.setText(configurationRepresentation.stats.speed);
+        pokemonHP.setText(configurationPresentation.stats.hp);
+        pokemonAttack.setText(configurationPresentation.stats.attack);
+        pokemonDefense.setText(configurationPresentation.stats.defense);
+        pokemonSpAttack.setText(configurationPresentation.stats.spAttack);
+        pokemonSpDefense.setText(configurationPresentation.stats.spDefense);
+        pokemonSpeed.setText(configurationPresentation.stats.speed);
 
-        move0.setText(configurationRepresentation.move0);
-        move1.setText(configurationRepresentation.move1);
-        move2.setText(configurationRepresentation.move2);
-        move3.setText(configurationRepresentation.move3);
+        populateMove( configurationPresentation.move0, move0 );
+        populateMove( configurationPresentation.move1, move1 );
+        populateMove( configurationPresentation.move2, move2 );
+        populateMove( configurationPresentation.move3, move3 );
+    }
+
+    private void populateMove( MovePresentation move, TextView moveView ) {
+        if( move.empty ) {
+            moveView.setText( move.name );
+            moveView.setBackgroundTintList( ContextCompat.getColorStateList(
+                    getActivity(), R.color.primary_innactive ) );
+            moveView.setOnClickListener( null );
+        } else {
+            moveView.setText( move.name );
+            moveView.setBackgroundTintList( move.type.backgroundColor );
+            moveView.setOnClickListener( this );
+        }
     }
 
     @Override

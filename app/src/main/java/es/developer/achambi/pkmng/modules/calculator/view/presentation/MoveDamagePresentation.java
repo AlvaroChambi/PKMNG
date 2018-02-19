@@ -5,6 +5,7 @@ import android.support.v4.util.Pair;
 
 import java.math.BigDecimal;
 
+import es.developer.achambi.pkmng.core.ui.presentation.CategoryPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -12,14 +13,15 @@ import es.developer.achambi.pkmng.modules.search.move.model.Move;
 public class MoveDamagePresentation {
     public final String name;
     public final MoveTypePresentation type;
-    public final String category;
+    public final CategoryPresentation category;
     public final String power;
     public final String effect;
     public final String result;
     public final boolean empty;
 
     public MoveDamagePresentation(String name,
-                                  MoveTypePresentation type, String category, String power,
+                                  MoveTypePresentation type,
+                                  CategoryPresentation category, String power,
                                   String effect, String result, boolean empty) {
         this.name = name;
         this.type = type;
@@ -40,7 +42,8 @@ public class MoveDamagePresentation {
                         damage.getMoveName(),
                         MoveTypePresentation.Builder.buildPresentation(
                                 context, damage.getType() ),
-                        formatCategory( damage.getCategory() ),
+                        CategoryPresentation.Builder.buildPresentation(
+                                context, damage.getCategory()),
                         "Power " + damage.getPower(),
                         buildEffectivenessText( damage.getEffectivenessModifier() ),
                         formatDamage( damage ),
@@ -61,16 +64,6 @@ public class MoveDamagePresentation {
             return bd.floatValue();
         }
 
-        private static String formatCategory( Move.Category category ) {
-            switch (category) {
-                case SPECIAL:
-                    return "Special";
-                case PHYSICAL:
-                    return "Physical";
-            }
-            return "";
-        }
-
         private static String buildEffectivenessText( float modifier ) {
             String result = "";
             if( modifier >= 2 ) {
@@ -84,7 +77,7 @@ public class MoveDamagePresentation {
         }
 
         private static MoveDamagePresentation buildEmpty() {
-            return new MoveDamagePresentation("", null, "", "", "", "", true);
+            return new MoveDamagePresentation("", null, null, "", "", "", true);
         }
     }
 }
