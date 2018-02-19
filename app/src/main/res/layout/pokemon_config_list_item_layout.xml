@@ -108,21 +108,17 @@
             android:ellipsize="end"
             android:maxLines="1"/>
 
-        <TextView
+        <es.developer.achambi.pkmng.core.ui.view.AbilityView
             android:id="@+id/pokemon_ability_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAlignment="viewStart"
             app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Ability: Magic guard"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="1.0" />
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/pokemon_nature_text"

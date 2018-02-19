@@ -39,7 +39,7 @@ public class TypeView extends LinearLayout {
         typeSecond = findViewById(R.id.pokemon_type_1_text);
     }
 
-    public void setType(final PokemonTypePresentation pokemonType ) {
+    public void setType( final PokemonTypePresentation pokemonType ) {
         typeFirst.setText(pokemonType.first.name);
         typeFirst.setBackgroundTintList(pokemonType.first.backgroundColor);
         typeSecond.setVisibility(View.GONE);
@@ -64,7 +64,7 @@ public class TypeView extends LinearLayout {
         });
     }
 
-    public void setType(final MoveTypePresentation moveType ) {
+    public void setType( final MoveTypePresentation moveType ) {
         typeFirst.setText(moveType.typePresentation.name);
         typeFirst.setBackgroundTintList(moveType.typePresentation.backgroundColor);
         typeSecond.setVisibility(GONE);

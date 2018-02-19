@@ -12,6 +12,7 @@ public class Ability implements Parcelable {
     private String descriptionShort;
 
     public Ability() {
+        id = -1;
         name = "";
         description = "";
         descriptionShort = "";

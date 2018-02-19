@@ -163,6 +163,8 @@ public class OverviewPresenter implements IOverviewPresenter {
             item.setName("eviolite");
             config.setItem( item );
             Ability ability = new Ability();
+            ability.setId( 10 );
+            ability.setDescriptionShort("Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.");
             ability.setName("Magic guard");
             config.setAbility(ability);
             Nature nature = new Nature();
