@@ -1,8 +1,8 @@
 package es.developer.achambi.pkmng.modules.search.nature;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +16,6 @@ import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
-import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenter;
 import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureView;
@@ -51,7 +50,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     @Override
     public void doRequest() {
         natureList = new NaturePresentationDataBuilder().build(
-                getResources(), presenter.fetchNatureList()
+                getActivity(), presenter.fetchNatureList()
         );
 
         refreshAdapter();
@@ -96,8 +95,8 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
         @Override
         public void bindViewHolder(NatureViewHolder holder, NatureViewPresentation item) {
             holder.name.setText(item.name);
-            holder.increasedStat.setText(item.increasedStat);
-            holder.decreasedStat.setText(item.decreasedStat);
+            holder.increasedStat.setText(item.detail.increased);
+            holder.decreasedStat.setText(item.detail.decreased);
         }
 
         @Override
@@ -117,47 +116,15 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     }
 
     public class NaturePresentationDataBuilder {
-        public ArrayList<NatureViewPresentation> build( Resources resources,
+        public ArrayList<NatureViewPresentation> build( Context context,
                                                         ArrayList<Nature> natureList ) {
             ArrayList<NatureViewPresentation> presentations = new ArrayList<>();
             for( Nature nature : natureList ) {
-                presentations.add( new NatureViewPresentation(
-                        nature.getId(),
-                        nature.getName(),
-                        natureStat(resources, nature.getIncreasedStat(), true),
-                        natureStat(resources, nature.getDecreasedStat(), false)
-                ) );
+                presentations.add(
+                        NatureViewPresentation.Builder.buildPresentation( context, nature ) );
             }
             return presentations;
         }
 
-        private String natureStat( Resources resources, Stat stat, boolean increased ) {
-            if( increased ) {
-                String statText = statFormat(resources, stat);
-                return resources.getString( R.string.nature_increased_stat_text, statText );
-            } else {
-                String statText = statFormat(resources, stat);
-                return resources.getString( R.string.nature_decreased_stat_text, statText );
-            }
-        }
-
-        private String statFormat(Resources resources, Stat stat) {
-            switch (stat) {
-                case HP:
-                    return resources.getString(R.string.stat_hp_text);
-                case DEFENSE:
-                    return resources.getString(R.string.stat_defense_text);
-                case ATTACK:
-                    return resources.getString(R.string.stat_attack_text);
-                case SP_ATTACK:
-                    return resources.getString(R.string.stat_sp_attack_text);
-                case SP_DEFENSE:
-                    return resources.getString(R.string.stat_sp_defense_text);
-                case SPEED:
-                    return resources.getString(R.string.stat_speed_text);
-                default:
-                    return "";
-            }
-        }
     }
 }

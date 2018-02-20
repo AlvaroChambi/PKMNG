@@ -8,7 +8,7 @@
     android:background="@drawable/text_primary_background">
 
     <TextView
-        android:id="@+id/ability_quick_details_description_text"
+        android:id="@+id/configuration_value_quick_details_description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

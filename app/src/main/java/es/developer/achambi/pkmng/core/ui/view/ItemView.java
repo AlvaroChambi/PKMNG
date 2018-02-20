@@ -11,22 +11,22 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.QuickDetailPopup;
 
-public class AbilityView extends ConstraintLayout {
+public class ItemView extends ConstraintLayout {
     private TextView name;
 
-    public AbilityView(Context context) {
+    public ItemView(Context context) {
         super(context);
-        init( context );
+        init(context);
     }
 
-    public AbilityView(Context context, AttributeSet attrs) {
+    public ItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init( context );
+        init(context);
     }
 
-    public AbilityView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init( context );
+        init(context);
     }
 
     private void init( Context context ) {
@@ -35,8 +35,7 @@ public class AbilityView extends ConstraintLayout {
         this.name = findViewById(R.id.configuration_value_text);
     }
 
-    public void setAbility( final String name, final String descriptionText,
-                            final boolean empty ) {
+    public void setItem( String name, final String descriptionText, boolean empty ) {
         if( !empty ) {
             this.name.setText( name );
             setOnClickListener(new OnClickListener() {
@@ -47,7 +46,7 @@ public class AbilityView extends ConstraintLayout {
                     TextView description = quickDetail.findViewById(
                             R.id.configuration_value_quick_details_description_text);
                     description.setText( descriptionText );
-                    QuickDetailPopup.displayDetails( quickDetail, AbilityView.this );
+                    QuickDetailPopup.displayDetails( quickDetail, ItemView.this );
                 }
             });
         } else {

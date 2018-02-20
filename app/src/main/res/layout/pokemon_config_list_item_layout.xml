@@ -96,9 +96,9 @@
             app:layout_constraintGuide_percent="0.6"
             android:orientation="vertical"
             android:id="@+id/guideline" />
-        <TextView
+        <es.developer.achambi.pkmng.core.ui.view.ItemView
             android:id="@+id/pokemon_item_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="Item: Eviolite"
             app:layout_constraintLeft_toLeftOf="@+id/pokemon_ability_text"
@@ -120,9 +120,9 @@
             app:layout_constraintHorizontal_bias="0.0"
             android:layout_marginTop="8dp" />
 
-        <TextView
+        <es.developer.achambi.pkmng.core.ui.view.NatureView
             android:id="@+id/pokemon_nature_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="Nature: Sassy"
             android:layout_marginLeft="0dp"

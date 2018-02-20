@@ -10,6 +10,7 @@ import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
@@ -160,7 +161,9 @@ public class OverviewPresenter implements IOverviewPresenter {
             PokemonConfig pokemonConfig = new PokemonConfig(i,pokemon, config);
             pokemonConfig.setName("Special");
             Item item = new Item();
+            item.setId(101);
             item.setName("eviolite");
+            item.setDescriptionShort("Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.");
             config.setItem( item );
             Ability ability = new Ability();
             ability.setId( 10 );
@@ -168,6 +171,9 @@ public class OverviewPresenter implements IOverviewPresenter {
             ability.setName("Magic guard");
             config.setAbility(ability);
             Nature nature = new Nature();
+            nature.setId(101);
+            nature.setIncreasedStat(Stat.ATTACK);
+            nature.setDecreasedStat(Stat.DEFENSE);
             nature.setName("Modest");
             config.setNature(nature);
 

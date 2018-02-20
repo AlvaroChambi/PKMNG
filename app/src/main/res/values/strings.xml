@@ -30,12 +30,12 @@
     <string name="pokemon_item_ability_tag">Ability: </string>
     <string name="pokemon_item_item_tag">Item: </string>
     <string name="pokemon_item_nature_tag">Nature: </string>
-    <string name="pokemon_item_hp_tag">Hp: </string>
-    <string name="pokemon_item_attack_tag">Atk: </string>
-    <string name="pokemon_item_defense_tag">Def: </string>
-    <string name="pokemon_item_sp_attack_tag">Spa: </string>
-    <string name="pokemon_item_sp_defense_tag">Spd: </string>
-    <string name="pokemon_item_speed_tag">Spe: </string>
+    <string name="pokemon_item_hp_tag">Hp</string>
+    <string name="pokemon_item_attack_tag">Atk</string>
+    <string name="pokemon_item_defense_tag">Def</string>
+    <string name="pokemon_item_sp_attack_tag">Spa</string>
+    <string name="pokemon_item_sp_defense_tag">Spd</string>
+    <string name="pokemon_item_speed_tag">Spe</string>
 
     <string name="stat_hp_text">HP</string>
     <string name="stat_attack_text">Attack</string>
