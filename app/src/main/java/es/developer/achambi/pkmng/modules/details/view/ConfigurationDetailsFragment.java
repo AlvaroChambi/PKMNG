@@ -145,8 +145,8 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     }
     
     private void populateView(View rootView) {
+        TextView configurationName = rootView.findViewById( R.id.pokemon_details_dialog_title );
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
-        TextView configurationName = rootView.findViewById(R.id.pokemon_config_name_text);
         TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
 
         ItemView item = rootView.findViewById(R.id.pokemon_item_text);

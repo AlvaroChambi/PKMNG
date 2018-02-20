@@ -49,7 +49,7 @@ public class ConfigurationDetailsPresentation {
                 Context context, PokemonConfig configuration ) {
 
             return new ConfigurationDetailsPresentation(
-                    configuration.getName(),
+                    formatName( configuration.getName() ),
                     PokemonPresentation.Builder.buildPresentation(
                             context, configuration.getPokemon() ),
                     AbilityPresentation.Builder.buildPresentation(
@@ -68,6 +68,14 @@ public class ConfigurationDetailsPresentation {
                     StatSetPresentation.Builder.buildPresentation( context.getResources(),
                             configuration.getStats() )
             );
+        }
+
+        private static String formatName( String name ) {
+            if( name.isEmpty() ) {
+                return " - ";
+            } else {
+                return name;
+            }
         }
     }
 }

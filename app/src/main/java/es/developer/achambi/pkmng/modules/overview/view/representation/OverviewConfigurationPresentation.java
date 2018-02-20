@@ -48,7 +48,7 @@ public class OverviewConfigurationPresentation implements SearchListData {
             OverviewConfigurationPresentation configurationRepresentation =
                     new OverviewConfigurationPresentation(
                             configuration.getId(),
-                            configuration.getName(),
+                            formatName( configuration.getName() ),
                             PokemonPresentation.Builder.buildPresentation( context,
                                     configuration.getPokemon() ),
                             totalStatsAttribute( configuration.getPokemon().getStats(),
@@ -61,6 +61,14 @@ public class OverviewConfigurationPresentation implements SearchListData {
                                     context, configuration.getNature() )
                     );
             return configurationRepresentation;
+        }
+
+        private static String formatName( String name ) {
+            if( name.isEmpty() ) {
+                return " - ";
+            } else {
+                return name;
+            }
         }
 
         private static String totalStatsAttribute(StatsSet statsSet, Resources resources) {
