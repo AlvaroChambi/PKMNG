@@ -11,6 +11,7 @@ public class Item implements Parcelable{
     private String description;
 
     public Item() {
+        id = -1;
         name = "";
         imageUrl = "";
         descriptionShort = "";

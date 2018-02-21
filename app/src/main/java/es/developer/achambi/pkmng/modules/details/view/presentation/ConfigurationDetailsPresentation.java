@@ -5,11 +5,11 @@ import android.content.Context;
 import es.developer.achambi.pkmng.core.ui.presentation.AbilityPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.NaturePresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 
-public class DetailsConfigurationPresentation {
+public class ConfigurationDetailsPresentation {
     public final String name;
     public final PokemonPresentation pokemon;
     public final AbilityPresentation ability;
@@ -21,9 +21,9 @@ public class DetailsConfigurationPresentation {
     public final MovePresentation move2;
     public final MovePresentation move3;
 
-    public final StatsPresentation stats;
+    public final StatSetPresentation stats;
 
-    public DetailsConfigurationPresentation(
+    public ConfigurationDetailsPresentation(
             String name,
             PokemonPresentation pokemon,
             AbilityPresentation ability,
@@ -31,7 +31,7 @@ public class DetailsConfigurationPresentation {
             NaturePresentation nature,
             MovePresentation move0, MovePresentation move1,
             MovePresentation move2, MovePresentation move3,
-            StatsPresentation stats ) {
+            StatSetPresentation stats ) {
         this.name = name;
         this.pokemon = pokemon;
         this.ability = ability;
@@ -45,11 +45,11 @@ public class DetailsConfigurationPresentation {
     }
 
     public static class Builder {
-        public static DetailsConfigurationPresentation buildPresentation(
+        public static ConfigurationDetailsPresentation buildPresentation(
                 Context context, PokemonConfig configuration ) {
 
-            return new DetailsConfigurationPresentation(
-                    configuration.getName(),
+            return new ConfigurationDetailsPresentation(
+                    formatName( configuration.getName() ),
                     PokemonPresentation.Builder.buildPresentation(
                             context, configuration.getPokemon() ),
                     AbilityPresentation.Builder.buildPresentation(
@@ -65,9 +65,17 @@ public class DetailsConfigurationPresentation {
                             configuration.getConfiguration().getMove2() ),
                     MovePresentation.Builder.buildPresentation( context,
                             configuration.getConfiguration().getMove3() ),
-                    StatsPresentation.Builder.buildPresentation( context.getResources(),
+                    StatSetPresentation.Builder.buildPresentation( context.getResources(),
                             configuration.getStats() )
             );
+        }
+
+        private static String formatName( String name ) {
+            if( name.isEmpty() ) {
+                return " - ";
+            } else {
+                return name;
+            }
         }
     }
 }

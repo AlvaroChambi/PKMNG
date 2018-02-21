@@ -80,7 +80,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
         @Override
         public AbilityViewHolder createViewHolder(View rootView) {
             AbilityViewHolder viewHolder = new AbilityViewHolder( rootView );
-            viewHolder.name = rootView.findViewById(R.id.ability_name_text);
+            viewHolder.name = rootView.findViewById(R.id.configuration_value_text);
             viewHolder.description = rootView.findViewById(R.id.ability_description_text);
             return viewHolder;
         }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.StatsPresentation;
+import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
@@ -15,7 +15,7 @@ public class PokemonPresentation implements SearchListData {
     public final String image;
     public final PokemonTypePresentation type;
     public final String totalStats;
-    public final StatsPresentation stats;
+    public final StatSetPresentation stats;
 
     public PokemonPresentation(
             int id,
@@ -23,7 +23,7 @@ public class PokemonPresentation implements SearchListData {
            String image,
            PokemonTypePresentation type,
            String totalStats,
-           StatsPresentation stats ) {
+           StatSetPresentation stats ) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -46,7 +46,7 @@ public class PokemonPresentation implements SearchListData {
                     pokemon.getImageURL(),
                     PokemonTypePresentation.Builder.buildPresentation( context, pokemon.getType() ),
                     totalStatsAttribute(context.getResources(), pokemon.getStats()),
-                    StatsPresentation.Builder.buildPresentation( context.getResources(),
+                    StatSetPresentation.Builder.buildPresentation( context.getResources(),
                             pokemon.getStats() )
             );
         }

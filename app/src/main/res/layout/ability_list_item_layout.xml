@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/ability_name_text"
+            android:id="@+id/configuration_value_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="overgrow"
@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/ability_name_text"
+            app:layout_constraintLeft_toRightOf="@+id/configuration_value_text"
             android:layout_marginLeft="12dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0" />

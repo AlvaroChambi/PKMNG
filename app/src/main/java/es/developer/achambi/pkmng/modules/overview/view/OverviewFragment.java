@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.pkmng.core.ui.view.AbilityView;
+import es.developer.achambi.pkmng.core.ui.view.ItemView;
+import es.developer.achambi.pkmng.core.ui.view.NatureView;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
@@ -267,20 +270,27 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         public void bindViewHolder(ConfigViewHolder holder,
                                      OverviewConfigurationPresentation configuration) {
             holder.configName.setText(configuration.name);
-            holder.pokemonName.setText(configuration.pokemonName);
-            holder.pokemonType.setType(configuration.type);
+            holder.pokemonName.setText(configuration.pokemon.name);
+            holder.pokemonType.setType(configuration.pokemon.type);
             holder.baseStats.setText(configuration.totalStats);
-            holder.item.setText(configuration.item);
-            holder.ability.setText(configuration.ability);
-            holder.nature.setText(configuration.nature);
+            holder.item.setItem(configuration.item.name,
+                    configuration.item.description,
+                    configuration.item.empty);
+            holder.ability.setAbility( configuration.ability.name,
+                    configuration.ability.description,
+                    configuration.ability.empty );
+            holder.nature.setNature(configuration.nature.name,
+                    configuration.nature.details.increased,
+                    configuration.nature.details.decreased,
+                    configuration.nature.empty);
         }
 
         public class ConfigViewHolder extends RecyclerView.ViewHolder {
             public TextView configName;
 
-            public TextView item;
-            public TextView ability;
-            public TextView nature;
+            public ItemView item;
+            public AbilityView ability;
+            public NatureView nature;
             public TextView baseStats;
 
             public TextView pokemonName;

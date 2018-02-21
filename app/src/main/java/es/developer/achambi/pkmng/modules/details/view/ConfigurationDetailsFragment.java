@@ -12,11 +12,14 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.core.ui.QuickDetailPopup;
+import es.developer.achambi.pkmng.core.ui.view.AbilityView;
+import es.developer.achambi.pkmng.core.ui.view.ItemView;
+import es.developer.achambi.pkmng.core.ui.view.NatureView;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorActivity;
 import es.developer.achambi.pkmng.modules.calculator.view.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
-import es.developer.achambi.pkmng.modules.details.view.presentation.DetailsConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.details.view.presentation.ConfigurationDetailsPresentation;
 import es.developer.achambi.pkmng.modules.details.view.presentation.MovePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
@@ -27,7 +30,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 100;
     private PokemonConfig pokemonConfig;
-    private DetailsConfigurationPresentation configurationPresentation;
+    private ConfigurationDetailsPresentation configurationPresentation;
 
     public static ConfigurationDetailsFragment newInstance(PokemonConfig config,
                                                            OverviewFragment.UseContext useContext ) {
@@ -55,7 +58,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            configurationPresentation = DetailsConfigurationPresentation.Builder
+            configurationPresentation = ConfigurationDetailsPresentation.Builder
                     .buildPresentation(getActivity(), pokemonConfig);
         }
         
@@ -142,13 +145,13 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     }
     
     private void populateView(View rootView) {
+        TextView configurationName = rootView.findViewById( R.id.pokemon_details_dialog_title );
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
-        TextView configurationName = rootView.findViewById(R.id.pokemon_config_name_text);
         TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
 
-        TextView item = rootView.findViewById(R.id.pokemon_item_text);
-        TextView ability = rootView.findViewById(R.id.pokemon_ability_text);
-        TextView nature = rootView.findViewById(R.id.pokemon_nature_text);
+        ItemView item = rootView.findViewById(R.id.pokemon_item_text);
+        AbilityView ability = rootView.findViewById(R.id.pokemon_ability_text);
+        NatureView nature = rootView.findViewById(R.id.pokemon_nature_text);
 
         TextView pokemonHP = rootView.findViewById(R.id.pokemon_hp_text);
         TextView pokemonAttack = rootView.findViewById(R.id.pokemon_atk_text);
@@ -166,9 +169,16 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         configurationName.setText(configurationPresentation.name);
         pokemonType.setType(configurationPresentation.pokemon.type);
 
-        item.setText(configurationPresentation.item.name);
-        ability.setText(configurationPresentation.ability.name);
-        nature.setText(configurationPresentation.nature.name);
+        item.setItem(configurationPresentation.item.name,
+                configurationPresentation.item.description,
+                configurationPresentation.item.empty);
+        ability.setAbility(configurationPresentation.ability.name,
+                configurationPresentation.ability.description,
+                configurationPresentation.ability.empty);
+        nature.setNature(configurationPresentation.nature.name,
+                configurationPresentation.nature.details.increased,
+                configurationPresentation.nature.details.decreased,
+                configurationPresentation.nature.empty);
    
         pokemonHP.setText(configurationPresentation.stats.hp);
         pokemonAttack.setText(configurationPresentation.stats.attack);
