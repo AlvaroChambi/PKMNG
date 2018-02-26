@@ -40,7 +40,7 @@ def perform_test(device, package_name):
 
     params = dict({
         'listener': 'es.developer.achambi.pkmng.perftesting.TestListener',
-        'annotation': 'es.developer.achambi.pkmng.perftesting.PerfTest',
+        'annotation': 'es.developer.achambi.pkmng.perftesting.common.PerfTest',
         'disableAnalytics': 'true'
     })
 
