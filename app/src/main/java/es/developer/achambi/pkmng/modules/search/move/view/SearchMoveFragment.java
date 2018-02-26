@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +18,6 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
-import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -25,14 +26,53 @@ import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItem
 
 public class SearchMoveFragment extends BaseSearchListFragment
     implements ISearchMoveView {
+    private static final String CURRENT_MOVE_ARGUMENT_KEY = "CURRENT_MOVE_ARGUMENT_KEY";
 
     private SearchMovePresenter presenter;
     private ArrayList<MoveItemPresentation> movesPresentation;
+    private MoveItemPresentation movePresentation;
 
     public static final SearchMoveFragment newInstance( Bundle args ) {
         SearchMoveFragment fragment = new SearchMoveFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static final Bundle getFragmentParams( Move move ) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable( CURRENT_MOVE_ARGUMENT_KEY, move );
+        return bundle;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        movePresentation = MoveItemPresentation.Builder.buildPresentation( getActivity(),
+                ((Move)getArguments().getParcelable( CURRENT_MOVE_ARGUMENT_KEY ))
+        );
+    }
+
+    @Override
+    public boolean inflateHeaderView(LayoutInflater inflater, ViewGroup root) {
+        View header = inflater.inflate( R.layout.move_list_item_layout, root );
+        TextView name = header.findViewById(R.id.move_name_text);
+        TextView effect = header.findViewById(R.id.move_effect_text);
+        ImageView category = header.findViewById(R.id.move_category_image);
+        TypeView type = header.findViewById(R.id.move_type_image);
+        TextView power = header.findViewById(R.id.move_power_value_text);
+        TextView accuracy = header.findViewById(R.id.move_accuracy_value_text);
+        TextView pp = header.findViewById(R.id.move_pp_value_text);
+
+        name.setText( movePresentation.name );
+        effect.setText( movePresentation.effect );
+        category.setImageResource( movePresentation.categoryImageResource );
+        type.setType( movePresentation.moveTypePresentation);
+        type.setBackgroundTintList(
+                movePresentation.moveTypePresentation.typePresentation.backgroundColor );
+        power.setText( movePresentation.power );
+        accuracy.setText( movePresentation.accuracy );
+        pp.setText( movePresentation.pp );
+        return true;
     }
 
     @Override
@@ -81,7 +121,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
         @Override
         public int getLayoutResource() {
-            return R.layout.move_list_item_layout;
+            return R.layout.move_list_item_cardview_layout;
         }
 
         @Override
@@ -134,32 +174,11 @@ public class SearchMoveFragment extends BaseSearchListFragment
         ArrayList<MoveItemPresentation> build( Context context, ArrayList<Move> moves ) {
             ArrayList<MoveItemPresentation> movePresentations = new ArrayList<>();
             for( Move move : moves ) {
-                MoveItemPresentation presentation = new MoveItemPresentation(
-                        move.getId(),
-                        move.getName(),
-                        move.getEffect(),
-                        buildCategory(move.getCategory()),
-                        MoveTypePresentation.Builder.buildPresentation( context, move.getType()),
-                        "Pow. " + move.getPower(),
-                        "PP " + move.getPp(),
-                        "Acc. " + move.getAccuracy()
-
+                movePresentations.add(
+                        MoveItemPresentation.Builder.buildPresentation( context, move )
                 );
-                movePresentations.add(presentation);
             }
             return movePresentations;
-        }
-
-        private int buildCategory( Move.Category category ) {
-            switch (category) {
-                case PHYSICAL:
-                    return R.drawable.move_category_physical;
-                case SPECIAL:
-                    break;
-                case EMPTY:
-                    break;
-            }
-            return 0;
         }
     }
 }

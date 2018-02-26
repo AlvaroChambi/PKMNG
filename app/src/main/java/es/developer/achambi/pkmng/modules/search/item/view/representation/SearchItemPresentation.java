@@ -2,14 +2,15 @@ package es.developer.achambi.pkmng.modules.search.item.view.representation;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
-public class ItemResultViewRepresentation implements SearchListData{
+public class SearchItemPresentation implements SearchListData{
     public final int id;
     public final String name;
     public final String imageUrl;
     public final String description;
 
-    public ItemResultViewRepresentation (
+    public SearchItemPresentation(
             int id,
             String name, String imageUrl, String description) {
         this.id = id;
@@ -21,5 +22,16 @@ public class ItemResultViewRepresentation implements SearchListData{
     @Override
     public int getViewType() {
         return R.id.item_view_id;
+    }
+
+    public static class Builder {
+        public static SearchItemPresentation buildPresentation( Item item ) {
+            return new SearchItemPresentation(
+                    item.getId(),
+                    item.getName(),
+                    item.getImageUrl(),
+                    item.getDescriptionShort()
+            );
+        }
     }
 }

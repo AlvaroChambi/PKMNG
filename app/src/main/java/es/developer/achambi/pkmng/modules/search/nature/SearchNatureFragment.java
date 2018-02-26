@@ -80,7 +80,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
 
         @Override
         public int getLayoutResource() {
-            return R.layout.nature_list_item_layout;
+            return R.layout.nature_list_item_cardview_layout;
         }
 
         @Override

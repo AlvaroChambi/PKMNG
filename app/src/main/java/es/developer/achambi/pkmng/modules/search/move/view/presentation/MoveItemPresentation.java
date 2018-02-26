@@ -1,8 +1,11 @@
 package es.developer.achambi.pkmng.modules.search.move.view.presentation;
 
+import android.content.Context;
+
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
+import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class MoveItemPresentation implements SearchListData{
     public final int id;
@@ -30,5 +33,33 @@ public class MoveItemPresentation implements SearchListData{
     @Override
     public int getViewType() {
         return R.id.move_view_id;
+    }
+
+    public static class Builder {
+        public static MoveItemPresentation buildPresentation( Context context, Move move ) {
+            return new MoveItemPresentation(
+                    move.getId(),
+                    move.getName(),
+                    move.getEffect(),
+                    buildCategory(move.getCategory()),
+                    MoveTypePresentation.Builder.buildPresentation( context, move.getType()),
+                    "Pow. " + move.getPower(),
+                    "PP " + move.getPp(),
+                    "Acc. " + move.getAccuracy()
+
+            );
+        }
+
+        private static int buildCategory( Move.Category category ) {
+            switch (category) {
+                case PHYSICAL:
+                    return R.drawable.move_category_physical;
+                case SPECIAL:
+                    return R.drawable.move_category_special;
+                case EMPTY:
+                    break;
+            }
+            return 0;
+        }
     }
 }

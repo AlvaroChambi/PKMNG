@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.view.ISearchItemView;
-import es.developer.achambi.pkmng.modules.search.item.view.representation.ItemResultViewRepresentation;
+import es.developer.achambi.pkmng.modules.search.item.view.representation.SearchItemPresentation;
 
 public class SearchItemsPresenter implements ISearchItemsPresenter,
-        SearchAdapterDecorator.OnItemClickedListener<ItemResultViewRepresentation> {
+        SearchAdapterDecorator.OnItemClickedListener<SearchItemPresentation> {
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Item> data;
     private ISearchItemView view;
@@ -28,7 +28,7 @@ public class SearchItemsPresenter implements ISearchItemsPresenter,
     }
 
     @Override
-    public void onItemClicked(ItemResultViewRepresentation itemRepresentation) {
+    public void onItemClicked(SearchItemPresentation itemRepresentation) {
         for( Item item : data ) {
             if( itemRepresentation.id == item.getId() ) {
                 view.showItemDetails( item );
