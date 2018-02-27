@@ -7,7 +7,7 @@ import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
-public class MoveItemPresentation implements SearchListData{
+public class SearchMovePresentation implements SearchListData{
     public final int id;
     public final String name;
     public final String effect;
@@ -16,10 +16,11 @@ public class MoveItemPresentation implements SearchListData{
     public final String power;
     public final String pp;
     public final String accuracy;
+    public final boolean empty;
 
-    public MoveItemPresentation(int id, String name, String effect,
-                                int categoryImageResource, MoveTypePresentation moveTypePresentation,
-                                String power, String pp, String accuracy) {
+    public SearchMovePresentation(int id, String name, String effect,
+                                  int categoryImageResource, MoveTypePresentation moveTypePresentation,
+                                  String power, String pp, String accuracy, boolean empty) {
         this.id = id;
         this.name = name;
         this.effect = effect;
@@ -28,6 +29,7 @@ public class MoveItemPresentation implements SearchListData{
         this.power = power;
         this.pp = pp;
         this.accuracy = accuracy;
+        this.empty = empty;
     }
 
     @Override
@@ -36,8 +38,8 @@ public class MoveItemPresentation implements SearchListData{
     }
 
     public static class Builder {
-        public static MoveItemPresentation buildPresentation( Context context, Move move ) {
-            return new MoveItemPresentation(
+        public static SearchMovePresentation buildPresentation(Context context, Move move ) {
+            return new SearchMovePresentation(
                     move.getId(),
                     move.getName(),
                     move.getEffect(),
@@ -45,7 +47,8 @@ public class MoveItemPresentation implements SearchListData{
                     MoveTypePresentation.Builder.buildPresentation( context, move.getType()),
                     "Pow. " + move.getPower(),
                     "PP " + move.getPp(),
-                    "Acc. " + move.getAccuracy()
+                    "Acc. " + move.getAccuracy(),
+                    move.getId() == -1
 
             );
         }

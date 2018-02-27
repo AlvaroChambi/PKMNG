@@ -159,11 +159,13 @@ public class ConfigurationFragment extends BaseRequestFragment
                         REPLACE_ITEM_RESULT_CODE);
                 break;
             case R.id.configuration_ability_frame:
-                startActivityForResult(SearchAbilityActivity.getStartIntent(getActivity()),
+                startActivityForResult(SearchAbilityActivity.getStartIntent(getActivity(),
+                        presenter.getAbility()),
                         REPLACE_ABILITY_RESULT_CODE);
                 break;
             case R.id.configuration_nature_frame:
-                startActivityForResult(SearchNatureActivity.getStartIntent(getActivity()),
+                startActivityForResult(SearchNatureActivity.getStartIntent(getActivity(),
+                        presenter.getNature()),
                         REPLACE_NATURE_RESULT_CODE);
                 break;
             case R.id.configuration_move_0_frame:

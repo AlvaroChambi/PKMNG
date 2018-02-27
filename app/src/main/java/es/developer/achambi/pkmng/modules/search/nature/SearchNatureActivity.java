@@ -7,10 +7,13 @@ import android.os.Bundle;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseActivity;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class SearchNatureActivity extends BaseActivity{
-    public static Intent getStartIntent( Context context ) {
+    public static Intent getStartIntent(Context context, Nature currentNature ) {
         Intent intent = new Intent( context, SearchNatureActivity.class );
+        Bundle args = SearchNatureFragment.getFragmentArgs( currentNature );
+        intent.putExtra( BASE_ARGUMENTS, args );
         return intent;
     }
 

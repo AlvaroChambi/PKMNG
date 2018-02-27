@@ -9,14 +9,16 @@ public class SearchItemPresentation implements SearchListData{
     public final String name;
     public final String imageUrl;
     public final String description;
+    public final boolean empty;
 
     public SearchItemPresentation(
             int id,
-            String name, String imageUrl, String description) {
+            String name, String imageUrl, String description, boolean empty) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.description = description;
+        this.empty = empty;
     }
 
     @Override
@@ -30,7 +32,8 @@ public class SearchItemPresentation implements SearchListData{
                     item.getId(),
                     item.getName(),
                     item.getImageUrl(),
-                    item.getDescriptionShort()
+                    item.getDescriptionShort(),
+                    item.getId() == -1
             );
         }
     }

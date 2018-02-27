@@ -3,10 +3,9 @@ package es.developer.achambi.pkmng.modules.search.item.view;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -43,6 +42,11 @@ public class SearchItemFragment extends BaseSearchListFragment
     }
 
     @Override
+    public int getHeaderLayoutResource() {
+        return R.layout.item_list_item_layout;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = SearchItemPresentation.Builder.buildPresentation(
@@ -50,14 +54,19 @@ public class SearchItemFragment extends BaseSearchListFragment
     }
 
     @Override
-    public boolean inflateHeaderView( LayoutInflater inflater, ViewGroup root ) {
-        View header = inflater.inflate(
-                R.layout.item_list_item_layout, root, true );
-        TextView itemName = header.findViewById(R.id.item_name_text);
-        TextView itemDescription = header.findViewById(R.id.item_description_text);
-        itemName.setText( item.name );
-        itemDescription.setText( item.description );
-        return true;
+    public void onHeaderSetup(View header) {
+        if( !item.empty ) {
+            header.setVisibility(View.VISIBLE);
+            TextView itemName = header.findViewById(R.id.item_name_text);
+            TextView itemDescription = header.findViewById(R.id.item_description_text);
+            itemName.setText( item.name );
+            itemDescription.setText( item.description );
+            itemName.setTextColor( ContextCompat.getColor(getActivity(), R.color.text_primary) );
+            itemDescription.setTextColor(
+                    ContextCompat.getColor(getActivity(), R.color.text_primary) );
+        } else {
+            header.setVisibility(View.GONE);
+        }
     }
 
     @Override

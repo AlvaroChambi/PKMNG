@@ -3,6 +3,7 @@ package es.developer.achambi.pkmng.modules.search.ability.view;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -16,18 +17,56 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.AbilityDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenter;
-import es.developer.achambi.pkmng.modules.search.ability.view.representation.AbilityViewPresentation;
+import es.developer.achambi.pkmng.modules.search.ability.view.representation.SearchAbilityPresentation;
 
 public class SearchAbilityFragment extends BaseSearchListFragment implements ISearchAbilityView{
+    private static final String CURRENT_ABILITY_ARGUMENT_KEY = "CURRENT_ABILITY_ARGUMENT_KEY";
     private static final String ABILITY_DETAILS_DIALOG_TAG = "ABILITY_DETAILS_DIALOG_TAG";
 
     private SearchAbilityPresenter presenter;
-    private ArrayList<AbilityViewPresentation> abilities;
+    private ArrayList<SearchAbilityPresentation> abilities;
+    private SearchAbilityPresentation ability;
 
     public static final SearchAbilityFragment newInstance( Bundle args ) {
         SearchAbilityFragment fragment = new SearchAbilityFragment();
         fragment.setArguments( args );
         return fragment;
+    }
+
+    public static final Bundle getFragmentParams( Ability ability ) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable( CURRENT_ABILITY_ARGUMENT_KEY, ability );
+        return bundle;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ability = SearchAbilityPresentation.Builder.buildPresentation(
+                ((Ability) getArguments().getParcelable( CURRENT_ABILITY_ARGUMENT_KEY ))
+        );
+    }
+
+    @Override
+    public int getHeaderLayoutResource() {
+        return R.layout.ability_list_item_layout;
+    }
+
+    @Override
+    public void onHeaderSetup(View header) {
+        super.onHeaderSetup(header);
+        if( !ability.empty ) {
+            header.setVisibility(View.VISIBLE);
+            TextView name = header.findViewById(R.id.configuration_value_text);
+            TextView description = header.findViewById(R.id.ability_description_text);
+
+            name.setText(ability.name);
+            description.setText(ability.description);
+            name.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_primary));
+            description.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_primary));
+        } else {
+            header.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -66,15 +105,15 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     }
 
     public class AbilitiesListAdapter extends
-            SearchAdapterDecorator<AbilityViewPresentation,AbilitiesListAdapter.AbilityViewHolder> {
+            SearchAdapterDecorator<SearchAbilityPresentation,AbilitiesListAdapter.AbilityViewHolder> {
 
-        public AbilitiesListAdapter(ArrayList<AbilityViewPresentation> data) {
+        public AbilitiesListAdapter(ArrayList<SearchAbilityPresentation> data) {
             super(data);
         }
 
         @Override
         public int getLayoutResource() {
-            return R.layout.ability_list_item_layout;
+            return R.layout.ability_list_item_cardview_layout;
         }
 
         @Override
@@ -86,7 +125,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
         }
 
         @Override
-        public void bindViewHolder(AbilityViewHolder holder, AbilityViewPresentation item) {
+        public void bindViewHolder(AbilityViewHolder holder, SearchAbilityPresentation item) {
             holder.name.setText(item.name);
             holder.description.setText(item.description);
         }
@@ -108,14 +147,10 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     }
 
     public class AbilityPresentationDataBuilder {
-        public ArrayList<AbilityViewPresentation> build( ArrayList<Ability> abilities ) {
-            ArrayList<AbilityViewPresentation> presentations = new ArrayList<>();
+        public ArrayList<SearchAbilityPresentation> build(ArrayList<Ability> abilities ) {
+            ArrayList<SearchAbilityPresentation> presentations = new ArrayList<>();
             for( Ability ability: abilities ) {
-                presentations.add( new AbilityViewPresentation(
-                        ability.getId(),
-                        ability.getName(),
-                        ability.getDescriptionShort()
-                ) );
+                presentations.add(SearchAbilityPresentation.Builder.buildPresentation(ability));
             }
             return presentations;
         }

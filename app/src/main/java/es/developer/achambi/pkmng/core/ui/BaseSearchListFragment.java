@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import es.developer.achambi.pkmng.R;
 
 public abstract class BaseSearchListFragment extends BaseRequestFragment {
+    private static int NO_ID = -1;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
+    private ViewGroup header;
 
     @Override
     public int getLayoutResource() {
@@ -22,13 +24,17 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState);
-        inflateHeaderView( inflater, ((ViewGroup)root.findViewById(R.id.base_search_header_frame)) );
+        ViewGroup root = ((ViewGroup) super.onCreateView(inflater, container, savedInstanceState));
+        if( getHeaderLayoutResource() != NO_ID ) {
+            header = root.findViewById(R.id.base_search_header_frame);
+            inflater.inflate( getHeaderLayoutResource(), header );
+        }
         return root;
     }
 
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
+        onHeaderSetup( header );
         recyclerView = view.findViewById(R.id.base_search_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity());
 
@@ -41,8 +47,11 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
 
     public abstract SearchAdapterDecorator provideAdapter();
 
-    /**/
-    public boolean inflateHeaderView( LayoutInflater inflater, ViewGroup root ) {
-        return false;
+    public int getHeaderLayoutResource() {
+        return NO_ID;
+    }
+
+    public void onHeaderSetup( View header ) {
+        return;
     }
 }

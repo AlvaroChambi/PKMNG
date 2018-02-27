@@ -11,13 +11,13 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
-import es.developer.achambi.pkmng.modules.search.ability.view.representation.AbilityViewPresentation;
+import es.developer.achambi.pkmng.modules.search.ability.view.representation.SearchAbilityPresentation;
 
 public class AbilityDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String ABILITY_ARGUMENT_KEY = "ABILITY_ARGUMENT_KEY";
 
     private Ability ability;
-    private static AbilityViewPresentation viewPresentation;
+    private static SearchAbilityPresentation viewPresentation;
 
     public static AbilityDetailsFragment newInstance( Ability ability ) {
         Bundle args = new Bundle();
@@ -73,12 +73,8 @@ public class AbilityDetailsFragment extends BaseDialogFragment implements View.O
     }
 
     public class AbilityDetailsPresentationBuilder {
-        public AbilityViewPresentation build( Ability ability ) {
-            return new AbilityViewPresentation(
-                    ability.getId(),
-                    ability.getName(),
-                    ability.getDescription()
-            );
+        public SearchAbilityPresentation build(Ability ability ) {
+            return SearchAbilityPresentation.Builder.buildPresentation(ability);
         }
     }
 }
