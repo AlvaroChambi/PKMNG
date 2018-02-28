@@ -213,7 +213,7 @@ public class OverviewPresenter implements IOverviewPresenter {
         }
         Pokemon pokemon = new Pokemon(1);
         pokemon.setName("Pikachu");
-        pokemon.setType(Type.ELECTRIC, Type.FAIRY);
+        pokemon.setType(Type.ELECTRIC);
         pokemon.setHP(35);
         pokemon.setAttack(55);
         pokemon.setDefense(40);

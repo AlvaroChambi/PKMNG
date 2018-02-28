@@ -51,7 +51,7 @@ public class AbilityDetailsFragment extends BaseDialogFragment implements View.O
     }
 
     private void populateView( View view ) {
-        TextView name = view.findViewById(R.id.configuration_value_text);
+        TextView name = view.findViewById(R.id.ability_name_text);
         TextView description = view.findViewById(R.id.ability_description_text);
 
         name.setText(viewPresentation.name);

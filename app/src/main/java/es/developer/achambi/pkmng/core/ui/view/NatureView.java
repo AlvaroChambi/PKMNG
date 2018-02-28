@@ -32,7 +32,7 @@ public class NatureView extends ConstraintLayout {
     private void init( Context context ) {
         LayoutInflater inflater = LayoutInflater.from( context );
         inflater.inflate( R.layout.configuration_value_layout, this );
-        this.name = findViewById(R.id.configuration_value_text);
+        this.name = findViewById(R.id.ability_name_text);
     }
 
     public void setNature( String name, final String increasedText,

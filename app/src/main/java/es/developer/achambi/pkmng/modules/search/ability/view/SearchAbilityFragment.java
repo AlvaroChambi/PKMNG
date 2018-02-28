@@ -57,7 +57,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
         super.onHeaderSetup(header);
         if( !ability.empty ) {
             header.setVisibility(View.VISIBLE);
-            TextView name = header.findViewById(R.id.configuration_value_text);
+            TextView name = header.findViewById(R.id.ability_name_text);
             TextView description = header.findViewById(R.id.ability_description_text);
 
             name.setText(ability.name);
@@ -119,7 +119,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
         @Override
         public AbilityViewHolder createViewHolder(View rootView) {
             AbilityViewHolder viewHolder = new AbilityViewHolder( rootView );
-            viewHolder.name = rootView.findViewById(R.id.configuration_value_text);
+            viewHolder.name = rootView.findViewById(R.id.ability_name_text);
             viewHolder.description = rootView.findViewById(R.id.ability_description_text);
             return viewHolder;
         }
