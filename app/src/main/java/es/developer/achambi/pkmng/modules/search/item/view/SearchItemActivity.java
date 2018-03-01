@@ -7,11 +7,14 @@ import android.os.Bundle;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseActivity;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class SearchItemActivity extends BaseActivity{
 
-    public static Intent getStartIntent( Context context ) {
+    public static Intent getStartIntent( Context context, Item currentItem ) {
         Intent intent = new Intent( context, SearchItemActivity.class );
+        Bundle args = SearchItemFragment.getFragmentArgs( currentItem );
+        intent.putExtra( BASE_ARGUMENTS, args );
         return intent;
     }
 

@@ -11,13 +11,13 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
-import es.developer.achambi.pkmng.modules.search.item.view.representation.ItemResultViewRepresentation;
+import es.developer.achambi.pkmng.modules.search.item.view.representation.SearchItemPresentation;
 
 public class ItemDetailsFragment extends BaseDialogFragment implements View.OnClickListener{
     private static final String ITEM_ARGUMENT_KEY = "ITEM_ARGUMENT_KEY";
 
     private Item item;
-    private ItemResultViewRepresentation viewRepresentation;
+    private SearchItemPresentation viewRepresentation;
 
     public static ItemDetailsFragment newInstance( Item item ) {
         Bundle bundle = new Bundle();
@@ -61,13 +61,8 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
     }
 
     private class ItemDetailsRepresentationDataBuilder {
-        public ItemResultViewRepresentation buildViewRepresentation( Item item ) {
-            return new ItemResultViewRepresentation(
-                    item.getId(),
-                    item.getName(),
-                    item.getImageUrl(),
-                    item.getDescription()
-            );
+        public SearchItemPresentation buildViewRepresentation( Item item ) {
+            return SearchItemPresentation.Builder.buildPresentation( item );
         }
     }
 

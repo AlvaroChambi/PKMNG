@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.ISearchAbilityView;
-import es.developer.achambi.pkmng.modules.search.ability.view.representation.AbilityViewPresentation;
+import es.developer.achambi.pkmng.modules.search.ability.view.representation.SearchAbilityPresentation;
 
 public class SearchAbilityPresenter implements ISearchAbilityPresenter,
-        SearchAdapterDecorator.OnItemClickedListener<AbilityViewPresentation>{
+        SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Ability> data;
     private ISearchAbilityView searchAbilityView;
@@ -50,7 +50,7 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
     }
 
     @Override
-    public void onItemClicked(AbilityViewPresentation item) {
+    public void onItemClicked(SearchAbilityPresentation item) {
         for( Ability ability : data ) {
             if( item.id == ability.getId() ) {
                 searchAbilityView.showAbilityDetails( ability );

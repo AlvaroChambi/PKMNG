@@ -32,7 +32,7 @@ public class ItemView extends ConstraintLayout {
     private void init( Context context ) {
         LayoutInflater inflater = LayoutInflater.from( context );
         inflater.inflate( R.layout.configuration_value_layout, this );
-        this.name = findViewById(R.id.configuration_value_text);
+        this.name = findViewById(R.id.ability_name_text);
     }
 
     public void setItem( String name, final String descriptionText, boolean empty ) {

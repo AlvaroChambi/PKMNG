@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -19,16 +20,56 @@ import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenter;
 import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureView;
-import es.developer.achambi.pkmng.modules.search.nature.view.NatureViewPresentation;
+import es.developer.achambi.pkmng.modules.search.nature.view.SearchNaturePresentation;
 
 public class SearchNatureFragment extends BaseSearchListFragment implements ISearchNatureView {
+    private static final String CURRENT_NATURE_ARGUMENT_KEY = "CURRENT_NATURE_ARGUMENT_KEY";
+
     private SearchNaturePresenter presenter;
-    private ArrayList<NatureViewPresentation> natureList;
+    private ArrayList<SearchNaturePresentation> natureList;
+    private SearchNaturePresentation nature;
 
     public static final SearchNatureFragment newInstance( Bundle args ) {
         SearchNatureFragment fragment = new SearchNatureFragment();
         fragment.setArguments( args );
         return fragment;
+    }
+
+    public static final Bundle getFragmentArgs( Nature nature ) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable( CURRENT_NATURE_ARGUMENT_KEY, nature );
+        return bundle;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        nature = SearchNaturePresentation.Builder.buildPresentation( getActivity(), ((Nature)
+                getArguments().getParcelable( CURRENT_NATURE_ARGUMENT_KEY )
+        ) );
+    }
+
+    @Override
+    public int getHeaderLayoutResource() {
+        return R.layout.nature_list_item_layout;
+    }
+
+    @Override
+    public void onHeaderSetup(View header) {
+        super.onHeaderSetup(header);
+        if( !nature.empty ) {
+            header.setVisibility(View.VISIBLE);
+            TextView name = header.findViewById(R.id.nature_name_text);
+            TextView increasedStat = header.findViewById(R.id.nature_increased_stat_text);
+            TextView decreasedStat = header.findViewById(R.id.nature_decreased_stat_text);
+
+            name.setText(nature.name);
+            name.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_primary));
+            increasedStat.setText(nature.detail.increased);
+            decreasedStat.setText(nature.detail.decreased);
+        } else {
+            header.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -73,14 +114,14 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
 
 
     public class NatureListAdapter extends
-            SearchAdapterDecorator<NatureViewPresentation, NatureListAdapter.NatureViewHolder> {
-        public NatureListAdapter(ArrayList<NatureViewPresentation> data) {
+            SearchAdapterDecorator<SearchNaturePresentation, NatureListAdapter.NatureViewHolder> {
+        public NatureListAdapter(ArrayList<SearchNaturePresentation> data) {
             super(data);
         }
 
         @Override
         public int getLayoutResource() {
-            return R.layout.nature_list_item_layout;
+            return R.layout.nature_list_item_cardview_layout;
         }
 
         @Override
@@ -93,7 +134,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
         }
 
         @Override
-        public void bindViewHolder(NatureViewHolder holder, NatureViewPresentation item) {
+        public void bindViewHolder(NatureViewHolder holder, SearchNaturePresentation item) {
             holder.name.setText(item.name);
             holder.increasedStat.setText(item.detail.increased);
             holder.decreasedStat.setText(item.detail.decreased);
@@ -116,12 +157,12 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     }
 
     public class NaturePresentationDataBuilder {
-        public ArrayList<NatureViewPresentation> build( Context context,
-                                                        ArrayList<Nature> natureList ) {
-            ArrayList<NatureViewPresentation> presentations = new ArrayList<>();
+        public ArrayList<SearchNaturePresentation> build(Context context,
+                                                         ArrayList<Nature> natureList ) {
+            ArrayList<SearchNaturePresentation> presentations = new ArrayList<>();
             for( Nature nature : natureList ) {
                 presentations.add(
-                        NatureViewPresentation.Builder.buildPresentation( context, nature ) );
+                        SearchNaturePresentation.Builder.buildPresentation( context, nature ) );
             }
             return presentations;
         }

@@ -45,7 +45,7 @@ public enum Type {
         DARK( darkDeals(), darkReceives() ),
         STEEL( steelDeals(), steelReceives() ),
         FAIRY( fairyDeals(), fairyReceives() ),
-        EMPTY( null, null );
+        EMPTY( new HashMap<Type, Float>(), new HashMap<Type, Float>() );
 
         private HashMap<Type, Float> deals;
         private HashMap<Type, Float> receives;

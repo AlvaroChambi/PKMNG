@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,23 +17,75 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
-import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenter;
-import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
+import es.developer.achambi.pkmng.modules.search.move.view.presentation.SearchMovePresentation;
 
 public class SearchMoveFragment extends BaseSearchListFragment
     implements ISearchMoveView {
+    private static final String CURRENT_MOVE_ARGUMENT_KEY = "CURRENT_MOVE_ARGUMENT_KEY";
 
     private SearchMovePresenter presenter;
-    private ArrayList<MoveItemPresentation> movesPresentation;
+    private ArrayList<SearchMovePresentation> moves;
+    private SearchMovePresentation move;
 
     public static final SearchMoveFragment newInstance( Bundle args ) {
         SearchMoveFragment fragment = new SearchMoveFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static final Bundle getFragmentParams( Move move ) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable( CURRENT_MOVE_ARGUMENT_KEY, move );
+        return bundle;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        move = SearchMovePresentation.Builder.buildPresentation( getActivity(),
+                ((Move)getArguments().getParcelable( CURRENT_MOVE_ARGUMENT_KEY ))
+        );
+    }
+
+    @Override
+    public int getHeaderLayoutResource() {
+        return R.layout.move_list_item_layout;
+    }
+
+    @Override
+    public void onHeaderSetup(View header) {
+        if( !move.empty ) {
+            header.setVisibility(View.VISIBLE);
+            TextView name = header.findViewById(R.id.move_name_text);
+            TextView effect = header.findViewById(R.id.move_effect_text);
+            ImageView category = header.findViewById(R.id.move_category_image);
+            TypeView type = header.findViewById(R.id.move_type_image);
+            TextView power = header.findViewById(R.id.move_power_value_text);
+            TextView accuracy = header.findViewById(R.id.move_accuracy_value_text);
+            TextView pp = header.findViewById(R.id.move_pp_value_text);
+
+            name.setText( move.name );
+            effect.setText( move.effect );
+            category.setImageResource( move.categoryImageResource );
+            type.setType( move.moveTypePresentation);
+            type.setBackgroundTintList(
+                    move.moveTypePresentation.typePresentation.backgroundColor );
+            power.setText( move.power );
+            accuracy.setText( move.accuracy );
+            pp.setText( move.pp );
+
+            name.setTextColor( ContextCompat.getColor( getActivity(), R.color.text_primary ) );
+            effect.setTextColor( ContextCompat.getColor( getActivity(), R.color.text_primary ) );
+            power.setTextColor( ContextCompat.getColor( getActivity(), R.color.text_primary ) );
+            accuracy.setTextColor( ContextCompat.getColor( getActivity(), R.color.text_primary ) );
+            pp.setTextColor( ContextCompat.getColor( getActivity(), R.color.text_primary ) );
+        } else {
+            header.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -45,7 +98,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        movesPresentation = new MovesPresentationBuilder().build( getActivity(),
+        moves = new MovesPresentationBuilder().build( getActivity(),
                 presenter.fetchMoves() );
         refreshAdapter();
     }
@@ -60,7 +113,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        MovesListAdapter adapter = new MovesListAdapter(movesPresentation);
+        MovesListAdapter adapter = new MovesListAdapter(moves);
         adapter.setListener(presenter);
         return adapter;
     }
@@ -74,14 +127,14 @@ public class SearchMoveFragment extends BaseSearchListFragment
     }
 
     public class MovesListAdapter extends
-            SearchAdapterDecorator<MoveItemPresentation, MovesListAdapter.MovesViewHolder> {
-        public MovesListAdapter(ArrayList<MoveItemPresentation> data) {
+            SearchAdapterDecorator<SearchMovePresentation, MovesListAdapter.MovesViewHolder> {
+        public MovesListAdapter(ArrayList<SearchMovePresentation> data) {
             super(data);
         }
 
         @Override
         public int getLayoutResource() {
-            return R.layout.move_list_item_layout;
+            return R.layout.move_list_item_cardview_layout;
         }
 
         @Override
@@ -98,7 +151,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
         }
 
         @Override
-        public void bindViewHolder(MovesViewHolder holder, MoveItemPresentation item) {
+        public void bindViewHolder(MovesViewHolder holder, SearchMovePresentation item) {
             holder.name.setText( item.name );
             holder.effect.setText( item.effect );
             holder.category.setImageResource( item.categoryImageResource );
@@ -131,35 +184,14 @@ public class SearchMoveFragment extends BaseSearchListFragment
     }
 
     public class MovesPresentationBuilder {
-        ArrayList<MoveItemPresentation> build( Context context, ArrayList<Move> moves ) {
-            ArrayList<MoveItemPresentation> movePresentations = new ArrayList<>();
+        ArrayList<SearchMovePresentation> build(Context context, ArrayList<Move> moves ) {
+            ArrayList<SearchMovePresentation> movePresentations = new ArrayList<>();
             for( Move move : moves ) {
-                MoveItemPresentation presentation = new MoveItemPresentation(
-                        move.getId(),
-                        move.getName(),
-                        move.getEffect(),
-                        buildCategory(move.getCategory()),
-                        MoveTypePresentation.Builder.buildPresentation( context, move.getType()),
-                        "Pow. " + move.getPower(),
-                        "PP " + move.getPp(),
-                        "Acc. " + move.getAccuracy()
-
+                movePresentations.add(
+                        SearchMovePresentation.Builder.buildPresentation( context, move )
                 );
-                movePresentations.add(presentation);
             }
             return movePresentations;
-        }
-
-        private int buildCategory( Move.Category category ) {
-            switch (category) {
-                case PHYSICAL:
-                    return R.drawable.move_category_physical;
-                case SPECIAL:
-                    break;
-                case EMPTY:
-                    break;
-            }
-            return 0;
         }
     }
 }

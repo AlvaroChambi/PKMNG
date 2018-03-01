@@ -84,6 +84,8 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
 
         onView(withId(R.id.move_0_damage_result_view)).perform(click());
+
+        onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
 
@@ -109,6 +111,8 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
 
         onView(withId(R.id.move_1_damage_result_view)).perform(click());
+
+        onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
 
@@ -134,6 +138,8 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
 
         onView(withId(R.id.move_2_damage_result_view)).perform(click());
+
+        onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
 
@@ -163,6 +169,8 @@ public class DamageCalculatorTest extends BaseAutomationTest {
         onView(withId(R.id.move_0_damage_result_view)).perform(swipeUp());
         delay(100);
         onView(withId(R.id.move_3_damage_result_view)).perform(click());
+
+        onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0, click() ) );
 

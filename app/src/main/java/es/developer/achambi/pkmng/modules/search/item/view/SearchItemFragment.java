@@ -3,6 +3,7 @@ package es.developer.achambi.pkmng.modules.search.item.view;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -16,20 +17,56 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenter;
-import es.developer.achambi.pkmng.modules.search.item.view.representation.ItemResultViewRepresentation;
+import es.developer.achambi.pkmng.modules.search.item.view.representation.SearchItemPresentation;
 
 public class SearchItemFragment extends BaseSearchListFragment
         implements ISearchItemView {
     private static final String ITEM_DETAILS_DIALOG_TAG = "ITEM_DETAILS_DIALOG_TAG";
+    private static final String CURRENT_ITEM_ARGUMENT_KEY = "CURRENT_ITEM_ARGUMENT_KEY";
 
     private SearchItemsPresenter presenter;
-    private ArrayList<ItemResultViewRepresentation> items;
+    private ArrayList<SearchItemPresentation> items;
+    private SearchItemPresentation item;
 
     public static final SearchItemFragment newInstance( Bundle args ) {
         SearchItemFragment fragment = new SearchItemFragment();
         fragment.setArguments( args );
 
         return fragment;
+    }
+
+    public static final Bundle getFragmentArgs( Item item ) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable( CURRENT_ITEM_ARGUMENT_KEY, item );
+        return bundle;
+    }
+
+    @Override
+    public int getHeaderLayoutResource() {
+        return R.layout.item_list_item_layout;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        item = SearchItemPresentation.Builder.buildPresentation(
+                ((Item)getArguments().getParcelable( CURRENT_ITEM_ARGUMENT_KEY )) );
+    }
+
+    @Override
+    public void onHeaderSetup(View header) {
+        if( !item.empty ) {
+            header.setVisibility(View.VISIBLE);
+            TextView itemName = header.findViewById(R.id.item_name_text);
+            TextView itemDescription = header.findViewById(R.id.item_description_text);
+            itemName.setText( item.name );
+            itemDescription.setText( item.description );
+            itemName.setTextColor( ContextCompat.getColor(getActivity(), R.color.text_primary) );
+            itemDescription.setTextColor(
+                    ContextCompat.getColor(getActivity(), R.color.text_primary) );
+        } else {
+            header.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -68,17 +105,12 @@ public class SearchItemFragment extends BaseSearchListFragment
     }
 
     public class ItemResultDataBuilder {
-        public ArrayList<ItemResultViewRepresentation> buildViewRepresentation(
+        public ArrayList<SearchItemPresentation> buildViewRepresentation(
                 ArrayList<Item> items ) {
-            ArrayList<ItemResultViewRepresentation> representations = new ArrayList<>();
+            ArrayList<SearchItemPresentation> representations = new ArrayList<>();
             for( Item item: items ) {
                 representations.add(
-                        new ItemResultViewRepresentation(
-                                item.getId(),
-                                item.getName(),
-                                item.getImageUrl(),
-                                item.getDescriptionShort()
-                        )
+                        SearchItemPresentation.Builder.buildPresentation( item )
                 );
             }
 
@@ -87,15 +119,15 @@ public class SearchItemFragment extends BaseSearchListFragment
     }
 
     public class ItemListAdapter extends SearchAdapterDecorator<
-            ItemResultViewRepresentation, ItemListAdapter.ItemViewHolder> {
+            SearchItemPresentation, ItemListAdapter.ItemViewHolder> {
 
-        public ItemListAdapter(ArrayList<ItemResultViewRepresentation> data) {
+        public ItemListAdapter(ArrayList<SearchItemPresentation> data) {
             super(data);
         }
 
         @Override
         public int getLayoutResource() {
-            return R.layout.item_list_item_layout;
+            return R.layout.item_list_item_cardview_layout;
         }
 
         @Override
@@ -114,7 +146,7 @@ public class SearchItemFragment extends BaseSearchListFragment
         }
 
         @Override
-        public void bindViewHolder(ItemViewHolder holder, ItemResultViewRepresentation item) {
+        public void bindViewHolder(ItemViewHolder holder, SearchItemPresentation item) {
             holder.itemName.setText( item.name );
             holder.itemDescription.setText( item.description);
         }

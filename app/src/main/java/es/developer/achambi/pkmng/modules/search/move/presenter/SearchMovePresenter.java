@@ -5,14 +5,13 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.view.ISearchMoveView;
-import es.developer.achambi.pkmng.modules.search.move.view.presentation.MoveItemPresentation;
+import es.developer.achambi.pkmng.modules.search.move.view.presentation.SearchMovePresentation;
 
 public class SearchMovePresenter implements ISearchMovePresenter,
-        SearchAdapterDecorator.OnItemClickedListener<MoveItemPresentation>{
+        SearchAdapterDecorator.OnItemClickedListener<SearchMovePresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
 
     private ArrayList<Move> data;
@@ -56,7 +55,7 @@ public class SearchMovePresenter implements ISearchMovePresenter,
     }
 
     @Override
-    public void onItemClicked(MoveItemPresentation item) {
+    public void onItemClicked(SearchMovePresentation item) {
         for( Move move : data ) {
             if( item.id == move.getId() ) {
                 view.returnSelectedMove( move );

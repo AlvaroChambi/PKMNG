@@ -154,31 +154,38 @@ public class ConfigurationFragment extends BaseRequestFragment
                         getActivity(), SearchFilter.POKEMON_FILTER ), REPLACE_POKEMON_RESULT_CODE );
                 break;
             case R.id.configuration_item_frame:
-                startActivityForResult(SearchItemActivity.getStartIntent(getActivity()),
+                startActivityForResult(SearchItemActivity.getStartIntent(getActivity(),
+                        presenter.getItem()),
                         REPLACE_ITEM_RESULT_CODE);
                 break;
             case R.id.configuration_ability_frame:
-                startActivityForResult(SearchAbilityActivity.getStartIntent(getActivity()),
+                startActivityForResult(SearchAbilityActivity.getStartIntent(getActivity(),
+                        presenter.getAbility()),
                         REPLACE_ABILITY_RESULT_CODE);
                 break;
             case R.id.configuration_nature_frame:
-                startActivityForResult(SearchNatureActivity.getStartIntent(getActivity()),
+                startActivityForResult(SearchNatureActivity.getStartIntent(getActivity(),
+                        presenter.getNature()),
                         REPLACE_NATURE_RESULT_CODE);
                 break;
             case R.id.configuration_move_0_frame:
-                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
+                        presenter.getConfiguration().getMove0() ),
                         REPLACE_MOVE0_RESULT_CODE );
                 break;
             case R.id.configuration_move_1_frame:
-                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
+                        presenter.getConfiguration().getMove1() ),
                         REPLACE_MOVE1_RESULT_CODE );
                 break;
             case R.id.configuration_move_2_frame:
-                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
+                        presenter.getConfiguration().getMove2() ),
                         REPLACE_MOVE2_RESULT_CODE );
                 break;
             case R.id.configuration_move_3_frame:
-                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity()),
+                startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
+                        presenter.getConfiguration().getMove3() ),
                         REPLACE_MOVE3_RESULT_CODE );
                 break;
             case R.id.configuration_floating_save_button_middle:
