@@ -21,6 +21,7 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
+import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationBuilder;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.SearchAbilityActivity;
@@ -108,7 +109,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            pokemonPresentation = PokemonPresentation.Builder
+            pokemonPresentation = PokemonPresentationBuilder
                     .buildPresentation(getActivity(), presenter.getPokemon());
             MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
             move0 = builder.build( presenter.getConfiguration().getMove0() );
@@ -151,7 +152,8 @@ public class ConfigurationFragment extends BaseRequestFragment
         switch( v.getId() ) {
             case R.id.pokemon_image_view:
                 startActivityForResult(SearchActivity.getStartIntent(
-                        getActivity(), SearchFilter.POKEMON_FILTER ), REPLACE_POKEMON_RESULT_CODE );
+                        getActivity(), SearchFilter.POKEMON_FILTER,
+                        presenter.getPokemon()  ), REPLACE_POKEMON_RESULT_CODE );
                 break;
             case R.id.configuration_item_frame:
                 startActivityForResult(SearchItemActivity.getStartIntent(getActivity(),
@@ -335,7 +337,7 @@ public class ConfigurationFragment extends BaseRequestFragment
                 requestCode == REPLACE_POKEMON_RESULT_CODE ) {
             presenter.setPokemon( (Pokemon)data
                     .getParcelableExtra( POKEMON_ACTIVITY_RESULT_DATA_KEY ) );
-            pokemonPresentation = PokemonPresentation.Builder
+            pokemonPresentation = PokemonPresentationBuilder
                             .buildPresentation(getActivity(), presenter.getPokemon());
 
             populatePokemonView( getView() );

@@ -15,6 +15,7 @@ import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivit
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
+import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationBuilder;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
@@ -52,7 +53,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            pokemonPresentation = PokemonPresentation.Builder
+            pokemonPresentation = PokemonPresentationBuilder
                     .buildPresentation(getActivity(), pokemon);
         }
 

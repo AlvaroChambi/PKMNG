@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -32,15 +33,19 @@ import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
+import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationBuilder;
+import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationHeaderBuilder;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.overview.view.viewholder.PokemonViewHolder;
 
 public class OverviewFragment extends BaseSearchListFragment implements IOverviewView {
     private static final String POKEMON_DETAILS_DIALOG_TAG = "POKEMON_DETAILS_DIALOG_TAG";
     private static final String CONFIGURATION_DETAILS_DIALOG_TAG = "CONFIGURATION_DETAILS_DIALOG_TAG";
     private static final String SEARCH_FILTER_ARGUMENT_KEY = "SEARCH_FILTER_ARGUMENT_KEY";
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
+    private static final String CURRENT_POKEMON_ARGUMENT_KEY = "CURRENT_POKEMON_ARGUMENT_KEY";
 
     private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 102;
@@ -48,10 +53,13 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private IOverviewPresenter presenter;
     private ArrayList<PokemonPresentation> pokemonList;
     private ArrayList<OverviewConfigurationPresentation> configurationList;
+    private PokemonPresentation pokemon;
+
+    private SearchFilter searchFilter;
 
     public enum UseContext{
         OVERVIEW_SEARCH_CONTEXT,
-        REPLACE_SEARCH_CONTEXT;
+        REPLACE_SEARCH_CONTEXT
     }
 
     public static OverviewFragment newInstance( Bundle args ) {
@@ -60,11 +68,62 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         return fragment;
     }
 
-    public static Bundle getFragmentArgs( SearchFilter searchFilter, UseContext useContext ) {
+    public static Bundle getFragmentArgs( SearchFilter searchFilter, UseContext useContext,
+                                          Pokemon pokemon ) {
         Bundle args = new Bundle();
         args.putInt( SEARCH_FILTER_ARGUMENT_KEY, searchFilter.ordinal() );
         args.putInt( USE_CONTEXT_ARGUMENT_KEY, useContext.ordinal() );
+        args.putParcelable( CURRENT_POKEMON_ARGUMENT_KEY, pokemon );
         return args;
+    }
+
+    @Override
+    public int getHeaderLayoutResource() {
+        switch ( searchFilter ) {
+            case POKEMON_FILTER:
+                return  R.layout.pokemon_list_item_layout;
+            case CONFIGURATION_FILTER:
+                return super.getHeaderLayoutResource();
+            case ALL_FILTER:
+                return super.getHeaderLayoutResource();
+            default:
+                return super.getHeaderLayoutResource();
+        }
+    }
+
+    @Override
+    public void onHeaderSetup(View header) {
+        PokemonViewHolder headerHolder = new PokemonViewHolder( header );
+        headerHolder.relateTo( header );
+        headerHolder.bindTo( pokemon );
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        searchFilter = SearchFilter.ALL_FILTER;
+        if( getArguments()!= null ) {
+            searchFilter =
+                    SearchFilter.values()[getArguments().getInt( SEARCH_FILTER_ARGUMENT_KEY )];
+        }
+
+        switch ( searchFilter ) {
+            case POKEMON_FILTER:
+                pokemon = PokemonPresentationHeaderBuilder.buildPresentation( getActivity(),
+                        ((Pokemon)getArguments().getParcelable( CURRENT_POKEMON_ARGUMENT_KEY ))
+                );
+                break;
+        }
+    }
+
+    @Override
+    public void onViewSetup(View view, Bundle savedInstanceState) {
+        super.onViewSetup(view, savedInstanceState);
+        if(!isViewRecreated() && savedInstanceState == null) {
+            doRequest();
+        } else {
+            refreshAdapter();
+        }
     }
 
     @Override
@@ -86,7 +145,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 new ConfigurationSearchAdapter( configurationList, adapter );
         fullAdapter.setListener( presenter.provideConfigurationListener() );
 
-        switch ( getSearchFilter() ) {
+        switch ( searchFilter ) {
             case POKEMON_FILTER:
                 return adapter;
             case CONFIGURATION_FILTER:
@@ -99,16 +158,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     }
 
     @Override
-    public void onViewSetup(View view, Bundle savedInstanceState) {
-        super.onViewSetup(view, savedInstanceState);
-        if(!isViewRecreated() && savedInstanceState == null) {
-            doRequest();
-        } else {
-            refreshAdapter();
-        }
-    }
-
-    @Override
     public void doRequest() {
         pokemonList = PresentationBuilder.buildPokemonPresentation(
                         getActivity(), presenter.fetchPokemonList() );
@@ -116,18 +165,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                         getActivity(), presenter.fetchConfigurationList() );
 
         refreshAdapter();
-    }
-
-    /**
-     * Returns all if no search filter is found
-     * @return
-     */
-    private SearchFilter getSearchFilter() {
-        if( getArguments()!= null ) {
-            return SearchFilter.values()[getArguments().getInt( SEARCH_FILTER_ARGUMENT_KEY )];
-        }
-
-        return SearchFilter.ALL_FILTER;
     }
 
     private UseContext getUseContext() {
@@ -303,7 +340,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     }
     
     public class PokemonSearchAdapter extends SearchAdapterDecorator<PokemonPresentation,
-            PokemonSearchAdapter.PokemonViewHolder> {
+            PokemonViewHolder> {
 
         public PokemonSearchAdapter(ArrayList<PokemonPresentation> data) {
             super(data);
@@ -311,7 +348,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
         @Override
         public int getLayoutResource() {
-            return R.layout.pokemon_list_item_layout;
+            return R.layout.pokemon_list_item_cardview_layout;
         }
 
         @Override
@@ -320,54 +357,16 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         }
 
         @Override
-        public PokemonViewHolder createViewHolder( View rootView ) {
+        public PokemonViewHolder createViewHolder(View rootView ) {
             PokemonViewHolder viewHolder = new PokemonViewHolder(rootView);
-
-            viewHolder.pokemonName = rootView.findViewById(R.id.pokemon_name_text);
-            viewHolder.pokemonType = rootView.findViewById(R.id.pokemon_type_text);
-            viewHolder.baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
-
-            viewHolder.pokemonHP = rootView.findViewById(R.id.pokemon_hp_text);
-            viewHolder.pokemonAttack = rootView.findViewById(R.id.pokemon_atk_text);
-            viewHolder.pokemonDefense = rootView.findViewById(R.id.pokemon_def_text);
-            viewHolder.pokemonSpAttack = rootView.findViewById(R.id.pokemon_spa_text);
-            viewHolder.pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
-            viewHolder.pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
+            viewHolder.relateTo( rootView );
             return viewHolder;
         }
 
         @Override
         public void bindViewHolder( PokemonViewHolder holder,
                                     PokemonPresentation pokemon ) {
-            holder.pokemonName.setText(pokemon.name);
-            holder.pokemonType.setType(pokemon.type);
-            holder.baseStats.setText(pokemon.totalStats);
-            holder.pokemonHP.setText(pokemon.stats.hp);
-            holder.pokemonAttack.setText(pokemon.stats.attack);
-            holder.pokemonDefense.setText(pokemon.stats.defense);
-            holder.pokemonSpAttack.setText(pokemon.stats.spAttack);
-            holder.pokemonSpDefense.setText(pokemon.stats.spDefense);
-            holder.pokemonSpeed.setText(pokemon.stats.speed);
-        }
-
-
-        public class PokemonViewHolder extends RecyclerView.ViewHolder {
-            public PokemonPresentation pokemon;
-
-            public TextView pokemonName;
-            public TypeView pokemonType;
-            public TextView baseStats;
-
-            public TextView pokemonHP;
-            public TextView pokemonAttack;
-            public TextView pokemonDefense;
-            public TextView pokemonSpAttack;
-            public TextView pokemonSpDefense;
-            public TextView pokemonSpeed;
-
-            public PokemonViewHolder(View rootView) {
-                super(rootView);
-            }
+            holder.bindTo( pokemon );
         }
     }
 
@@ -377,7 +376,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 Context context, ArrayList<Pokemon> pokemonList ) {
             ArrayList<PokemonPresentation> presentations = new ArrayList<>();
             for( Pokemon pokemon : pokemonList ) {
-                presentations.add( PokemonPresentation.Builder
+                presentations.add( PokemonPresentationBuilder
                         .buildPresentation( context, pokemon ) );
             }
 

@@ -183,14 +183,14 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     public void onClick(View v) {
         switch ( v.getId() ) {
             case R.id.left_pokemon_image_view:
-                startActivityForResult(SearchActivity.getStartIntent(
-                        getActivity(), SearchFilter.CONFIGURATION_FILTER) ,
-                        LEFT_POKEMON_REQUEST_CODE);
+//                startActivityForResult(SearchActivity.getStartIntent(
+//                        getActivity(), SearchFilter.CONFIGURATION_FILTER) ,
+//                        LEFT_POKEMON_REQUEST_CODE);
                 break;
             case R.id.right_pokemon_image_view:
-                startActivityForResult(SearchActivity.getStartIntent(
-                        getActivity(), SearchFilter.CONFIGURATION_FILTER) ,
-                        RIGHT_POKEMON_REQUEST_CODE);
+//                startActivityForResult(SearchActivity.getStartIntent(
+//                        getActivity(), SearchFilter.CONFIGURATION_FILTER) ,
+//                        RIGHT_POKEMON_REQUEST_CODE);
                 break;
             case R.id.attack_direction_image_view:
                 changeAttackDirection();
