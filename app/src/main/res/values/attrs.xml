@@ -22,4 +22,12 @@
     <declare-styleable name="FloatingTextButton">
         <attr name="text" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="ConfigurationView">
+        <attr name="configTextColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="PokemonView">
+        <attr name="pokemonTextColor" format="color"/>
+    </declare-styleable>
 </resources>

@@ -7,7 +7,6 @@ import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.NaturePresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationBuilder;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 
 public class ConfigurationDetailsPresentation {
@@ -51,7 +50,7 @@ public class ConfigurationDetailsPresentation {
 
             return new ConfigurationDetailsPresentation(
                     formatName( configuration.getName() ),
-                    PokemonPresentationBuilder.buildPresentation(
+                    PokemonPresentation.Builder.buildPresentation(
                             context, configuration.getPokemon() ),
                     AbilityPresentation.Builder.buildPresentation(
                             context, configuration.getAbility() ),

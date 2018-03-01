@@ -9,7 +9,6 @@ import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.NaturePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
-import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationBuilder;
 
 public class OverviewConfigurationPresentation implements SearchListData {
     public final int id;
@@ -50,7 +49,7 @@ public class OverviewConfigurationPresentation implements SearchListData {
                     new OverviewConfigurationPresentation(
                             configuration.getId(),
                             formatName( configuration.getName() ),
-                            PokemonPresentationBuilder.buildPresentation( context,
+                            PokemonPresentation.Builder.buildPresentation( context,
                                     configuration.getPokemon() ),
                             totalStatsAttribute( configuration.getPokemon().getStats(),
                                     context.getResources()),

@@ -24,7 +24,7 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         super(rootView);
     }
 
-    public void relateTo( View rootView ) {
+    public void linkTo(View rootView ) {
         pokemonName = rootView.findViewById(R.id.pokemon_name_text);
         pokemonType = rootView.findViewById(R.id.pokemon_type_text);
         baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
@@ -47,14 +47,5 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonSpAttack.setText(pokemon.stats.spAttack);
         pokemonSpDefense.setText(pokemon.stats.spDefense);
         pokemonSpeed.setText(pokemon.stats.speed);
-
-        pokemonName.setTextColor(pokemon.textColor);
-        baseStats.setTextColor(pokemon.textColor);
-        pokemonHP.setTextColor(pokemon.textColor);
-        pokemonAttack.setTextColor(pokemon.textColor);
-        pokemonDefense.setTextColor(pokemon.textColor);
-        pokemonSpAttack.setTextColor(pokemon.textColor);
-        pokemonSpDefense.setTextColor(pokemon.textColor);
-        pokemonSpeed.setTextColor(pokemon.textColor);
     }
 }

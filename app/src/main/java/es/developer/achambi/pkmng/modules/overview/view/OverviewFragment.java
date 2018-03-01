@@ -33,8 +33,6 @@ import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
-import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationBuilder;
-import es.developer.achambi.pkmng.modules.overview.view.representation.Builder.PokemonPresentationHeaderBuilder;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
@@ -46,6 +44,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private static final String SEARCH_FILTER_ARGUMENT_KEY = "SEARCH_FILTER_ARGUMENT_KEY";
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
     private static final String CURRENT_POKEMON_ARGUMENT_KEY = "CURRENT_POKEMON_ARGUMENT_KEY";
+    private static final String CURRENT_CONFIGURATION_ARGUMENT_KEY =
+            "CURRENT_CONFIGURATION_ARGUMENT_KEY";
 
     private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 102;
@@ -77,11 +77,20 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         return args;
     }
 
+    public static Bundle getFragmentArgs( SearchFilter searchFilter, UseContext useContext,
+                                          PokemonConfig configuration ) {
+        Bundle args = new Bundle();
+        args.putInt( SEARCH_FILTER_ARGUMENT_KEY, searchFilter.ordinal() );
+        args.putInt( USE_CONTEXT_ARGUMENT_KEY, useContext.ordinal() );
+        args.putParcelable( CURRENT_CONFIGURATION_ARGUMENT_KEY, configuration );
+        return args;
+    }
+
     @Override
     public int getHeaderLayoutResource() {
         switch ( searchFilter ) {
             case POKEMON_FILTER:
-                return  R.layout.pokemon_list_item_layout;
+                return  R.layout.pokemon_list_item_header_layout;
             case CONFIGURATION_FILTER:
                 return super.getHeaderLayoutResource();
             case ALL_FILTER:
@@ -94,7 +103,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onHeaderSetup(View header) {
         PokemonViewHolder headerHolder = new PokemonViewHolder( header );
-        headerHolder.relateTo( header );
+        headerHolder.linkTo( header );
         headerHolder.bindTo( pokemon );
     }
 
@@ -109,7 +118,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
         switch ( searchFilter ) {
             case POKEMON_FILTER:
-                pokemon = PokemonPresentationHeaderBuilder.buildPresentation( getActivity(),
+                pokemon = PokemonPresentation.Builder.buildPresentation( getActivity(),
                         ((Pokemon)getArguments().getParcelable( CURRENT_POKEMON_ARGUMENT_KEY ))
                 );
                 break;
@@ -280,7 +289,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
         @Override
         public int getLayoutResource() {
-            return R.layout.pokemon_config_list_item_layout;
+            return R.layout.pokemon_config_list_cardview_item_layout;
         }
 
         @Override
@@ -359,7 +368,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         @Override
         public PokemonViewHolder createViewHolder(View rootView ) {
             PokemonViewHolder viewHolder = new PokemonViewHolder(rootView);
-            viewHolder.relateTo( rootView );
+            viewHolder.linkTo( rootView );
             return viewHolder;
         }
 
@@ -376,7 +385,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 Context context, ArrayList<Pokemon> pokemonList ) {
             ArrayList<PokemonPresentation> presentations = new ArrayList<>();
             for( Pokemon pokemon : pokemonList ) {
-                presentations.add( PokemonPresentationBuilder
+                presentations.add( PokemonPresentation.Builder
                         .buildPresentation( context, pokemon ) );
             }
 
