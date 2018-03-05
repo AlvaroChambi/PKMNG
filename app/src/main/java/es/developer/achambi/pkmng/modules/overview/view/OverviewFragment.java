@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,10 +18,6 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.view.AbilityView;
-import es.developer.achambi.pkmng.core.ui.view.ItemView;
-import es.developer.achambi.pkmng.core.ui.view.NatureView;
-import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
@@ -36,6 +30,7 @@ import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestio
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.overview.view.viewholder.ConfigurationViewHolder;
 import es.developer.achambi.pkmng.modules.overview.view.viewholder.PokemonViewHolder;
 
 public class OverviewFragment extends BaseSearchListFragment implements IOverviewView {
@@ -54,6 +49,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private ArrayList<PokemonPresentation> pokemonList;
     private ArrayList<OverviewConfigurationPresentation> configurationList;
     private PokemonPresentation pokemon;
+    private OverviewConfigurationPresentation configuration;
 
     private SearchFilter searchFilter;
 
@@ -92,9 +88,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
             case POKEMON_FILTER:
                 return  R.layout.pokemon_list_item_header_layout;
             case CONFIGURATION_FILTER:
-                return super.getHeaderLayoutResource();
+                return R.layout.pokemon_config_list_item_header_layout;
             case ALL_FILTER:
-                return super.getHeaderLayoutResource();
             default:
                 return super.getHeaderLayoutResource();
         }
@@ -102,9 +97,27 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     @Override
     public void onHeaderSetup(View header) {
-        PokemonViewHolder headerHolder = new PokemonViewHolder( header );
-        headerHolder.linkTo( header );
-        headerHolder.bindTo( pokemon );
+        switch ( searchFilter ) {
+            case POKEMON_FILTER:
+                if( !pokemon.empty ) {
+                    PokemonViewHolder headerHolder = new PokemonViewHolder( header );
+                    headerHolder.linkTo( header );
+                    headerHolder.bindTo( pokemon );
+                } else {
+                    header.setVisibility(View.GONE);
+                }
+                break;
+            case CONFIGURATION_FILTER:
+                if( !configuration.empty ) {
+                    ConfigurationViewHolder configurationHolder =
+                            new ConfigurationViewHolder( header );
+                    configurationHolder.linkTo( header );
+                    configurationHolder.bindTo( configuration );
+                } else {
+                    header.setVisibility(View.GONE);
+                }
+                break;
+        }
     }
 
     @Override
@@ -121,6 +134,12 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 pokemon = PokemonPresentation.Builder.buildPresentation( getActivity(),
                         ((Pokemon)getArguments().getParcelable( CURRENT_POKEMON_ARGUMENT_KEY ))
                 );
+                break;
+            case CONFIGURATION_FILTER:
+                configuration = OverviewConfigurationPresentation.Builder
+                        .buildPresentation( getActivity(),
+                        ((PokemonConfig) getArguments()
+                                .getParcelable( CURRENT_CONFIGURATION_ARGUMENT_KEY )) );
                 break;
         }
     }
@@ -277,7 +296,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     }
 
     public class ConfigurationSearchAdapter extends SearchAdapterDecorator<OverviewConfigurationPresentation,
-            ConfigurationSearchAdapter.ConfigViewHolder> {
+            ConfigurationViewHolder> {
 
         public ConfigurationSearchAdapter( ArrayList data ) {
             super(data);
@@ -298,53 +317,16 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         }
 
         @Override
-        public ConfigViewHolder createViewHolder( View rootView ) {
-            final ConfigViewHolder viewHolder = new ConfigViewHolder(rootView);
-            viewHolder.configName = rootView.findViewById(R.id.pokemon_config_name_text);
-
-            viewHolder.pokemonName = rootView.findViewById(R.id.pokemon_name_text);
-            viewHolder.pokemonType = rootView.findViewById(R.id.pokemon_type_text);
-            viewHolder.baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
-
-            viewHolder.item = rootView.findViewById(R.id.pokemon_item_text);
-            viewHolder.ability = rootView.findViewById(R.id.pokemon_ability_text);
-            viewHolder.nature = rootView.findViewById(R.id.pokemon_nature_text);
+        public ConfigurationViewHolder createViewHolder(View rootView ) {
+            final ConfigurationViewHolder viewHolder = new ConfigurationViewHolder(rootView);
+            viewHolder.linkTo( rootView );
             return viewHolder;
         }
 
         @Override
-        public void bindViewHolder(ConfigViewHolder holder,
-                                     OverviewConfigurationPresentation configuration) {
-            holder.configName.setText(configuration.name);
-            holder.pokemonName.setText(configuration.pokemon.name);
-            holder.pokemonType.setType(configuration.pokemon.type);
-            holder.baseStats.setText(configuration.totalStats);
-            holder.item.setItem(configuration.item.name,
-                    configuration.item.description,
-                    configuration.item.empty);
-            holder.ability.setAbility( configuration.ability.name,
-                    configuration.ability.description,
-                    configuration.ability.empty );
-            holder.nature.setNature(configuration.nature.name,
-                    configuration.nature.details.increased,
-                    configuration.nature.details.decreased,
-                    configuration.nature.empty);
-        }
-
-        public class ConfigViewHolder extends RecyclerView.ViewHolder {
-            public TextView configName;
-
-            public ItemView item;
-            public AbilityView ability;
-            public NatureView nature;
-            public TextView baseStats;
-
-            public TextView pokemonName;
-            public TypeView pokemonType;
-
-            public ConfigViewHolder(View rootView) {
-                super(rootView);
-            }
+        public void bindViewHolder( ConfigurationViewHolder holder,
+                                    OverviewConfigurationPresentation configuration ) {
+            holder.bindTo( configuration );
         }
     }
     

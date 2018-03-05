@@ -18,6 +18,7 @@ public class OverviewConfigurationPresentation implements SearchListData {
     public final AbilityPresentation ability;
     public final ItemPresentation item;
     public final NaturePresentation nature;
+    public final boolean empty;
 
     public OverviewConfigurationPresentation(
             int id,
@@ -26,8 +27,8 @@ public class OverviewConfigurationPresentation implements SearchListData {
             String totalStats,
             AbilityPresentation ability,
             ItemPresentation item,
-            NaturePresentation nature
-            ) {
+            NaturePresentation nature,
+            boolean empty ) {
         this.id = id;
         this.name = name;
         this.pokemon = pokemon;
@@ -35,6 +36,7 @@ public class OverviewConfigurationPresentation implements SearchListData {
         this.ability = ability;
         this.item = item;
         this.nature = nature;
+        this.empty = empty;
     }
 
     @Override
@@ -58,7 +60,8 @@ public class OverviewConfigurationPresentation implements SearchListData {
                             ItemPresentation.Builder.buildPresentation(
                                     context, configuration.getItem() ),
                             NaturePresentation.Builder.buildPresentation(
-                                    context, configuration.getNature() )
+                                    context, configuration.getNature() ),
+                            configuration.getId() == -1
                     );
             return configurationRepresentation;
         }

@@ -8,6 +8,7 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseActivity;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
+import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 
 public class SearchActivity extends BaseActivity {
@@ -16,6 +17,16 @@ public class SearchActivity extends BaseActivity {
         Intent intent = new Intent( context, SearchActivity.class );
         Bundle args = OverviewFragment.getFragmentArgs( searchFilter,
                 OverviewFragment.UseContext.REPLACE_SEARCH_CONTEXT, currentPokemon );
+
+        intent.putExtra(BASE_ARGUMENTS, args);
+        return intent;
+    }
+
+    public static Intent getStartIntent( Context context, SearchFilter searchFilter,
+                                         PokemonConfig pokemonConfig ) {
+        Intent intent = new Intent( context, SearchActivity.class );
+        Bundle args = OverviewFragment.getFragmentArgs( searchFilter,
+                OverviewFragment.UseContext.REPLACE_SEARCH_CONTEXT, pokemonConfig );
 
         intent.putExtra(BASE_ARGUMENTS, args);
         return intent;

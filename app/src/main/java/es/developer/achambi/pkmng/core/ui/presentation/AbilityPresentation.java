@@ -29,7 +29,7 @@ public class AbilityPresentation {
         private static String formatAbility( Context context,  Ability ability ) {
             String formatted = context.getString(R.string.pokemon_item_ability_tag);
             if( ability.getName() != null && !ability.getName().isEmpty() ) {
-                formatted += "  " + ability.getName();
+                formatted += ability.getName();
             } else {
                 formatted += "   - ";
             }
