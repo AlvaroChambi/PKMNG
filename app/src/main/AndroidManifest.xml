@@ -29,6 +29,7 @@
         <activity android:name="es.developer.achambi.pkmng.modules.search.nature.SearchNatureActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.search.ability.view.SearchAbilityActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity" />
+        <activity android:name="es.developer.achambi.pkmng.modules.search.pokemon.SearchPokemonActivity"/>
     </application>
 
 </manifest>

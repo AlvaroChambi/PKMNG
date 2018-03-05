@@ -30,6 +30,7 @@ import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity;
 import es.developer.achambi.pkmng.modules.search.nature.SearchNatureActivity;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
+import es.developer.achambi.pkmng.modules.search.pokemon.SearchPokemonActivity;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -150,8 +151,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     public void onClick(View v) {
         switch( v.getId() ) {
             case R.id.pokemon_image_view:
-                startActivityForResult(SearchActivity.getStartIntent(
-                        getActivity(), SearchFilter.POKEMON_FILTER,
+                startActivityForResult(SearchPokemonActivity.getStartIntent( getActivity(),
                         presenter.getPokemon()  ), REPLACE_POKEMON_RESULT_CODE );
                 break;
             case R.id.configuration_item_frame:

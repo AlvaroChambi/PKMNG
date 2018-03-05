@@ -26,6 +26,7 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
+import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSearchAdapter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
 import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
@@ -327,37 +328,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         public void bindViewHolder( ConfigurationViewHolder holder,
                                     OverviewConfigurationPresentation configuration ) {
             holder.bindTo( configuration );
-        }
-    }
-    
-    public class PokemonSearchAdapter extends SearchAdapterDecorator<PokemonPresentation,
-            PokemonViewHolder> {
-
-        public PokemonSearchAdapter(ArrayList<PokemonPresentation> data) {
-            super(data);
-        }
-
-        @Override
-        public int getLayoutResource() {
-            return R.layout.pokemon_list_item_cardview_layout;
-        }
-
-        @Override
-        public int getAdapterViewType() {
-            return R.id.pokemon_view_id;
-        }
-
-        @Override
-        public PokemonViewHolder createViewHolder(View rootView ) {
-            PokemonViewHolder viewHolder = new PokemonViewHolder(rootView);
-            viewHolder.linkTo( rootView );
-            return viewHolder;
-        }
-
-        @Override
-        public void bindViewHolder( PokemonViewHolder holder,
-                                    PokemonPresentation pokemon ) {
-            holder.bindTo( pokemon );
         }
     }
 
