@@ -6,16 +6,16 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
-import es.developer.achambi.pkmng.modules.search.item.view.ISearchItemView;
-import es.developer.achambi.pkmng.modules.search.item.view.representation.SearchItemPresentation;
+import es.developer.achambi.pkmng.modules.search.item.view.ISearchItemScreen;
+import es.developer.achambi.pkmng.modules.search.item.view.presentation.SearchItemPresentation;
 
 public class SearchItemsPresenter implements ISearchItemsPresenter,
         SearchAdapterDecorator.OnItemClickedListener<SearchItemPresentation> {
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Item> data;
-    private ISearchItemView view;
+    private ISearchItemScreen view;
 
-    public SearchItemsPresenter( ISearchItemView view ) {
+    public SearchItemsPresenter( ISearchItemScreen view ) {
         this.view = view;
     }
 

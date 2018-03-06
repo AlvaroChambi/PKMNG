@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.overview.view.representation;
+package es.developer.achambi.pkmng.modules.search.pokemon.view.presentation;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +8,7 @@ import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
+import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
 
 public class PokemonPresentation implements SearchListData {
     public final int id;

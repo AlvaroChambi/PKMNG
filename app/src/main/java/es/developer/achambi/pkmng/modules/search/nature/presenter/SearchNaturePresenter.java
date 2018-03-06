@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
-import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureView;
-import es.developer.achambi.pkmng.modules.search.nature.view.SearchNaturePresentation;
+import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureScreen;
+import es.developer.achambi.pkmng.modules.search.nature.view.presentation.SearchNaturePresentation;
 
 public class SearchNaturePresenter implements ISearchNaturePresenter,
         SearchAdapterDecorator.OnItemClickedListener<SearchNaturePresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
 
-    private ISearchNatureView searchNatureView;
+    private ISearchNatureScreen searchNatureView;
     private ArrayList<Nature> data;
 
-    public SearchNaturePresenter( ISearchNatureView searchNatureView ) {
+    public SearchNaturePresenter( ISearchNatureScreen searchNatureView ) {
         this.searchNatureView = searchNatureView;
     }
 

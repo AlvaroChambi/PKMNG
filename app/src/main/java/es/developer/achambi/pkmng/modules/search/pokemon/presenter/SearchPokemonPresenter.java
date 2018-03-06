@@ -9,17 +9,17 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
-import es.developer.achambi.pkmng.modules.overview.view.SearchPokemonView;
-import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
+import es.developer.achambi.pkmng.modules.search.pokemon.view.ISearchPokemonScreen;
+import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
 
 public class SearchPokemonPresenter implements ViewPresenter,
         SearchAdapterDecorator.OnItemClickedListener<PokemonPresentation> {
     private static final String POKEMON_DATA_SAVED_STATE = "POKEMON_DATA_SAVED_STATE";
 
     private ArrayList<Pokemon> pokemonDataList;
-    private SearchPokemonView view;
+    private ISearchPokemonScreen view;
 
-    public SearchPokemonPresenter( SearchPokemonView view ) {
+    public SearchPokemonPresenter( ISearchPokemonScreen view ) {
         this.view = view;
     }
 

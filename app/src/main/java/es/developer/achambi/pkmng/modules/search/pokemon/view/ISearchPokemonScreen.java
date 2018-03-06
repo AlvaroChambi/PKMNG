@@ -1,7 +1,7 @@
-package es.developer.achambi.pkmng.modules.overview.view;
+package es.developer.achambi.pkmng.modules.search.pokemon.view;
 
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 
-public interface SearchPokemonView {
+public interface ISearchPokemonScreen {
     void showPokemonDetails( Pokemon item );
 }

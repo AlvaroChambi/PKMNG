@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
-import es.developer.achambi.pkmng.modules.search.move.view.ISearchMoveView;
+import es.developer.achambi.pkmng.modules.search.move.view.ISearchMoveScreen;
 import es.developer.achambi.pkmng.modules.search.move.view.presentation.SearchMovePresentation;
 
 public class SearchMovePresenter implements ISearchMovePresenter,
@@ -15,9 +15,9 @@ public class SearchMovePresenter implements ISearchMovePresenter,
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
 
     private ArrayList<Move> data;
-    private ISearchMoveView view;
+    private ISearchMoveScreen view;
 
-    public SearchMovePresenter( ISearchMoveView view ) {
+    public SearchMovePresenter( ISearchMoveScreen view ) {
         this.view = view;
     }
 

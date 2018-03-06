@@ -11,7 +11,7 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
-import es.developer.achambi.pkmng.modules.search.ability.view.representation.SearchAbilityPresentation;
+import es.developer.achambi.pkmng.modules.search.ability.view.presentation.SearchAbilityPresentation;
 
 public class AbilityDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String ABILITY_ARGUMENT_KEY = "ABILITY_ARGUMENT_KEY";

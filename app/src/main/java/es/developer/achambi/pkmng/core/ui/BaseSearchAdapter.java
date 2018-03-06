@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
+import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
 
 public class BaseSearchAdapter extends RecyclerView.Adapter{
     private ArrayList<SearchListData> data;

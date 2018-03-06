@@ -19,8 +19,7 @@ import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorP
 import es.developer.achambi.pkmng.modules.calculator.view.presentation.MoveDamagePresentation;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
-import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
+import es.developer.achambi.pkmng.modules.search.configuration.view.SearchConfigurationActivity;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity;
 
@@ -183,15 +182,13 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     public void onClick(View v) {
         switch ( v.getId() ) {
             case R.id.left_pokemon_image_view:
-                startActivityForResult(SearchActivity.getStartIntent(
-                        getActivity(), SearchFilter.CONFIGURATION_FILTER,
-                        presenter.getLeftPokemon() ) ,
+                startActivityForResult( SearchConfigurationActivity.getStartIntent(
+                        getActivity(), presenter.getLeftPokemon() ) ,
                         LEFT_POKEMON_REQUEST_CODE );
                 break;
             case R.id.right_pokemon_image_view:
-                startActivityForResult(SearchActivity.getStartIntent(
-                        getActivity(), SearchFilter.CONFIGURATION_FILTER,
-                        presenter.getRightPokemon() ) ,
+                startActivityForResult( SearchConfigurationActivity.getStartIntent(
+                        getActivity(), presenter.getRightPokemon() ) ,
                         RIGHT_POKEMON_REQUEST_CODE);
                 break;
             case R.id.attack_direction_image_view:

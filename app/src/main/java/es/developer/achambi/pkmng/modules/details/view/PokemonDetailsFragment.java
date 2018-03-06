@@ -14,8 +14,7 @@ import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
-import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
+import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
 
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
@@ -26,7 +25,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
     private PokemonPresentation pokemonPresentation;
 
     public static PokemonDetailsFragment newInstance( Pokemon pokemon,
-                                                      OverviewFragment.UseContext useContext ) {
+                                                      DetailsUseContext useContext ) {
         Bundle args = new Bundle();
         args.putParcelable(POKEMON_ARGUMENT_KEY, pokemon);
         args.putInt(USE_CONTEXT_ARGUMENT_KEY, useContext.ordinal());
@@ -61,7 +60,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         Button choosePokemonButton = view.findViewById(R.id.details_choose_pokemon_action_button);
 
         actionButtonsSetup( createConfigButton, choosePokemonButton,
-                OverviewFragment.UseContext
+                DetailsUseContext
                 .values()[getArguments().getInt(USE_CONTEXT_ARGUMENT_KEY)] );
     }
 
@@ -84,14 +83,14 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
     }
 
     private void actionButtonsSetup( Button createConfigButton, Button choosePokemonButton,
-             OverviewFragment.UseContext useContext ) {
+             DetailsUseContext useContext ) {
         switch ( useContext ) {
-            case OVERVIEW_SEARCH_CONTEXT:
+            case SELECT_CONTEXT:
                 createConfigButton.setVisibility(View.VISIBLE);
                 choosePokemonButton.setVisibility(View.GONE);
                 createConfigButton.setOnClickListener(this);
                 break;
-            case REPLACE_SEARCH_CONTEXT:
+            case REPLACE_CONTEXT:
                 choosePokemonButton.setVisibility(View.VISIBLE);
                 createConfigButton.setVisibility(View.GONE);
                 choosePokemonButton.setOnClickListener(this);

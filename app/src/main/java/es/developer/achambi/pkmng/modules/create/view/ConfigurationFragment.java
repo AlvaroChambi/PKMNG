@@ -18,10 +18,8 @@ import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.model.SearchFilter;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
-import es.developer.achambi.pkmng.modules.overview.view.SearchActivity;
-import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
+import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.SearchAbilityActivity;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
@@ -30,7 +28,7 @@ import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity;
 import es.developer.achambi.pkmng.modules.search.nature.SearchNatureActivity;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
-import es.developer.achambi.pkmng.modules.search.pokemon.SearchPokemonActivity;
+import es.developer.achambi.pkmng.modules.search.pokemon.view.SearchPokemonActivity;
 
 import static android.app.Activity.RESULT_OK;
 

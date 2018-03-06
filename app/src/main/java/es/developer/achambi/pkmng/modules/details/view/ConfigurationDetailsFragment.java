@@ -33,7 +33,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     private ConfigurationDetailsPresentation configurationPresentation;
 
     public static ConfigurationDetailsFragment newInstance(PokemonConfig config,
-                                                           OverviewFragment.UseContext useContext ) {
+                                                           DetailsUseContext useContext ) {
         Bundle args = new Bundle();
         args.putParcelable(CONFIGURATION_ARGUMENT_KEY, config);
         args.putInt( USE_CONTEXT_ARGUMENT_KEY, useContext.ordinal() );
@@ -66,13 +66,13 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         view.findViewById(R.id.details_edit_configuration_action_button).setOnClickListener(this);
         view.findViewById(R.id.details_damage_calculator_action_button).setOnClickListener(this);
         view.findViewById(R.id.details_choose_configuration_action_button).setOnClickListener(this);
-        actionButtonsSetup( view, OverviewFragment.UseContext
+        actionButtonsSetup( view, DetailsUseContext
                 .values()[getArguments().getInt(USE_CONTEXT_ARGUMENT_KEY)] );
     }
 
-    public void actionButtonsSetup( View rootView, OverviewFragment.UseContext useContext ) {
+    public void actionButtonsSetup( View rootView, DetailsUseContext useContext ) {
         switch ( useContext ) {
-            case OVERVIEW_SEARCH_CONTEXT:
+            case SELECT_CONTEXT:
                 rootView.findViewById(R.id.details_edit_configuration_action_button).setVisibility(
                         View.VISIBLE );
                 rootView.findViewById(R.id.details_damage_calculator_action_button).setVisibility(
@@ -80,7 +80,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
                 rootView.findViewById(R.id.details_choose_configuration_action_button).setVisibility(
                         View.GONE );
                 break;
-            case REPLACE_SEARCH_CONTEXT:
+            case REPLACE_CONTEXT:
                 rootView.findViewById(R.id.details_edit_configuration_action_button).setVisibility(
                         View.GONE );
                 rootView.findViewById(R.id.details_damage_calculator_action_button).setVisibility(

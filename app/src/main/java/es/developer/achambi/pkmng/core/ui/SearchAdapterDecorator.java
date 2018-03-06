@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
+import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
 
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
@@ -42,7 +42,7 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
                 @Override
                 public void onClick(View v) {
                     int position = viewHolder.getAdapterPosition();
-                    if( position != NO_POSITION ) {
+                    if( position != NO_POSITION && listener != null ) {
                         listener.onItemClicked( (D)rootData.get( position ) );
                     }
                 }

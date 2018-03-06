@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.search.pokemon;
+package es.developer.achambi.pkmng.modules.search.pokemon.view;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -14,16 +14,15 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.modules.details.view.DetailsUseContext;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
-import es.developer.achambi.pkmng.modules.overview.view.SearchPokemonView;
-import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSearchAdapter;
-import es.developer.achambi.pkmng.modules.overview.view.representation.PokemonPresentation;
-import es.developer.achambi.pkmng.modules.overview.view.viewholder.PokemonViewHolder;
+import es.developer.achambi.pkmng.modules.search.pokemon.adapter.PokemonSearchAdapter;
+import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
+import es.developer.achambi.pkmng.modules.search.pokemon.adapter.PokemonViewHolder;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenter;
 
-public class SearchPokemonFragment extends BaseSearchListFragment implements SearchPokemonView {
+public class SearchPokemonFragment extends BaseSearchListFragment implements ISearchPokemonScreen {
     private static final String POKEMON_DETAILS_DIALOG_TAG = "POKEMON_DETAILS_DIALOG_TAG";
     private static final String CURRENT_POKEMON_ARGUMENT_KEY = "CURRENT_POKEMON_ARGUMENT_KEY";
 
@@ -79,6 +78,9 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements Sea
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
+        if( !isViewRecreated() ) {
+            doRequest();
+        }
     }
 
     @Override
@@ -90,14 +92,16 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements Sea
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        return new PokemonSearchAdapter( pokemonList );
+        PokemonSearchAdapter adapter = new PokemonSearchAdapter( pokemonList );
+        adapter.setListener( presenter );
+        return adapter;
     }
 
     @Override
     public void showPokemonDetails(Pokemon item) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         PokemonDetailsFragment detailsFragment = PokemonDetailsFragment.newInstance( item,
-                        OverviewFragment.UseContext.REPLACE_SEARCH_CONTEXT );
+                DetailsUseContext.REPLACE_CONTEXT );
         detailsFragment.show( transaction, POKEMON_DETAILS_DIALOG_TAG );
     }
 

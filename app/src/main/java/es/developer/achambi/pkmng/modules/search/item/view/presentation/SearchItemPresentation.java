@@ -1,7 +1,7 @@
-package es.developer.achambi.pkmng.modules.search.item.view.representation;
+package es.developer.achambi.pkmng.modules.search.item.view.presentation;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.modules.overview.view.representation.SearchListData;
+import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class SearchItemPresentation implements SearchListData{

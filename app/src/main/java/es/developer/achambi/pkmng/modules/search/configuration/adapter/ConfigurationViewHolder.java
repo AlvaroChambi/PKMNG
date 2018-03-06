@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.overview.view.viewholder;
+package es.developer.achambi.pkmng.modules.search.configuration.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,7 +9,7 @@ import es.developer.achambi.pkmng.core.ui.view.AbilityView;
 import es.developer.achambi.pkmng.core.ui.view.ItemView;
 import es.developer.achambi.pkmng.core.ui.view.NatureView;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
-import es.developer.achambi.pkmng.modules.overview.view.representation.OverviewConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.search.configuration.view.presentation.ConfigurationPresentation;
 
 public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
     public TextView configName;
@@ -38,7 +38,7 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
         nature = rootView.findViewById(R.id.pokemon_nature_text);
     }
 
-    public void bindTo( OverviewConfigurationPresentation configuration ) {
+    public void bindTo( ConfigurationPresentation configuration ) {
         configName.setText(configuration.name);
         pokemonName.setText(configuration.pokemon.name);
         pokemonType.setType(configuration.pokemon.type);

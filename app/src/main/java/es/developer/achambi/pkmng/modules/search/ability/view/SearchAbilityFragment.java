@@ -17,9 +17,9 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.AbilityDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenter;
-import es.developer.achambi.pkmng.modules.search.ability.view.representation.SearchAbilityPresentation;
+import es.developer.achambi.pkmng.modules.search.ability.view.presentation.SearchAbilityPresentation;
 
-public class SearchAbilityFragment extends BaseSearchListFragment implements ISearchAbilityView{
+public class SearchAbilityFragment extends BaseSearchListFragment implements ISearchAbilityScreen {
     private static final String CURRENT_ABILITY_ARGUMENT_KEY = "CURRENT_ABILITY_ARGUMENT_KEY";
     private static final String ABILITY_DETAILS_DIALOG_TAG = "ABILITY_DETAILS_DIALOG_TAG";
 
