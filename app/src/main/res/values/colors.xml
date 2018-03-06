@@ -10,6 +10,8 @@
     <color name="text_secondary">#000000</color>
     <color name="text_gray">#808080</color>
 
+    <color name="secondary_text_default_material_light">#8a000000</color>
+
     <color name="primary_innactive">#D3D3D3</color>
 
     <color name="nature_decreased_stat_color">#FF0000</color>

@@ -24,7 +24,7 @@ import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresen
 import es.developer.achambi.pkmng.modules.search.move.view.presentation.SearchMovePresentation;
 
 public class SearchMoveFragment extends BaseSearchListFragment
-    implements ISearchMoveView {
+    implements ISearchMoveScreen {
     private static final String CURRENT_MOVE_ARGUMENT_KEY = "CURRENT_MOVE_ARGUMENT_KEY";
 
     private SearchMovePresenter presenter;

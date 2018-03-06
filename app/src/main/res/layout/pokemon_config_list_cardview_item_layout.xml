@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pokemon_item_cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:layout_margin="8dp">
+
+    <es.developer.achambi.pkmng.core.ui.view.ConfigurationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </es.developer.achambi.pkmng.core.ui.view.ConfigurationView>
+
+</android.support.v7.widget.CardView>

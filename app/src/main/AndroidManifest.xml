@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="es.developer.achambi.pkmng.modules.overview.view.SearchActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name="es.developer.achambi.pkmng.modules.create.EditConfigurationActivity"/>
@@ -29,6 +28,8 @@
         <activity android:name="es.developer.achambi.pkmng.modules.search.nature.SearchNatureActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.search.ability.view.SearchAbilityActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.search.move.view.SearchMoveActivity" />
+        <activity android:name="es.developer.achambi.pkmng.modules.search.pokemon.view.SearchPokemonActivity"/>
+        <activity android:name="es.developer.achambi.pkmng.modules.search.configuration.view.SearchConfigurationActivity"/>
     </application>
 
 </manifest>

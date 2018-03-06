@@ -7,6 +7,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
@@ -29,15 +30,19 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.configuration_item_empty_state)).check(matches(isDisplayed()));
         onView( allOf( withId(R.id.move_view_empty_state_image),
                 isDescendantOfA(withId(R.id.configuration_move_0_frame)) ) )
+                .perform(scrollTo())
                 .check(matches(isDisplayed()));
         onView( allOf( withId(R.id.move_view_empty_state_image),
                 isDescendantOfA(withId(R.id.configuration_move_1_frame)) ) )
+                .perform(scrollTo())
                 .check(matches(isDisplayed()));
         onView( allOf( withId(R.id.move_view_empty_state_image),
                 isDescendantOfA(withId(R.id.configuration_move_2_frame)) ) )
+                .perform(scrollTo())
                 .check(matches(isDisplayed()));
         onView( allOf( withId(R.id.move_view_empty_state_image),
                 isDescendantOfA(withId(R.id.configuration_move_3_frame)) ) )
+                .perform(scrollTo())
                 .check(matches(isDisplayed()));
     }
 
@@ -50,10 +55,18 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView(withText("magic guard")).check(matches(isDisplayed()));
         onView(withText("modest")).check(matches(isDisplayed()));
 
-        onView(withText("Hidden power")).check(matches(isDisplayed()));
-        onView(withText("Thunderbolt")).check(matches(isDisplayed()));
-        onView(withText("Signal Beam")).check(matches(isDisplayed()));
-        onView(withText("Grass knot")).check(matches(isDisplayed()));
+        onView(withText("Hidden power"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("Thunderbolt"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("Signal Beam"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("Grass knot"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
     }
 
     @Test

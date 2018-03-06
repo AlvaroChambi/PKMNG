@@ -1,9 +1,8 @@
 package es.developer.achambi.pkmng.modules.overview.view;
 
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.search.configuration.view.ISearchConfigurationScreen;
+import es.developer.achambi.pkmng.modules.search.pokemon.view.ISearchPokemonScreen;
 
-public interface IOverviewView {
-    void showPokemonDetails( Pokemon pokemon );
-    void showConfigurationDetails( PokemonConfig configuration );
+public interface IOverviewView extends ISearchPokemonScreen, ISearchConfigurationScreen {
+
 }

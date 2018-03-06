@@ -17,10 +17,10 @@ import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenter;
-import es.developer.achambi.pkmng.modules.search.item.view.representation.SearchItemPresentation;
+import es.developer.achambi.pkmng.modules.search.item.view.presentation.SearchItemPresentation;
 
 public class SearchItemFragment extends BaseSearchListFragment
-        implements ISearchItemView {
+        implements ISearchItemScreen {
     private static final String ITEM_DETAILS_DIALOG_TAG = "ITEM_DETAILS_DIALOG_TAG";
     private static final String CURRENT_ITEM_ARGUMENT_KEY = "CURRENT_ITEM_ARGUMENT_KEY";
 

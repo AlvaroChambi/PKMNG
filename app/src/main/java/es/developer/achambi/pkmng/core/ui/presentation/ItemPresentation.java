@@ -31,7 +31,7 @@ public class ItemPresentation {
             if( item.getName() != null && !item.getName().isEmpty() ) {
                 formatted += item.getName();
             } else {
-                formatted += " - ";
+                formatted += "  - ";
             }
             return formatted;
         }

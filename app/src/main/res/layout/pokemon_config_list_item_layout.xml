@@ -1,140 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pokemon_item_cardview"
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:layout_margin="8dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/pokemon_image_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:srcCompat="@drawable/pokemon_placeholder"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text"
+        app:layout_constraintVertical_bias="0.5" />
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/pokemon_image_view"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:srcCompat="@drawable/pokemon_placeholder"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintHorizontal_bias="0.5"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text"
-            app:layout_constraintVertical_bias="0.5" />
+    <TextView
+        android:id="@+id/pokemon_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingRight="4dp"
+        tools:text="Pikachu"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text"
+        app:layout_constraintLeft_toRightOf="@+id/pokemon_image_view"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintRight_toLeftOf="@+id/pokemon_ability_text"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-        <TextView
-            android:id="@+id/pokemon_name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingRight="4dp"
-            tools:text="Pikachu"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text"
-            app:layout_constraintLeft_toRightOf="@+id/pokemon_image_view"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintRight_toLeftOf="@+id/pokemon_ability_text"
-            android:layout_marginRight="8dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+    <es.developer.achambi.pkmng.core.ui.view.TypeView
+        android:id="@+id/pokemon_type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingRight="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_name_text"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/pokemon_name_text"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-        <es.developer.achambi.pkmng.core.ui.view.TypeView
-            android:id="@+id/pokemon_type_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingRight="4dp"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_name_text"
-            android:layout_marginLeft="0dp"
-            app:layout_constraintLeft_toLeftOf="@+id/pokemon_name_text"
-            app:layout_constraintRight_toLeftOf="@+id/guideline"
-            android:layout_marginRight="8dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+    <TextView
+        android:id="@+id/pokemon_total_base_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingRight="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_type_text"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="BST: 234"
+        app:layout_constraintRight_toLeftOf="@+id/pokemon_nature_text"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/pokemon_type_text"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-        <TextView
-            android:id="@+id/pokemon_total_base_stats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingRight="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_type_text"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="BST: 234"
-            app:layout_constraintRight_toLeftOf="@+id/pokemon_nature_text"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="0dp"
-            app:layout_constraintLeft_toLeftOf="@+id/pokemon_type_text"
-            app:layout_constraintHorizontal_bias="0.0"/>
+    <TextView
+        android:id="@+id/pokemon_config_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="Special sweeper "
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
-            android:id="@+id/pokemon_config_name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:gravity="center"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:text="Special sweeper "
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.6"
+        android:orientation="vertical"
+        android:id="@+id/guideline" />
+    <es.developer.achambi.pkmng.core.ui.view.ItemView
+        android:id="@+id/pokemon_item_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Item: Eviolite"
+        app:layout_constraintLeft_toLeftOf="@+id/pokemon_ability_text"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_ability_text"
+        android:layout_marginLeft="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
-        <android.support.constraint.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintGuide_percent="0.6"
-            android:orientation="vertical"
-            android:id="@+id/guideline" />
-        <es.developer.achambi.pkmng.core.ui.view.ItemView
-            android:id="@+id/pokemon_item_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="Item: Eviolite"
-            app:layout_constraintLeft_toLeftOf="@+id/pokemon_ability_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_ability_text"
-            android:layout_marginLeft="0dp"
-            android:ellipsize="end"
-            android:maxLines="1"/>
+    <es.developer.achambi.pkmng.core.ui.view.AbilityView
+        android:id="@+id/pokemon_ability_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        tools:text="Ability: Magic guard"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text" />
 
-        <es.developer.achambi.pkmng.core.ui.view.AbilityView
-            android:id="@+id/pokemon_ability_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline"
-            tools:text="Ability: Magic guard"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text" />
-
-        <es.developer.achambi.pkmng.core.ui.view.NatureView
-            android:id="@+id/pokemon_nature_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="Nature: Sassy"
-            android:layout_marginLeft="0dp"
-            app:layout_constraintLeft_toLeftOf="@+id/pokemon_item_text"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/pokemon_item_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp" />
-    </android.support.constraint.ConstraintLayout>
-
-</android.support.v7.widget.CardView>
+    <es.developer.achambi.pkmng.core.ui.view.NatureView
+        android:id="@+id/pokemon_nature_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Nature: Sassy"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/pokemon_item_text"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_item_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
+</android.support.constraint.ConstraintLayout>

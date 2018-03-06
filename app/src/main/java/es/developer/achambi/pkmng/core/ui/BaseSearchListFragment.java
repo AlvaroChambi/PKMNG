@@ -34,7 +34,9 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
 
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
-        onHeaderSetup( header );
+        if( getHeaderLayoutResource() != NO_ID ) {
+            onHeaderSetup( header );
+        }
         recyclerView = view.findViewById(R.id.base_search_recycler_view);
         layoutManager = new LinearLayoutManager(getActivity());
 
