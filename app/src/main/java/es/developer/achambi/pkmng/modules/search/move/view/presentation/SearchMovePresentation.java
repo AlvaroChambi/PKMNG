@@ -37,6 +37,11 @@ public class SearchMovePresentation implements SearchListData{
         return R.id.move_view_id;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     public static class Builder {
         public static SearchMovePresentation buildPresentation(Context context, Move move ) {
             return new SearchMovePresentation(

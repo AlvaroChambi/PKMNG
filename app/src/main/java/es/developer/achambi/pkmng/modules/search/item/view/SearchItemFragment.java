@@ -25,7 +25,7 @@ public class SearchItemFragment extends BaseSearchListFragment
     private static final String CURRENT_ITEM_ARGUMENT_KEY = "CURRENT_ITEM_ARGUMENT_KEY";
 
     private SearchItemsPresenter presenter;
-    private ArrayList<SearchItemPresentation> items;
+    private ItemListAdapter adapter;
     private SearchItemPresentation item;
 
     public static final SearchItemFragment newInstance( Bundle args ) {
@@ -79,7 +79,7 @@ public class SearchItemFragment extends BaseSearchListFragment
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        ItemListAdapter adapter = new ItemListAdapter( items );
+        adapter = new ItemListAdapter();
         adapter.setListener(presenter);
         return adapter;
     }
@@ -94,8 +94,9 @@ public class SearchItemFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        items = new ItemResultDataBuilder().buildViewRepresentation( presenter.fetchItems() );
-        refreshAdapter();
+        adapter.setData(
+                new ItemResultDataBuilder().buildViewRepresentation( presenter.fetchItems() ) );
+        updateData();
     }
 
     @Override
@@ -121,8 +122,8 @@ public class SearchItemFragment extends BaseSearchListFragment
     public class ItemListAdapter extends SearchAdapterDecorator<
             SearchItemPresentation, ItemListAdapter.ItemViewHolder> {
 
-        public ItemListAdapter(ArrayList<SearchItemPresentation> data) {
-            super(data);
+        public ItemListAdapter() {
+            super();
         }
 
         @Override

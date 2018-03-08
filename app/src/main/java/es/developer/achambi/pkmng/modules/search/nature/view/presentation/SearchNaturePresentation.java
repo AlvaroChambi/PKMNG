@@ -18,6 +18,11 @@ public class SearchNaturePresentation implements SearchListData{
         return R.id.nature_view_id;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     public SearchNaturePresentation(int id, String name,
                                     NatureDetailPresentation detail, boolean empty ) {
         this.id = id;

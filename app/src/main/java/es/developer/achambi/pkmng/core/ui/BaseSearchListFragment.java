@@ -15,10 +15,17 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ViewGroup header;
+    private BaseSearchAdapter adapter;
 
     @Override
     public int getLayoutResource() {
         return R.layout.base_search_fragment_layout;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        adapter = new BaseSearchAdapter( provideAdapter() );
     }
 
     @Nullable
@@ -41,10 +48,15 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
         layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager( layoutManager );
+        setAdapter();
     }
 
-    public void refreshAdapter(){
-        recyclerView.setAdapter( new BaseSearchAdapter( provideAdapter() ) );
+    private void setAdapter(){
+        recyclerView.setAdapter( adapter );
+    }
+
+    public void updateData( ) {
+        adapter.updateData();
     }
 
     public abstract SearchAdapterDecorator provideAdapter();

@@ -28,7 +28,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
     private static final String CURRENT_MOVE_ARGUMENT_KEY = "CURRENT_MOVE_ARGUMENT_KEY";
 
     private SearchMovePresenter presenter;
-    private ArrayList<SearchMovePresentation> moves;
+    private MovesListAdapter adapter;
     private SearchMovePresentation move;
 
     public static final SearchMoveFragment newInstance( Bundle args ) {
@@ -98,9 +98,9 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        moves = new MovesPresentationBuilder().build( getActivity(),
-                presenter.fetchMoves() );
-        refreshAdapter();
+        adapter.setData( new MovesPresentationBuilder().build( getActivity(),
+                presenter.fetchMoves() ) );
+        updateData();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        MovesListAdapter adapter = new MovesListAdapter(moves);
+        adapter = new MovesListAdapter();
         adapter.setListener(presenter);
         return adapter;
     }
@@ -128,8 +128,8 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     public class MovesListAdapter extends
             SearchAdapterDecorator<SearchMovePresentation, MovesListAdapter.MovesViewHolder> {
-        public MovesListAdapter(ArrayList<SearchMovePresentation> data) {
-            super(data);
+        public MovesListAdapter() {
+            super();
         }
 
         @Override

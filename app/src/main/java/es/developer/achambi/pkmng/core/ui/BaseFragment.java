@@ -16,6 +16,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setupPresenter();
     }
 
     @Nullable
@@ -29,7 +30,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupPresenter();
         if(savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         }

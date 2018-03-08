@@ -23,6 +23,7 @@ public class ConfigurationPresenter implements IConfigurationPresenter,
     private Pokemon editablePokemon;
     private Configuration editableConfiguration;
     private PokemonConfig pokemonConfiguration;
+    private static int staticID = 1001;
 
     public ConfigurationPresenter( ) {
         editableConfiguration = new Configuration();
@@ -63,7 +64,7 @@ public class ConfigurationPresenter implements IConfigurationPresenter,
     @Override
     public ConfigurationAction saveConfiguration(String name) {
         if( pokemonConfiguration == null ) {
-            PokemonConfig config = new PokemonConfig( 1002, editablePokemon, editableConfiguration);
+            PokemonConfig config = new PokemonConfig( staticID++, editablePokemon, editableConfiguration);
             config.setName( name );
             pokemonConfiguration = config;
             return ConfigurationAction.CREATED;

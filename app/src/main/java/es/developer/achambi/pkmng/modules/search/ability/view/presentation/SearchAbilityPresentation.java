@@ -22,6 +22,11 @@ public class SearchAbilityPresentation implements SearchListData{
         return R.id.ability_view_id;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     public static class Builder {
         public static SearchAbilityPresentation buildPresentation(Ability ability ) {
             return new SearchAbilityPresentation(

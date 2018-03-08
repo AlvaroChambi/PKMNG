@@ -28,6 +28,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
     private SearchPokemonPresenter presenter;
     private ArrayList<PokemonPresentation> pokemonList;
+    private PokemonSearchAdapter adapter;
     private PokemonPresentation pokemon;
 
     public static SearchPokemonFragment newInstance( Bundle args ) {
@@ -85,14 +86,14 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void doRequest() {
-        pokemonList = PresentationBuilder.buildPresentation(
-                getActivity(), presenter.fetchPokemonList() );
-        refreshAdapter();
+        adapter.setData( PresentationBuilder.buildPresentation(
+                getActivity(), presenter.fetchPokemonList() ) );
+        updateData();
     }
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        PokemonSearchAdapter adapter = new PokemonSearchAdapter( pokemonList );
+        adapter = new PokemonSearchAdapter( );
         adapter.setListener( presenter );
         return adapter;
     }

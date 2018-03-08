@@ -11,12 +11,12 @@ import es.developer.achambi.pkmng.modules.search.configuration.view.presentation
 public class SearchConfigurationAdapter extends SearchAdapterDecorator<ConfigurationPresentation,
         ConfigurationViewHolder> {
 
-    public SearchConfigurationAdapter(ArrayList data ) {
-        super(data);
+    public SearchConfigurationAdapter(SearchAdapterDecorator adapter) {
+        super(adapter);
     }
 
-    public SearchConfigurationAdapter(ArrayList data, SearchAdapterDecorator adapter) {
-        super(data, adapter);
+    public SearchConfigurationAdapter() {
+        super();
     }
 
     @Override

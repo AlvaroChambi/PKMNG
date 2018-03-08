@@ -26,7 +26,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     private static final String CURRENT_NATURE_ARGUMENT_KEY = "CURRENT_NATURE_ARGUMENT_KEY";
 
     private SearchNaturePresenter presenter;
-    private ArrayList<SearchNaturePresentation> natureList;
+    private NatureListAdapter adapter;
     private SearchNaturePresentation nature;
 
     public static final SearchNatureFragment newInstance( Bundle args ) {
@@ -90,16 +90,14 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
 
     @Override
     public void doRequest() {
-        natureList = new NaturePresentationDataBuilder().build(
-                getActivity(), presenter.fetchNatureList()
-        );
-
-        refreshAdapter();
+        adapter.setData( new NaturePresentationDataBuilder().build(
+                getActivity(), presenter.fetchNatureList() ) );
+        updateData();
     }
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        NatureListAdapter adapter = new NatureListAdapter(natureList);
+        adapter = new NatureListAdapter();
         adapter.setListener(presenter);
         return adapter;
     }
@@ -115,8 +113,8 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
 
     public class NatureListAdapter extends
             SearchAdapterDecorator<SearchNaturePresentation, NatureListAdapter.NatureViewHolder> {
-        public NatureListAdapter(ArrayList<SearchNaturePresentation> data) {
-            super(data);
+        public NatureListAdapter() {
+            super();
         }
 
         @Override

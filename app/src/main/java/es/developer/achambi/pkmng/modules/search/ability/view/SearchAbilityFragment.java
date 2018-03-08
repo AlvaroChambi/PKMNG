@@ -24,7 +24,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     private static final String ABILITY_DETAILS_DIALOG_TAG = "ABILITY_DETAILS_DIALOG_TAG";
 
     private SearchAbilityPresenter presenter;
-    private ArrayList<SearchAbilityPresentation> abilities;
+    private AbilitiesListAdapter adapter;
     private SearchAbilityPresentation ability;
 
     public static final SearchAbilityFragment newInstance( Bundle args ) {
@@ -87,13 +87,14 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void doRequest() {
-        abilities = new AbilityPresentationDataBuilder().build( presenter.fetchAbilities() );
-        refreshAdapter();
+        adapter.setData(
+                new AbilityPresentationDataBuilder().build( presenter.fetchAbilities() ) );
+        updateData();
     }
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        AbilitiesListAdapter adapter = new AbilitiesListAdapter( abilities );
+        adapter = new AbilitiesListAdapter();
         adapter.setListener(presenter);
         return adapter;
     }
@@ -107,8 +108,8 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     public class AbilitiesListAdapter extends
             SearchAdapterDecorator<SearchAbilityPresentation,AbilitiesListAdapter.AbilityViewHolder> {
 
-        public AbilitiesListAdapter(ArrayList<SearchAbilityPresentation> data) {
-            super(data);
+        public AbilitiesListAdapter() {
+            super();
         }
 
         @Override

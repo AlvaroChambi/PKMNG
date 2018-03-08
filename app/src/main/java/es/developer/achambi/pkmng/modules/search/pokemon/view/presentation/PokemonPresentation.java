@@ -41,6 +41,11 @@ public class PokemonPresentation implements SearchListData {
         return R.id.pokemon_view_id;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     public static class Builder {
         public static PokemonPresentation buildPresentation(
                 Context context, Pokemon pokemon ) {
