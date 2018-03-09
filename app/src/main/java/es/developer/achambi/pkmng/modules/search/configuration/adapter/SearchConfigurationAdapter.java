@@ -2,8 +2,6 @@ package es.developer.achambi.pkmng.modules.search.configuration.adapter;
 
 import android.view.View;
 
-import java.util.ArrayList;
-
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.configuration.view.presentation.ConfigurationPresentation;

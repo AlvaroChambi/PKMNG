@@ -22,7 +22,6 @@ import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
 import es.developer.achambi.pkmng.modules.details.view.presentation.ConfigurationDetailsPresentation;
 import es.developer.achambi.pkmng.modules.details.view.presentation.MovePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.view.OverviewFragment;
 
 public class ConfigurationDetailsFragment extends BaseDialogFragment
         implements View.OnClickListener {

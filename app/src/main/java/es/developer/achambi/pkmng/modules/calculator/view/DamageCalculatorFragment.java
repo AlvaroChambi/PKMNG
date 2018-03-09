@@ -78,9 +78,9 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         leftPresentation = CalculatorPokemonPresentation.Builder
-                .buildPresentation( presenter.getLeftPokemon() );
+                .buildPresentation( getActivity(), presenter.getLeftPokemon() );
         rightPresentation = CalculatorPokemonPresentation.Builder
-                .buildPresentation( presenter.getRightPokemon() );
+                .buildPresentation( getActivity(), presenter.getRightPokemon() );
 
         view.findViewById(R.id.left_pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.right_pokemon_image_view).setOnClickListener(this);
@@ -111,8 +111,8 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
 
     private void populateConfiguration( View rootView ) {
         ImageView leftView = rootView.findViewById(R.id.left_pokemon_image_view);
+        TextView leftConfigurationName = rootView.findViewById(R.id.left_pokemon_configuration_name);
         if( !leftPresentation.empty ) {
-            TextView leftConfigurationName = rootView.findViewById(R.id.left_pokemon_configuration_name);
             leftConfigurationName.setText( leftPresentation.name );
             leftView.setImageResource( R.drawable.pokemon_placeholder );
             leftView.setColorFilter(null);
@@ -123,8 +123,9 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         }
 
         ImageView rightView = rootView.findViewById(R.id.right_pokemon_image_view);
+        TextView rightConfigurationName = rootView.findViewById(R.id.right_pokemon_configuration_name);
+
         if( !rightPresentation.empty ) {
-            TextView rightConfigurationName = rootView.findViewById(R.id.right_pokemon_configuration_name);
             rightConfigurationName.setText( rightPresentation.name );
             rightView.setImageResource( R.drawable.pokemon_placeholder );
             rightView.setColorFilter(null);
@@ -226,7 +227,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 presenter.setLeftPokemon( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 leftPresentation = CalculatorPokemonPresentation.Builder
-                        .buildPresentation( (PokemonConfig)data.getParcelableExtra(
+                        .buildPresentation( getActivity(), (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 populateConfiguration( getView() );
                 requestDamageResults();
@@ -234,7 +235,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 presenter.setRightPokemon( (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 rightPresentation = CalculatorPokemonPresentation.Builder
-                        .buildPresentation( (PokemonConfig)data.getParcelableExtra(
+                        .buildPresentation( getActivity(), (PokemonConfig)data.getParcelableExtra(
                         POKEMON_CONFIGURATION_EXTRA_KEY ) );
                 populateConfiguration( getView() );
                 requestDamageResults();

@@ -27,7 +27,6 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     private static final String CURRENT_POKEMON_ARGUMENT_KEY = "CURRENT_POKEMON_ARGUMENT_KEY";
 
     private SearchPokemonPresenter presenter;
-    private ArrayList<PokemonPresentation> pokemonList;
     private PokemonSearchAdapter adapter;
     private PokemonPresentation pokemon;
 

@@ -9,7 +9,7 @@
     <EditText
         android:id="@+id/ev_stat_value_text"
         style="@style/primary_text_small_with_background_style"
-        android:layout_width="28dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
