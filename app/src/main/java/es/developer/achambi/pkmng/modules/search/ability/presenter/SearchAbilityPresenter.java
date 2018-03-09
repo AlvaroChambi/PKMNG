@@ -25,7 +25,7 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
         return data;
     }
 
-    ArrayList<Ability> buildAbilityData() {
+    public ArrayList<Ability> buildAbilityData() {
         ArrayList<Ability> abilities = new ArrayList<>();
         for( int i = 0; i < 5; i++ ) {
             Ability ability = new Ability();
@@ -36,6 +36,10 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
             abilities.add(ability);
         }
         return abilities;
+    }
+
+    public ArrayList<Ability> getAbilityList() {
+        return data;
     }
 
 

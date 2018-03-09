@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.core.ui;
 
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,16 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
     protected ArrayList<D> data;
     private OnItemClickedListener<D> listener;
 
+    public SearchAdapterDecorator( SearchAdapterDecorator<D,VH> adapter ) {
+        this.adapter = adapter;
+    }
+
     public SearchAdapterDecorator( ArrayList<D> data ) {
         this.data = data;
+    }
+
+    public SearchAdapterDecorator() {
+        data = new ArrayList<>();
     }
 
     public SearchAdapterDecorator( ArrayList<D> data, SearchAdapterDecorator<D,VH> adapter  ) {
@@ -33,7 +42,7 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
     }
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType,
-                                                      final ArrayList rootData ) {
+                                                      final SortedList rootData ) {
         if( isValidAdapter( viewType ) ) {
             View rootView = LayoutInflater.from(parent.getContext())
                     .inflate(getLayoutResource(), parent, false);
@@ -65,6 +74,10 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
             data.addAll( adapter.getData() );
         }
         return data;
+    }
+
+    public void setData(ArrayList<D> dataList ) {
+        this.data = dataList;
     }
 
     public boolean isValidAdapter(int viewType ){

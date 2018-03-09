@@ -40,8 +40,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 102;
 
     private IOverviewPresenter presenter;
-    private ArrayList<PokemonPresentation> pokemonList;
-    private ArrayList<ConfigurationPresentation> configurationList;
+    private PokemonSearchAdapter pokemonSearchAdapter;
+    private SearchConfigurationAdapter configurationSearchAdapter;
 
     public static OverviewFragment newInstance( Bundle args ) {
         OverviewFragment fragment = new OverviewFragment();
@@ -52,10 +52,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onViewSetup(View view, Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if(!isViewRecreated() && savedInstanceState == null) {
+        if( savedInstanceState == null ) {
             doRequest();
-        } else {
-            refreshAdapter();
         }
     }
 
@@ -69,35 +67,32 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        PokemonSearchAdapter adapter = new PokemonSearchAdapter( pokemonList );
-        adapter.setListener( presenter.getPokemonPresenter() );
-        SearchConfigurationAdapter configurationAdapter = new SearchConfigurationAdapter(
-                configurationList );
-        configurationAdapter.setListener( presenter.getConfigurationPresenter() );
-        SearchConfigurationAdapter fullAdapter =
-                new SearchConfigurationAdapter( configurationList, adapter );
-        fullAdapter.setListener( presenter.getConfigurationPresenter() );
+        pokemonSearchAdapter = new PokemonSearchAdapter();
+        pokemonSearchAdapter.setListener( presenter.getPokemonPresenter() );
 
-        return fullAdapter;
+        configurationSearchAdapter = new SearchConfigurationAdapter( pokemonSearchAdapter );
+        configurationSearchAdapter.setListener( presenter.getConfigurationPresenter() );
+
+        return configurationSearchAdapter;
     }
 
     @Override
     public void doRequest() {
-        pokemonList = PresentationBuilder.buildPokemonPresentation  (
-                        getActivity(), presenter.fetchPokemonList() );
-        configurationList = PresentationBuilder.buildConfigurationPresentation(
-                        getActivity(), presenter.fetchConfigurationList() );
-
-        refreshAdapter();
+        pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
+                        getActivity(), presenter.fetchPokemonList() ) );
+        configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
+                        getActivity(), presenter.fetchConfigurationList() ) );
+        presentAdapterData();
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        pokemonList = PresentationBuilder.buildPokemonPresentation(
-                getActivity(), presenter.getPokemonList());
-        configurationList = PresentationBuilder.buildConfigurationPresentation(
-                getActivity(), presenter.getConfigurationList());
+        pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
+                getActivity(), presenter.getPokemonList() ) );
+        configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
+                getActivity(), presenter.getConfigurationList() ) );
+        presentAdapterData();
     }
 
     @Override
@@ -168,18 +163,18 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
             presenter.onConfigurationCreated(pokemonConfig);
 
-            configurationList = PresentationBuilder.buildConfigurationPresentation(
-                    getActivity(), presenter.getConfigurationList() );
-            refreshAdapter();
+            configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
+                    getActivity(), presenter.getConfigurationList() ) );
+            presentAdapterData();
         } else if( resultCode == Activity.RESULT_OK &&
                 requestCode == UPDATE_CONFIGURATION_REQUEST_CODE ) {
             PokemonConfig pokemonConfig = data.getParcelableExtra(
                     ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY );
             presenter.onConfigurationUpdated(pokemonConfig);
 
-            configurationList = PresentationBuilder.buildConfigurationPresentation(
-                    getActivity(), presenter.getConfigurationList() );
-            refreshAdapter();
+            configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
+                    getActivity(), presenter.getConfigurationList() ) );
+            presentAdapterData();
         }
     }
 

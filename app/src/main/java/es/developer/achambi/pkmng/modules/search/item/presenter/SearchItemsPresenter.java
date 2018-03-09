@@ -36,6 +36,10 @@ public class SearchItemsPresenter implements ISearchItemsPresenter,
         }
     }
 
+    public ArrayList<Item> getItems() {
+        return data;
+    }
+
     private ArrayList<Item> buildItemsList() {
         ArrayList<Item> items = new ArrayList<>();
         for( int i = 0; i < 959; i++ ) {

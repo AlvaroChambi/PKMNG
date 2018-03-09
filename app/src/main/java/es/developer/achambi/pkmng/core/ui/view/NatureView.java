@@ -39,6 +39,8 @@ public class NatureView extends ConstraintLayout {
             final String decreasedText, boolean empty ) {
         if( !empty ) {
             this.name.setText( name );
+            this.name.setBackgroundTintList( ContextCompat.getColorStateList( getContext(),
+                    R.color.secondary_light ) );
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {

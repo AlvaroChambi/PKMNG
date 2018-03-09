@@ -42,8 +42,36 @@ public class ConfigurationPresentation implements SearchListData {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if( this == obj ) {
+            return true;
+        }
+
+        if( obj == null ) {
+            return false;
+        }
+
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        ConfigurationPresentation presentation = (ConfigurationPresentation)obj;
+        return ( this.id == presentation.id
+                && this.name.equals( presentation.name )
+                && this.pokemon.id == presentation.pokemon.id
+                && this.totalStats.equals( presentation.totalStats )
+                && this.ability.name.equals( ability.name )
+                && this.item.name.equals( item.name )
+                && this.nature.equals( nature.name ));
+    }
+
+    @Override
     public int getViewType() {
         return R.id.pokemon_configuration_view_id;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     public static class Builder {

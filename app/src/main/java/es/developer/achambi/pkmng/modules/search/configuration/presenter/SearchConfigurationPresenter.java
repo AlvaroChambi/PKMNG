@@ -51,6 +51,18 @@ public class SearchConfigurationPresenter implements ViewPresenter,
     private ArrayList<PokemonConfig> buildConfigurationData() {
         int numberOfPokemon = 1;
         ArrayList<PokemonConfig> pokemonList = new ArrayList<>(numberOfPokemon);
+
+        Pokemon pokemon0 = new Pokemon(1);
+        pokemon0.setName("Pikachu");
+        pokemon0.setType(Type.ELECTRIC);
+        pokemon0.setHP(35);
+        pokemon0.setAttack(55);
+        pokemon0.setDefense(40);
+        pokemon0.setSpAttack(50);
+        pokemon0.setSpDefense(55);
+        pokemon0.setSpeed(50);
+        pokemonList.add(new PokemonConfig(110, pokemon0, new Configuration()));
+
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
             pokemon.setName("Pikachu");
@@ -116,16 +128,7 @@ public class SearchConfigurationPresenter implements ViewPresenter,
             config.setMove3(move3);
             pokemonList.add(pokemonConfig);
         }
-        Pokemon pokemon = new Pokemon(1);
-        pokemon.setName("Pikachu");
-        pokemon.setType(Type.ELECTRIC);
-        pokemon.setHP(35);
-        pokemon.setAttack(55);
-        pokemon.setDefense(40);
-        pokemon.setSpAttack(50);
-        pokemon.setSpDefense(55);
-        pokemon.setSpeed(50);
-        pokemonList.add(new PokemonConfig(110, pokemon, new Configuration()));
+
         return pokemonList;
     }
 

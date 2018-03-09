@@ -26,6 +26,11 @@ public class SearchItemPresentation implements SearchListData{
         return R.id.item_view_id;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
     public static class Builder {
         public static SearchItemPresentation buildPresentation( Item item ) {
             return new SearchItemPresentation(

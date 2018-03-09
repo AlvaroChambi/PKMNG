@@ -30,7 +30,7 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
 
 
     private ConfigurationPresentation configuration;
-    private ArrayList<ConfigurationPresentation> configurationList;
+    private SearchConfigurationAdapter adapter;
     private SearchConfigurationPresenter presenter;
 
     public static SearchConfigurationFragment newInstance( Bundle args ) {
@@ -74,7 +74,7 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( !isViewRecreated() ) {
+        if( savedInstanceState == null ) {
             doRequest();
         }
     }
@@ -89,14 +89,22 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        configurationList = PresentationBuilder.buildPresentation( getActivity(),
-                presenter.fetchConfigurationList() );
-        refreshAdapter();
+        adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
+                presenter.fetchConfigurationList() ) );
+        presentAdapterData();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
+                presenter.getConfigurationList() ) );
+        presentAdapterData();
     }
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        SearchConfigurationAdapter adapter = new SearchConfigurationAdapter( configurationList );
+        adapter = new SearchConfigurationAdapter( );
         adapter.setListener( presenter );
         return adapter;
     }

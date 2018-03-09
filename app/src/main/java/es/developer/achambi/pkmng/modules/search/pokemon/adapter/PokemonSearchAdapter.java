@@ -11,8 +11,8 @@ import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.Pokem
 public class PokemonSearchAdapter extends SearchAdapterDecorator<PokemonPresentation,
         PokemonViewHolder> {
 
-    public PokemonSearchAdapter(ArrayList<PokemonPresentation> data) {
-        super(data);
+    public PokemonSearchAdapter() {
+        super();
     }
 
     @Override
