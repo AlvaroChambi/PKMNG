@@ -100,7 +100,15 @@ public class SearchMoveFragment extends BaseSearchListFragment
     public void doRequest() {
         adapter.setData( new MovesPresentationBuilder().build( getActivity(),
                 presenter.fetchMoves() ) );
-        updateData();
+        presentAdapterData();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.setData( new MovesPresentationBuilder().build( getActivity(),
+                presenter.getMoves() ) );
+        presentAdapterData();
     }
 
     @Override

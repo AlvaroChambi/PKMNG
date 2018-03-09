@@ -89,7 +89,15 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     public void doRequest() {
         adapter.setData(
                 new AbilityPresentationDataBuilder().build( presenter.fetchAbilities() ) );
-        updateData();
+        presentAdapterData();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.setData(
+                new AbilityPresentationDataBuilder().build( presenter.getAbilityList() ) );
+        presentAdapterData();
     }
 
     @Override

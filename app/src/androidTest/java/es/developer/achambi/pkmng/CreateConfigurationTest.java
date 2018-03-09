@@ -181,7 +181,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
 
         onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView( withText("Test") ).check(matches(isDisplayed()));
     }
 

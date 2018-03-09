@@ -46,6 +46,10 @@ public class SearchNaturePresenter implements ISearchNaturePresenter,
         }
     }
 
+    public ArrayList<Nature> getNatureList() {
+        return data;
+    }
+
     private ArrayList<Nature> buildNatureList() {
         ArrayList<Nature> natureList = new ArrayList<>();
         for( int i = 0; i < 25 ; i++ ) {

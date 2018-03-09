@@ -79,7 +79,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( !isViewRecreated() ) {
+        if( savedInstanceState == null ) {
             doRequest();
         }
     }
@@ -88,7 +88,15 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     public void doRequest() {
         adapter.setData( PresentationBuilder.buildPresentation(
                 getActivity(), presenter.fetchPokemonList() ) );
-        updateData();
+        presentAdapterData();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.setData( PresentationBuilder.buildPresentation(
+                getActivity(), presenter.getPokemonList() ) );
+        presentAdapterData();
     }
 
     @Override

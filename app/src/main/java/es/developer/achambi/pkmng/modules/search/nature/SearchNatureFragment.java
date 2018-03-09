@@ -92,7 +92,15 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     public void doRequest() {
         adapter.setData( new NaturePresentationDataBuilder().build(
                 getActivity(), presenter.fetchNatureList() ) );
-        updateData();
+        presentAdapterData();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.setData( new NaturePresentationDataBuilder().build(
+                getActivity(), presenter.getNatureList() ) );
+        presentAdapterData();
     }
 
     @Override

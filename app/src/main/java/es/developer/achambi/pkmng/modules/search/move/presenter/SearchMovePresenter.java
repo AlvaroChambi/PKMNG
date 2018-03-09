@@ -27,6 +27,10 @@ public class SearchMovePresenter implements ISearchMovePresenter,
         return data;
     }
 
+    public ArrayList<Move> getMoves() {
+        return data;
+    }
+
     private ArrayList<Move> buildMoves() {
         ArrayList<Move> moves = new ArrayList<>();
         for( int i = 0; i < 802; i++ ) {

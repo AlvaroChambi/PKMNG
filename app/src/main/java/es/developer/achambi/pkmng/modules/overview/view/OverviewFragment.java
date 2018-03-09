@@ -5,7 +5,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -83,7 +82,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                         getActivity(), presenter.fetchPokemonList() ) );
         configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
                         getActivity(), presenter.fetchConfigurationList() ) );
-        updateData();
+        presentAdapterData();
     }
 
     @Override
@@ -93,7 +92,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 getActivity(), presenter.getPokemonList() ) );
         configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
                 getActivity(), presenter.getConfigurationList() ) );
-        updateData();
+        presentAdapterData();
     }
 
     @Override
@@ -166,7 +165,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
             configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
                     getActivity(), presenter.getConfigurationList() ) );
-            updateData();
+            presentAdapterData();
         } else if( resultCode == Activity.RESULT_OK &&
                 requestCode == UPDATE_CONFIGURATION_REQUEST_CODE ) {
             PokemonConfig pokemonConfig = data.getParcelableExtra(
@@ -175,7 +174,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
             configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
                     getActivity(), presenter.getConfigurationList() ) );
-            updateData();
+            presentAdapterData();
         }
     }
 

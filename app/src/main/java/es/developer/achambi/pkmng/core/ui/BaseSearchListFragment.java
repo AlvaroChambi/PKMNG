@@ -48,14 +48,10 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
         layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager( layoutManager );
-        setAdapter();
-    }
-
-    private void setAdapter(){
         recyclerView.setAdapter( adapter );
     }
 
-    public void updateData( ) {
+    public void presentAdapterData( ) {
         adapter.updateData();
     }
 

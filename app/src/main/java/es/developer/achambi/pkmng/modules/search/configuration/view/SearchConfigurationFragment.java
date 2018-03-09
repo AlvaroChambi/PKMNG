@@ -74,7 +74,7 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( !isViewRecreated() ) {
+        if( savedInstanceState == null ) {
             doRequest();
         }
     }
@@ -91,7 +91,15 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     public void doRequest() {
         adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
                 presenter.fetchConfigurationList() ) );
-        updateData();
+        presentAdapterData();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
+                presenter.getConfigurationList() ) );
+        presentAdapterData();
     }
 
     @Override
