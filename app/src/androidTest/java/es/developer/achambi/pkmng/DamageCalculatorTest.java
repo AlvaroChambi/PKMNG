@@ -33,9 +33,12 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
         onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
 
-        onView(allOf( withId(R.id.left_pokemon_configuration_name), withText("") )).check(
+        onView(allOf( withId(R.id.left_pokemon_configuration_name),
+                withText(R.string.text_empty_placeholder) ))
+                .check(
                 matches(isDisplayed()));
-        onView(withText(R.string.damage_calculator_empty_opponent_text)).check(matches(isDisplayed()));
+        onView(withText(R.string.damage_calculator_empty_opponent_text))
+                .check(matches(isDisplayed()));
     }
 
     @Test
