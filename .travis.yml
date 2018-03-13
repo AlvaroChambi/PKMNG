@@ -1,3 +1,7 @@
 language: android
 before_install:
   - echo "sdk.dir=$ANDROID_HOME" > local.properties
+android:
+  components:
+    - build-tools-26.0.1
+    - android-26
