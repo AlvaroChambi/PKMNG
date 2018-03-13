@@ -8,3 +8,6 @@ android:
   components:
     - build-tools-26.0.1
     - android-26
+  licenses:
+    - android-sdk-license-.+
+    - '.+'
