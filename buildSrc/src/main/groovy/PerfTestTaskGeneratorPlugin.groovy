@@ -52,22 +52,25 @@ public class PerfTestTaskGeneratorPlugin implements Plugin<Project> {
                 group: 'verification',
                 dependsOn: dependentTasks,
                 description: 'Run performance tests on all connected devices.')
-
+        String prevDeviceID = "";
         // Create a perf test task for each connected device.
         connectedDevices.each { androidDeviceId ->
-            RunLocalPerfTestsTask newTask = (RunLocalPerfTestsTask) project.tasks.create(
-                    name: ('runLocalPerfTests_' + androidDeviceId),
-                    type: RunLocalPerfTestsTask)
-            newTask.deviceId = androidDeviceId
-            // Ensure each device-specific task is run by the parent perf test task.
-            runLocalPerfTests.dependsOn(newTask)
+            if( prevDeviceID.empty || !prevDeviceID.equals( androidDeviceId ) ) {
+                RunLocalPerfTestsTask newTask = (RunLocalPerfTestsTask) project.tasks.create(
+                        name: ('runLocalPerfTests_' + androidDeviceId),
+                        type: RunLocalPerfTestsTask)
+                newTask.deviceId = androidDeviceId
+                // Ensure each device-specific task is run by the parent perf test task.
+                runLocalPerfTests.dependsOn(newTask)
 
-            // Ensure dependent tasks are depended upon by all device-specific tasks in case those
-            // are run independently.
-            newTask.dependsOn(dependentTasks)
+                // Ensure dependent tasks are depended upon by all device-specific tasks in case those
+                // are run independently.
+                newTask.dependsOn(dependentTasks)
 
-            // Add task to list of tasks created.
-            createdTasks.add(newTask)
+                // Add task to list of tasks created.
+                createdTasks.add(newTask)
+            }
+            prevDeviceID = androidDeviceId;
         }
 
         // Ensure the postTestTasks are run AFTER the performance test tasks.
