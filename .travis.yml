@@ -13,5 +13,7 @@ android:
   licenses:
     - android-sdk-license-.+
     - '.+'
-  script:
-    - ./gradlew assembleDebug assembleAndroidTest
+install:
+  - true
+script:
+  - ./gradlew assembleDebug assembleAndroidTest
