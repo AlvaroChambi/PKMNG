@@ -22,4 +22,4 @@ after_success:
   - tar xf google-cloud-sdk-127.0.0-linux-x86_64.tar.gz
   - echo "y" | ./google-cloud-sdk/bin/gcloud components update beta
   - ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file secret.json
-  - ./google-cloud-sdk/bin/gcloud beta test android run --type instrumentation --app ./app/build/output/apk/app-debug.apk --test ./app/build/output/apk/app-debug-androidTest.apk --device-ids Nexus5 --os-version-ids 22 --locales fr --orientations portrait --project pkmng-ff0d2
+  - ./google-cloud-sdk/bin/gcloud beta test android run --async --type instrumentation --app ./app/build/output/apk/app-debug.apk --test ./app/build/output/apk/app-debug-androidTest.apk --device-ids Pixel --os-version-ids 25 --locales en_US --orientations portrait --project pkmng-ff0d2
