@@ -7,6 +7,7 @@ import android.support.v4.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
@@ -42,7 +43,7 @@ public class PokemonTypePresentation {
             HashMap<Type, Float> weakAgainstList = Type.weakAgainst( type );
             for( Type currentType : weakAgainstList.keySet() ) {
                 result += TypePresentation.Builder
-                        .build(context, currentType).name.toString().toLowerCase()
+                        .build(context, currentType).name.toString().toLowerCase(Locale.getDefault())
                         + " x" + weakAgainstList.get( currentType ) + " ";
             }
             return context.getResources().getString( R.string.quick_detail_weak_against_tag,
@@ -54,7 +55,7 @@ public class PokemonTypePresentation {
             HashMap<Type, Float> resistantTo = Type.resistantAgainst( type );
             for( Type currentType : resistantTo.keySet() ) {
                 result += TypePresentation.Builder
-                        .build(context, currentType).name.toString().toLowerCase()
+                        .build(context, currentType).name.toString().toLowerCase(Locale.getDefault())
                         + " x" + resistantTo.get( currentType ) + " ";
             }
             return context.getResources().getString( R.string.quick_detail_resistant_to_tag,

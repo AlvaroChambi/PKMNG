@@ -1,8 +1,11 @@
 package es.developer.achambi.pkmng;
 
+import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.Test;
+
+import es.developer.achambi.pkmng.viewactions.CustomViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -169,7 +172,8 @@ public class DamageCalculatorTest extends BaseAutomationTest {
 
         /*scroll until the view isn't covered by the save button, scroll are performed async, so we
         * have to wait a certain amount of time*/
-        onView(withId(R.id.move_0_damage_result_view)).perform(swipeUp());
+        onView(withId(R.id.damage_results_frame_view))
+                .perform(CustomViewActions.swipeUp(GeneralLocation.BOTTOM_LEFT));
         delay(100);
         onView(withId(R.id.move_3_damage_result_view)).perform(click());
 

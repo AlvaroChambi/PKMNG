@@ -62,7 +62,7 @@ public class TypePresentation {
                 case POISON:
                     name = context.getResources().getText( R.string.type_poison_text);
                     backgroundColor = ContextCompat.getColorStateList(
-                            context , R.color.type_normal_color);
+                            context , R.color.type_poison_color);
                     break;
                 case GROUND:
                     name = context.getResources().getText( R.string.type_ground_text);

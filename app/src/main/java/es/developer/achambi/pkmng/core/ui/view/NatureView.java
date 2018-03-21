@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.core.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -44,6 +45,7 @@ public class NatureView extends ConstraintLayout {
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    @SuppressLint("InflateParams")
                     View quickDetail = LayoutInflater.from(v.getContext())
                             .inflate( R.layout.nature_quick_detail_view, null );
                     TextView increased = quickDetail.findViewById(

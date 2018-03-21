@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.core.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -43,6 +44,7 @@ public class ItemView extends ConstraintLayout {
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    @SuppressLint("InflateParams")
                     View quickDetail = LayoutInflater.from(v.getContext())
                             .inflate( R.layout.configuration_value_quick_detail_view, null );
                     TextView description = quickDetail.findViewById(
