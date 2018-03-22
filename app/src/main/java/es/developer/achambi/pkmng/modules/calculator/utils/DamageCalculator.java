@@ -8,9 +8,11 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
+import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class DamageCalculator {
+    private static final float BASE_CRITICAL_HIT_MODIFIER = 2.0f;
 
     public static Pair<Float, Float> moveDamageResult( int attackerAttack, int attackerSpAttack,
                                                        int attackedDefense, int attackedSpDefense,
@@ -42,8 +44,7 @@ public class DamageCalculator {
         float max = ( ( ( ( ( (2 * Pokemon.FIXED_LEVEL) / 5 ) + 2 ) * move.getPower() *
                 ( attack / defense ) ) / 50 )
                 + 2 ) * 1.0f;
-        Pair<Float, Float> result = new Pair<>( min, max );
-        return result;
+        return new Pair<>( min, max );
     }
 
     public static int hitsToKO( @NotNull Pair<Float, Float> moveDamage,
@@ -71,13 +72,16 @@ public class DamageCalculator {
         float burnModifier = burnModifier( move.getCategory(),
                 attacker.getConfiguration().getAbility(),
                 false );
-        float moveModifier = moveModifier();
-        float itemModifier = itemModifier();
+        float abilityModifier = abilityModifier( attacker.getConfiguration().getAbility(),
+                typeModifier );
+        float moveModifier = moveModifier( move, attacked.getAbility() );
+        float berryModifier = berryModifier( attacked.getItem(), move.getType(), typeModifier );
+        float itemModifier = attackerItemModifier( attacker.getItem(), typeModifier );
         return weatherModifier * stab * typeModifier * burnModifier * moveModifier *
-                itemModifier;
+                itemModifier * berryModifier * abilityModifier;
     }
 
-    public static final float stabModifier( @NotNull Pair<Type, Type> attackerType,
+    public static float stabModifier( @NotNull Pair<Type, Type> attackerType,
                                             @NotNull Type moveType,
                                             @NotNull Ability ability ) {
         if( attackerType.first.equals( Type.EMPTY ) ) {
@@ -98,10 +102,7 @@ public class DamageCalculator {
 
     private static boolean isSTAB( Pair<Type, Type> attackerType,
                             Type moveType ) {
-        if( attackerType.first == moveType || attackerType.second == moveType ) {
-            return true;
-        }
-        return false;
+        return ( attackerType.first == moveType || attackerType.second == moveType );
     }
 
     public static float burnModifier( @NotNull Move.Category category,
@@ -118,13 +119,105 @@ public class DamageCalculator {
         }
     }
 
-    private static float moveModifier() {
-        //move modifier can be affected by the equipped item
+    public static float criticalHitModifier( Ability ability ) {
+        if( ability.getName().equals( Ability.SNIPER ) ) {
+            return BASE_CRITICAL_HIT_MODIFIER * 1.5f;
+        }
+        return BASE_CRITICAL_HIT_MODIFIER;
+    }
+
+    public static float abilityModifier( Ability ability, float typeModifier ) {
+        if( ability.getName().equals( Ability.SOLID_ROCK )||
+                   ability.getName().equals( Ability.FILTER )||
+                   ability.getName().equals( Ability.PRISM_ARMOR ) ){
+            if( typeModifier > 1 ) {
+                return 0.75f;
+            }
+        } else if( ability.getName().equals( Ability.TINTED_LENS ) ) {
+            if( typeModifier < 1 ) {
+                return 2.0f;
+            }
+        }
+
         return 1.0f;
     }
 
-    private static float itemModifier() {
-        //can be affected by moves, and several modifiers...
+    public static float moveModifier( Move move, Ability targetAbility ) {
+        if( targetAbility.getName().equals( Ability.FLUFFY ) ) {
+            if( move.isContact() && !move.getType().equals( Type.FIRE ) ) {
+                return 0.5f;
+            } else if( !move.isContact() && move.getType().equals( Type.FIRE ) ) {
+                return 2.0f;
+            }
+        }
+        return 1.0f;
+    }
+
+    public static float berryModifier( Item targetItem, Type moveType, float typeModifier ) {
+        if( typeModifier > 1 ) {
+            if( targetItem.getName().equals( Item.OCCA_BERRY )
+                    && moveType.equals( Type.FIRE ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.PASSHO_BERRY )
+                    && moveType.equals( Type.WATER ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.WACAN_BERRY )
+                    && moveType.equals( Type.ELECTRIC ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.RINDO_BERRY )
+                    && moveType.equals( Type.GRASS ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.YACHE_BERRY )
+                    && moveType.equals( Type.ICE ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.CHOPLE_BERRY )
+                    && moveType.equals( Type.FIGHTING ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.KEBIA_BERRY )
+                    && moveType.equals( Type.POISON ) ) {
+            } else if( targetItem.getName().equals( Item.SHUCA_BERRY )
+                    && moveType.equals( Type.GROUND ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.COBA_BERRY )
+                    && moveType.equals( Type.FLYING ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.PAYAPA_BERRY )
+                    && moveType.equals( Type.PSYCHIC ) ){
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.TANGA_BERRY )
+                    && moveType.equals( Type.BUG ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.CHARTI_BERRY )
+                    && moveType.equals( Type.ROCK ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.KASIB_BERRY )
+                    && moveType.equals( Type.GHOST ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.HABAN_BERRY )
+                    && moveType.equals( Type.DRAGON ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.COLBUR_BERRY )
+                    && moveType.equals( Type.DARK ) ) {
+                return 0.5f;
+            } else if( targetItem.getName().equals( Item.BABIRI_BERRY )
+                    && moveType.equals( Type.STEEL ) ) {
+                return 0.5f;
+            }
+        }
+
+        if( targetItem.getName().equals( Item.CHILAN_BERRY )
+                && moveType.equals( Type.NORMAL ) ) {
+            return 0.5f;
+        }
+        return 1.0f;
+    }
+
+    public static float attackerItemModifier( Item item, float typeModifier ) {
+        if( item.getName().equals( Item.EXPERT_BELT ) && typeModifier > 1 ) {
+            return 1.2f;
+        } else if( item.getName().equals( Item.LIFE_ORB ) ) {
+            return 1.3f;
+        }
         return 1.0f;
     }
 }

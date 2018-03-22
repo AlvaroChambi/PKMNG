@@ -20,12 +20,14 @@ public class Move implements Parcelable{
     private int power;
     private int accuracy;
     private int pp;
+    private boolean contact;
 
     public Move( int id ) {
         this.id = id;
         name = "";
         type = Type.EMPTY;
         category = Category.EMPTY;
+        contact = false;
     }
 
     public Move() {
@@ -33,7 +35,7 @@ public class Move implements Parcelable{
     }
 
     public Move(int id, String name, String effect, Type type, Category category,
-                int power, int accuracy, int pp) {
+                int power, int accuracy, int pp, boolean contact) {
         this.id = id;
         this.name = name;
         this.effect = effect;
@@ -42,11 +44,12 @@ public class Move implements Parcelable{
         this.power = power;
         this.accuracy = accuracy;
         this.pp = pp;
+        this.contact = contact;
     }
 
     public Move( Move move ) {
         this( move.getId(), move.getName(), move.getEffect(), move.getType(), move.getCategory(),
-                move.getPower(), move.getAccuracy(), move.getPp() );
+                move.getPower(), move.getAccuracy(), move.getPp(), move.isContact() );
     }
 
     protected Move(Parcel in) {
@@ -58,6 +61,15 @@ public class Move implements Parcelable{
         power = in.readInt();
         accuracy = in.readInt();
         pp = in.readInt();
+        contact = ParcelUtil.readBoolean( in );
+    }
+
+    public void setContact( boolean isContact ) {
+        this.contact = isContact;
+    }
+
+    public boolean isContact() {
+        return contact;
     }
 
     public int getId() {
