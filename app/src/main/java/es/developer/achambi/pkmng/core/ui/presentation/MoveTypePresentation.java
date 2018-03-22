@@ -5,6 +5,7 @@ import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
@@ -33,7 +34,7 @@ public class MoveTypePresentation {
             HashMap<Type, Float> effectiveAgainst = type.effectiveAgainst();
             for( Type currentType : effectiveAgainst.keySet() ) {
                 result += TypePresentation.Builder.build( context, currentType )
-                        .name.toString().toLowerCase()
+                        .name.toString().toLowerCase(Locale.getDefault())
                         + " x" + effectiveAgainst.get( currentType ) + " ";
             }
             return context.getResources().getString( R.string.quick_detail_effective_against_tag,

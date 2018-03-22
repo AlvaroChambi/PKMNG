@@ -36,13 +36,12 @@
         android:layout_height="86dp"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="0dp"
         app:layout_constraintTop_toTopOf="@+id/configuration_floating_save_button_middle"
         app:layout_constraintBottom_toBottomOf="@+id/configuration_floating_save_button_middle"
         android:layout_marginBottom="0dp"
         app:layout_constraintRight_toLeftOf="@+id/configuration_floating_save_button_middle"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         app:text="Left"
         android:visibility="gone">
     </es.developer.achambi.pkmng.core.ui.FloatingTextButton>
@@ -54,7 +53,6 @@
         android:layout_gravity="center_horizontal|bottom"
         app:layout_constraintBottom_toBottomOf="@+id/configuration_floating_save_button_middle"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintLeft_toRightOf="@+id/configuration_floating_save_button_middle"

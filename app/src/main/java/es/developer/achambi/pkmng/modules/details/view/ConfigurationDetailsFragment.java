@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.details.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -127,6 +128,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     }
 
     private void displayMoveQuickDetails( MovePresentation move, View anchor ) {
+        @SuppressLint("InflateParams")
         View quickDetail = LayoutInflater.from(getActivity())
                 .inflate(R.layout.move_quick_detail_view, null);
         TextView power = quickDetail.findViewById( R.id.move_quick_detail_power_text );

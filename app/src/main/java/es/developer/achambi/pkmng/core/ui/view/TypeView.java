@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.core.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -52,9 +53,9 @@ public class TypeView extends LinearLayout {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                View quickDetail =
-                        LayoutInflater.from(v.getContext())
-                                .inflate(R.layout.type_quick_detail_view, null);
+                @SuppressLint("InflateParams")
+                View quickDetail = LayoutInflater.from(v.getContext())
+                        .inflate(R.layout.type_quick_detail_view, null);
                 TextView effective = quickDetail.findViewById(R.id.type_quick_detail_top_text);
                 TextView weak = quickDetail.findViewById(R.id.type_quick_details_bottom_text);
                 effective.setText( pokemonType.resistantTo );
@@ -71,6 +72,7 @@ public class TypeView extends LinearLayout {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("InflateParams")
                 View quickDetail = LayoutInflater.from(v.getContext())
                                 .inflate(R.layout.type_quick_detail_view, null);
                 TextView effective = quickDetail.findViewById(R.id.type_quick_detail_top_text);

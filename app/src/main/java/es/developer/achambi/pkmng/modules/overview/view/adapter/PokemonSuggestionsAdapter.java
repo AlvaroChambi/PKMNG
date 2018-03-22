@@ -7,9 +7,11 @@ import android.provider.BaseColumns;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 
+import java.util.Locale;
+
 
 public class PokemonSuggestionsAdapter extends SimpleCursorAdapter {
-    public final static String POKEMON_KEY = "pokemonName";
+    private final static String POKEMON_KEY = "pokemonName";
     private final String[] data = new String[]{"Bulbasaur", "Ivysaur", "Venasaur", "Squirtle",
             "Warturtle","Blastoise", "Charmander", "Charmeleon", "Charizard"};
 
@@ -30,7 +32,8 @@ public class PokemonSuggestionsAdapter extends SimpleCursorAdapter {
                 BaseColumns._ID, POKEMON_KEY
         });
         for (int i = 0; i < data.length; i++){
-            if(data[i].toLowerCase().startsWith(newText.toLowerCase())) {
+            if(data[i].toLowerCase(Locale.getDefault()).startsWith(
+                    newText.toLowerCase(Locale.getDefault()))) {
                 matrixCursor.addRow(new Object[]{i, data[i]});
             }
         }

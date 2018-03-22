@@ -40,6 +40,7 @@ public class FloatingTextButton extends FrameLayout {
                 TextView textView = findViewById(R.id.floating_button_text);
                 textView.setText( text );
             }
+            typedArray.recycle();
         }
     }
 }

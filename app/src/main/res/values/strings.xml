@@ -14,7 +14,7 @@
     <string name="search_move_activity_title">Choose Move</string>
 
     <string name="item_description_text_placeholder">Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.</string>
-    <string name="ability_description_text_placeholder">Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.</string>
+    <string name="ability_description_text_placeholder"><![CDATA[Strengthens grass moves to inflict 1.5× damage at &#8531; max HP or less.]]></string>
 
     <string name="configuration_item_title">Item</string>
     <string name="configuration_nature_title">Nature</string>
@@ -38,13 +38,6 @@
     <string name="pokemon_item_sp_defense_tag">Spd</string>
     <string name="pokemon_item_speed_tag">Spe</string>
 
-    <string name="stat_hp_text">HP</string>
-    <string name="stat_attack_text">Attack</string>
-    <string name="stat_defense_text">Defense</string>
-    <string name="stat_sp_attack_text">Sp.Attack</string>
-    <string name="stat_sp_defense_text">Sp.Defense</string>
-    <string name="stat_speed_text">Speed</string>
-
     <string name="ev_bar_hp_text">HP</string>
     <string name="ev_bar_attack_text">Attack</string>
     <string name="ev_bar_defense_text">Defense</string>
@@ -56,7 +49,6 @@
     <string name="nature_decreased_stat_text">- %1$s</string>
 
     <string name="pokemon_details_dialog_title">Pokemon details</string>
-    <string name="configuration_details_dialog_title">Pokemon Configuration details</string>
     <string name="item_details_dialog_title">Item details</string>
     <string name="ability_details_dialog_title">Ability details</string>
 
