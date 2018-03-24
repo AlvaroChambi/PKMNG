@@ -6,6 +6,13 @@ import android.os.Parcelable;
 public class Ability implements Parcelable {
     public static final String ADAPTABILITY = "Adaptability";
     public static final String GUTS = "Guts";
+    public static final String FLUFFY = "Fluffy";
+    public static final String SOLID_ROCK = "Solid Rock";
+    public static final String FILTER = "Filter";
+    public static final String PRISM_ARMOR = "Prism Armor";
+    public static final String SNIPER = "Sniper";
+    public static final String TINTED_LENS = "Tinted Lens";
+
     private int id;
     private String name;
     private String description;

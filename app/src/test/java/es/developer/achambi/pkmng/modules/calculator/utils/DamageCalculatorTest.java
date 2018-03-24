@@ -165,4 +165,83 @@ public class DamageCalculatorTest {
                 guts, true );
         assertEquals( 1.0f, result );
     }
+
+    @Test
+    public void abilityModifierSolidRockSuperEffective() {
+        Ability ability = new Ability();
+        ability.setName("Solid Rock");
+        float superEffective = 2.0f;
+        float result = DamageCalculator.abilityModifier( ability, superEffective );
+
+        assertEquals( 0.75f, result );
+    }
+
+    @Test
+    public void abilityModifierSolidRock() {
+        Ability ability = new Ability();
+        ability.setName("Solid Rock");
+        float effective = 1.0f;
+        float result = DamageCalculator.abilityModifier( ability, effective );
+
+        assertEquals( 1.0f, result );
+    }
+
+    @Test
+    public void abilityModifierTintedLensEffective() {
+        Ability ability = new Ability();
+        ability.setName("Tinted Lens");
+        float effective = 1.0f;
+        float result = DamageCalculator.abilityModifier( ability, effective );
+
+        assertEquals( 1.0f, result );
+    }
+
+    @Test
+    public void abilityModifierTintedLensNotEffective() {
+        Ability ability = new Ability();
+        ability.setName("Tinted Lens");
+        float notEffective = 0.5f;
+        float result = DamageCalculator.abilityModifier( ability, notEffective );
+
+        assertEquals( 2.0f, result );
+    }
+
+    @Test
+    public void moveModifierFluffyFireContact() {
+        Ability ability = new Ability();
+        ability.setName( "Fluffy" );
+        Move move = new Move();
+        move.setContact( true );
+        move.setType( Type.FIRE );
+
+        float result = DamageCalculator.moveModifier( move, ability );
+
+        assertEquals( 1.0f, result );
+    }
+
+    @Test
+    public void moveModifierFluffyFireNotContact() {
+        Ability ability = new Ability();
+        ability.setName( "Fluffy" );
+        Move move = new Move();
+        move.setContact( false );
+        move.setType( Type.FIRE );
+
+        float result = DamageCalculator.moveModifier( move, ability );
+
+        assertEquals( 2.0f, result );
+    }
+
+    @Test
+    public void moveModifierFluffyNotFireContact() {
+        Ability ability = new Ability();
+        ability.setName( "Fluffy" );
+        Move move = new Move();
+        move.setContact( true );
+        move.setType( Type.WATER );
+
+        float result = DamageCalculator.moveModifier( move, ability );
+
+        assertEquals( 0.5f, result );
+    }
 }
