@@ -163,5 +163,6 @@ public class Move implements Parcelable{
         dest.writeInt(power);
         dest.writeInt(accuracy);
         dest.writeInt(pp);
+        ParcelUtil.writeBoolean(dest, contact);
     }
 }
