@@ -83,22 +83,20 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> data) {
-                super.onSuccess(data);
                 pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
                         getActivity(), data.getData() ) );
                 presentAdapterData();
             }
         });
 
-/*        presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
+        presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> data) {
-                super.onSuccess(data);
                 configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
                         getActivity(), data.getData() ) );
                 presentAdapterData();
             }
-        });*/
+        });
     }
 
     @Override

@@ -35,12 +35,12 @@ public class SearchConfigurationPresenter implements ViewPresenter,
     }
 
     public void fetchConfigurationList(
-            ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
-        responseHandler = new ResponseHandler<ArrayList<PokemonConfig>>( responseHandler ) {
+            final ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
+        ResponseHandler handler = new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> data) {
                 pokemonConfigList = data.getData();
-                super.onSuccess(data);
+                responseHandler.onSuccess(data);
             }
         };
 
@@ -49,7 +49,7 @@ public class SearchConfigurationPresenter implements ViewPresenter,
             public Response perform() {
                 return new Response<>( buildConfigurationData() );
             }
-        }, responseHandler );
+        }, handler );
     }
 
     public ArrayList<PokemonConfig> getConfigurationList() {

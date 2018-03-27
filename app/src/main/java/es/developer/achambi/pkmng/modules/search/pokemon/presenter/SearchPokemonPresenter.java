@@ -40,12 +40,12 @@ public class SearchPokemonPresenter implements ViewPresenter,
         return pokemonDataList;
     }
 
-    public void fetchPokemonList( ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
-        responseHandler = new ResponseHandler<ArrayList<Pokemon>>( responseHandler ) {
+    public void fetchPokemonList(final ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
+        ResponseHandler handler = new ResponseHandler<ArrayList<Pokemon>>( ) {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> data) {
                 pokemonDataList = data.getData();
-                super.onSuccess(data);
+                responseHandler.onSuccess( data );
             }
         };
 
@@ -54,7 +54,7 @@ public class SearchPokemonPresenter implements ViewPresenter,
             public Response perform() {
                 return new Response<>( buildPokemonData() );
             }
-        }, responseHandler );
+        }, handler );
     }
 
     private ArrayList<Pokemon> buildPokemonData( ) {

@@ -94,7 +94,6 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
         presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> data) {
-                super.onSuccess(data);
                 adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
                         data.getData() ) );
                 presentAdapterData();
