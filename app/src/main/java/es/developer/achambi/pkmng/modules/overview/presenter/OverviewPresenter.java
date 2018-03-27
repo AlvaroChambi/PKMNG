@@ -5,6 +5,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
@@ -32,14 +36,13 @@ public class OverviewPresenter implements IOverviewPresenter {
         Log.i(TAG, "query text changed: " + query);
     }
 
-    @Override
-    public ArrayList<Pokemon> fetchPokemonList() {
-        return pokemonPresenter.fetchPokemonList();
+    public void fetchPokemonList( ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
+        pokemonPresenter.fetchPokemonList( responseHandler );
     }
 
-    @Override
-    public ArrayList<PokemonConfig> fetchConfigurationList() {
-        return configurationPresenter.fetchConfigurationList();
+    public void fetchConfigurationList(
+            ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
+        configurationPresenter.fetchConfigurationList( responseHandler );
     }
 
     @Override

@@ -11,8 +11,6 @@ import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemon
 public interface IOverviewPresenter extends ViewPresenter {
     void onQueryTextSubmit(String query);
     void onQueryTextChanged(String query);
-    ArrayList<Pokemon> fetchPokemonList();
-    ArrayList<PokemonConfig> fetchConfigurationList();
 
     ArrayList<Pokemon> getPokemonList();
     ArrayList<PokemonConfig> getConfigurationList();

@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
@@ -39,7 +41,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 102;
 
-    private IOverviewPresenter presenter;
+    private OverviewPresenter presenter;
     private PokemonSearchAdapter pokemonSearchAdapter;
     private SearchConfigurationAdapter configurationSearchAdapter;
 
@@ -78,11 +80,25 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     @Override
     public void doRequest() {
-        pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
-                        getActivity(), presenter.fetchPokemonList() ) );
-        configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
-                        getActivity(), presenter.fetchConfigurationList() ) );
-        presentAdapterData();
+        presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Pokemon>> data) {
+                super.onSuccess(data);
+                pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
+                        getActivity(), data.getData() ) );
+                presentAdapterData();
+            }
+        });
+
+/*        presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<PokemonConfig>> data) {
+                super.onSuccess(data);
+                configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
+                        getActivity(), data.getData() ) );
+                presentAdapterData();
+            }
+        });*/
     }
 
     @Override

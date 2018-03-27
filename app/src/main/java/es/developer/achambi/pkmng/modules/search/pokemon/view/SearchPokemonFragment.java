@@ -11,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Error;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
@@ -85,9 +88,19 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void doRequest() {
-        adapter.setData( PresentationBuilder.buildPresentation(
-                getActivity(), presenter.fetchPokemonList() ) );
-        presentAdapterData();
+        presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Pokemon>> data) {
+                adapter.setData( PresentationBuilder.buildPresentation(
+                        getActivity(), data.getData() ) );
+                presentAdapterData();
+            }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+            }
+        });
     }
 
     @Override

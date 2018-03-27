@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
@@ -89,9 +91,15 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
-                presenter.fetchConfigurationList() ) );
-        presentAdapterData();
+        presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<PokemonConfig>> data) {
+                super.onSuccess(data);
+                adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
+                        data.getData() ) );
+                presentAdapterData();
+            }
+        });
     }
 
     @Override

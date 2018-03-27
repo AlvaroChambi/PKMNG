@@ -4,6 +4,10 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
@@ -30,9 +34,22 @@ public class SearchConfigurationPresenter implements ViewPresenter,
         this.view = view;
     }
 
-    public ArrayList<PokemonConfig> fetchConfigurationList() {
-        pokemonConfigList = buildConfigurationData();
-        return pokemonConfigList;
+    public void fetchConfigurationList(
+            ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
+        responseHandler = new ResponseHandler<ArrayList<PokemonConfig>>( responseHandler ) {
+            @Override
+            public void onSuccess(Response<ArrayList<PokemonConfig>> data) {
+                pokemonConfigList = data.getData();
+                super.onSuccess(data);
+            }
+        };
+
+        MainExecutor.executor().executeRequest(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( buildConfigurationData() );
+            }
+        }, responseHandler );
     }
 
     public ArrayList<PokemonConfig> getConfigurationList() {

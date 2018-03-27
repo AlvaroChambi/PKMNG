@@ -4,6 +4,10 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
@@ -36,13 +40,25 @@ public class SearchPokemonPresenter implements ViewPresenter,
         return pokemonDataList;
     }
 
-    public ArrayList<Pokemon> fetchPokemonList() {
-        pokemonDataList = buildPokemonData();
-        return pokemonDataList;
+    public void fetchPokemonList( ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
+        responseHandler = new ResponseHandler<ArrayList<Pokemon>>( responseHandler ) {
+            @Override
+            public void onSuccess(Response<ArrayList<Pokemon>> data) {
+                pokemonDataList = data.getData();
+                super.onSuccess(data);
+            }
+        };
+
+        MainExecutor.executor().executeRequest( new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( buildPokemonData() );
+            }
+        }, responseHandler );
     }
 
     private ArrayList<Pokemon> buildPokemonData( ) {
-        int numberOfPokemon = 5;
+        int numberOfPokemon = 900;
         ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
             Pokemon pokemon = new Pokemon(i);
