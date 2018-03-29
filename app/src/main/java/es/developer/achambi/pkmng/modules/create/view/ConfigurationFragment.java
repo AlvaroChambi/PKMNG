@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
@@ -32,7 +33,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.view.SearchPokemonActiv
 
 import static android.app.Activity.RESULT_OK;
 
-public class ConfigurationFragment extends BaseRequestFragment
+public class ConfigurationFragment extends BaseFragment
         implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
@@ -319,11 +320,6 @@ public class ConfigurationFragment extends BaseRequestFragment
                 break;
         }
         getActivity().finish();
-    }
-
-    @Override
-    public void doRequest() {
-
     }
 
     @Override

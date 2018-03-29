@@ -3,17 +3,18 @@ package es.developer.achambi.pkmng.core.threading;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class MainExecutor extends ThreadPoolExecutor {
+    private static final long KEEP_ALIVE_TIME = 0;
+    private static final int THREAD_NUMBERS = 4;
     private static final Handler MAIN_HANDLER = new Handler( Looper.getMainLooper() );
     private static MainExecutor instance;
 
-    public MainExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
-                        TimeUnit unit, BlockingQueue<Runnable> workQueue) {
+    private MainExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
+                        TimeUnit unit, LinkedBlockingQueue<Runnable> workQueue) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue);
     }
 
@@ -54,8 +55,10 @@ public class MainExecutor extends ThreadPoolExecutor {
 
     public static MainExecutor executor() {
         if( instance == null ) {
-            instance = new MainExecutor( 4, 4, 5000, TimeUnit.MILLISECONDS,
-                    new ArrayBlockingQueue<Runnable>(10) );
+            instance = new MainExecutor( THREAD_NUMBERS, THREAD_NUMBERS,
+                    KEEP_ALIVE_TIME,
+                    TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>());
         }
         return instance;
     }

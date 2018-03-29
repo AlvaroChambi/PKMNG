@@ -25,7 +25,6 @@ import es.developer.achambi.pkmng.modules.details.view.DetailsUseContext;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenter;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.search.pokemon.adapter.PokemonSearchAdapter;
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
@@ -80,21 +79,24 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     @Override
     public void doRequest() {
+        super.doRequest();
         presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
             @Override
-            public void onSuccess(Response<ArrayList<Pokemon>> data) {
+            public void onSuccess(Response<ArrayList<Pokemon>> response) {
                 pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
-                        getActivity(), data.getData() ) );
+                        getActivity(), response.getData() ) );
                 presentAdapterData();
+                hideLoading();
             }
         });
 
         presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
-            public void onSuccess(Response<ArrayList<PokemonConfig>> data) {
+            public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
                 configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
-                        getActivity(), data.getData() ) );
+                        getActivity(), response.getData() ) );
                 presentAdapterData();
+                hideLoading();
             }
         });
     }

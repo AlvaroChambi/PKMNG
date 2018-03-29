@@ -11,6 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
@@ -87,9 +89,16 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void doRequest() {
-        adapter.setData(
-                new AbilityPresentationDataBuilder().build( presenter.fetchAbilities() ) );
-        presentAdapterData();
+        super.doRequest();
+        presenter.fetchAbilities(new ResponseHandler<ArrayList<Ability>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Ability>> response) {
+                adapter.setData(
+                        new AbilityPresentationDataBuilder().build( response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
     }
 
     @Override

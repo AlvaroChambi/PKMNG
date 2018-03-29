@@ -22,6 +22,7 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
 
     public SearchAdapterDecorator( SearchAdapterDecorator<D,VH> adapter ) {
         this.adapter = adapter;
+        data = new ArrayList<>();
     }
 
     public SearchAdapterDecorator( ArrayList<D> data ) {

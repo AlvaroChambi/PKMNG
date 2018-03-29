@@ -4,6 +4,10 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -22,9 +26,20 @@ public class SearchMovePresenter implements ISearchMovePresenter,
     }
 
     @Override
-    public ArrayList<Move> fetchMoves() {
-        data = buildMoves();
-        return data;
+    public void fetchMoves(final ResponseHandler<ArrayList<Move>> responseHandler ) {
+        ResponseHandler<ArrayList<Move>> handler = new ResponseHandler<ArrayList<Move>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Move>> response) {
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+        };
+        MainExecutor.executor().executeRequest(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( buildMoves() );
+            }
+        }, handler );
     }
 
     public ArrayList<Move> getMoves() {

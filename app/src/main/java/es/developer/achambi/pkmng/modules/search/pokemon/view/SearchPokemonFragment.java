@@ -88,12 +88,14 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void doRequest() {
+        super.doRequest();
         presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
             @Override
-            public void onSuccess(Response<ArrayList<Pokemon>> data) {
+            public void onSuccess(Response<ArrayList<Pokemon>> response) {
                 adapter.setData( PresentationBuilder.buildPresentation(
-                        getActivity(), data.getData() ) );
+                        getActivity(), response.getData() ) );
                 presentAdapterData();
+                hideLoading();
             }
 
             @Override

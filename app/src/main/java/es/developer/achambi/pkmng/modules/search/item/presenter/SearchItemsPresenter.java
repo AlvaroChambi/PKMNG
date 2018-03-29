@@ -4,6 +4,10 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.view.ISearchItemScreen;
@@ -20,11 +24,21 @@ public class SearchItemsPresenter implements ISearchItemsPresenter,
     }
 
     @Override
-    public ArrayList<Item> fetchItems() {
-        if( data == null ) {
-            data = buildItemsList();
-        }
-        return data;
+    public void fetchItems(final ResponseHandler<ArrayList<Item>> responseHandler ) {
+        ResponseHandler<ArrayList<Item>> handler = new ResponseHandler<ArrayList<Item>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Item>> response) {
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+        };
+
+        MainExecutor.executor().executeRequest(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( buildItemsList() );
+            }
+        }, handler );
     }
 
     @Override

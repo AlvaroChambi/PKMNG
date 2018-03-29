@@ -4,6 +4,10 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
@@ -32,9 +36,21 @@ public class SearchNaturePresenter implements ISearchNaturePresenter,
     }
 
     @Override
-    public ArrayList<Nature> fetchNatureList() {
-        data = buildNatureList();
-        return data;
+    public void fetchNatureList(final ResponseHandler<ArrayList<Nature>> responseHandler ) {
+        ResponseHandler<ArrayList<Nature>> handler = new ResponseHandler<ArrayList<Nature>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Nature>> response) {
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+        };
+
+        MainExecutor.executor().executeRequest(new Request() {
+            @Override
+            public Response perform() {
+                return new Response( buildNatureList() );
+            }
+        }, handler);
     }
 
     @Override

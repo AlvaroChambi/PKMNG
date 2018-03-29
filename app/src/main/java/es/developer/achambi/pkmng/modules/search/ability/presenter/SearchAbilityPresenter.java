@@ -4,6 +4,10 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.ISearchAbilityScreen;
@@ -20,9 +24,21 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
     }
 
     @Override
-    public ArrayList<Ability> fetchAbilities() {
-        data = buildAbilityData();
-        return data;
+    public void fetchAbilities(final ResponseHandler<ArrayList<Ability>> responseHandler ) {
+        ResponseHandler<ArrayList<Ability>> handler = new ResponseHandler<ArrayList<Ability>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Ability>> response) {
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+        };
+
+        MainExecutor.executor().executeRequest(new Request() {
+            @Override
+            public Response perform() {
+                return new Response( buildAbilityData() );
+            }
+        }, handler);
     }
 
     public ArrayList<Ability> buildAbilityData() {

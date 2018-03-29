@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.ViewPresenter;
@@ -98,9 +100,16 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        adapter.setData( new MovesPresentationBuilder().build( getActivity(),
-                presenter.fetchMoves() ) );
-        presentAdapterData();
+        super.doRequest();
+        presenter.fetchMoves(new ResponseHandler<ArrayList<Move>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Move>> response) {
+                adapter.setData( new MovesPresentationBuilder().build( getActivity(),
+                        response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
     }
 
     @Override
