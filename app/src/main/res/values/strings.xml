@@ -95,4 +95,7 @@
     <string name="move_accuracy_text_tag">Accuracy</string>
 
     <string name="text_empty_placeholder">-</string>
+
+    <string name="error_message_placeholder">Can\'t load data</string>
+    <string name="error_message_retry">TRY AGAIN</string>
 </resources>

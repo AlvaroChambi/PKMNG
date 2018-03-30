@@ -66,10 +66,6 @@ public class SearchConfigurationPresenter implements ViewPresenter,
     }
 
     private ArrayList<PokemonConfig> buildConfigurationData() {
-        try {
-            Thread.sleep( 500 );
-        } catch (InterruptedException e) {
-        }
         int numberOfPokemon = 1;
         ArrayList<PokemonConfig> pokemonList = new ArrayList<>(numberOfPokemon);
 

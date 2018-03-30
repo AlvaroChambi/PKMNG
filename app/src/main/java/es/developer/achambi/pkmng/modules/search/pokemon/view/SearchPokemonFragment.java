@@ -100,9 +100,14 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
             @Override
             public void onError(Error error) {
-                super.onError(error);
+               showError( error );
             }
         });
+    }
+
+    @Override
+    public void onRetry() {
+        doRequest();
     }
 
     @Override

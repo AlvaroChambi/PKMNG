@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
@@ -47,21 +48,23 @@ public class SearchPokemonPresenter implements ViewPresenter,
                 pokemonDataList = response.getData();
                 responseHandler.onSuccess(response);
             }
+
+            @Override
+            public void onError(Error error) {
+                responseHandler.onError( error );
+            }
         };
 
         MainExecutor.executor().executeRequest( new Request() {
             @Override
-            public Response perform() {
+            public Response perform() throws Exception {
                 return new Response<>( buildPokemonData() );
             }
         }, handler );
     }
 
-    private ArrayList<Pokemon> buildPokemonData( ) {
-        try {
-            Thread.sleep( 1000 );
-        } catch (InterruptedException e) {
-        }
+    private ArrayList<Pokemon> buildPokemonData( ) throws Exception {
+        Thread.sleep(2000);
         int numberOfPokemon = 900;
         ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
@@ -76,6 +79,7 @@ public class SearchPokemonPresenter implements ViewPresenter,
             pokemon.setSpeed(50);
 
             pokemonList.add(pokemon);
+            throw new Error("Can't load data");
         }
         return pokemonList;
     }

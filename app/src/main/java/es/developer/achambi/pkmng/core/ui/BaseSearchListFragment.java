@@ -52,7 +52,7 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
     }
 
     @Override
-    public int getProgressBarId() {
+    public int getLoadingFrame() {
         return R.id.base_request_loading_frame;
     }
 
