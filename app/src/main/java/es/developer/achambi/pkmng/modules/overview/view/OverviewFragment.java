@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.overview.view;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,7 +54,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onViewSetup(View view, Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( savedInstanceState == null && presenter.getPokemonList().isEmpty() ) {
+        if( presenter.getDataState() == Presenter.DataState.EMPTY
+                || presenter.getDataState() == Presenter.DataState.NOT_FINISHED ) {
             doRequest();
         }
     }
@@ -61,7 +63,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public Presenter setupPresenter() {
         if(presenter == null) {
-            presenter = new OverviewPresenter(this, this);
+            presenter = new OverviewPresenter(this);
         }
         return presenter;
     }
@@ -194,6 +196,11 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                     getActivity(), presenter.getConfigurationList() ) );
             presentAdapterData();
         }
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     private static class PresentationBuilder {

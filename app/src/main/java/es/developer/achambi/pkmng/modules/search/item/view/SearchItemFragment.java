@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.item.view;
 
+import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -122,6 +123,11 @@ public class SearchItemFragment extends BaseSearchListFragment
     public void showItemDetails(Item item) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         ItemDetailsFragment.newInstance( item ).show( transaction, ITEM_DETAILS_DIALOG_TAG );
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     public class ItemResultDataBuilder {

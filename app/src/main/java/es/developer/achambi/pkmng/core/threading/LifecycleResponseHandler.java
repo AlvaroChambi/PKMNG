@@ -12,14 +12,14 @@ public class LifecycleResponseHandler<T> extends ResponseHandlerDecorator<T> {
 
     @Override
     public void onSuccess(Response<T> response) {
-        if( lifecycle.getCurrentState().isAtLeast( Lifecycle.State.RESUMED ) ) {
+        if( lifecycle.getCurrentState().isAtLeast( Lifecycle.State.CREATED ) ) {
             super.onSuccess(response);
         }
     }
 
     @Override
     public void onError(Error error) {
-        if( lifecycle.getCurrentState().isAtLeast( Lifecycle.State.RESUMED ) ) {
+        if( lifecycle.getCurrentState().isAtLeast( Lifecycle.State.CREATED ) ) {
             super.onError(error);
         }
     }

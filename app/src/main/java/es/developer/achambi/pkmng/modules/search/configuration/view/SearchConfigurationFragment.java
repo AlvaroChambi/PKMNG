@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.configuration.view;
 
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -76,7 +77,8 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( savedInstanceState == null ) {
+        if( presenter.getDataState() == Presenter.DataState.EMPTY
+                || presenter.getDataState() == Presenter.DataState.NOT_FINISHED ) {
             doRequest();
         }
     }
@@ -84,7 +86,7 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchConfigurationPresenter( this, this );
+            presenter = new SearchConfigurationPresenter( this );
         }
         return presenter;
     }
@@ -124,6 +126,11 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
         ConfigurationDetailsFragment configDetails = ConfigurationDetailsFragment.newInstance(
                 configuration, DetailsUseContext.REPLACE_CONTEXT );
         configDetails.show( transaction, CONFIGURATION_DETAILS_DIALOG_TAG );
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     public static class PresentationBuilder {

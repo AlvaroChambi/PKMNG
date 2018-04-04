@@ -1,6 +1,5 @@
 package es.developer.achambi.pkmng.core.ui;
 
-import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 /**
  * Base fragment, can override onBack event and allows options menu on action bar
  */
-public abstract class BaseFragment extends Fragment implements Screen {
+public abstract class BaseFragment extends Fragment {
     private int timesViewCreated = 0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,13 +27,17 @@ public abstract class BaseFragment extends Fragment implements Screen {
         return root;
     }
 
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         }
-        onViewSetup(view, savedInstanceState);
+        if( !isViewRecreated() ) {
+            onViewSetup(view, savedInstanceState);
+        }
     }
 
     public boolean isViewRecreated() {
@@ -45,11 +48,6 @@ public abstract class BaseFragment extends Fragment implements Screen {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         setupPresenter().onSaveInstanceState(outState);
-    }
-
-    @Override
-    public Lifecycle screenLifecycle() {
-         return getLifecycle();
     }
 
     /**

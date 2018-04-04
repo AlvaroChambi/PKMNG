@@ -21,6 +21,7 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
     private ISearchItemScreen view;
 
     public SearchItemsPresenter( ISearchItemScreen view ) {
+        super(view);
         this.view = view;
     }
 

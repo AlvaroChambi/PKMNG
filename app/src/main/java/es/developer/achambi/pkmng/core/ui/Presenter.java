@@ -8,15 +8,23 @@ import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 
 public abstract class Presenter {
+    public enum DataState {
+        EMPTY,
+        ERROR,
+        SUCCESS,
+        NOT_FINISHED
+    }
     private Screen screen;
+    private DataState dataState;
     public abstract void onSaveInstanceState(Bundle bundle);
     public abstract void onRestoreInstanceState(Bundle bundle);
 
     public Presenter(Screen screen ) {
+        this();
         this.screen = screen;
     }
-
-    public Presenter() {
+    public Presenter(){
+        dataState = DataState.EMPTY;
     }
 
     /**
@@ -31,5 +39,13 @@ public abstract class Presenter {
                     screen.screenLifecycle(), responseHandler
             ));
         }
+    }
+
+    public DataState getDataState() {
+        return dataState;
+    }
+
+    public void setDataState(DataState dataState) {
+        this.dataState = dataState;
     }
 }

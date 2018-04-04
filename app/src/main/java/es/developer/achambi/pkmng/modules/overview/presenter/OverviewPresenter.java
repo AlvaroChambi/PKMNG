@@ -9,6 +9,7 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
@@ -22,10 +23,10 @@ public class OverviewPresenter extends IOverviewPresenter {
     private SearchPokemonPresenter pokemonPresenter;
     private SearchConfigurationPresenter configurationPresenter;
 
-    public OverviewPresenter(IOverviewView view, Screen screen) {
-        super(screen);
-        configurationPresenter = new SearchConfigurationPresenter( view, screen );
-        pokemonPresenter = new SearchPokemonPresenter( view, screen );
+    public OverviewPresenter(IOverviewView view) {
+        super(view);
+        configurationPresenter = new SearchConfigurationPresenter( view );
+        pokemonPresenter = new SearchPokemonPresenter( view );
     }
 
     @Override
@@ -45,6 +46,21 @@ public class OverviewPresenter extends IOverviewPresenter {
     public void fetchConfigurationList(
             ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
         configurationPresenter.fetchConfigurationList( responseHandler );
+    }
+
+    @Override
+    public DataState getDataState() {
+        if( pokemonPresenter.getDataState() == DataState.NOT_FINISHED ||
+                configurationPresenter.getDataState() == DataState.NOT_FINISHED ) {
+            return DataState.NOT_FINISHED;
+        } if( pokemonPresenter.getDataState() == DataState.EMPTY ||
+                configurationPresenter.getDataState() == DataState.EMPTY ) {
+            return DataState.EMPTY;
+        } if( pokemonPresenter.getDataState() == DataState.ERROR ||
+                configurationPresenter.getDataState() == DataState.ERROR ) {
+            return DataState.ERROR;
+        }
+        return DataState.SUCCESS;
     }
 
     @Override

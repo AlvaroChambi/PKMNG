@@ -4,12 +4,12 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.Presenter;
-import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -24,8 +24,8 @@ public class SearchPokemonPresenter extends Presenter implements
     private ArrayList<Pokemon> pokemonDataList;
     private ISearchPokemonScreen view;
 
-    public SearchPokemonPresenter(ISearchPokemonScreen view, Screen screen) {
-        super(screen);
+    public SearchPokemonPresenter( ISearchPokemonScreen view ) {
+        super(view);
         this.view = view;
         pokemonDataList = new ArrayList<>();
     }
@@ -44,25 +44,32 @@ public class SearchPokemonPresenter extends Presenter implements
     }
 
     public void fetchPokemonList(final ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
+        setDataState(DataState.NOT_FINISHED);
         ResponseHandler handler =
                 new ResponseHandlerDecorator<ArrayList<Pokemon>>( responseHandler ) {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> response) {
                 super.onSuccess(response);
                 pokemonDataList = response.getData();
+                setDataState( DataState.SUCCESS );
+            }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+                setDataState( DataState.ERROR );
             }
         };
 
         request( new Request() {
             @Override
-            public Response perform() throws Exception {
+            public Response perform() {
                 return new Response<>( buildPokemonData() );
             }
         }, handler );
     }
 
-    private ArrayList<Pokemon> buildPokemonData( ) throws Exception {
-        Thread.sleep(3000);
+    private ArrayList<Pokemon> buildPokemonData( ) {
         int numberOfPokemon = 900;
         ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {

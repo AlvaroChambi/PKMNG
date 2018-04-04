@@ -23,6 +23,7 @@ public class SearchMovePresenter extends ISearchMovePresenter
     private ISearchMoveScreen view;
 
     public SearchMovePresenter( ISearchMoveScreen view ) {
+        super(view);
         this.view = view;
     }
 

@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.move.view;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -141,6 +142,11 @@ public class SearchMoveFragment extends BaseSearchListFragment
         dataIntent.putExtra(ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY, move);
         getActivity().setResult(Activity.RESULT_OK, dataIntent);
         getActivity().finish();
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     public class MovesListAdapter extends

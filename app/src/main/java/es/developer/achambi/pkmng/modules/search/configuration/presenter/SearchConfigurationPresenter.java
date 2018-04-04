@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
@@ -32,19 +33,27 @@ public class SearchConfigurationPresenter extends Presenter implements
     private ArrayList<PokemonConfig> pokemonConfigList;
     private ISearchConfigurationScreen view;
 
-    public SearchConfigurationPresenter(ISearchConfigurationScreen view, Screen screen) {
-        super(screen);
+    public SearchConfigurationPresenter( ISearchConfigurationScreen view ) {
+        super(view);
         this.view = view;
     }
 
     public void fetchConfigurationList(
             final ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
+        setDataState( DataState.NOT_FINISHED );
         ResponseHandler handler = new ResponseHandlerDecorator<ArrayList<PokemonConfig>>(
                 responseHandler) {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
+                setDataState( DataState.SUCCESS );
                 pokemonConfigList = response.getData();
                 responseHandler.onSuccess(response);
+            }
+
+            @Override
+            public void onError(Error error) {
+                setDataState( DataState.ERROR );
+                super.onError(error);
             }
         };
 

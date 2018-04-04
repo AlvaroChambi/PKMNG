@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.view;
 
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -73,7 +74,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     @Override
     public Presenter setupPresenter() {
         if(presenter == null) {
-            presenter = new SearchPokemonPresenter(this, this);
+            presenter = new SearchPokemonPresenter(this);
         }
         return presenter;
     }
@@ -81,7 +82,8 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( savedInstanceState == null ) {
+        if( presenter.getDataState() == Presenter.DataState.EMPTY
+                || presenter.getDataState() == Presenter.DataState.NOT_FINISHED ) {
             doRequest();
         }
     }
@@ -131,6 +133,11 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
         PokemonDetailsFragment detailsFragment = PokemonDetailsFragment.newInstance( item,
                 DetailsUseContext.REPLACE_CONTEXT );
         detailsFragment.show( transaction, POKEMON_DETAILS_DIALOG_TAG );
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     private static class PresentationBuilder {
