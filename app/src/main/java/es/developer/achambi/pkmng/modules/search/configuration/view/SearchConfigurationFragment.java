@@ -1,9 +1,9 @@
 package es.developer.achambi.pkmng.modules.search.configuration.view;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
@@ -14,8 +14,8 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.DetailsUseContext;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
@@ -82,9 +82,9 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchConfigurationPresenter( this );
+            presenter = new SearchConfigurationPresenter( this, this );
         }
         return presenter;
     }

@@ -1,10 +1,10 @@
 package es.developer.achambi.pkmng.modules.overview.view;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +30,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.adapter.PokemonSearchAd
 import es.developer.achambi.pkmng.modules.overview.view.adapter.PokemonSuggestionsAdapter;
 import es.developer.achambi.pkmng.modules.search.configuration.view.presentation.ConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.modules.search.configuration.adapter.SearchConfigurationAdapter;
 
 public class OverviewFragment extends BaseSearchListFragment implements IOverviewView {
@@ -53,15 +53,15 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onViewSetup(View view, Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( savedInstanceState == null ) {
+        if( savedInstanceState == null && presenter.getPokemonList().isEmpty() ) {
             doRequest();
         }
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if(presenter == null) {
-            presenter = new OverviewPresenter(this);
+            presenter = new OverviewPresenter(this, this);
         }
         return presenter;
     }
@@ -90,10 +90,12 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
             }
         });
 
-        presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
+        presenter.fetchConfigurationList(
+                new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
-                configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
+                configurationSearchAdapter.setData(
+                        PresentationBuilder.buildConfigurationPresentation(
                         getActivity(), response.getData() ) );
                 presentAdapterData();
                 hideLoading();

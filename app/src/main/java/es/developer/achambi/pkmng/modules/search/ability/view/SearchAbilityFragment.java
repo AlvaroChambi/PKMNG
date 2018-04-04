@@ -1,8 +1,8 @@
 package es.developer.achambi.pkmng.modules.search.ability.view;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,8 +14,8 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.AbilityDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenter;
@@ -80,7 +80,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if( presenter == null ) {
             presenter = new SearchAbilityPresenter(this);
         }

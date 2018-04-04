@@ -9,21 +9,23 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
 import es.developer.achambi.pkmng.modules.search.configuration.presenter.SearchConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenter;
 
-public class OverviewPresenter implements IOverviewPresenter {
+public class OverviewPresenter extends IOverviewPresenter {
     private static final String TAG = OverviewPresenter.class.getCanonicalName();
 
     private SearchPokemonPresenter pokemonPresenter;
     private SearchConfigurationPresenter configurationPresenter;
 
-    public OverviewPresenter(IOverviewView view) {
-        configurationPresenter = new SearchConfigurationPresenter( view );
-        pokemonPresenter = new SearchPokemonPresenter( view );
+    public OverviewPresenter(IOverviewView view, Screen screen) {
+        super(screen);
+        configurationPresenter = new SearchConfigurationPresenter( view, screen );
+        pokemonPresenter = new SearchPokemonPresenter( view, screen );
     }
 
     @Override

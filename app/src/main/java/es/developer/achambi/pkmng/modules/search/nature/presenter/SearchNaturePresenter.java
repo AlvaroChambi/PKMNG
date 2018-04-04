@@ -8,14 +8,15 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureScreen;
 import es.developer.achambi.pkmng.modules.search.nature.view.presentation.SearchNaturePresentation;
 
-public class SearchNaturePresenter implements ISearchNaturePresenter,
-        SearchAdapterDecorator.OnItemClickedListener<SearchNaturePresentation>{
+public class SearchNaturePresenter extends ISearchNaturePresenter
+        implements SearchAdapterDecorator.OnItemClickedListener<SearchNaturePresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
 
     private ISearchNatureScreen searchNatureView;
@@ -37,7 +38,8 @@ public class SearchNaturePresenter implements ISearchNaturePresenter,
 
     @Override
     public void fetchNatureList(final ResponseHandler<ArrayList<Nature>> responseHandler ) {
-        ResponseHandler<ArrayList<Nature>> handler = new ResponseHandler<ArrayList<Nature>>() {
+        ResponseHandler<ArrayList<Nature>> handler = new ResponseHandlerDecorator<ArrayList<Nature>>(
+                responseHandler) {
             @Override
             public void onSuccess(Response<ArrayList<Nature>> response) {
                 data = response.getData();

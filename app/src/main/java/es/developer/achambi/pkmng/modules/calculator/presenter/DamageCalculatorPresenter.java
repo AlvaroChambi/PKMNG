@@ -3,7 +3,7 @@ package es.developer.achambi.pkmng.modules.calculator.presenter;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
@@ -12,7 +12,7 @@ import es.developer.achambi.pkmng.modules.overview.model.EmptyPokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
-public class DamageCalculatorPresenter implements ViewPresenter {
+public class DamageCalculatorPresenter extends Presenter {
     private static final String LEFT_POKEMON_SAVED_DATA = "LEFT_POKEMON_SAVED_DATA";
     private static final String RIGHT_POKEMON_SAVED_DATA = "RIGHT_POKEMON_SAVED_DATA";
     private static final String ATTACK_DIRECTION_SAVED_DATA = "ATTACK_DIRECTION_SAVED_DATA";
@@ -24,7 +24,7 @@ public class DamageCalculatorPresenter implements ViewPresenter {
     private Configuration editableLeftConfiguration;
     private Configuration editableRightConfiguration;
 
-    public DamageCalculatorPresenter() {
+    public DamageCalculatorPresenter( ) {
         leftPokemon = new EmptyPokemonConfig();
         rightPokemon = new EmptyPokemonConfig();
         leftRightDirection = true;

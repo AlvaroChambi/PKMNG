@@ -8,13 +8,14 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.view.ISearchItemScreen;
 import es.developer.achambi.pkmng.modules.search.item.view.presentation.SearchItemPresentation;
 
-public class SearchItemsPresenter implements ISearchItemsPresenter,
-        SearchAdapterDecorator.OnItemClickedListener<SearchItemPresentation> {
+public class SearchItemsPresenter extends ISearchItemsPresenter
+        implements SearchAdapterDecorator.OnItemClickedListener<SearchItemPresentation> {
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Item> data;
     private ISearchItemScreen view;
@@ -25,7 +26,8 @@ public class SearchItemsPresenter implements ISearchItemsPresenter,
 
     @Override
     public void fetchItems(final ResponseHandler<ArrayList<Item>> responseHandler ) {
-        ResponseHandler<ArrayList<Item>> handler = new ResponseHandler<ArrayList<Item>>() {
+        ResponseHandler<ArrayList<Item>> handler = new ResponseHandlerDecorator<ArrayList<Item>>(
+                responseHandler ) {
             @Override
             public void onSuccess(Response<ArrayList<Item>> response) {
                 data = response.getData();

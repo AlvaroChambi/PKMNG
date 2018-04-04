@@ -1,8 +1,9 @@
 package es.developer.achambi.pkmng.core.ui;
 
-import android.app.Fragment;
+import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.view.ViewGroup;
 /**
  * Base fragment, can override onBack event and allows options menu on action bar
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements Screen {
     private int timesViewCreated = 0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +47,11 @@ public abstract class BaseFragment extends Fragment {
         setupPresenter().onSaveInstanceState(outState);
     }
 
+    @Override
+    public Lifecycle screenLifecycle() {
+         return getLifecycle();
+    }
+
     /**
      * Called whenever the fragment state is being recreated, bundle will always be available.
      * This event always happens after onViewCreated() is called.
@@ -56,7 +62,7 @@ public abstract class BaseFragment extends Fragment {
         setupPresenter().onRestoreInstanceState(savedInstanceState);
     }
 
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         return new NullPresenter();
     }
 

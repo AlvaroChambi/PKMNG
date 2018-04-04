@@ -4,28 +4,30 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.core.threading.Error;
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
+import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.pokemon.view.ISearchPokemonScreen;
 import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
 
-public class SearchPokemonPresenter implements ViewPresenter,
+public class SearchPokemonPresenter extends Presenter implements
         SearchAdapterDecorator.OnItemClickedListener<PokemonPresentation> {
     private static final String POKEMON_DATA_SAVED_STATE = "POKEMON_DATA_SAVED_STATE";
 
     private ArrayList<Pokemon> pokemonDataList;
     private ISearchPokemonScreen view;
 
-    public SearchPokemonPresenter( ISearchPokemonScreen view ) {
+    public SearchPokemonPresenter(ISearchPokemonScreen view, Screen screen) {
+        super(screen);
         this.view = view;
+        pokemonDataList = new ArrayList<>();
     }
 
     @Override
@@ -42,20 +44,16 @@ public class SearchPokemonPresenter implements ViewPresenter,
     }
 
     public void fetchPokemonList(final ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
-        ResponseHandler handler = new ResponseHandler<ArrayList<Pokemon>>( ) {
+        ResponseHandler handler =
+                new ResponseHandlerDecorator<ArrayList<Pokemon>>( responseHandler ) {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> response) {
+                super.onSuccess(response);
                 pokemonDataList = response.getData();
-                responseHandler.onSuccess(response);
-            }
-
-            @Override
-            public void onError(Error error) {
-                responseHandler.onError( error );
             }
         };
 
-        MainExecutor.executor().executeRequest( new Request() {
+        request( new Request() {
             @Override
             public Response perform() throws Exception {
                 return new Response<>( buildPokemonData() );
@@ -64,7 +62,7 @@ public class SearchPokemonPresenter implements ViewPresenter,
     }
 
     private ArrayList<Pokemon> buildPokemonData( ) throws Exception {
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         int numberOfPokemon = 900;
         ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
         for(int i = 0; i < numberOfPokemon; i++) {
@@ -79,7 +77,6 @@ public class SearchPokemonPresenter implements ViewPresenter,
             pokemon.setSpeed(50);
 
             pokemonList.add(pokemon);
-            throw new Error("Can't load data");
         }
         return pokemonList;
     }

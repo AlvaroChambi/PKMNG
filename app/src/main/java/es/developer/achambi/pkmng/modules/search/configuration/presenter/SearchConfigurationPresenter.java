@@ -8,8 +8,10 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
+import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -23,20 +25,22 @@ import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
-public class SearchConfigurationPresenter implements ViewPresenter,
+public class SearchConfigurationPresenter extends Presenter implements
         SearchAdapterDecorator.OnItemClickedListener<ConfigurationPresentation> {
     private static final String CONFIGURATION_DATA_SAVED_STATE = "CONFIGURATION_DATA_SAVED_STATE";
 
     private ArrayList<PokemonConfig> pokemonConfigList;
     private ISearchConfigurationScreen view;
 
-    public SearchConfigurationPresenter( ISearchConfigurationScreen view ) {
+    public SearchConfigurationPresenter(ISearchConfigurationScreen view, Screen screen) {
+        super(screen);
         this.view = view;
     }
 
     public void fetchConfigurationList(
             final ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
-        ResponseHandler handler = new ResponseHandler<ArrayList<PokemonConfig>>() {
+        ResponseHandler handler = new ResponseHandlerDecorator<ArrayList<PokemonConfig>>(
+                responseHandler) {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
                 pokemonConfigList = response.getData();

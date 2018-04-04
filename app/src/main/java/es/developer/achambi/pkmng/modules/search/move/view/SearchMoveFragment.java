@@ -18,7 +18,7 @@ import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -121,7 +121,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if( presenter == null ) {
             presenter = new SearchMovePresenter(this);
         }

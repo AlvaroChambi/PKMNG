@@ -1,7 +1,8 @@
 package es.developer.achambi.pkmng.core.ui;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -23,7 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract int getScreenTitle();
 
     public void attachFragment() {
-        FragmentManager manager = getFragmentManager();
+        FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
         Bundle args = getIntent().getBundleExtra(BASE_ARGUMENTS);

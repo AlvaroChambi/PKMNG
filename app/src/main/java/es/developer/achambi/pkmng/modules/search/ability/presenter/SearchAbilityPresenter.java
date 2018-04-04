@@ -8,13 +8,14 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.ISearchAbilityScreen;
 import es.developer.achambi.pkmng.modules.search.ability.view.presentation.SearchAbilityPresentation;
 
-public class SearchAbilityPresenter implements ISearchAbilityPresenter,
-        SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
+public class SearchAbilityPresenter extends ISearchAbilityPresenter
+        implements SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Ability> data;
     private ISearchAbilityScreen searchAbilityView;
@@ -25,7 +26,8 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
 
     @Override
     public void fetchAbilities(final ResponseHandler<ArrayList<Ability>> responseHandler ) {
-        ResponseHandler<ArrayList<Ability>> handler = new ResponseHandler<ArrayList<Ability>>() {
+        ResponseHandler<ArrayList<Ability>> handler =
+                new ResponseHandlerDecorator<ArrayList<Ability>>( responseHandler ) {
             @Override
             public void onSuccess(Response<ArrayList<Ability>> response) {
                 data = response.getData();
@@ -41,7 +43,7 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
         }, handler);
     }
 
-    public ArrayList<Ability> buildAbilityData() {
+    private ArrayList<Ability> buildAbilityData() {
         ArrayList<Ability> abilities = new ArrayList<>();
         for( int i = 0; i < 5; i++ ) {
             Ability ability = new Ability();

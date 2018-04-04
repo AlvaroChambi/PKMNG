@@ -8,14 +8,15 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.view.ISearchMoveScreen;
 import es.developer.achambi.pkmng.modules.search.move.view.presentation.SearchMovePresentation;
 
-public class SearchMovePresenter implements ISearchMovePresenter,
-        SearchAdapterDecorator.OnItemClickedListener<SearchMovePresentation>{
+public class SearchMovePresenter extends ISearchMovePresenter
+        implements SearchAdapterDecorator.OnItemClickedListener<SearchMovePresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
 
     private ArrayList<Move> data;
@@ -27,7 +28,8 @@ public class SearchMovePresenter implements ISearchMovePresenter,
 
     @Override
     public void fetchMoves(final ResponseHandler<ArrayList<Move>> responseHandler ) {
-        ResponseHandler<ArrayList<Move>> handler = new ResponseHandler<ArrayList<Move>>() {
+        ResponseHandler<ArrayList<Move>> handler = new ResponseHandlerDecorator<ArrayList<Move>>(
+                responseHandler ) {
             @Override
             public void onSuccess(Response<ArrayList<Move>> response) {
                 data = response.getData();
