@@ -10,6 +10,7 @@ import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
@@ -164,11 +165,13 @@ public class SearchConfigurationPresenter extends Presenter implements
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         bundle.putParcelableArrayList( CONFIGURATION_DATA_SAVED_STATE, pokemonConfigList );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         pokemonConfigList = bundle.getParcelableArrayList( CONFIGURATION_DATA_SAVED_STATE );
     }
 }

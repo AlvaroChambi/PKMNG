@@ -19,6 +19,7 @@ import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
@@ -54,8 +55,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onViewSetup(View view, Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( presenter.getDataState() == Presenter.DataState.EMPTY
-                || presenter.getDataState() == Presenter.DataState.NOT_FINISHED ) {
+        if( presenter.getDataState() == DataState.EMPTY
+                || presenter.getDataState() == DataState.NOT_FINISHED ) {
             doRequest();
         }
     }

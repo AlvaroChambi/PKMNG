@@ -46,6 +46,7 @@ public class ConfigurationPresenter extends Presenter
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         bundle.putParcelable( POKEMON_SAVED_DATA_TAG, editablePokemon );
         bundle.putParcelable( CONFIGURATION_SAVED_DATA_TAG, editableConfiguration );
         bundle.putParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG, pokemonConfiguration );
@@ -53,6 +54,7 @@ public class ConfigurationPresenter extends Presenter
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         editablePokemon = bundle.getParcelable( POKEMON_SAVED_DATA_TAG );
         editableConfiguration = bundle.getParcelable( CONFIGURATION_SAVED_DATA_TAG );
         pokemonConfiguration = bundle.getParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG );

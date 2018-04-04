@@ -8,18 +8,18 @@ import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 
 public abstract class Presenter {
-    public enum DataState {
-        EMPTY,
-        ERROR,
-        SUCCESS,
-        NOT_FINISHED
-    }
+    private static final String DATA_STATE_SAVED_STATE = "DATA_STATE_SAVED_STATE";
     private Screen screen;
     private DataState dataState;
-    public abstract void onSaveInstanceState(Bundle bundle);
-    public abstract void onRestoreInstanceState(Bundle bundle);
 
-    public Presenter(Screen screen ) {
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putInt( DATA_STATE_SAVED_STATE, dataState.ordinal() );
+    }
+    public void onRestoreInstanceState(Bundle bundle) {
+        dataState = DataState.values()[bundle.getInt(DATA_STATE_SAVED_STATE)];
+    }
+
+    public Presenter( Screen screen ) {
         this();
         this.screen = screen;
     }

@@ -9,6 +9,7 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -95,12 +96,14 @@ public class OverviewPresenter extends IOverviewPresenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         pokemonPresenter.onSaveInstanceState( bundle );
         configurationPresenter.onSaveInstanceState( bundle );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         pokemonPresenter.onRestoreInstanceState( bundle );
         configurationPresenter.onRestoreInstanceState( bundle );
     }

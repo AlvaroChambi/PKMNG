@@ -28,11 +28,13 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         bundle.putParcelableArrayList( DATA_SAVED_STATE, data );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         data = bundle.getParcelableArrayList( DATA_SAVED_STATE );
     }
 

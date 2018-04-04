@@ -70,8 +70,7 @@ public class DamageCalculatorPresenter extends Presenter {
         if( attacked.getId() == BasePokemon.EMPTY_ID || move.getId() == BasePokemon.EMPTY_ID ) {
             return new Damage();
         }
-        Damage damageResult = damageResult( attacker, attacked, move );
-        return damageResult;
+        return damageResult( attacker, attacked, move );
     }
 
     private Configuration getAttackerEditableConfiguration() {
@@ -148,6 +147,7 @@ public class DamageCalculatorPresenter extends Presenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         bundle.putParcelable( LEFT_POKEMON_SAVED_DATA, leftPokemon);
         bundle.putParcelable( RIGHT_POKEMON_SAVED_DATA, rightPokemon);
         bundle.putBoolean( ATTACK_DIRECTION_SAVED_DATA, leftRightDirection );
@@ -157,6 +157,7 @@ public class DamageCalculatorPresenter extends Presenter {
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         leftPokemon = bundle.getParcelable( LEFT_POKEMON_SAVED_DATA );
         rightPokemon = bundle.getParcelable( RIGHT_POKEMON_SAVED_DATA );
         leftRightDirection = bundle.getBoolean( ATTACK_DIRECTION_SAVED_DATA );
