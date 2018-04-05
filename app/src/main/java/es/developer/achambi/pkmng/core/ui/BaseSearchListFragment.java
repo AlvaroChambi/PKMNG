@@ -51,6 +51,11 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
         recyclerView.setAdapter( adapter );
     }
 
+    @Override
+    public int getLoadingFrame() {
+        return R.id.base_request_loading_frame;
+    }
+
     public void presentAdapterData( ) {
         adapter.updateData();
     }

@@ -13,9 +13,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenter;
@@ -81,7 +83,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if( presenter == null ) {
             presenter = new SearchNaturePresenter( this );
         }
@@ -90,9 +92,15 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
 
     @Override
     public void doRequest() {
-        adapter.setData( new NaturePresentationDataBuilder().build(
-                getActivity(), presenter.fetchNatureList() ) );
-        presentAdapterData();
+        presenter.fetchNatureList(new ResponseHandler<ArrayList<Nature>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Nature>> response) {
+                adapter.setData( new NaturePresentationDataBuilder().build(
+                        getActivity(), response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
     }
 
     @Override

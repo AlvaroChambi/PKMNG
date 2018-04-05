@@ -1,9 +1,10 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.view;
 
-import android.app.FragmentTransaction;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
@@ -11,9 +12,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Error;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.DataState;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
 import es.developer.achambi.pkmng.modules.details.view.DetailsUseContext;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -68,7 +73,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if(presenter == null) {
             presenter = new SearchPokemonPresenter(this);
         }
@@ -78,16 +83,34 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( savedInstanceState == null ) {
+        if( presenter.getDataState() == DataState.EMPTY
+                || presenter.getDataState() == DataState.NOT_FINISHED ) {
             doRequest();
         }
     }
 
     @Override
     public void doRequest() {
-        adapter.setData( PresentationBuilder.buildPresentation(
-                getActivity(), presenter.fetchPokemonList() ) );
-        presentAdapterData();
+        super.doRequest();
+        presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Pokemon>> response) {
+                adapter.setData( PresentationBuilder.buildPresentation(
+                        getActivity(), response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+
+            @Override
+            public void onError(Error error) {
+               showError( error );
+            }
+        });
+    }
+
+    @Override
+    public void onRetry() {
+        doRequest();
     }
 
     @Override
@@ -111,6 +134,11 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
         PokemonDetailsFragment detailsFragment = PokemonDetailsFragment.newInstance( item,
                 DetailsUseContext.REPLACE_CONTEXT );
         detailsFragment.show( transaction, POKEMON_DETAILS_DIALOG_TAG );
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     private static class PresentationBuilder {

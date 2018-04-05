@@ -1,18 +1,18 @@
 package es.developer.achambi.pkmng.modules.create.view;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
@@ -32,7 +32,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.view.SearchPokemonActiv
 
 import static android.app.Activity.RESULT_OK;
 
-public class ConfigurationFragment extends BaseRequestFragment
+public class ConfigurationFragment extends BaseFragment
         implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
@@ -138,7 +138,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if( presenter == null ) {
             presenter = new ConfigurationPresenter();
         }
@@ -319,11 +319,6 @@ public class ConfigurationFragment extends BaseRequestFragment
                 break;
         }
         getActivity().finish();
-    }
-
-    @Override
-    public void doRequest() {
-
     }
 
     @Override

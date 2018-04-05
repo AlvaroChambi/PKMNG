@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.move.view;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +15,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.view.TypeView;
 import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -98,9 +101,16 @@ public class SearchMoveFragment extends BaseSearchListFragment
 
     @Override
     public void doRequest() {
-        adapter.setData( new MovesPresentationBuilder().build( getActivity(),
-                presenter.fetchMoves() ) );
-        presentAdapterData();
+        super.doRequest();
+        presenter.fetchMoves(new ResponseHandler<ArrayList<Move>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Move>> response) {
+                adapter.setData( new MovesPresentationBuilder().build( getActivity(),
+                        response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
     }
 
     @Override
@@ -112,7 +122,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if( presenter == null ) {
             presenter = new SearchMovePresenter(this);
         }
@@ -132,6 +142,11 @@ public class SearchMoveFragment extends BaseSearchListFragment
         dataIntent.putExtra(ConfigurationFragment.MOVE_ACTIVITY_RESULT_DATA_KEY, move);
         getActivity().setResult(Activity.RESULT_OK, dataIntent);
         getActivity().finish();
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     public class MovesListAdapter extends

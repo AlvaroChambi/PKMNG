@@ -13,7 +13,7 @@ import android.widget.Toast;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.core.ui.FloatingActionMenu;
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.modules.calculator.view.presentation.CalculatorPokemonPresentation;
 import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenter;
 import es.developer.achambi.pkmng.modules.calculator.view.presentation.MoveDamagePresentation;
@@ -68,7 +68,7 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     }
 
     @Override
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         if( presenter == null ) {
             presenter = new DamageCalculatorPresenter();
         }

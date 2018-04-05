@@ -5,19 +5,27 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.ui.DataState;
+import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.view.IOverviewView;
 import es.developer.achambi.pkmng.modules.search.configuration.presenter.SearchConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenter;
 
-public class OverviewPresenter implements IOverviewPresenter {
+public class OverviewPresenter extends IOverviewPresenter {
     private static final String TAG = OverviewPresenter.class.getCanonicalName();
 
     private SearchPokemonPresenter pokemonPresenter;
     private SearchConfigurationPresenter configurationPresenter;
 
     public OverviewPresenter(IOverviewView view) {
+        super(view);
         configurationPresenter = new SearchConfigurationPresenter( view );
         pokemonPresenter = new SearchPokemonPresenter( view );
     }
@@ -32,14 +40,28 @@ public class OverviewPresenter implements IOverviewPresenter {
         Log.i(TAG, "query text changed: " + query);
     }
 
-    @Override
-    public ArrayList<Pokemon> fetchPokemonList() {
-        return pokemonPresenter.fetchPokemonList();
+    public void fetchPokemonList( ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
+        pokemonPresenter.fetchPokemonList( responseHandler );
+    }
+
+    public void fetchConfigurationList(
+            ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
+        configurationPresenter.fetchConfigurationList( responseHandler );
     }
 
     @Override
-    public ArrayList<PokemonConfig> fetchConfigurationList() {
-        return configurationPresenter.fetchConfigurationList();
+    public DataState getDataState() {
+        if( pokemonPresenter.getDataState() == DataState.NOT_FINISHED ||
+                configurationPresenter.getDataState() == DataState.NOT_FINISHED ) {
+            return DataState.NOT_FINISHED;
+        } if( pokemonPresenter.getDataState() == DataState.EMPTY ||
+                configurationPresenter.getDataState() == DataState.EMPTY ) {
+            return DataState.EMPTY;
+        } if( pokemonPresenter.getDataState() == DataState.ERROR ||
+                configurationPresenter.getDataState() == DataState.ERROR ) {
+            return DataState.ERROR;
+        }
+        return DataState.SUCCESS;
     }
 
     @Override
@@ -74,12 +96,14 @@ public class OverviewPresenter implements IOverviewPresenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         pokemonPresenter.onSaveInstanceState( bundle );
         configurationPresenter.onSaveInstanceState( bundle );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         pokemonPresenter.onRestoreInstanceState( bundle );
         configurationPresenter.onRestoreInstanceState( bundle );
     }

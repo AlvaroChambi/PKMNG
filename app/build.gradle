@@ -2,23 +2,22 @@ import PerfTestTaskGeneratorPlugin
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "es.developer.achambi.pkmng"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
-        disable 'GradleDependency','GradleDynamicVersion',
-                'GoogleAppIndexingWarning', 'IconLocation',
+        disable 'GoogleAppIndexingWarning', 'IconLocation',
                 'ButtonStyle', 'ContentDescription',
-                'LabelFor'
+                'LabelFor', 'GradleDependency'
     }
     buildTypes {
         release {
@@ -30,19 +29,22 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:cardview-v7:26.+'
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support:design:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta6'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'android.arch.lifecycle:runtime:1.1.0'
+    annotationProcessor 'android.arch.lifecycle:compiler:1.1.0'
 
-    androidTestCompile('com.android.support.test:runner:0.5') {
+    androidTestImplementation('com.android.support.test:runner:0.5') {
         exclude module: 'support-annotations'
     }
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude module: 'support-annotations'
     }
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.2') {
         // Necessary to avoid version conflicts
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
@@ -50,8 +52,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 
-    testCompile 'junit:junit:4.12'
-    compile 'org.jetbrains:annotations-java5:15.0'
+    testImplementation 'junit:junit:4.12'
 }
 
 // Create performance testing tasks for all connected Android devices using a Gradle plugin defined

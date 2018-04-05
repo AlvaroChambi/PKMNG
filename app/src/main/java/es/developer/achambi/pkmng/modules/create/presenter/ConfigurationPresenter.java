@@ -2,6 +2,7 @@ package es.developer.achambi.pkmng.modules.create.presenter;
 
 import android.os.Bundle;
 
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.modules.create.view.StatEVView;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -13,8 +14,8 @@ import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
-public class ConfigurationPresenter implements IConfigurationPresenter,
-        StatEVView.ProgressUpdateProvider {
+public class ConfigurationPresenter extends Presenter
+        implements StatEVView.ProgressUpdateProvider {
 
     private static final String CONFIGURATION_SAVED_DATA_TAG = "CONFIGURATION_SAVED_DATA_TAG";
     private static final String ACTUAL_CONFIGURATION_SAVED_DATA_TAG = "ACTUAL_CONFIGURATION_SAVED_DATA_TAG";
@@ -45,6 +46,7 @@ public class ConfigurationPresenter implements IConfigurationPresenter,
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         bundle.putParcelable( POKEMON_SAVED_DATA_TAG, editablePokemon );
         bundle.putParcelable( CONFIGURATION_SAVED_DATA_TAG, editableConfiguration );
         bundle.putParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG, pokemonConfiguration );
@@ -52,6 +54,7 @@ public class ConfigurationPresenter implements IConfigurationPresenter,
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         editablePokemon = bundle.getParcelable( POKEMON_SAVED_DATA_TAG );
         editableConfiguration = bundle.getParcelable( CONFIGURATION_SAVED_DATA_TAG );
         pokemonConfiguration = bundle.getParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG );
@@ -61,7 +64,6 @@ public class ConfigurationPresenter implements IConfigurationPresenter,
         return editableConfiguration.getStatsSet();
     }
 
-    @Override
     public ConfigurationAction saveConfiguration(String name) {
         if( pokemonConfiguration == null ) {
             PokemonConfig config = new PokemonConfig( staticID++, editablePokemon, editableConfiguration);

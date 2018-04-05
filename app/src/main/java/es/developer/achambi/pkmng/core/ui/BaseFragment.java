@@ -1,8 +1,8 @@
 package es.developer.achambi.pkmng.core.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +27,17 @@ public abstract class BaseFragment extends Fragment {
         return root;
     }
 
+
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         }
-        onViewSetup(view, savedInstanceState);
+        if( !isViewRecreated() ) {
+            onViewSetup(view, savedInstanceState);
+        }
     }
 
     public boolean isViewRecreated() {
@@ -56,7 +60,7 @@ public abstract class BaseFragment extends Fragment {
         setupPresenter().onRestoreInstanceState(savedInstanceState);
     }
 
-    public ViewPresenter setupPresenter() {
+    public Presenter setupPresenter() {
         return new NullPresenter();
     }
 

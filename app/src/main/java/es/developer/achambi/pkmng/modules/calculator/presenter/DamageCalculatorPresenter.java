@@ -3,7 +3,7 @@ package es.developer.achambi.pkmng.modules.calculator.presenter;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 
-import es.developer.achambi.pkmng.core.ui.ViewPresenter;
+import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
@@ -12,7 +12,7 @@ import es.developer.achambi.pkmng.modules.overview.model.EmptyPokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
-public class DamageCalculatorPresenter implements ViewPresenter {
+public class DamageCalculatorPresenter extends Presenter {
     private static final String LEFT_POKEMON_SAVED_DATA = "LEFT_POKEMON_SAVED_DATA";
     private static final String RIGHT_POKEMON_SAVED_DATA = "RIGHT_POKEMON_SAVED_DATA";
     private static final String ATTACK_DIRECTION_SAVED_DATA = "ATTACK_DIRECTION_SAVED_DATA";
@@ -24,7 +24,7 @@ public class DamageCalculatorPresenter implements ViewPresenter {
     private Configuration editableLeftConfiguration;
     private Configuration editableRightConfiguration;
 
-    public DamageCalculatorPresenter() {
+    public DamageCalculatorPresenter( ) {
         leftPokemon = new EmptyPokemonConfig();
         rightPokemon = new EmptyPokemonConfig();
         leftRightDirection = true;
@@ -70,8 +70,7 @@ public class DamageCalculatorPresenter implements ViewPresenter {
         if( attacked.getId() == BasePokemon.EMPTY_ID || move.getId() == BasePokemon.EMPTY_ID ) {
             return new Damage();
         }
-        Damage damageResult = damageResult( attacker, attacked, move );
-        return damageResult;
+        return damageResult( attacker, attacked, move );
     }
 
     private Configuration getAttackerEditableConfiguration() {
@@ -148,6 +147,7 @@ public class DamageCalculatorPresenter implements ViewPresenter {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         bundle.putParcelable( LEFT_POKEMON_SAVED_DATA, leftPokemon);
         bundle.putParcelable( RIGHT_POKEMON_SAVED_DATA, rightPokemon);
         bundle.putBoolean( ATTACK_DIRECTION_SAVED_DATA, leftRightDirection );
@@ -157,6 +157,7 @@ public class DamageCalculatorPresenter implements ViewPresenter {
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         leftPokemon = bundle.getParcelable( LEFT_POKEMON_SAVED_DATA );
         rightPokemon = bundle.getParcelable( RIGHT_POKEMON_SAVED_DATA );
         leftRightDirection = bundle.getBoolean( ATTACK_DIRECTION_SAVED_DATA );

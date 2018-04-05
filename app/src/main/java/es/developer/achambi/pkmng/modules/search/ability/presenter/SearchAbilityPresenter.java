@@ -4,13 +4,18 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.view.ISearchAbilityScreen;
 import es.developer.achambi.pkmng.modules.search.ability.view.presentation.SearchAbilityPresentation;
 
-public class SearchAbilityPresenter implements ISearchAbilityPresenter,
-        SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
+public class SearchAbilityPresenter extends ISearchAbilityPresenter
+        implements SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Ability> data;
     private ISearchAbilityScreen searchAbilityView;
@@ -20,12 +25,25 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
     }
 
     @Override
-    public ArrayList<Ability> fetchAbilities() {
-        data = buildAbilityData();
-        return data;
+    public void fetchAbilities(final ResponseHandler<ArrayList<Ability>> responseHandler ) {
+        ResponseHandler<ArrayList<Ability>> handler =
+                new ResponseHandlerDecorator<ArrayList<Ability>>( responseHandler ) {
+            @Override
+            public void onSuccess(Response<ArrayList<Ability>> response) {
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+        };
+
+        MainExecutor.executor().executeRequest(new Request() {
+            @Override
+            public Response perform() {
+                return new Response( buildAbilityData() );
+            }
+        }, handler);
     }
 
-    public ArrayList<Ability> buildAbilityData() {
+    private ArrayList<Ability> buildAbilityData() {
         ArrayList<Ability> abilities = new ArrayList<>();
         for( int i = 0; i < 5; i++ ) {
             Ability ability = new Ability();
@@ -45,11 +63,13 @@ public class SearchAbilityPresenter implements ISearchAbilityPresenter,
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
         bundle.putParcelableArrayList( DATA_SAVED_STATE, data );
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
         data = bundle.getParcelableArrayList( DATA_SAVED_STATE );
     }
 
