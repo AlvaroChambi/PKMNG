@@ -11,7 +11,7 @@
         android:id="@+id/pokemon_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:srcCompat="@drawable/pokemon_placeholder"
+        app:srcCompat="@drawable/pokemon_placeholder_2"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"

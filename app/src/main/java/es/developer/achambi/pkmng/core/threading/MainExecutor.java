@@ -25,8 +25,10 @@ public class MainExecutor extends ThreadPoolExecutor {
             public void run() {
                 try {
                     postSuccessOnUI( request.perform(), responseHandler );
+                } catch (Error e) {
+                    postErrorOnUI( e, responseHandler );
                 } catch (Exception e) {
-                    postErrorOnUI( (Error) e, responseHandler );
+                    e.printStackTrace();
                 }
             }
         });
