@@ -15,14 +15,14 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TypeDAO typeModel();
     public abstract StatsDAO statsModel();
 
-    public static AppDatabase getDatabase(Context context) {
+    public static AppDatabase buildDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(
                     context.getApplicationContext(), AppDatabase.class, DB_NAME).build();
         }
         return INSTANCE;
     }
-    public static AppDatabase getDatabase() {
+    public static AppDatabase buildDatabase() {
         return INSTANCE;
     }
 }
