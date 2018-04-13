@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -75,7 +76,8 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     @Override
     public Presenter setupPresenter() {
         if(presenter == null) {
-            presenter = new SearchPokemonPresenter(this);
+            presenter = AppWiring.searchPokemonAssembler.getPresenterFactory()
+                    .buildPresenter( this );
         }
         return presenter;
     }

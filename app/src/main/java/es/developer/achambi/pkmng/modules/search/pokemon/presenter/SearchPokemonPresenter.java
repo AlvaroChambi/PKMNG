@@ -26,11 +26,11 @@ public class SearchPokemonPresenter extends Presenter implements
     private ISearchPokemonScreen view;
     private PokemonDataAccess pokemonDataAccess;
 
-    public SearchPokemonPresenter( ISearchPokemonScreen view ) {
+    public SearchPokemonPresenter( ISearchPokemonScreen view, PokemonDataAccess dataAccess ) {
         super(view);
         this.view = view;
         pokemonDataList = new ArrayList<>();
-        pokemonDataAccess = new PokemonDataAccess();
+        this.pokemonDataAccess = dataAccess;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class SearchPokemonPresenter extends Presenter implements
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
+        super.onRestoreInstanceState(bundle);
         pokemonDataList = bundle.getParcelableArrayList(POKEMON_DATA_SAVED_STATE);
     }
 }

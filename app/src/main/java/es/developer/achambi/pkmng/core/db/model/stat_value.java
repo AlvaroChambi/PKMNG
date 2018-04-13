@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.core.db;
+package es.developer.achambi.pkmng.core.db.model;
 
 import android.arch.persistence.room.ColumnInfo;
 

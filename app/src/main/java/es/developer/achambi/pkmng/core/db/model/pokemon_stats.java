@@ -1,13 +1,14 @@
-package es.developer.achambi.pkmng.core.db;
+package es.developer.achambi.pkmng.core.db.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity
-public class stats {
+public class pokemon_stats {
     @PrimaryKey
     @NonNull
-    public int id;
-    public String identifier;
+    public int pokemon_id;
+    public int stat_id;
+    public int base_stat;
 }

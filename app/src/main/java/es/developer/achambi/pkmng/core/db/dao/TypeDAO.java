@@ -1,9 +1,11 @@
-package es.developer.achambi.pkmng.core.db;
+package es.developer.achambi.pkmng.core.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
+
+import es.developer.achambi.pkmng.core.db.model.type_value;
 
 @Dao
 public interface TypeDAO {

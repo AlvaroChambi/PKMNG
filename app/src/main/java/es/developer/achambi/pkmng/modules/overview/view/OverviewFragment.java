@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
@@ -35,7 +36,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.Pokem
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.modules.search.configuration.adapter.SearchConfigurationAdapter;
 
-public class OverviewFragment extends BaseSearchListFragment implements IOverviewView {
+public class OverviewFragment extends BaseSearchListFragment implements IOverviewScreen {
     private static final String POKEMON_DETAILS_DIALOG_TAG = "POKEMON_DETAILS_DIALOG_TAG";
     private static final String CONFIGURATION_DETAILS_DIALOG_TAG = "CONFIGURATION_DETAILS_DIALOG_TAG";
 
@@ -64,7 +65,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public Presenter setupPresenter() {
         if(presenter == null) {
-            presenter = new OverviewPresenter(this);
+            presenter = AppWiring.overviewAssembler.getPresenterFactory().buildPresenter(this);
         }
         return presenter;
     }

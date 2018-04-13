@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
-import es.developer.achambi.pkmng.core.db.pokemon_species;
-import es.developer.achambi.pkmng.core.db.stat_value;
-import es.developer.achambi.pkmng.core.db.type_value;
+import es.developer.achambi.pkmng.core.db.model.pokemon_species;
+import es.developer.achambi.pkmng.core.db.model.stat_value;
+import es.developer.achambi.pkmng.core.db.model.type_value;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
@@ -24,20 +24,20 @@ public class PokemonDataAccess {
 
     public ArrayList<Pokemon> accessData( ) {
         long start = System.currentTimeMillis();
-        List<pokemon_species> pokemonArray = AppDatabase.buildDatabase().pokemonModel().getPokemon();
+        List<pokemon_species> pokemonArray = database.pokemonModel().getPokemon();
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
         for( pokemon_species currentPokemon : pokemonArray ) {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
             List<type_value> type =
-                    AppDatabase.buildDatabase().typeModel().getType(currentPokemon.id);
+                    database.typeModel().getType(currentPokemon.id);
             Type secondType = Type.EMPTY;
             if( type.size() > 1 ) {
                 secondType = parseType( type.get(1).name );
             }
             pokemon.setType( parseType(type.get(0).name), secondType );
             List<stat_value> stats =
-                    AppDatabase.buildDatabase().statsModel().getStats(currentPokemon.id);
+                    database.statsModel().getStats(currentPokemon.id);
             populateStats( pokemon, stats );
 
             pokemonList.add( pokemon );
