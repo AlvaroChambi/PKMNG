@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.core.ui.view.TypeView;
-import es.developer.achambi.pkmng.modules.create.view.CreateConfigurationActivity;
-import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
+import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.modules.create.screen.CreateConfigurationActivity;
+import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
+import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";

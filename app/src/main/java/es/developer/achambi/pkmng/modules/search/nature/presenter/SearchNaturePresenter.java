@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -12,8 +11,8 @@ import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
-import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureScreen;
-import es.developer.achambi.pkmng.modules.search.nature.view.presentation.SearchNaturePresentation;
+import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
+import es.developer.achambi.pkmng.modules.search.nature.screen.presentation.SearchNaturePresentation;
 
 public class SearchNaturePresenter extends ISearchNaturePresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchNaturePresentation>{
@@ -49,7 +48,7 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
             }
         };
 
-        MainExecutor.executor().executeRequest(new Request() {
+        request(new Request() {
             @Override
             public Response perform() {
                 return new Response( buildNatureList() );

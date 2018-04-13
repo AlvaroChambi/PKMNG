@@ -3,7 +3,7 @@ package es.developer.achambi.pkmng.modules.create.presenter;
 import android.os.Bundle;
 
 import es.developer.achambi.pkmng.core.ui.Presenter;
-import es.developer.achambi.pkmng.modules.create.view.StatEVView;
+import es.developer.achambi.pkmng.modules.create.screen.StatEVView;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;

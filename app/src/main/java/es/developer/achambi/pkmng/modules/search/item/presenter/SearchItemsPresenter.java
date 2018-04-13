@@ -11,8 +11,8 @@ import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
-import es.developer.achambi.pkmng.modules.search.item.view.ISearchItemScreen;
-import es.developer.achambi.pkmng.modules.search.item.view.presentation.SearchItemPresentation;
+import es.developer.achambi.pkmng.modules.search.item.screen.ISearchItemScreen;
+import es.developer.achambi.pkmng.modules.search.item.screen.presentation.SearchItemPresentation;
 
 public class SearchItemsPresenter extends ISearchItemsPresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchItemPresentation> {
@@ -20,8 +20,8 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
     private ArrayList<Item> data;
     private ISearchItemScreen view;
 
-    public SearchItemsPresenter( ISearchItemScreen view ) {
-        super(view);
+    public SearchItemsPresenter( ISearchItemScreen view, MainExecutor executor ) {
+        super(view, executor);
         this.view = view;
     }
 
@@ -36,7 +36,7 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
             }
         };
 
-        MainExecutor.executor().executeRequest(new Request() {
+        request(new Request() {
             @Override
             public Response perform() {
                 return new Response<>( buildItemsList() );

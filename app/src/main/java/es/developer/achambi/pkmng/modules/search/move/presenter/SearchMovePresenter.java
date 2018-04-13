@@ -12,19 +12,20 @@ import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
-import es.developer.achambi.pkmng.modules.search.move.view.ISearchMoveScreen;
-import es.developer.achambi.pkmng.modules.search.move.view.presentation.SearchMovePresentation;
+import es.developer.achambi.pkmng.modules.search.move.screen.ISearchMoveScreen;
+import es.developer.achambi.pkmng.modules.search.move.screen.presentation.SearchMovePresentation;
 
 public class SearchMovePresenter extends ISearchMovePresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchMovePresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
 
     private ArrayList<Move> data;
-    private ISearchMoveScreen view;
+    private ISearchMoveScreen screen;
 
-    public SearchMovePresenter( ISearchMoveScreen view ) {
-        super(view);
-        this.view = view;
+    public SearchMovePresenter( ISearchMoveScreen screen,
+                                MainExecutor executor ) {
+        super(screen, executor);
+        this.screen = screen;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class SearchMovePresenter extends ISearchMovePresenter
                 responseHandler.onSuccess( response );
             }
         };
-        MainExecutor.executor().executeRequest(new Request() {
+        request(new Request() {
             @Override
             public Response perform() {
                 return new Response<>( buildMoves() );
@@ -82,7 +83,7 @@ public class SearchMovePresenter extends ISearchMovePresenter
     public void onItemClicked(SearchMovePresentation item) {
         for( Move move : data ) {
             if( item.id == move.getId() ) {
-                view.returnSelectedMove( move );
+                screen.returnSelectedMove( move );
             }
         }
     }

@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.view.TypeView;
-import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
+import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
 public class PokemonViewHolder extends RecyclerView.ViewHolder {
     public TextView pokemonName;

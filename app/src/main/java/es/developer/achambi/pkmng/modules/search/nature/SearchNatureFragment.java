@@ -18,11 +18,11 @@ import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenter;
-import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureScreen;
-import es.developer.achambi.pkmng.modules.search.nature.view.presentation.SearchNaturePresentation;
+import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
+import es.developer.achambi.pkmng.modules.search.nature.screen.presentation.SearchNaturePresentation;
 
 public class SearchNatureFragment extends BaseSearchListFragment implements ISearchNatureScreen {
     private static final String CURRENT_NATURE_ARGUMENT_KEY = "CURRENT_NATURE_ARGUMENT_KEY";

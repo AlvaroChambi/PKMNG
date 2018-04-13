@@ -7,7 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
-import es.developer.achambi.pkmng.modules.overview.view.OverviewActivity;
+import es.developer.achambi.pkmng.modules.overview.screen.OverviewActivity;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest

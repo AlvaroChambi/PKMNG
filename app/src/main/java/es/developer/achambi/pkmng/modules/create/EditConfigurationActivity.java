@@ -7,7 +7,7 @@ import android.os.Bundle;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseActivity;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
-import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 
 public class EditConfigurationActivity extends BaseActivity {

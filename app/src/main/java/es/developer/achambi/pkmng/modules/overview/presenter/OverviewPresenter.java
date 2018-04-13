@@ -5,11 +5,12 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.view.IOverviewScreen;
+import es.developer.achambi.pkmng.modules.overview.screen.IOverviewScreen;
 import es.developer.achambi.pkmng.modules.search.configuration.presenter.SearchConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenter;
 
@@ -19,10 +20,11 @@ public class OverviewPresenter extends IOverviewPresenter {
     private SearchPokemonPresenter pokemonPresenter;
     private SearchConfigurationPresenter configurationPresenter;
 
-    public OverviewPresenter(IOverviewScreen screen,
-                             SearchPokemonPresenter pokemonPresenter ) {
-        super(screen);
-        configurationPresenter = new SearchConfigurationPresenter( screen );
+    public OverviewPresenter( IOverviewScreen screen,
+                              SearchPokemonPresenter pokemonPresenter,
+                              MainExecutor executor ) {
+        super(screen, executor);
+        configurationPresenter = new SearchConfigurationPresenter( screen, executor );
         this.pokemonPresenter = pokemonPresenter;
     }
 

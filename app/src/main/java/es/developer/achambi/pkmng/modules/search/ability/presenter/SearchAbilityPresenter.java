@@ -4,15 +4,14 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
-import es.developer.achambi.pkmng.modules.search.ability.view.ISearchAbilityScreen;
-import es.developer.achambi.pkmng.modules.search.ability.view.presentation.SearchAbilityPresentation;
+import es.developer.achambi.pkmng.modules.search.ability.screen.ISearchAbilityScreen;
+import es.developer.achambi.pkmng.modules.search.ability.screen.presentation.SearchAbilityPresentation;
 
 public class SearchAbilityPresenter extends ISearchAbilityPresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
@@ -35,7 +34,7 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
             }
         };
 
-        MainExecutor.executor().executeRequest(new Request() {
+        request(new Request() {
             @Override
             public Response perform() {
                 return new Response( buildAbilityData() );

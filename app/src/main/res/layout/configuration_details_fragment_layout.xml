@@ -45,7 +45,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp" />
 
-        <es.developer.achambi.pkmng.core.ui.view.TypeView
+        <es.developer.achambi.pkmng.core.ui.screen.TypeView
             android:id="@+id/pokemon_type_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
         android:paddingLeft="8dp"
         android:paddingBottom="8dp">
 
-        <es.developer.achambi.pkmng.core.ui.view.AbilityView
+        <es.developer.achambi.pkmng.core.ui.screen.AbilityView
             android:id="@+id/pokemon_ability_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="1.0" />
 
-        <es.developer.achambi.pkmng.core.ui.view.NatureView
+        <es.developer.achambi.pkmng.core.ui.screen.NatureView
             android:id="@+id/pokemon_nature_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintHorizontal_bias="0.0" />
 
-        <es.developer.achambi.pkmng.core.ui.view.ItemView
+        <es.developer.achambi.pkmng.core.ui.screen.ItemView
             android:id="@+id/pokemon_item_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

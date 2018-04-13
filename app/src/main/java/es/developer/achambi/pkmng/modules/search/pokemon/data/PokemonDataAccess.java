@@ -1,7 +1,5 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.data;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,6 @@ public class PokemonDataAccess {
     }
 
     public ArrayList<Pokemon> accessData( ) {
-        long start = System.currentTimeMillis();
         List<pokemon_species> pokemonArray = database.pokemonModel().getPokemon();
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
         for( pokemon_species currentPokemon : pokemonArray ) {
@@ -42,7 +39,6 @@ public class PokemonDataAccess {
 
             pokemonList.add( pokemon );
         }
-        Log.i("TRACE", "time spent: " + (System.currentTimeMillis() - start));
         return pokemonList;
     }
 

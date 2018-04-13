@@ -8,9 +8,9 @@
     android:padding="8dp"
     android:layout_margin="8dp">
 
-    <es.developer.achambi.pkmng.core.ui.view.ConfigurationView
+    <es.developer.achambi.pkmng.core.ui.screen.ConfigurationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </es.developer.achambi.pkmng.core.ui.view.ConfigurationView>
+    </es.developer.achambi.pkmng.core.ui.screen.ConfigurationView>
 
 </android.support.v7.widget.CardView>

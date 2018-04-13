@@ -11,6 +11,7 @@ public abstract class Presenter {
     private static final String DATA_STATE_SAVED_STATE = "DATA_STATE_SAVED_STATE";
     private Screen screen;
     private DataState dataState;
+    private MainExecutor executor;
 
     public void onSaveInstanceState(Bundle bundle) {
         bundle.putInt( DATA_STATE_SAVED_STATE, dataState.ordinal() );
@@ -19,9 +20,10 @@ public abstract class Presenter {
         dataState = DataState.values()[bundle.getInt(DATA_STATE_SAVED_STATE)];
     }
 
-    public Presenter( Screen screen ) {
+    public Presenter( Screen screen, MainExecutor executor ) {
         this();
         this.screen = screen;
+        this.executor = executor;
     }
     public Presenter(){
         dataState = DataState.EMPTY;
@@ -35,7 +37,7 @@ public abstract class Presenter {
      */
     public void request( Request request, ResponseHandler responseHandler ) {
         if( screen != null ) {
-            MainExecutor.executor().executeRequest( request, new LifecycleResponseHandler<>(
+            executor.executeRequest( request, new LifecycleResponseHandler<>(
                     screen.screenLifecycle(), responseHandler
             ));
         }
