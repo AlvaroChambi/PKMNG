@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -17,10 +18,13 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Ability> data;
-    private ISearchAbilityScreen searchAbilityView;
+    private ISearchAbilityScreen searchAbilityScreen;
 
-    public SearchAbilityPresenter( ISearchAbilityScreen searchAbilityView ) {
-        this.searchAbilityView = searchAbilityView;
+    public SearchAbilityPresenter( ISearchAbilityScreen searchAbilityScreen,
+                                   MainExecutor executor ) {
+        super( searchAbilityScreen, executor );
+        this.searchAbilityScreen = searchAbilityScreen;
+        data = new ArrayList<>();
     }
 
     @Override
@@ -59,6 +63,15 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
         return data;
     }
 
+    @Override
+    public void onItemClicked(SearchAbilityPresentation item) {
+        for( Ability ability : data ) {
+            if( item.id == ability.getId() ) {
+                searchAbilityScreen.showAbilityDetails( ability );
+                return;
+            }
+        }
+    }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
@@ -70,15 +83,5 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
     public void onRestoreInstanceState(Bundle bundle) {
         super.onRestoreInstanceState(bundle);
         data = bundle.getParcelableArrayList( DATA_SAVED_STATE );
-    }
-
-    @Override
-    public void onItemClicked(SearchAbilityPresentation item) {
-        for( Ability ability : data ) {
-            if( item.id == ability.getId() ) {
-                searchAbilityView.showAbilityDetails( ability );
-                return;
-            }
-        }
     }
 }

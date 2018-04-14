@@ -434,7 +434,7 @@
                     <include
                         android:id="@+id/configuration_move_0_frame"
                         layout="@layout/configuration_move_view_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="148dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
                         app:layout_constraintRight_toRightOf="parent"
@@ -447,7 +447,7 @@
 
                     <include
                         layout="@layout/configuration_move_view_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="148dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
@@ -460,7 +460,7 @@
 
                     <include
                         layout="@layout/configuration_move_view_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="148dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="8dp"
@@ -474,7 +474,7 @@
                     <include
                         android:id="@+id/configuration_move_3_frame"
                         layout="@layout/configuration_move_view_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="148dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
                         app:layout_constraintRight_toLeftOf="@+id/guideline5"

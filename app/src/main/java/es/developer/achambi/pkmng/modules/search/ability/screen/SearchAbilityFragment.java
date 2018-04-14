@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.ability.screen;
 
+import android.arch.lifecycle.Lifecycle;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
@@ -45,7 +47,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ability = SearchAbilityPresentation.Builder.buildPresentation(
-                ((Ability) getArguments().getParcelable( CURRENT_ABILITY_ARGUMENT_KEY ))
+                ((Ability) getArguments().getParcelable( CURRENT_ABILITY_ARGUMENT_KEY ) )
         );
     }
 
@@ -82,7 +84,8 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchAbilityPresenter(this);
+            presenter = new SearchAbilityPresenter(this,
+                    MainExecutor.buildExecutor());
         }
         return presenter;
     }
@@ -120,6 +123,11 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     public void showAbilityDetails(Ability ability) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         AbilityDetailsFragment.newInstance( ability ).show( transaction, ABILITY_DETAILS_DIALOG_TAG );
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     public class AbilitiesListAdapter extends

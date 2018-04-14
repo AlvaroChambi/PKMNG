@@ -25,7 +25,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract StatsDAO statsModel();
 
     /**
-     * On first execution, copies initial database on the database application directory if needed
+     * On first execution, copies initial database on the database application directory if needed,
+     * Database is build after calling to this method
      * @param context
      * @return initialized database
      */

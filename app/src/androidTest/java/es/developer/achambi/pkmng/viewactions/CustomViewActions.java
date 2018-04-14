@@ -2,10 +2,12 @@ package es.developer.achambi.pkmng.viewactions;
 
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.CoordinatesProvider;
+import android.support.test.espresso.action.GeneralClickAction;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.GeneralSwipeAction;
 import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Swipe;
+import android.support.test.espresso.action.Tap;
 import android.view.View;
 
 import static android.support.test.espresso.action.ViewActions.actionWithAssertions;
@@ -31,6 +33,11 @@ public class CustomViewActions {
         return actionWithAssertions(new GeneralSwipeAction(Swipe.FAST,
                 translate(startCoordinates, 0, -EDGE_FUZZ_FACTOR),
                 GeneralLocation.TOP_CENTER, Press.FINGER));
+    }
+
+    public static ViewAction click( GeneralLocation location ) {
+        return actionWithAssertions(
+                new GeneralClickAction(Tap.SINGLE, location, Press.FINGER));
     }
 
     /**

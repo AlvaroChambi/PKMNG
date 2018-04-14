@@ -27,9 +27,9 @@ public class SearchPokemonPresenter extends Presenter implements
     private ISearchPokemonScreen screen;
     private PokemonDataAccess pokemonDataAccess;
 
-    public SearchPokemonPresenter(ISearchPokemonScreen screen,
-                                  PokemonDataAccess dataAccess,
-                                  MainExecutor executor ) {
+    public SearchPokemonPresenter( ISearchPokemonScreen screen,
+                                   PokemonDataAccess dataAccess,
+                                   MainExecutor executor ) {
         super(screen, executor);
         this.screen = screen;
         pokemonDataList = new ArrayList<>();

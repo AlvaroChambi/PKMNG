@@ -65,7 +65,7 @@ public class ConfigurationFragment extends BaseFragment
 
     private ConfigurationPresenter presenter;
 
-    public static ConfigurationFragment newInstance(Bundle args ) {
+    public static ConfigurationFragment newInstance( Bundle args ) {
         ConfigurationFragment fragment = new ConfigurationFragment();
         fragment.setArguments(args);
 
@@ -277,11 +277,10 @@ public class ConfigurationFragment extends BaseFragment
     }
 
     private void populateMoveView( View moveRootView, MoveConfigurationRepresentation move ) {
+        TextView moveName = moveRootView.findViewById(R.id.move_view_name_text);
+        TextView moveType = moveRootView.findViewById(R.id.move_view_type_text);
+        TextView movePower = moveRootView.findViewById(R.id.move_view_power_text);
         if( !move.isEmpty ) {
-            TextView moveName = moveRootView.findViewById(R.id.move_view_name_text);
-            TextView moveType = moveRootView.findViewById(R.id.move_view_type_text);
-            TextView movePower = moveRootView.findViewById(R.id.move_view_power_text);
-
             moveName.setText( move.name );
             movePower.setText( move.power );
             moveType.setText( move.type.name );
@@ -290,6 +289,11 @@ public class ConfigurationFragment extends BaseFragment
             movePower.setVisibility(View.VISIBLE);
             moveType.setVisibility(View.VISIBLE);
             moveRootView.findViewById(R.id.move_view_empty_state_image).setVisibility(View.GONE);
+        } else {
+            moveName.setVisibility(View.GONE);
+            movePower.setVisibility(View.GONE);
+            moveType.setVisibility(View.GONE);
+            moveRootView.findViewById(R.id.move_view_empty_state_image).setVisibility(View.VISIBLE);
         }
     }
 

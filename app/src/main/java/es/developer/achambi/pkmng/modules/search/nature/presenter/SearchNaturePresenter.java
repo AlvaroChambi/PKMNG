@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -21,8 +22,9 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
     private ISearchNatureScreen searchNatureView;
     private ArrayList<Nature> data;
 
-    public SearchNaturePresenter( ISearchNatureScreen searchNatureView ) {
-        this.searchNatureView = searchNatureView;
+    public SearchNaturePresenter(ISearchNatureScreen searchNatureScreen, MainExecutor executor) {
+        super(searchNatureScreen, executor);
+        this.searchNatureView = searchNatureScreen;
     }
 
     @Override

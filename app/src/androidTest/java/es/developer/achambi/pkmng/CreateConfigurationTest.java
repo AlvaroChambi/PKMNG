@@ -1,8 +1,11 @@
 package es.developer.achambi.pkmng;
 
+import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.Test;
+
+import es.developer.achambi.pkmng.viewactions.CustomViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -29,10 +32,11 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.pokemon_image_view)).perform(click());
 
         onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
+                        CustomViewActions.click( GeneralLocation.TOP_CENTER )));
         onView(withId(R.id.details_choose_pokemon_action_button)).perform(click());
 
-        onView( withText("Pikachu") ).check(matches(isDisplayed()));
+        onView( withText("bulbasaur") ).check(matches(isDisplayed()));
     }
 
     @Test
@@ -181,14 +185,15 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
 
         onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView( withText("Test") ).check(matches(isDisplayed()));
     }
 
     @Test
     public void configurationPokemonTypeDetail() {
         onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2,
+                        CustomViewActions.click(GeneralLocation.TOP_CENTER)));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
         onView( withId( R.id.pokemon_type_text ) ).perform( click() );
 
