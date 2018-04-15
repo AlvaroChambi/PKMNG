@@ -3,6 +3,7 @@ package es.developer.achambi.pkmng;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import es.developer.achambi.pkmng.viewactions.CustomViewActions;
@@ -21,6 +22,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 public class CreateConfigurationTest extends BaseAutomationTest {
+
     @Test
     public void changeCurrentPokemonTest() {
         onView( withId(R.id.base_search_recycler_view) )

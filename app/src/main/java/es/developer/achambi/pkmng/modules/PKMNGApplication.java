@@ -31,5 +31,6 @@ public class PKMNGApplication extends Application {
 
         AppWiring.searchPokemonAssembler = pokemonAssembler;
         AppWiring.overviewAssembler = overviewAssembler;
+        AppWiring.executor = executor;
     }
 }
