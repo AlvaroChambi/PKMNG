@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.view.AbilityView;
-import es.developer.achambi.pkmng.core.ui.view.ItemView;
-import es.developer.achambi.pkmng.core.ui.view.NatureView;
-import es.developer.achambi.pkmng.core.ui.view.TypeView;
-import es.developer.achambi.pkmng.modules.search.configuration.view.presentation.ConfigurationPresentation;
+import es.developer.achambi.pkmng.core.ui.screen.AbilityView;
+import es.developer.achambi.pkmng.core.ui.screen.ItemView;
+import es.developer.achambi.pkmng.core.ui.screen.NatureView;
+import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 
 public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
     public TextView configName;

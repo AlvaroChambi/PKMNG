@@ -2,6 +2,7 @@ package es.developer.achambi.pkmng.modules.overview.presenter;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -10,8 +11,8 @@ import es.developer.achambi.pkmng.modules.search.configuration.presenter.SearchC
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenter;
 
 public abstract class IOverviewPresenter extends Presenter {
-    public IOverviewPresenter(Screen screen) {
-        super(screen);
+    public IOverviewPresenter(Screen screen, MainExecutor executor) {
+        super(screen, executor);
     }
 
     public abstract void onQueryTextSubmit(String query);

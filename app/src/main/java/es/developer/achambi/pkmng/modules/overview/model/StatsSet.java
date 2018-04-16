@@ -3,8 +3,6 @@ package es.developer.achambi.pkmng.modules.overview.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 

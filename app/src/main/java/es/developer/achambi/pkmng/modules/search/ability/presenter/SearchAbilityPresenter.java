@@ -11,17 +11,20 @@ import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
-import es.developer.achambi.pkmng.modules.search.ability.view.ISearchAbilityScreen;
-import es.developer.achambi.pkmng.modules.search.ability.view.presentation.SearchAbilityPresentation;
+import es.developer.achambi.pkmng.modules.search.ability.screen.ISearchAbilityScreen;
+import es.developer.achambi.pkmng.modules.search.ability.screen.presentation.SearchAbilityPresentation;
 
 public class SearchAbilityPresenter extends ISearchAbilityPresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchAbilityPresentation>{
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Ability> data;
-    private ISearchAbilityScreen searchAbilityView;
+    private ISearchAbilityScreen searchAbilityScreen;
 
-    public SearchAbilityPresenter( ISearchAbilityScreen searchAbilityView ) {
-        this.searchAbilityView = searchAbilityView;
+    public SearchAbilityPresenter( ISearchAbilityScreen searchAbilityScreen,
+                                   MainExecutor executor ) {
+        super( searchAbilityScreen, executor );
+        this.searchAbilityScreen = searchAbilityScreen;
+        data = new ArrayList<>();
     }
 
     @Override
@@ -35,7 +38,7 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
             }
         };
 
-        MainExecutor.executor().executeRequest(new Request() {
+        request(new Request() {
             @Override
             public Response perform() {
                 return new Response( buildAbilityData() );
@@ -60,6 +63,15 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
         return data;
     }
 
+    @Override
+    public void onItemClicked(SearchAbilityPresentation item) {
+        for( Ability ability : data ) {
+            if( item.id == ability.getId() ) {
+                searchAbilityScreen.showAbilityDetails( ability );
+                return;
+            }
+        }
+    }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
@@ -71,15 +83,5 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
     public void onRestoreInstanceState(Bundle bundle) {
         super.onRestoreInstanceState(bundle);
         data = bundle.getParcelableArrayList( DATA_SAVED_STATE );
-    }
-
-    @Override
-    public void onItemClicked(SearchAbilityPresentation item) {
-        for( Ability ability : data ) {
-            if( item.id == ability.getId() ) {
-                searchAbilityView.showAbilityDetails( ability );
-                return;
-            }
-        }
     }
 }

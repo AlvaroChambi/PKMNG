@@ -5,6 +5,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.core.threading.Error;
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -14,28 +15,32 @@ import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
-import es.developer.achambi.pkmng.modules.search.pokemon.view.ISearchPokemonScreen;
-import es.developer.achambi.pkmng.modules.search.pokemon.view.presentation.PokemonPresentation;
+import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess;
+import es.developer.achambi.pkmng.modules.search.pokemon.screen.ISearchPokemonScreen;
+import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
 public class SearchPokemonPresenter extends Presenter implements
         SearchAdapterDecorator.OnItemClickedListener<PokemonPresentation> {
     private static final String POKEMON_DATA_SAVED_STATE = "POKEMON_DATA_SAVED_STATE";
 
     private ArrayList<Pokemon> pokemonDataList;
-    private ISearchPokemonScreen view;
+    private ISearchPokemonScreen screen;
+    private PokemonDataAccess pokemonDataAccess;
 
-    public SearchPokemonPresenter( ISearchPokemonScreen view ) {
-        super(view);
-        this.view = view;
+    public SearchPokemonPresenter( ISearchPokemonScreen screen,
+                                   PokemonDataAccess dataAccess,
+                                   MainExecutor executor ) {
+        super(screen, executor);
+        this.screen = screen;
         pokemonDataList = new ArrayList<>();
+        this.pokemonDataAccess = dataAccess;
     }
 
     @Override
     public void onItemClicked(PokemonPresentation item) {
         for( BasePokemon baseItem : pokemonDataList ) {
             if( item.id == baseItem.getId() ) {
-                view.showPokemonDetails( ((Pokemon)baseItem) );
+                screen.showPokemonDetails( ((Pokemon)baseItem) );
             }
         }
     }
@@ -50,43 +55,24 @@ public class SearchPokemonPresenter extends Presenter implements
                 new ResponseHandlerDecorator<ArrayList<Pokemon>>( responseHandler ) {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> response) {
-                super.onSuccess(response);
-                pokemonDataList = response.getData();
                 setDataState( DataState.SUCCESS );
+                pokemonDataList = response.getData();
+                super.onSuccess(response);
             }
 
             @Override
             public void onError(Error error) {
-                super.onError(error);
                 setDataState( DataState.ERROR );
+                super.onError(error);
             }
         };
 
         request( new Request() {
             @Override
             public Response perform() {
-                return new Response<>( buildPokemonData() );
+                return new Response<>( pokemonDataAccess.accessData() );
             }
         }, handler );
-    }
-
-    private ArrayList<Pokemon> buildPokemonData( ) {
-        int numberOfPokemon = 900;
-        ArrayList<Pokemon> pokemonList = new ArrayList<>(numberOfPokemon);
-        for(int i = 0; i < numberOfPokemon; i++) {
-            Pokemon pokemon = new Pokemon(i);
-            pokemon.setName("Pikachu");
-            pokemon.setType(Type.ELECTRIC);
-            pokemon.setHP(35);
-            pokemon.setAttack(55);
-            pokemon.setDefense(40);
-            pokemon.setSpAttack(50);
-            pokemon.setSpDefense(55);
-            pokemon.setSpeed(50);
-
-            pokemonList.add(pokemon);
-        }
-        return pokemonList;
     }
 
     @Override
@@ -97,7 +83,7 @@ public class SearchPokemonPresenter extends Presenter implements
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
+        super.onRestoreInstanceState(bundle);
         pokemonDataList = bundle.getParcelableArrayList(POKEMON_DATA_SAVED_STATE);
     }
 }

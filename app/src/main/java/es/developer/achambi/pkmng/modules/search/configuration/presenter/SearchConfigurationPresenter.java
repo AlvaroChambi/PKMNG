@@ -12,7 +12,6 @@ import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.Presenter;
-import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
@@ -20,9 +19,9 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
-import es.developer.achambi.pkmng.modules.search.configuration.view.presentation.ConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
-import es.developer.achambi.pkmng.modules.search.configuration.view.ISearchConfigurationScreen;
+import es.developer.achambi.pkmng.modules.search.configuration.screen.ISearchConfigurationScreen;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
@@ -32,11 +31,12 @@ public class SearchConfigurationPresenter extends Presenter implements
     private static final String CONFIGURATION_DATA_SAVED_STATE = "CONFIGURATION_DATA_SAVED_STATE";
 
     private ArrayList<PokemonConfig> pokemonConfigList;
-    private ISearchConfigurationScreen view;
+    private ISearchConfigurationScreen screen;
 
-    public SearchConfigurationPresenter( ISearchConfigurationScreen view ) {
-        super(view);
-        this.view = view;
+    public SearchConfigurationPresenter( ISearchConfigurationScreen screen,
+                                         MainExecutor executor ) {
+        super(screen, executor);
+        this.screen = screen;
     }
 
     public void fetchConfigurationList(
@@ -48,7 +48,7 @@ public class SearchConfigurationPresenter extends Presenter implements
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
                 setDataState( DataState.SUCCESS );
                 pokemonConfigList = response.getData();
-                responseHandler.onSuccess(response);
+                super.onSuccess(response);
             }
 
             @Override
@@ -58,7 +58,7 @@ public class SearchConfigurationPresenter extends Presenter implements
             }
         };
 
-        MainExecutor.executor().executeRequest(new Request() {
+        request(new Request() {
             @Override
             public Response perform() {
                 return new Response<>( buildConfigurationData() );
@@ -74,7 +74,7 @@ public class SearchConfigurationPresenter extends Presenter implements
     public void onItemClicked(ConfigurationPresentation item) {
         for( BasePokemon baseItem : pokemonConfigList) {
             if( item.id == baseItem.getId() ) {
-                view.showConfigurationDetails( ((PokemonConfig) baseItem) );
+                screen.showConfigurationDetails( ((PokemonConfig) baseItem) );
             }
         }
     }

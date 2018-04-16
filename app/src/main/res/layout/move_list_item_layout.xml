@@ -35,7 +35,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/move_name_text"
         app:layout_constraintTop_toBottomOf="@+id/move_name_text" />
 
-    <es.developer.achambi.pkmng.core.ui.view.TypeView
+    <es.developer.achambi.pkmng.core.ui.screen.TypeView
         android:id="@+id/move_type_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

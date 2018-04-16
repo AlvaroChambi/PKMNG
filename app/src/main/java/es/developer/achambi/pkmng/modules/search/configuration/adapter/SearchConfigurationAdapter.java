@@ -4,7 +4,7 @@ import android.view.View;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.search.configuration.view.presentation.ConfigurationPresentation;
+import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 
 public class SearchConfigurationAdapter extends SearchAdapterDecorator<ConfigurationPresentation,
         ConfigurationViewHolder> {

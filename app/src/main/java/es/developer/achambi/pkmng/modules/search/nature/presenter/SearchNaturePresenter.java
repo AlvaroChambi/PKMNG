@@ -12,8 +12,8 @@ import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
-import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureScreen;
-import es.developer.achambi.pkmng.modules.search.nature.view.presentation.SearchNaturePresentation;
+import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
+import es.developer.achambi.pkmng.modules.search.nature.screen.presentation.SearchNaturePresentation;
 
 public class SearchNaturePresenter extends ISearchNaturePresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchNaturePresentation>{
@@ -22,8 +22,9 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
     private ISearchNatureScreen searchNatureView;
     private ArrayList<Nature> data;
 
-    public SearchNaturePresenter( ISearchNatureScreen searchNatureView ) {
-        this.searchNatureView = searchNatureView;
+    public SearchNaturePresenter(ISearchNatureScreen searchNatureScreen, MainExecutor executor) {
+        super(searchNatureScreen, executor);
+        this.searchNatureView = searchNatureScreen;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
             }
         };
 
-        MainExecutor.executor().executeRequest(new Request() {
+        request(new Request() {
             @Override
             public Response perform() {
                 return new Response( buildNatureList() );

@@ -11,7 +11,7 @@
         android:id="@+id/pokemon_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:srcCompat="@drawable/pokemon_placeholder"
+        app:srcCompat="@drawable/pokemon_placeholder_2"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
@@ -34,7 +34,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         android:layout_marginEnd="8dp" />
 
-    <es.developer.achambi.pkmng.core.ui.view.TypeView
+    <es.developer.achambi.pkmng.core.ui.screen.TypeView
         android:id="@+id/pokemon_type_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

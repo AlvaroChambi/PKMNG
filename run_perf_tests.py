@@ -182,7 +182,7 @@ def pull_device_data_files(sdk_path, device_id, source_dir, dest_dir, package_na
 def open_app(device, package_name):
     """Open the specified app on the device."""
 
-    device.shell('am start -n ' + package_name + '/' + package_name + ".modules.overview.view" +
+    device.shell('am start -n ' + package_name + '/' + package_name + ".modules.overview.screen" +
                  '.OverviewActivity')
 
 

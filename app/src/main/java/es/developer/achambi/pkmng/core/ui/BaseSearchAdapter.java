@@ -34,13 +34,27 @@ public class BaseSearchAdapter extends RecyclerView.Adapter{
 
                     @Override
                     public int compare(SearchListData o1, SearchListData o2) {
+                        int compare;
                         if( o1.getViewType() > o2.getViewType() ) {
-                            return 1;
+                            compare = 1;
                         } else if( o1.getViewType() == o2.getViewType() ) {
-                            return 0;
+                            compare = 0;
                         } else {
-                            return -1;
+                            compare = -1;
                         }
+
+                        if( compare != 0 ) {
+                            return compare;
+                        }
+
+                        if( o1.getId() > o2.getId() ) {
+                            compare = 1;
+                        } else if( o1.getId() == o2.getId() ) {
+                            compare = 0;
+                        } else {
+                            compare = -1;
+                        }
+                        return compare;
                     }
 
                     @Override

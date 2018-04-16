@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.nature;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,16 +14,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.create.view.ConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenter;
-import es.developer.achambi.pkmng.modules.search.nature.view.ISearchNatureScreen;
-import es.developer.achambi.pkmng.modules.search.nature.view.presentation.SearchNaturePresentation;
+import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
+import es.developer.achambi.pkmng.modules.search.nature.screen.presentation.SearchNaturePresentation;
 
 public class SearchNatureFragment extends BaseSearchListFragment implements ISearchNatureScreen {
     private static final String CURRENT_NATURE_ARGUMENT_KEY = "CURRENT_NATURE_ARGUMENT_KEY";
@@ -85,7 +87,8 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchNaturePresenter( this );
+            presenter = new SearchNaturePresenter( this,
+                    MainExecutor.buildExecutor());
         }
         return presenter;
     }
@@ -124,6 +127,11 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
         dataIntent.putExtra(ConfigurationFragment.NATURE_ACTIVITY_RESULT_DATA_KEY, nature);
         getActivity().setResult(Activity.RESULT_OK, dataIntent);
         getActivity().finish();
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
 
