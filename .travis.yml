@@ -16,7 +16,7 @@ android:
 install:
   - true
 script:
-  - ./gradlew testDebugUnitTest assembleDebug assembleAndroidTest
+  - ./gradlew testDevDebugUnitTest assembleDebug assembleAndroidTest
 after_success:
   - wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-127.0.0-linux-x86_64.tar.gz
   - tar xf google-cloud-sdk-127.0.0-linux-x86_64.tar.gz
