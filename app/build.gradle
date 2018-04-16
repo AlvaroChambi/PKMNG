@@ -25,7 +25,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets { main { java.srcDirs = ['src/main/java', 'src/main/groovy'] } }
+    flavorDimensions "mode"
+    productFlavors {
+        dev {
+            dimension "mode"
+        }
+
+        automation {
+            dimension "mode"
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/groovy']
+        }
+    }
 }
 
 dependencies {

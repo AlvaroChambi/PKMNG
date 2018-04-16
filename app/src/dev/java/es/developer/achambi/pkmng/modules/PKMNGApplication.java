@@ -8,8 +8,8 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.pokemon.SearchPokemonAssembler;
-import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccessFactory;
+import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenterFactory;
 
 public class PKMNGApplication extends Application {
     @Override
@@ -31,6 +31,5 @@ public class PKMNGApplication extends Application {
 
         AppWiring.searchPokemonAssembler = pokemonAssembler;
         AppWiring.overviewAssembler = overviewAssembler;
-        AppWiring.executor = executor;
     }
 }
