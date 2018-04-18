@@ -7,6 +7,9 @@ import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenterFactory;
+import es.developer.achambi.pkmng.modules.search.item.SearchItemsAssembler;
+import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccessFactory;
+import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.pokemon.SearchPokemonAssembler;
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenterFactory;
@@ -29,7 +32,13 @@ public class PKMNGApplication extends Application {
                 new PokemonDataAccessFactory( database ), executor
         ));
 
+        SearchItemsAssembler itemsAssembler = new SearchItemsAssembler();
+        itemsAssembler.setPresenterFactory( new SearchItemsPresenterFactory(
+                new ItemDataAccessFactory( database ), executor
+        ));
+
         AppWiring.searchPokemonAssembler = pokemonAssembler;
         AppWiring.overviewAssembler = overviewAssembler;
+        AppWiring.searchItemsAssembler = itemsAssembler;
     }
 }

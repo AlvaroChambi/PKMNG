@@ -10,6 +10,7 @@ import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccess;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.screen.ISearchItemScreen;
 import es.developer.achambi.pkmng.modules.search.item.screen.presentation.SearchItemPresentation;
@@ -18,11 +19,16 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
         implements SearchAdapterDecorator.OnItemClickedListener<SearchItemPresentation> {
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Item> data;
-    private ISearchItemScreen view;
+    private ISearchItemScreen screen;
+    private ItemDataAccess dataAccess;
 
-    public SearchItemsPresenter( ISearchItemScreen view, MainExecutor executor ) {
-        super(view, executor);
-        this.view = view;
+    public SearchItemsPresenter( ISearchItemScreen screen,
+                                 ItemDataAccess dataAccess,
+                                 MainExecutor executor ) {
+        super(screen, executor);
+        this.screen = screen;
+        data = new ArrayList<>();
+        this.dataAccess = dataAccess;
     }
 
     @Override
@@ -39,7 +45,7 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
         request(new Request() {
             @Override
             public Response perform() {
-                return new Response<>( buildItemsList() );
+                return new Response<>( dataAccess.accessData() );
             }
         }, handler );
     }
@@ -48,27 +54,13 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
     public void onItemClicked(SearchItemPresentation itemRepresentation) {
         for( Item item : data ) {
             if( itemRepresentation.id == item.getId() ) {
-                view.showItemDetails( item );
+                screen.showItemDetails( item );
             }
         }
     }
 
     public ArrayList<Item> getItems() {
         return data;
-    }
-
-    private ArrayList<Item> buildItemsList() {
-        ArrayList<Item> items = new ArrayList<>();
-        for( int i = 0; i < 959; i++ ) {
-            Item item = new Item();
-            item.setId(i);
-            item.setDescriptionShort("Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.");
-            item.setDescription("Held by a Pokémon that is not fully evolved\n:   Holder has 1.5× Defense and Special Defense.");
-            item.setName("eviolite");
-            items.add(item);
-        }
-
-        return items;
     }
 
     @Override
