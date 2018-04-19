@@ -1,8 +1,7 @@
 package es.developer.achambi.pkmng.modules;
 
-import android.app.Application;
+import android.content.Context;
 
-import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
@@ -14,15 +13,17 @@ import es.developer.achambi.pkmng.modules.search.pokemon.SearchPokemonAssembler;
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenterFactory;
 
-public class PKMNGApplication extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        AppDatabase database = AppDatabase.buildDatabase(this);
-        MainExecutor executor = MainExecutor.buildExecutor();
+public abstract class BaseAppWiring {
+    public static OverviewAssembler overviewAssembler;
+    public static SearchPokemonAssembler searchPokemonAssembler;
+    public static SearchItemsAssembler searchItemsAssembler;
 
-        OverviewAssembler overviewAssembler = new OverviewAssembler();
-        overviewAssembler.setPresenterFactory( new OverviewPresenterFactory(
+    public void appWiring( Context context ) {
+        AppDatabase database = AppDatabase.buildDatabase(context);
+        MainExecutor executor = buildExecutor();
+
+        OverviewAssembler overviewScreenAssembler = new OverviewAssembler();
+        overviewScreenAssembler.setPresenterFactory( new OverviewPresenterFactory(
                 new SearchPokemonPresenterFactory(
                         new PokemonDataAccessFactory( database ), executor ), executor
         ) );
@@ -37,8 +38,12 @@ public class PKMNGApplication extends Application {
                 new ItemDataAccessFactory( database ), executor
         ));
 
-        AppWiring.searchPokemonAssembler = pokemonAssembler;
-        AppWiring.overviewAssembler = overviewAssembler;
-        AppWiring.searchItemsAssembler = itemsAssembler;
+        searchPokemonAssembler = pokemonAssembler;
+        overviewAssembler = overviewScreenAssembler;
+        searchItemsAssembler = itemsAssembler;
+    }
+
+    protected MainExecutor buildExecutor() {
+        return MainExecutor.buildExecutor();
     }
 }
