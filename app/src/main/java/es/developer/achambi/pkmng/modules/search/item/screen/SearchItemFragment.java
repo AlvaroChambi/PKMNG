@@ -12,10 +12,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
@@ -76,7 +78,8 @@ public class SearchItemFragment extends BaseSearchListFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( savedInstanceState == null) {
+        if( presenter.getDataState() == DataState.EMPTY
+                || presenter.getDataState() == DataState.NOT_FINISHED ) {
             doRequest();
         }
     }
@@ -91,7 +94,8 @@ public class SearchItemFragment extends BaseSearchListFragment
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchItemsPresenter(this, MainExecutor.buildExecutor());
+            presenter = AppWiring.searchItemsAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
     }
@@ -103,9 +107,7 @@ public class SearchItemFragment extends BaseSearchListFragment
             @Override
             public void onSuccess(Response<ArrayList<Item>> response) {
                 adapter.setData(
-                        new ItemResultDataBuilder().buildViewRepresentation(
-                                response.getData()
-                        ) );
+                        new ItemResultDataBuilder().buildViewRepresentation(response.getData()) );
                 presentAdapterData();
                 hideLoading();
             }

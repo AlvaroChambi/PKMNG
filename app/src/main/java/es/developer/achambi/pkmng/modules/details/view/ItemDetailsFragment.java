@@ -17,7 +17,7 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
     private static final String ITEM_ARGUMENT_KEY = "ITEM_ARGUMENT_KEY";
 
     private Item item;
-    private SearchItemPresentation viewRepresentation;
+    private ItemDetailsPresentation viewRepresentation;
 
     public static ItemDetailsFragment newInstance( Item item ) {
         Bundle bundle = new Bundle();
@@ -61,8 +61,18 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
     }
 
     private class ItemDetailsRepresentationDataBuilder {
-        public SearchItemPresentation buildViewRepresentation( Item item ) {
-            return SearchItemPresentation.Builder.buildPresentation( item );
+        public ItemDetailsPresentation buildViewRepresentation( Item item ) {
+            return new ItemDetailsPresentation( item.getName(), item.getDescription() );
+        }
+    }
+
+    private class ItemDetailsPresentation {
+        public final String name;
+        public final String description;
+
+        public ItemDetailsPresentation(String name, String description) {
+            this.name = name;
+            this.description = description;
         }
     }
 

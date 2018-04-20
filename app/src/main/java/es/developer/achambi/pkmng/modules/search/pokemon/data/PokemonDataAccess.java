@@ -20,7 +20,7 @@ public class PokemonDataAccess {
         this.database = database;
     }
 
-    public ArrayList<Pokemon> accessData( ) {
+    public ArrayList<Pokemon> accessData() {
         List<pokemon_species> pokemonArray = database.pokemonModel().getPokemon();
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
         for( pokemon_species currentPokemon : pokemonArray ) {
