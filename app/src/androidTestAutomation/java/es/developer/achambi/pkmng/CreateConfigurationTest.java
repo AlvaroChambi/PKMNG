@@ -56,7 +56,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.details_choose_item_action_button));
 
-        onView(withText("eviolite")).check(matches(isDisplayed()));
+        onView(withText("master-ball")).check(matches(isDisplayed()));
     }
 
     @Test
