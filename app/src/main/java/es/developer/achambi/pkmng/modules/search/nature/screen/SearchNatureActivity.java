@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.search.nature;
+package es.developer.achambi.pkmng.modules.search.nature.screen;
 
 import android.content.Context;
 import android.content.Intent;

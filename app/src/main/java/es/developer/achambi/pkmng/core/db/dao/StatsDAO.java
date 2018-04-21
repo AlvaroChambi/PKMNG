@@ -6,11 +6,16 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.model.stat_value;
+import es.developer.achambi.pkmng.core.db.model.stats;
 
 @Dao
 public interface StatsDAO {
     @Query("select stat_id, identifier, base_stat from pokemon_stats" +
         " join stats on pokemon_stats.stat_id = stats.id" +
         " where pokemon_id = :id")
-    List<stat_value> getStats(int id );
+    List<stat_value> getStats( int id );
+
+    @Query("select id, identifier from stats " +
+            "where id = :id")
+    stats getStat( int id );
 }

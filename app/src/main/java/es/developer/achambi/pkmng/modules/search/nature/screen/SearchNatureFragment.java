@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.modules.search.nature;
+package es.developer.achambi.pkmng.modules.search.nature.screen;
 
 import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -23,7 +24,6 @@ import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenter;
-import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
 import es.developer.achambi.pkmng.modules.search.nature.screen.presentation.SearchNaturePresentation;
 
 public class SearchNatureFragment extends BaseSearchListFragment implements ISearchNatureScreen {
@@ -48,9 +48,8 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        nature = SearchNaturePresentation.Builder.buildPresentation( getActivity(), ((Nature)
-                getArguments().getParcelable( CURRENT_NATURE_ARGUMENT_KEY )
-        ) );
+        nature = SearchNaturePresentation.Builder.buildPresentation( getActivity(),
+                ((Nature) getArguments().getParcelable( CURRENT_NATURE_ARGUMENT_KEY )) );
     }
 
     @Override
@@ -87,8 +86,8 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchNaturePresenter( this,
-                    MainExecutor.buildExecutor());
+            presenter = AppWiring.searchNatureAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
     }

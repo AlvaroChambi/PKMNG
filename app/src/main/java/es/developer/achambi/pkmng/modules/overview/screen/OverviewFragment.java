@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
@@ -94,6 +95,12 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                     hideLoading();
                 }
             }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+                showError( error );
+            }
         });
 
         presenter.fetchConfigurationList(
@@ -107,6 +114,12 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                     presentAdapterData();
                     hideLoading();
                 }
+            }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+                showError( error );
             }
         });
     }

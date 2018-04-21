@@ -30,7 +30,7 @@
         <activity android:name="es.developer.achambi.pkmng.modules.create.EditConfigurationActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.calculator.screen.DamageCalculatorActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.search.item.screen.SearchItemActivity"/>
-        <activity android:name="es.developer.achambi.pkmng.modules.search.nature.SearchNatureActivity"/>
+        <activity android:name="es.developer.achambi.pkmng.modules.search.nature.screen.SearchNatureActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.search.ability.screen.SearchAbilityActivity"/>
         <activity android:name="es.developer.achambi.pkmng.modules.search.move.screen.SearchMoveActivity" />
         <activity android:name="es.developer.achambi.pkmng.modules.search.pokemon.screen.SearchPokemonActivity"/>

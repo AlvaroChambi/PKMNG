@@ -10,7 +10,7 @@ import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.overview.model.Stat;
+import es.developer.achambi.pkmng.modules.search.nature.data.NatureDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
 import es.developer.achambi.pkmng.modules.search.nature.screen.presentation.SearchNaturePresentation;
@@ -21,10 +21,14 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
 
     private ISearchNatureScreen searchNatureView;
     private ArrayList<Nature> data;
+    private NatureDataAccess dataAccess;
 
-    public SearchNaturePresenter(ISearchNatureScreen searchNatureScreen, MainExecutor executor) {
+    public SearchNaturePresenter(ISearchNatureScreen searchNatureScreen,
+                                 NatureDataAccess dataAccess,
+                                 MainExecutor executor) {
         super(searchNatureScreen, executor);
         this.searchNatureView = searchNatureScreen;
+        this.dataAccess = dataAccess;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
         request(new Request() {
             @Override
             public Response perform() {
-                return new Response( buildNatureList() );
+                return new Response<>( dataAccess.accessData() );
             }
         }, handler);
     }
@@ -69,18 +73,5 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
 
     public ArrayList<Nature> getNatureList() {
         return data;
-    }
-
-    private ArrayList<Nature> buildNatureList() {
-        ArrayList<Nature> natureList = new ArrayList<>();
-        for( int i = 0; i < 25 ; i++ ) {
-            Nature nature = new Nature();
-            nature.setId(i);
-            nature.setName("modest");
-            nature.setIncreasedStat(Stat.ATTACK);
-            nature.setDecreasedStat(Stat.DEFENSE);
-            natureList.add( nature );
-        }
-        return natureList;
     }
 }

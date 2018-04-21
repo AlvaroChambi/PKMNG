@@ -27,6 +27,7 @@ public class MainExecutor extends ThreadPoolExecutor {
                 } catch (Error e) {
                     postErrorOnUI( e, responseHandler );
                 } catch (Exception e) {
+                    postErrorOnUI( new Error( e ), responseHandler );
                     e.printStackTrace();
                 }
             }
