@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -25,11 +26,13 @@ import es.developer.achambi.pkmng.modules.search.ability.screen.presentation.Sea
 
 public class SearchAbilityFragment extends BaseSearchListFragment implements ISearchAbilityScreen {
     private static final String CURRENT_ABILITY_ARGUMENT_KEY = "CURRENT_ABILITY_ARGUMENT_KEY";
+    private static final String POKEMON_ID_ARGUMENT_KEY = "POKEMON_ID_ARGUMENT_KEY";
     private static final String ABILITY_DETAILS_DIALOG_TAG = "ABILITY_DETAILS_DIALOG_TAG";
 
     private SearchAbilityPresenter presenter;
     private AbilitiesListAdapter adapter;
     private SearchAbilityPresentation ability;
+    private int pokemonId;
 
     public static final SearchAbilityFragment newInstance( Bundle args ) {
         SearchAbilityFragment fragment = new SearchAbilityFragment();
@@ -37,9 +40,10 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
         return fragment;
     }
 
-    public static final Bundle getFragmentParams( Ability ability ) {
+    public static final Bundle getFragmentParams( Ability ability, int pokemonId ) {
         Bundle bundle = new Bundle();
         bundle.putParcelable( CURRENT_ABILITY_ARGUMENT_KEY, ability );
+        bundle.putInt( POKEMON_ID_ARGUMENT_KEY, pokemonId );
         return bundle;
     }
 
@@ -49,6 +53,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
         ability = SearchAbilityPresentation.Builder.buildPresentation(
                 ((Ability) getArguments().getParcelable( CURRENT_ABILITY_ARGUMENT_KEY ) )
         );
+        pokemonId = getArguments().getInt( POKEMON_ID_ARGUMENT_KEY );
     }
 
     @Override
@@ -84,8 +89,8 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchAbilityPresenter(this,
-                    MainExecutor.buildExecutor());
+            presenter = AppWiring.searchAbilityAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
     }
@@ -93,7 +98,8 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     @Override
     public void doRequest() {
         super.doRequest();
-        presenter.fetchAbilities(new ResponseHandler<ArrayList<Ability>>() {
+        presenter.fetchAbilities( pokemonId,
+                new ResponseHandler<ArrayList<Ability>>() {
             @Override
             public void onSuccess(Response<ArrayList<Ability>> response) {
                 adapter.setData(

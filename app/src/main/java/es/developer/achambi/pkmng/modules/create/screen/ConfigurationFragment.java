@@ -159,7 +159,7 @@ public class ConfigurationFragment extends BaseFragment
                 break;
             case R.id.configuration_ability_frame:
                 startActivityForResult(SearchAbilityActivity.getStartIntent(getActivity(),
-                        presenter.getAbility()),
+                        presenter.getAbility(), presenter.getPokemon().getId()),
                         REPLACE_ABILITY_RESULT_CODE);
                 break;
             case R.id.configuration_nature_frame:

@@ -95,7 +95,7 @@ public class SearchConfigurationPresenter extends Presenter implements
         pokemonList.add(new PokemonConfig(110, pokemon0, new Configuration()));
 
         for(int i = 0; i < numberOfPokemon; i++) {
-            Pokemon pokemon = new Pokemon(i);
+            Pokemon pokemon = new Pokemon(10);
             pokemon.setName("Pikachu");
             pokemon.setType(Type.STEEL);
             pokemon.setHP(35);
