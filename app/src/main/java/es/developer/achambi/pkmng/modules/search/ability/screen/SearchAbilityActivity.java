@@ -10,9 +10,10 @@ import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 
 public class SearchAbilityActivity extends BaseActivity{
-    public static Intent getStartIntent( Context context, Ability currentAbility ) {
+    public static Intent getStartIntent( Context context, Ability currentAbility,
+                                         int pokemonId ) {
         Intent intent = new Intent( context, SearchAbilityActivity.class );
-        Bundle args = SearchAbilityFragment.getFragmentParams( currentAbility );
+        Bundle args = SearchAbilityFragment.getFragmentParams( currentAbility, pokemonId );
         intent.putExtra( BASE_ARGUMENTS, args );
         return intent;
     }

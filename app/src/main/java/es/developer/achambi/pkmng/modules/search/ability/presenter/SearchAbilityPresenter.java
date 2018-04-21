@@ -10,6 +10,7 @@ import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.pkmng.modules.search.ability.data.AbilityDataAccess;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.screen.ISearchAbilityScreen;
 import es.developer.achambi.pkmng.modules.search.ability.screen.presentation.SearchAbilityPresentation;
@@ -19,16 +20,20 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Ability> data;
     private ISearchAbilityScreen searchAbilityScreen;
+    private AbilityDataAccess dataAccess;
 
     public SearchAbilityPresenter( ISearchAbilityScreen searchAbilityScreen,
+                                   AbilityDataAccess abilityDataAccess,
                                    MainExecutor executor ) {
         super( searchAbilityScreen, executor );
         this.searchAbilityScreen = searchAbilityScreen;
         data = new ArrayList<>();
+        this.dataAccess = abilityDataAccess;
     }
 
     @Override
-    public void fetchAbilities(final ResponseHandler<ArrayList<Ability>> responseHandler ) {
+    public void fetchAbilities(final int pokemonId,
+                               final ResponseHandler<ArrayList<Ability>> responseHandler ) {
         ResponseHandler<ArrayList<Ability>> handler =
                 new ResponseHandlerDecorator<ArrayList<Ability>>( responseHandler ) {
             @Override
@@ -41,22 +46,9 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
         request(new Request() {
             @Override
             public Response perform() {
-                return new Response( buildAbilityData() );
+                return new Response<>( dataAccess.accessAbilities( pokemonId ) );
             }
         }, handler);
-    }
-
-    private ArrayList<Ability> buildAbilityData() {
-        ArrayList<Ability> abilities = new ArrayList<>();
-        for( int i = 0; i < 5; i++ ) {
-            Ability ability = new Ability();
-            ability.setId(i);
-            ability.setName("overgrow");
-            ability.setDescription("When this Pokémon has 1/3 or less of its HP remaining, its grass-type moves inflict 1.5× as much regular damage.");
-            ability.setDescriptionShort("Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.");
-            abilities.add(ability);
-        }
-        return abilities;
     }
 
     public ArrayList<Ability> getAbilityList() {

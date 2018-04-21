@@ -3,7 +3,6 @@ package es.developer.achambi.pkmng;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import es.developer.achambi.pkmng.viewactions.CustomViewActions;
@@ -74,7 +73,8 @@ public class CreateConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.details_choose_ability_action_button));
 
-        onView(withText("overgrow")).check(matches(isDisplayed()));
+        onView(withId(R.id.details_choose_ability_action_button));
+        onView(withText("blaze")).check(matches(isDisplayed()));
     }
 
     @Test

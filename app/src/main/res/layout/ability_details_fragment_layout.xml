@@ -70,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_weight="1"
-            android:text="@string/details_action_button_choose_item"
+            android:text="@string/details_action_button_choose_ability"
             android:backgroundTint="@color/primary_light"
             />
     </LinearLayout>

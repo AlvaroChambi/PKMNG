@@ -7,6 +7,9 @@ import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.data.StatDataAccessFactory;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenterFactory;
+import es.developer.achambi.pkmng.modules.search.ability.SearchAbilityAssembler;
+import es.developer.achambi.pkmng.modules.search.ability.data.AbilityDataAccessFactory;
+import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.item.SearchItemsAssembler;
 import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenterFactory;
@@ -22,6 +25,7 @@ public abstract class BaseAppWiring {
     public static SearchPokemonAssembler searchPokemonAssembler;
     public static SearchItemsAssembler searchItemsAssembler;
     public static SearchNatureAssembler searchNatureAssembler;
+    public static SearchAbilityAssembler searchAbilityAssembler;
 
     public void appWiring( Context context ) {
         AppDatabase database = AppDatabase.buildDatabase(context);
@@ -49,6 +53,11 @@ public abstract class BaseAppWiring {
         searchNatureAssembler.setPresenterFactory( new SearchNaturePresenterFactory(
                 new NatureDataAccessFactory(
                         database, new StatDataAccessFactory( database ) ), executor
+        ));
+
+        searchAbilityAssembler = new SearchAbilityAssembler();
+        searchAbilityAssembler.setPresenterFactory( new SearchAbilityPresenterFactory(
+                new AbilityDataAccessFactory( database ), executor
         ));
     }
 

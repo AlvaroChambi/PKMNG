@@ -12,5 +12,6 @@ public abstract class ISearchAbilityPresenter extends Presenter {
     public ISearchAbilityPresenter(Screen screen, MainExecutor executor) {
         super(screen, executor);
     }
-    public abstract void fetchAbilities( ResponseHandler<ArrayList<Ability>> responseHandler );
+    public abstract void fetchAbilities( int pokemonId,
+                                         ResponseHandler<ArrayList<Ability>> responseHandler );
 }
