@@ -52,7 +52,7 @@ public abstract class BaseAppWiring {
         ));
     }
 
-    private MainExecutor buildExecutor() {
+    protected MainExecutor buildExecutor() {
         return MainExecutor.buildExecutor();
     }
 }
