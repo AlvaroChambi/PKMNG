@@ -28,6 +28,10 @@ public class Pokemon implements BasePokemon{
         this.imageURL = pokemon.getImageURL();
     }
 
+    public void setStats(StatsSet stats) {
+        this.stats = stats;
+    }
+
     public String getName() {
         return name;
     }

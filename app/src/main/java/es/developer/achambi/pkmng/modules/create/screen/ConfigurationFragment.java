@@ -26,7 +26,7 @@ import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.screen.SearchItemActivity;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.screen.SearchMoveActivity;
-import es.developer.achambi.pkmng.modules.search.nature.SearchNatureActivity;
+import es.developer.achambi.pkmng.modules.search.nature.screen.SearchNatureActivity;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.SearchPokemonActivity;
 

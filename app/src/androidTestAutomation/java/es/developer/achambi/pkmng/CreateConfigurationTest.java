@@ -91,7 +91,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        onView(withText("modest")).check(matches(isDisplayed()));
+        onView(withText("hardy")).check(matches(isDisplayed()));
     }
 
     @Test

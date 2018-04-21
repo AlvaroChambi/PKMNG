@@ -5,19 +5,19 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.db.model.pokemon_species;
-import es.developer.achambi.pkmng.core.db.model.stat_value;
 import es.developer.achambi.pkmng.core.db.model.type_value;
+import es.developer.achambi.pkmng.modules.data.StatDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public class PokemonDataAccess {
-    private static final String SP_ATTACK = "special-attack";
-    private static final String SP_DEFENSE = "special-defense";
     private AppDatabase database;
+    private StatDataAccess statDataAccess;
 
-    public PokemonDataAccess( AppDatabase database ) {
+    public PokemonDataAccess( AppDatabase database,
+                              StatDataAccess statDataAccess ) {
         this.database = database;
+        this.statDataAccess = statDataAccess;
     }
 
     public ArrayList<Pokemon> accessData() {
@@ -33,58 +33,11 @@ public class PokemonDataAccess {
                 secondType = parseType( type.get(1).name );
             }
             pokemon.setType( parseType(type.get(0).name), secondType );
-            List<stat_value> stats =
-                    database.statsModel().getStats(currentPokemon.id);
-            populateStats( pokemon, stats );
+            pokemon.setStats( statDataAccess.accessPokemonStatsData( pokemon.getId() ) );
 
             pokemonList.add( pokemon );
         }
         return pokemonList;
-    }
-
-    private void populateStats( Pokemon pokemon, List<stat_value> stats ) {
-        for( stat_value current : stats ) {
-            switch ( parseStat(current.name) ) {
-                case HP:
-                    pokemon.setHP( current.value );
-                    break;
-                case ATTACK:
-                    pokemon.setAttack( current.value );
-                    break;
-                case DEFENSE:
-                    pokemon.setDefense( current.value );
-                    break;
-                case SP_ATTACK:
-                    pokemon.setSpAttack( current.value );
-                    break;
-                case SP_DEFENSE:
-                    pokemon.setSpDefense( current.value );
-                    break;
-                case SPEED:
-                    pokemon.setSpeed( current.value );
-                    break;
-                case NONE:
-                    break;
-            }
-        }
-    }
-
-    private Stat parseStat(String identifier ) {
-        if( identifier.equalsIgnoreCase(Stat.HP.toString()) ) {
-            return Stat.HP;
-        } else if( identifier.equalsIgnoreCase(Stat.ATTACK.toString()) ) {
-            return Stat.ATTACK;
-        } else if( identifier.equalsIgnoreCase(Stat.DEFENSE.toString()) ) {
-            return Stat.DEFENSE;
-        } else if( identifier.equalsIgnoreCase(SP_ATTACK) ) {
-            return Stat.SP_ATTACK;
-        } else if( identifier.equalsIgnoreCase(SP_DEFENSE) ) {
-            return Stat.SP_DEFENSE;
-        } else if( identifier.equalsIgnoreCase(Stat.SPEED.toString()) ) {
-            return Stat.SPEED;
-        } else {
-            return Stat.NONE;
-        }
     }
 
     private Type parseType( String identifier ) {
