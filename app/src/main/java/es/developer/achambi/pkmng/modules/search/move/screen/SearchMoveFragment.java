@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -30,10 +31,12 @@ import es.developer.achambi.pkmng.modules.search.move.screen.presentation.Search
 public class SearchMoveFragment extends BaseSearchListFragment
     implements ISearchMoveScreen {
     private static final String CURRENT_MOVE_ARGUMENT_KEY = "CURRENT_MOVE_ARGUMENT_KEY";
+    private static final String POKEMON_ID_ARGUMENT_KEY = "POKEMON_ID_ARGUMENT_KEY";
 
     private SearchMovePresenter presenter;
     private MovesListAdapter adapter;
     private SearchMovePresentation move;
+    private int pokemonId;
 
     public static final SearchMoveFragment newInstance( Bundle args ) {
         SearchMoveFragment fragment = new SearchMoveFragment();
@@ -41,9 +44,10 @@ public class SearchMoveFragment extends BaseSearchListFragment
         return fragment;
     }
 
-    public static final Bundle getFragmentParams( Move move ) {
+    public static final Bundle getFragmentParams( Move move, int pokemonId ) {
         Bundle bundle = new Bundle();
         bundle.putParcelable( CURRENT_MOVE_ARGUMENT_KEY, move );
+        bundle.putInt( POKEMON_ID_ARGUMENT_KEY, pokemonId );
         return bundle;
     }
 
@@ -53,6 +57,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
         move = SearchMovePresentation.Builder.buildPresentation( getActivity(),
                 ((Move)getArguments().getParcelable( CURRENT_MOVE_ARGUMENT_KEY ))
         );
+        pokemonId = getArguments().getInt( POKEMON_ID_ARGUMENT_KEY );
     }
 
     @Override
@@ -103,7 +108,7 @@ public class SearchMoveFragment extends BaseSearchListFragment
     @Override
     public void doRequest() {
         super.doRequest();
-        presenter.fetchMoves(new ResponseHandler<ArrayList<Move>>() {
+        presenter.fetchMoves( pokemonId, new ResponseHandler<ArrayList<Move>>() {
             @Override
             public void onSuccess(Response<ArrayList<Move>> response) {
                 adapter.setData( new MovesPresentationBuilder().build( getActivity(),
@@ -125,7 +130,8 @@ public class SearchMoveFragment extends BaseSearchListFragment
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchMovePresenter(this, MainExecutor.buildExecutor());
+            presenter = AppWiring.searchMoveAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
     }

@@ -198,22 +198,22 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
                 break;
             case R.id.move_0_damage_result_view:
                 startActivityForResult( SearchMoveActivity.getStartIntent( getActivity(),
-                        presenter.getMove0() ),
+                        presenter.getMove0(), presenter.getPokemon().getId() ),
                         MOVE_0_CHANGE_REQUEST_CODE );
                 break;
             case R.id.move_1_damage_result_view:
                 startActivityForResult( SearchMoveActivity.getStartIntent( getActivity(),
-                        presenter.getMove1() ),
+                        presenter.getMove1(), presenter.getPokemon().getId() ),
                         MOVE_1_CHANGE_REQUEST_CODE );
                 break;
             case R.id.move_2_damage_result_view:
                 startActivityForResult( SearchMoveActivity.getStartIntent( getActivity(),
-                        presenter.getMove2() ),
+                        presenter.getMove2(), presenter.getPokemon().getId() ),
                         MOVE_2_CHANGE_REQUEST_CODE );
                 break;
             case R.id.move_3_damage_result_view:
                 startActivityForResult( SearchMoveActivity.getStartIntent( getActivity(),
-                        presenter.getMove3() ),
+                        presenter.getMove3(), presenter.getPokemon().getId() ),
                         MOVE_3_CHANGE_REQUEST_CODE );
                 break;
         }

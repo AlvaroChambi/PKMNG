@@ -9,6 +9,7 @@ import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.EmptyPokemonConfig;
+import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
@@ -94,6 +95,18 @@ public class DamageCalculatorPresenter extends Presenter {
         damage.setEffectivenessModifier( move.getType().modifier(attacked.getPokemon().getType()) );
 
         return damage;
+    }
+
+    /**
+     * Returns the current editable pokemon
+     * @return
+     */
+    public Pokemon getPokemon() {
+        if( leftRightDirection ) {
+            return leftPokemon.getPokemon();
+        } else {
+            return rightPokemon.getPokemon();
+        }
     }
 
     public void saveLeftConfiguration() {

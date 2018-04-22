@@ -64,6 +64,8 @@ public class SearchMovePresentation implements SearchListData{
                     return R.drawable.move_category_physical;
                 case SPECIAL:
                     return R.drawable.move_category_special;
+                case NON_DAMAGING:
+                    return R.drawable.moves_category_non_damaging;
                 case EMPTY:
                     break;
             }

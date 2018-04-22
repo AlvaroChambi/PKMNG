@@ -110,7 +110,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(
-                isDescendantOfA(withId(R.id.configuration_move_0_frame)), withText("Earthquake") ) )
+                isDescendantOfA(withId(R.id.configuration_move_0_frame)), withText("mega-punch") ) )
                 .check( matches(isDisplayed()) );
     }
 
@@ -130,7 +130,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(
-                isDescendantOfA(withId(R.id.configuration_move_1_frame)), withText("Earthquake") ) )
+                isDescendantOfA(withId(R.id.configuration_move_1_frame)), withText("mega-punch") ) )
                 .check( matches(isDisplayed()) );
     }
 
@@ -150,7 +150,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(
-                isDescendantOfA(withId(R.id.configuration_move_2_frame)), withText("Earthquake") ) )
+                isDescendantOfA(withId(R.id.configuration_move_2_frame)), withText("mega-punch") ) )
                 .check( matches(isDisplayed()) );
     }
 
@@ -170,7 +170,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.base_search_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView( allOf(
-                isDescendantOfA(withId(R.id.configuration_move_3_frame)), withText("Earthquake") ) )
+                isDescendantOfA(withId(R.id.configuration_move_3_frame)), withText("mega-punch") ) )
                 .check( matches(isDisplayed()) );
     }
 
