@@ -26,6 +26,8 @@ public class CategoryPresentation {
                     return context.getString( R.string.move_category_special_tag );
                 case PHYSICAL:
                     return context.getString( R.string.move_category_physical_tag );
+                case NON_DAMAGING:
+                    return context.getString( R.string.name_category_non_damaging_tag );
             }
             return "";
         }

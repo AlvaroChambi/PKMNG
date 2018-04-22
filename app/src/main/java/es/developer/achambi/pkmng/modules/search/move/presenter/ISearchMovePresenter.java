@@ -13,5 +13,6 @@ public abstract class ISearchMovePresenter extends Presenter {
         super(screen, executor);
     }
 
-    public abstract void fetchMoves(ResponseHandler<ArrayList<Move>> responseHandler );
+    public abstract void fetchMoves(int pokemonId,
+                                    ResponseHandler<ArrayList<Move>> responseHandler );
 }

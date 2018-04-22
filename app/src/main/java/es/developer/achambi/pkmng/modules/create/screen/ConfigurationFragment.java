@@ -169,22 +169,22 @@ public class ConfigurationFragment extends BaseFragment
                 break;
             case R.id.configuration_move_0_frame:
                 startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
-                        presenter.getConfiguration().getMove0() ),
+                        presenter.getConfiguration().getMove0(), presenter.getPokemon().getId() ),
                         REPLACE_MOVE0_RESULT_CODE );
                 break;
             case R.id.configuration_move_1_frame:
                 startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
-                        presenter.getConfiguration().getMove1() ),
+                        presenter.getConfiguration().getMove1(), presenter.getPokemon().getId() ),
                         REPLACE_MOVE1_RESULT_CODE );
                 break;
             case R.id.configuration_move_2_frame:
                 startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
-                        presenter.getConfiguration().getMove2() ),
+                        presenter.getConfiguration().getMove2(), presenter.getPokemon().getId() ),
                         REPLACE_MOVE2_RESULT_CODE );
                 break;
             case R.id.configuration_move_3_frame:
                 startActivityForResult( SearchMoveActivity.getStartIntent(getActivity(),
-                        presenter.getConfiguration().getMove3() ),
+                        presenter.getConfiguration().getMove3(), presenter.getPokemon().getId() ),
                         REPLACE_MOVE3_RESULT_CODE );
                 break;
             case R.id.configuration_floating_save_button_middle:

@@ -11,9 +11,10 @@ import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class SearchMoveActivity extends BaseActivity{
 
-    public static final Intent getStartIntent( Context context, Move currentMove ) {
+    public static final Intent getStartIntent( Context context, Move currentMove,
+                                               int pokemonId ) {
         Intent intent = new Intent( context, SearchMoveActivity.class );
-        Bundle args = SearchMoveFragment.getFragmentParams( currentMove );
+        Bundle args = SearchMoveFragment.getFragmentParams( currentMove, pokemonId );
         intent.putExtra( BASE_ARGUMENTS, args );
         return intent;
     }

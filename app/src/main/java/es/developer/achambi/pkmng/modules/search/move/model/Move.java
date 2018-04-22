@@ -10,6 +10,7 @@ public class Move implements Parcelable{
     public enum Category {
         PHYSICAL,
         SPECIAL,
+        NON_DAMAGING,
         EMPTY
     }
     private int id;

@@ -91,6 +91,7 @@
 
     <string name="move_category_special_tag">Special</string>
     <string name="move_category_physical_tag">Physical</string>
+    <string name="name_category_non_damaging_tag">Non-damaging</string>
 
     <string name="move_power_text_tag">Power</string>
     <string name="move_accuracy_text_tag">Accuracy</string>
