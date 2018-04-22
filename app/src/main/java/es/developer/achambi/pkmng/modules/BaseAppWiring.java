@@ -6,6 +6,7 @@ import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.data.StatDataAccessFactory;
 import es.developer.achambi.pkmng.modules.data.TypeDataAccess;
+import es.developer.achambi.pkmng.modules.data.TypeDataAccessFactory;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.ability.SearchAbilityAssembler;
@@ -40,13 +41,15 @@ public abstract class BaseAppWiring {
         overviewAssembler.setPresenterFactory( new OverviewPresenterFactory(
                 new SearchPokemonPresenterFactory(
                         new PokemonDataAccessFactory( database,
-                                new StatDataAccessFactory(database) ), executor ), executor
+                                new StatDataAccessFactory(database),
+                                new TypeDataAccessFactory(database) ), executor ), executor
         ) );
 
         searchPokemonAssembler = new SearchPokemonAssembler();
         searchPokemonAssembler.setPresenterFactory( new SearchPokemonPresenterFactory(
                 new PokemonDataAccessFactory(
-                        database, new StatDataAccessFactory(database) ), executor
+                        database, new StatDataAccessFactory(database),
+                        new TypeDataAccessFactory(database)), executor
         ));
 
         searchItemsAssembler = new SearchItemsAssembler();

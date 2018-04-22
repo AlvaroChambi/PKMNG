@@ -7,18 +7,21 @@ import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.db.model.pokemon_species;
 import es.developer.achambi.pkmng.core.db.model.type_value;
 import es.developer.achambi.pkmng.modules.data.StatDataAccess;
+import es.developer.achambi.pkmng.modules.data.TypeDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public class PokemonDataAccess {
     private AppDatabase database;
     private StatDataAccess statDataAccess;
-    
+    private TypeDataAccess typeDataAccess;
 
     public PokemonDataAccess( AppDatabase database,
-                              StatDataAccess statDataAccess ) {
+                              StatDataAccess statDataAccess,
+                              TypeDataAccess typeDataAccess ) {
         this.database = database;
         this.statDataAccess = statDataAccess;
+        this.typeDataAccess = typeDataAccess;
     }
 
     public ArrayList<Pokemon> accessData() {
@@ -27,13 +30,7 @@ public class PokemonDataAccess {
         for( pokemon_species currentPokemon : pokemonArray ) {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
-            List<type_value> type =
-                    database.typeModel().getPokemonType(currentPokemon.id);
-            Type secondType = Type.EMPTY;
-            if( type.size() > 1 ) {
-                secondType = parseType( type.get(1).name );
-            }
-            pokemon.setType( parseType(type.get(0).name), secondType );
+            pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
             pokemon.setStats( statDataAccess.accessPokemonStatsData( pokemon.getId() ) );
 
             pokemonList.add( pokemon );
