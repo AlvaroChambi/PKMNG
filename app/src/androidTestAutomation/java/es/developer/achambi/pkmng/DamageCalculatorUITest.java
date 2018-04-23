@@ -21,7 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
-public class DamageCalculatorTest extends BaseAutomationTest {
+public class DamageCalculatorUITest extends BaseAutomationTest {
     @Test
     public void testLeftPokemonChange() {
         onView( withId(R.id.base_search_recycler_view) )
@@ -96,7 +96,7 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
 
         onView( allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
-                withText("razor-wind") ) ).check(matches(isDisplayed()));
+                withText("mega-punch") ) ).check(matches(isDisplayed()));
     }
 
     @Test
@@ -123,7 +123,7 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
 
         onView( allOf( isDescendantOfA(withId(R.id.move_1_damage_result_view)),
-                withText("razor-wind") ) ).check(matches(isDisplayed()));
+                withText("mega-punch") ) ).check(matches(isDisplayed()));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
 
         onView( allOf( isDescendantOfA(withId(R.id.move_2_damage_result_view)),
-                withText("razor-wind") ) ).check(matches(isDisplayed()));
+                withText("mega-punch") ) ).check(matches(isDisplayed()));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0, click() ) );
 
         onView( allOf( isDescendantOfA(withId(R.id.move_3_damage_result_view)),
-                withText("razor-wind") ) ).check(matches(isDisplayed()));
+                withText("mega-punch") ) ).check(matches(isDisplayed()));
     }
 
     @Test
@@ -230,7 +230,7 @@ public class DamageCalculatorTest extends BaseAutomationTest {
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
 
         onView( allOf( isDescendantOfA(withId(R.id.configuration_move_0_frame)),
-                withText("razor-wind") ) ).perform(scrollTo()).check(matches(isDisplayed()));
+                withText("mega-punch") ) ).perform(scrollTo()).check(matches(isDisplayed()));
     }
 
     @Test
@@ -258,7 +258,7 @@ public class DamageCalculatorTest extends BaseAutomationTest {
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
 
         onView( allOf( isDescendantOfA(withId(R.id.configuration_move_0_frame)),
-                withText("razor-wind") ) ).perform(scrollTo()).check(matches(isDisplayed()));
+                withText("mega-punch") ) ).perform(scrollTo()).check(matches(isDisplayed()));
     }
 
     @Test
@@ -283,7 +283,7 @@ public class DamageCalculatorTest extends BaseAutomationTest {
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
 
         onView( allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
-                withText("razor-wind") ) ).check(matches(isDisplayed()));
+                withText("mega-punch") ) ).check(matches(isDisplayed()));
         onView( allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
                 withId(R.id.move_damage_type_text) ) ).perform(click());
 
