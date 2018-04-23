@@ -2,13 +2,18 @@ package es.developer.achambi.pkmng.modules.create.screen;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
@@ -227,6 +232,7 @@ public class ConfigurationFragment extends BaseFragment
     }
 
     private void populatePokemonView( View rootView ) {
+        ImageView pokemonIcon = rootView.findViewById(R.id.pokemon_image_view);
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
         TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
         TextView baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
@@ -247,6 +253,9 @@ public class ConfigurationFragment extends BaseFragment
         pokemonSpAttack.setText(pokemonPresentation.stats.spAttack);
         pokemonSpDefense.setText(pokemonPresentation.stats.spDefense);
         pokemonSpeed.setText(pokemonPresentation.stats.speed);
+        Glide.with(this)
+                .load(Uri.parse(pokemonPresentation.image))
+                .into(pokemonIcon);
     }
 
     private void populateItemView(View rootView) {

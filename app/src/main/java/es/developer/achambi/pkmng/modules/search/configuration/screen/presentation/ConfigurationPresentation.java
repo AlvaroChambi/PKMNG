@@ -41,6 +41,9 @@ public class ConfigurationPresentation implements SearchListData {
         this.empty = empty;
     }
 
+    /**
+     * Equals case used on adapter implementations to check if this item has been modified
+     */
     @Override
     public boolean equals(Object obj) {
         if( this == obj ) {

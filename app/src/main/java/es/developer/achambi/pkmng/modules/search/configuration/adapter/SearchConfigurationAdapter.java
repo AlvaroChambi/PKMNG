@@ -2,6 +2,8 @@ package es.developer.achambi.pkmng.modules.search.configuration.adapter;
 
 import android.view.View;
 
+import com.bumptech.glide.RequestManager;
+
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
@@ -9,12 +11,16 @@ import es.developer.achambi.pkmng.modules.search.configuration.screen.presentati
 public class SearchConfigurationAdapter extends SearchAdapterDecorator<ConfigurationPresentation,
         ConfigurationViewHolder> {
 
-    public SearchConfigurationAdapter(SearchAdapterDecorator adapter) {
+    private RequestManager requestManager;
+
+    public SearchConfigurationAdapter(SearchAdapterDecorator adapter, RequestManager requestManager) {
         super(adapter);
+        this.requestManager = requestManager;
     }
 
-    public SearchConfigurationAdapter() {
+    public SearchConfigurationAdapter(RequestManager requestManager) {
         super();
+        this.requestManager = requestManager;
     }
 
     @Override
@@ -37,6 +43,6 @@ public class SearchConfigurationAdapter extends SearchAdapterDecorator<Configura
     @Override
     public void bindViewHolder( ConfigurationViewHolder holder,
                                 ConfigurationPresentation configuration ) {
-        holder.bindTo( configuration );
+        holder.bindTo( configuration, requestManager );
     }
 }

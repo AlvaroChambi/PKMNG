@@ -70,7 +70,7 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
             ConfigurationViewHolder configurationHolder =
                     new ConfigurationViewHolder( header );
             configurationHolder.linkTo( header );
-            configurationHolder.bindTo( configuration );
+            configurationHolder.bindTo( configuration, requestManager );
         } else {
             header.setVisibility( View.GONE );
         }
@@ -117,7 +117,7 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        adapter = new SearchConfigurationAdapter( );
+        adapter = new SearchConfigurationAdapter( requestManager );
         adapter.setListener( presenter );
         return adapter;
     }

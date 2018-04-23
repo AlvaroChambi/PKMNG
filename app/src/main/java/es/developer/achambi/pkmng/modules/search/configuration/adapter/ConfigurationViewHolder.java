@@ -1,8 +1,13 @@
 package es.developer.achambi.pkmng.modules.search.configuration.adapter;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.screen.AbilityView;
@@ -19,6 +24,7 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
     public NatureView nature;
     public TextView baseStats;
 
+    public ImageView pokemonIcon;
     public TextView pokemonName;
     public TypeView pokemonType;
 
@@ -29,6 +35,7 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
     public void linkTo( View rootView ) {
         configName = rootView.findViewById(R.id.pokemon_config_name_text);
 
+        pokemonIcon = rootView.findViewById(R.id.pokemon_image_view);
         pokemonName = rootView.findViewById(R.id.pokemon_name_text);
         pokemonType = rootView.findViewById(R.id.pokemon_type_text);
         baseStats = rootView.findViewById(R.id.pokemon_total_base_stats);
@@ -38,7 +45,9 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
         nature = rootView.findViewById(R.id.pokemon_nature_text);
     }
 
-    public void bindTo( ConfigurationPresentation configuration ) {
+    public void bindTo(ConfigurationPresentation configuration, RequestManager requestManager) {
+        requestManager.load(Uri.parse(configuration.pokemon.image))
+                .into(pokemonIcon);
         configName.setText(configuration.name);
         pokemonName.setText(configuration.pokemon.name);
         pokemonType.setType(configuration.pokemon.type);

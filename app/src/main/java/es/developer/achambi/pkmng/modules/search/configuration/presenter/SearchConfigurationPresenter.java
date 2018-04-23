@@ -83,7 +83,7 @@ public class SearchConfigurationPresenter extends Presenter implements
         int numberOfPokemon = 1;
         ArrayList<PokemonConfig> pokemonList = new ArrayList<>(numberOfPokemon);
 
-        Pokemon pokemon0 = new Pokemon(1);
+        Pokemon pokemon0 = new Pokemon(25);
         pokemon0.setName("Pikachu");
         pokemon0.setType(Type.ELECTRIC);
         pokemon0.setHP(35);
@@ -95,9 +95,9 @@ public class SearchConfigurationPresenter extends Presenter implements
         pokemonList.add(new PokemonConfig(110, pokemon0, new Configuration()));
 
         for(int i = 0; i < numberOfPokemon; i++) {
-            Pokemon pokemon = new Pokemon(10);
+            Pokemon pokemon = new Pokemon(25);
             pokemon.setName("Pikachu");
-            pokemon.setType(Type.STEEL);
+            pokemon.setType(Type.ELECTRIC);
             pokemon.setHP(35);
             pokemon.setAttack(55);
             pokemon.setDefense(40);

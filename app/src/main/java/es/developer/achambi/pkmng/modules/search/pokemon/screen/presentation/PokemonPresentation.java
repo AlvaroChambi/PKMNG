@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
+import es.developer.achambi.pkmng.core.utils.AssetResourceUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
@@ -52,7 +53,7 @@ public class PokemonPresentation implements SearchListData {
             return new PokemonPresentation(
                     pokemon.getId(),
                     pokemon.getName(),
-                    pokemon.getImageURL(),
+                    buildImageUrl(pokemon.getId()),
                     PokemonTypePresentation.Builder.buildPresentation( context, pokemon.getType() ),
                     totalStatsAttribute(context.getResources(), pokemon.getStats()),
                     StatSetPresentation.Builder.buildPresentation( context.getResources(),
@@ -64,6 +65,10 @@ public class PokemonPresentation implements SearchListData {
         private static String totalStatsAttribute(Resources resources, StatsSet statsSet) {
             return resources.getString(R.string.pokemon_item_total_stats_tag) +
                     statsSet.getTotalStats();
+        }
+
+        private static String buildImageUrl(int pokemonId) {
+            return AssetResourceUtil.buildImageAssetPath(String.valueOf(pokemonId));
         }
     }
 }

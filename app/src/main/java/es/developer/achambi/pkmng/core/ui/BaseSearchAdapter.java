@@ -10,7 +10,6 @@ import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
 
 public class BaseSearchAdapter extends RecyclerView.Adapter{
     private SortedList<SearchListData> data;
-
     private SearchAdapterDecorator adapter;
 
     public BaseSearchAdapter( SearchAdapterDecorator adapter ) {

@@ -2,6 +2,7 @@ package es.developer.achambi.pkmng.modules.calculator.screen;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
@@ -114,6 +117,9 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
         TextView leftConfigurationName = rootView.findViewById(R.id.left_pokemon_configuration_name);
         if( !leftPresentation.empty ) {
             leftConfigurationName.setText( leftPresentation.name );
+            Glide.with(this)
+                    .load(Uri.parse(leftPresentation.image))
+                    .into(leftView);
             leftView.setImageResource( R.drawable.pokemon_placeholder );
             leftView.setColorFilter(null);
         } else {
@@ -127,7 +133,9 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
 
         if( !rightPresentation.empty ) {
             rightConfigurationName.setText( rightPresentation.name );
-            rightView.setImageResource( R.drawable.pokemon_placeholder );
+            Glide.with(this)
+                    .load(Uri.parse(rightPresentation.image))
+                    .into(rightView);
             rightView.setColorFilter(null);
             rootView.findViewById( R.id.damage_results_frame_view ).setVisibility( View.VISIBLE );
             rootView.findViewById(R.id.empty_opponent_text).setVisibility( View.GONE );

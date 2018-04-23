@@ -2,15 +2,18 @@ package es.developer.achambi.pkmng.modules.search.pokemon.adapter;
 
 import android.view.View;
 
+import com.bumptech.glide.RequestManager;
+
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
 public class PokemonSearchAdapter extends SearchAdapterDecorator<PokemonPresentation,
         PokemonViewHolder> {
-
-    public PokemonSearchAdapter() {
+    private RequestManager requestManager;
+    public PokemonSearchAdapter(RequestManager requestManager) {
         super();
+        this.requestManager = requestManager;
     }
 
     @Override
@@ -33,6 +36,6 @@ public class PokemonSearchAdapter extends SearchAdapterDecorator<PokemonPresenta
     @Override
     public void bindViewHolder( PokemonViewHolder holder,
                                 PokemonPresentation pokemon ) {
-        holder.bindTo( pokemon );
+        holder.bindTo( pokemon, requestManager );
     }
 }

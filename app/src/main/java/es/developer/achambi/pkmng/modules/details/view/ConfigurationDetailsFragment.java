@@ -3,12 +3,16 @@ package es.developer.achambi.pkmng.modules.details.view;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
@@ -146,6 +150,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
     }
     
     private void populateView(View rootView) {
+        ImageView pokemonIcon = rootView.findViewById(R.id.pokemon_image_view);
         TextView configurationName = rootView.findViewById( R.id.pokemon_details_dialog_title );
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
         TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
@@ -166,6 +171,9 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         TextView move2 = rootView.findViewById(R.id.configuration_details_move_2);
         TextView move3 = rootView.findViewById(R.id.configuration_details_move_3);
 
+        Glide.with(this)
+                .load(Uri.parse(configurationPresentation.pokemon.image))
+                .into(pokemonIcon);
         pokemonName.setText(configurationPresentation.pokemon.name);
         configurationName.setText(configurationPresentation.name);
         pokemonType.setType(configurationPresentation.pokemon.type);

@@ -1,8 +1,12 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.adapter;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.RequestManager;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
@@ -20,6 +24,8 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
     public TextView pokemonSpDefense;
     public TextView pokemonSpeed;
 
+    private ImageView pokemonIcon;
+
     public PokemonViewHolder(View rootView) {
         super(rootView);
     }
@@ -35,9 +41,10 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonSpAttack = rootView.findViewById(R.id.pokemon_spa_text);
         pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
         pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
+        pokemonIcon = rootView.findViewById(R.id.pokemon_image_view);
     }
 
-    public void bindTo( PokemonPresentation pokemon ) {
+    public void bindTo(PokemonPresentation pokemon, RequestManager requestManager) {
         pokemonName.setText(pokemon.name);
         pokemonType.setType(pokemon.type);
         baseStats.setText(pokemon.totalStats);
@@ -47,5 +54,8 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonSpAttack.setText(pokemon.stats.spAttack);
         pokemonSpDefense.setText(pokemon.stats.spDefense);
         pokemonSpeed.setText(pokemon.stats.speed);
+        if( pokemon.image != null && !pokemon.image.isEmpty() ) {
+            requestManager.load(Uri.parse(pokemon.image)).into(pokemonIcon);
+        }
     }
 }

@@ -5,11 +5,15 @@ import android.arch.lifecycle.Lifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,6 +59,12 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.requestManager = Glide.with(this);
+    }
+
+    @Override
     public void onViewSetup(View view, Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
         if( presenter.getDataState() == DataState.EMPTY
@@ -73,10 +83,11 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        pokemonSearchAdapter = new PokemonSearchAdapter();
+        pokemonSearchAdapter = new PokemonSearchAdapter(requestManager);
         pokemonSearchAdapter.setListener( presenter.getPokemonPresenter() );
 
-        configurationSearchAdapter = new SearchConfigurationAdapter( pokemonSearchAdapter );
+        configurationSearchAdapter = new SearchConfigurationAdapter( pokemonSearchAdapter,
+                requestManager );
         configurationSearchAdapter.setListener( presenter.getConfigurationPresenter() );
 
         return configurationSearchAdapter;

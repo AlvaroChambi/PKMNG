@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -54,6 +57,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
         pokemon = PokemonPresentation.Builder.buildPresentation( getActivity(),
                 ((Pokemon)getArguments().getParcelable( CURRENT_POKEMON_ARGUMENT_KEY ))
         );
+        requestManager = Glide.with(this);
     }
 
     @Override
@@ -67,7 +71,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
         if( !pokemon.empty ) {
             PokemonViewHolder headerHolder = new PokemonViewHolder( header );
             headerHolder.linkTo( header );
-            headerHolder.bindTo( pokemon );
+            headerHolder.bindTo( pokemon, requestManager );
         } else {
             header.setVisibility(View.GONE);
         }
@@ -125,7 +129,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        adapter = new PokemonSearchAdapter( );
+        adapter = new PokemonSearchAdapter( requestManager );
         adapter.setListener( presenter );
         return adapter;
     }
