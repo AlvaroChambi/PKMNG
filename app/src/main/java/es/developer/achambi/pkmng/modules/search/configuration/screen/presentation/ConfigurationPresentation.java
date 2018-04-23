@@ -62,9 +62,9 @@ public class ConfigurationPresentation implements SearchListData {
                 && this.name.equals( presentation.name )
                 && this.pokemon.id == presentation.pokemon.id
                 && this.totalStats.equals( presentation.totalStats )
-                && this.ability.name.equals( ability.name )
-                && this.item.name.equals( item.name )
-                && this.nature.equals( nature.name ));
+                && this.ability.name.equals( presentation.ability.name )
+                && this.item.name.equals( presentation.item.name )
+                && this.nature.name.equals( presentation.nature.name ));
     }
 
     @Override
@@ -80,8 +80,7 @@ public class ConfigurationPresentation implements SearchListData {
     public static class Builder {
         public static ConfigurationPresentation buildPresentation(
                 Context context, PokemonConfig configuration ) {
-            ConfigurationPresentation configurationRepresentation =
-                    new ConfigurationPresentation(
+            return new ConfigurationPresentation(
                             configuration.getId(),
                             formatName( configuration.getName() ),
                             PokemonPresentation.Builder.buildPresentation( context,
@@ -96,7 +95,6 @@ public class ConfigurationPresentation implements SearchListData {
                                     context, configuration.getNature() ),
                             configuration.getId() == -1
                     );
-            return configurationRepresentation;
         }
 
         private static String formatName( String name ) {
