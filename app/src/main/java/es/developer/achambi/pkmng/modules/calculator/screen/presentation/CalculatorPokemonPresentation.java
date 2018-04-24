@@ -35,7 +35,7 @@ public class CalculatorPokemonPresentation {
         }
 
         private static String buildImageUrl(int pokemonId) {
-            return AssetResourceUtil.buildImageAssetPath(String.valueOf(pokemonId));
+            return AssetResourceUtil.buildPokemonImageAssetPath(String.valueOf(pokemonId));
         }
     }
 }

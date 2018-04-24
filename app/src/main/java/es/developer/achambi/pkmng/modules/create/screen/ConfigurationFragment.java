@@ -2,9 +2,11 @@ package es.developer.achambi.pkmng.modules.create.screen;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -14,10 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.DrawableImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
@@ -67,7 +74,7 @@ public class ConfigurationFragment extends BaseFragment
     private MoveConfigurationRepresentation move1;
     private MoveConfigurationRepresentation move2;
     private MoveConfigurationRepresentation move3;
-
+    private ItemPresentation item;
     private ConfigurationPresenter presenter;
 
     public static ConfigurationFragment newInstance( Bundle args ) {
@@ -119,10 +126,12 @@ public class ConfigurationFragment extends BaseFragment
             move1 = builder.build( presenter.getConfiguration().getMove1() );
             move2 = builder.build( presenter.getConfiguration().getMove2() );
             move3 = builder.build( presenter.getConfiguration().getMove3() );
+            item = ItemPresentation.Builder.buildPresentation( getActivity(),
+                    presenter.getConfiguration().getItem() );
         }
 
         populatePokemonView(view);
-        populateItemView(view);
+        populateItemView(item, view);
         populateAbilityView(view);
         populateNatureView(view);
         populateMoveView( view.findViewById(R.id.configuration_move_0_frame), move0 );
@@ -258,11 +267,14 @@ public class ConfigurationFragment extends BaseFragment
                 .into(pokemonIcon);
     }
 
-    private void populateItemView(View rootView) {
-        if( !presenter.getItem().getName().equals("") ) {
+    private void populateItemView(ItemPresentation item, View rootView) {
+        if( !item.empty ) {
             TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
+            ImageView itemIcon = rootView.findViewById(R.id.configuration_item_image_view);
             itemName.setText(presenter.getItem().getName());
             itemName.setVisibility(View.VISIBLE);
+            itemIcon.setVisibility(View.VISIBLE);
+            Glide.with(this).load(Uri.parse(item.image)).into(itemIcon);
             rootView.findViewById(R.id.configuration_item_empty_state).setVisibility(View.GONE);
         }
     }
@@ -348,8 +360,10 @@ public class ConfigurationFragment extends BaseFragment
             populatePokemonView( getView() );
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_ITEM_RESULT_CODE ) {
-            presenter.setItem( (Item)data.getParcelableExtra( ITEM_ACTIVITY_RESULT_DATA_KEY ) );
-            populateItemView( getView() );
+            Item resultItem = data.getParcelableExtra( ITEM_ACTIVITY_RESULT_DATA_KEY );
+            item = ItemPresentation.Builder.buildPresentation(getActivity(), resultItem);
+            presenter.setItem( resultItem );
+            populateItemView( item, getView() );
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_ABILITY_RESULT_CODE ) {
             presenter.setAbility( (Ability) data.getParcelableExtra( ABILITY_ACTIVITY_RESULT_DATA_KEY ) );

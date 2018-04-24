@@ -2,16 +2,20 @@ package es.developer.achambi.pkmng.modules.details.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.core.utils.AssetResourceUtil;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
-import es.developer.achambi.pkmng.modules.search.item.screen.presentation.SearchItemPresentation;
 
 public class ItemDetailsFragment extends BaseDialogFragment implements View.OnClickListener{
     private static final String ITEM_ARGUMENT_KEY = "ITEM_ARGUMENT_KEY";
@@ -55,6 +59,8 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
     private void populateView( View rootView ) {
         TextView itemName = rootView.findViewById(R.id.item_name_text);
         TextView itemDescription = rootView.findViewById(R.id.item_description_text);
+        ImageView itemIcon = rootView.findViewById(R.id.item_image_view);
+        Glide.with(this).load(Uri.parse(viewRepresentation.image)).into(itemIcon);
 
         itemName.setText( viewRepresentation.name );
         itemDescription.setText( viewRepresentation.description);
@@ -62,17 +68,21 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
 
     private class ItemDetailsRepresentationDataBuilder {
         public ItemDetailsPresentation buildViewRepresentation( Item item ) {
-            return new ItemDetailsPresentation( item.getName(), item.getDescription() );
+            return new ItemDetailsPresentation( item.getName(),
+                    item.getDescription(),
+                    AssetResourceUtil.buildItemImageAssetPath(item.getName()));
         }
     }
 
     private class ItemDetailsPresentation {
         public final String name;
         public final String description;
+        public final String image;
 
-        public ItemDetailsPresentation(String name, String description) {
+        public ItemDetailsPresentation(String name, String description, String image) {
             this.name = name;
             this.description = description;
+            this.image = image;
         }
     }
 

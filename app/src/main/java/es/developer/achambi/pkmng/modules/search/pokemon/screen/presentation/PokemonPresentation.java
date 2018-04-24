@@ -68,7 +68,7 @@ public class PokemonPresentation implements SearchListData {
         }
 
         private static String buildImageUrl(int pokemonId) {
-            return AssetResourceUtil.buildImageAssetPath(String.valueOf(pokemonId));
+            return AssetResourceUtil.buildPokemonImageAssetPath(String.valueOf(pokemonId));
         }
     }
 }

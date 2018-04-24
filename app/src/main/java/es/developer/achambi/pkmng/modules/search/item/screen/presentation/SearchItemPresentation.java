@@ -2,6 +2,7 @@ package es.developer.achambi.pkmng.modules.search.item.screen.presentation;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
+import es.developer.achambi.pkmng.core.utils.AssetResourceUtil;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class SearchItemPresentation implements SearchListData{
@@ -36,7 +37,7 @@ public class SearchItemPresentation implements SearchListData{
             return new SearchItemPresentation(
                     item.getId(),
                     item.getName(),
-                    item.getImageUrl(),
+                    AssetResourceUtil.buildItemImageAssetPath(item.getName()),
                     item.getDescriptionShort(),
                     item.getId() == -1
             );
