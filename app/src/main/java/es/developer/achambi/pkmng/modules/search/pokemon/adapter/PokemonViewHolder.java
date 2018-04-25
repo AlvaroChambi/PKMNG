@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
@@ -55,7 +56,9 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonSpDefense.setText(pokemon.stats.spDefense);
         pokemonSpeed.setText(pokemon.stats.speed);
         if( pokemon.image != null && !pokemon.image.isEmpty() ) {
-            requestManager.load(Uri.parse(pokemon.image)).into(pokemonIcon);
+            requestManager
+                    .load(Uri.parse(pokemon.image))
+                    .into(pokemonIcon);
         }
     }
 }

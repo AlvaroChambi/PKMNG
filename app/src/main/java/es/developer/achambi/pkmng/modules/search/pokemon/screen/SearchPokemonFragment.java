@@ -57,7 +57,6 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
         pokemon = PokemonPresentation.Builder.buildPresentation( getActivity(),
                 ((Pokemon)getArguments().getParcelable( CURRENT_POKEMON_ARGUMENT_KEY ))
         );
-        requestManager = Glide.with(this);
     }
 
     @Override

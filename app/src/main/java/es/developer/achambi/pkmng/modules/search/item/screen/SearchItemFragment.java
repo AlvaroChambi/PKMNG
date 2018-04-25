@@ -1,13 +1,21 @@
 package es.developer.achambi.pkmng.modules.search.item.screen;
 
 import android.arch.lifecycle.Lifecycle;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 
@@ -63,9 +71,13 @@ public class SearchItemFragment extends BaseSearchListFragment
     public void onHeaderSetup(View header) {
         if( !item.empty ) {
             header.setVisibility(View.VISIBLE);
-            TextView itemName = header.findViewById(R.id.item_name_text);
+            final TextView itemName = header.findViewById(R.id.item_name_text);
+            ImageView itemIcon = header.findViewById(R.id.item_image_view);
+            requestManager.load(Uri.parse(item.imageUrl))
+                    .into(itemIcon);
             TextView itemDescription = header.findViewById(R.id.item_description_text);
             itemName.setText( item.name );
+
             itemDescription.setText( item.description );
             itemName.setTextColor( ContextCompat.getColor(getActivity(), R.color.text_primary) );
             itemDescription.setTextColor(
@@ -166,8 +178,8 @@ public class SearchItemFragment extends BaseSearchListFragment
 
         @Override
         public ItemViewHolder createViewHolder( View rootView ) {
-            ItemViewHolder viewHolder = new ItemViewHolder(rootView);
-
+            final ItemViewHolder viewHolder = new ItemViewHolder(rootView);
+            viewHolder.itemIcon = rootView.findViewById(R.id.item_image_view);
             viewHolder.itemName = rootView.findViewById(R.id.item_name_text);
             viewHolder.itemDescription = rootView.findViewById(R.id.item_description_text);
 
@@ -178,9 +190,11 @@ public class SearchItemFragment extends BaseSearchListFragment
         public void bindViewHolder(ItemViewHolder holder, SearchItemPresentation item) {
             holder.itemName.setText( item.name );
             holder.itemDescription.setText( item.description);
+            requestManager.load(Uri.parse(item.imageUrl)).into(holder.itemIcon);
         }
 
         public class ItemViewHolder extends RecyclerView.ViewHolder {
+            public ImageView itemIcon;
             public TextView itemName;
             public TextView itemDescription;
 

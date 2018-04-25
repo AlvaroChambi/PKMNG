@@ -4,15 +4,18 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.utils.AssetResourceUtil;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class ItemPresentation {
     public final String name;
+    public final String image;
     public final String description;
     public final boolean empty;
 
-    public ItemPresentation(String name, String description, boolean empty) {
+    public ItemPresentation(String name, String image, String description, boolean empty) {
         this.name = name;
+        this.image = image;
         this.description = description;
         this.empty = empty;
     }
@@ -21,6 +24,7 @@ public class ItemPresentation {
         public static ItemPresentation buildPresentation( Context context, Item item ) {
             return new ItemPresentation(
                 formatItem( item, context.getResources() ),
+                AssetResourceUtil.buildItemImageAssetPath(item.getName()),
                 item.getDescriptionShort(),
                 item.getId() == -1
             );

@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 
 import org.jetbrains.annotations.NotNull;
 
