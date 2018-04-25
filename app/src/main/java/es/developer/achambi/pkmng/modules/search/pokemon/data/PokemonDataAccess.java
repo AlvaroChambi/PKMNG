@@ -31,10 +31,19 @@ public class PokemonDataAccess {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
             pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
-            pokemon.setStats( statDataAccess.accessPokemonStatsData( pokemon.getId() ) );
+            pokemon.setStats( statDataAccess.accessPokemonStatsData( currentPokemon.id ) );
 
             pokemonList.add( pokemon );
         }
         return pokemonList;
+    }
+
+    public Pokemon accessPokemonData(int pokemonId) {
+        pokemon_species rawPokemon = database.pokemonModel().getPokemon(pokemonId);
+        Pokemon pokemon = new Pokemon(rawPokemon.id);
+        pokemon.setName(rawPokemon.identifier);
+        pokemon.setType( typeDataAccess.accessPokemonTypeData( rawPokemon.id ) );
+        pokemon.setStats( statDataAccess.accessPokemonStatsData( rawPokemon.id ) );
+        return pokemon;
     }
 }

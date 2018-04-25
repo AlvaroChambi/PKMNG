@@ -15,6 +15,11 @@ public interface StatsDAO {
         " where pokemon_id = :id")
     List<stat_value> getStats( int id );
 
+    @Query("select stat_id, identifier, configuration_stats.ev_value base_stat from configuration_stats" +
+            " join stats on configuration_stats.stat_id = stats.id" +
+            " where configuration_id = :evsId")
+    List<stat_value> getEvsSet( int evsId );
+
     @Query("select id, identifier from stats " +
             "where id = :id")
     stats getStat( int id );

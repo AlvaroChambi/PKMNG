@@ -5,13 +5,15 @@ import android.content.Context;
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.data.StatDataAccessFactory;
-import es.developer.achambi.pkmng.modules.data.TypeDataAccess;
 import es.developer.achambi.pkmng.modules.data.TypeDataAccessFactory;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.ability.SearchAbilityAssembler;
 import es.developer.achambi.pkmng.modules.search.ability.data.AbilityDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenterFactory;
+import es.developer.achambi.pkmng.modules.search.configuration.SearchConfigurationAssembler;
+import es.developer.achambi.pkmng.modules.search.configuration.data.ConfigurationDataAccessFactory;
+import es.developer.achambi.pkmng.modules.search.configuration.presenter.SearchConfigurationPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.item.SearchItemsAssembler;
 import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenterFactory;
@@ -32,45 +34,61 @@ public abstract class BaseAppWiring {
     public static SearchNatureAssembler searchNatureAssembler;
     public static SearchAbilityAssembler searchAbilityAssembler;
     public static SearchMoveAssembler searchMoveAssembler;
+    public static SearchConfigurationAssembler searchConfigurationAssembler;
 
     public void appWiring( Context context ) {
         AppDatabase database = AppDatabase.buildDatabase(context);
         MainExecutor executor = buildExecutor();
+        StatDataAccessFactory statDataAccessFactory = new StatDataAccessFactory(database);
+        TypeDataAccessFactory typeDataAccessFactory = new TypeDataAccessFactory(database);
+        PokemonDataAccessFactory pokemonDataAccessFactory = new PokemonDataAccessFactory(database,
+                statDataAccessFactory, typeDataAccessFactory);
+        ItemDataAccessFactory itemDataAccessFactory = new ItemDataAccessFactory(database);
+        NatureDataAccessFactory natureDataAccessFactory = new NatureDataAccessFactory(database,
+                statDataAccessFactory );
+        AbilityDataAccessFactory abilityDataAccessFactory = new AbilityDataAccessFactory(database);
+        MoveDataAccessFactory moveDataAccessFactory = new MoveDataAccessFactory(database,
+                typeDataAccessFactory );
+        ConfigurationDataAccessFactory configDataAccessFactory = new ConfigurationDataAccessFactory(
+                database,
+                pokemonDataAccessFactory,
+                statDataAccessFactory,
+                moveDataAccessFactory,
+                itemDataAccessFactory,
+                natureDataAccessFactory,
+                abilityDataAccessFactory );
+
+        SearchPokemonPresenterFactory pokemonPresenterFactory = new SearchPokemonPresenterFactory(
+                pokemonDataAccessFactory, executor
+        );
+        SearchConfigurationPresenterFactory configurationPresenterFactory =
+                new SearchConfigurationPresenterFactory( configDataAccessFactory, executor );
 
         overviewAssembler = new OverviewAssembler();
         overviewAssembler.setPresenterFactory( new OverviewPresenterFactory(
-                new SearchPokemonPresenterFactory(
-                        new PokemonDataAccessFactory( database,
-                                new StatDataAccessFactory(database),
-                                new TypeDataAccessFactory(database) ), executor ), executor
-        ) );
+                pokemonPresenterFactory, configurationPresenterFactory, executor ) );
 
         searchPokemonAssembler = new SearchPokemonAssembler();
-        searchPokemonAssembler.setPresenterFactory( new SearchPokemonPresenterFactory(
-                new PokemonDataAccessFactory(
-                        database, new StatDataAccessFactory(database),
-                        new TypeDataAccessFactory(database)), executor
-        ));
+        searchPokemonAssembler.setPresenterFactory( pokemonPresenterFactory );
 
         searchItemsAssembler = new SearchItemsAssembler();
         searchItemsAssembler.setPresenterFactory( new SearchItemsPresenterFactory(
-                new ItemDataAccessFactory( database ), executor
+                itemDataAccessFactory, executor
         ));
 
         searchNatureAssembler = new SearchNatureAssembler();
         searchNatureAssembler.setPresenterFactory( new SearchNaturePresenterFactory(
-                new NatureDataAccessFactory(
-                        database, new StatDataAccessFactory( database ) ), executor
+                natureDataAccessFactory, executor
         ));
 
         searchAbilityAssembler = new SearchAbilityAssembler();
         searchAbilityAssembler.setPresenterFactory( new SearchAbilityPresenterFactory(
-                new AbilityDataAccessFactory( database ), executor
+                abilityDataAccessFactory, executor
         ));
 
         searchMoveAssembler = new SearchMoveAssembler();
         searchMoveAssembler.setPresenterFactory( new SearchMovePresenterFactory(
-                new MoveDataAccessFactory( database, new TypeDataAccess( database )), executor
+                moveDataAccessFactory, executor
         ));
     }
 

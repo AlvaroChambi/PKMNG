@@ -40,6 +40,20 @@ public class MoveDataAccess {
         return movesList;
     }
 
+    public Move accessMoveData(int moveId) {
+        move_value rawMove = database.movesModel().getMove(moveId);
+        Move move = new Move();
+        move.setId( rawMove.id );
+        move.setAccuracy(rawMove.accuracy);
+        move.setPower(rawMove.power);
+        move.setPp(rawMove.pp);
+        move.setName(rawMove.name);
+        move.setCategory(parseCategory(rawMove.category));
+        move.setEffect(rawMove.shortEffect);
+        move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
+        return  move;
+    }
+
     private Move.Category parseCategory( String value ) {
         Move.Category category = Move.Category.EMPTY;
         if( value.equals( PHYSICAL ) ) {

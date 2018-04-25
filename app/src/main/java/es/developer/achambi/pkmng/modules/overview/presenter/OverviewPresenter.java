@@ -22,9 +22,10 @@ public class OverviewPresenter extends IOverviewPresenter {
 
     public OverviewPresenter( IOverviewScreen screen,
                               SearchPokemonPresenter pokemonPresenter,
+                              SearchConfigurationPresenter configurationPresenter,
                               MainExecutor executor ) {
         super(screen, executor);
-        configurationPresenter = new SearchConfigurationPresenter( screen, executor );
+        this.configurationPresenter = configurationPresenter;
         this.pokemonPresenter = pokemonPresenter;
     }
 

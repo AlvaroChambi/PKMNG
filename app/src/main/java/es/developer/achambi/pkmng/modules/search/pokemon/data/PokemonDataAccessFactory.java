@@ -5,7 +5,7 @@ import es.developer.achambi.pkmng.modules.data.IStatDataAccessFactory;
 import es.developer.achambi.pkmng.modules.data.ITypeDataAccessFactory;
 
 public class PokemonDataAccessFactory implements IPokemonDataAccessFactory{
-    private  AppDatabase database;
+    private AppDatabase database;
     private IStatDataAccessFactory statDataAccessFactory;
     private ITypeDataAccessFactory typeDataAccessFactory;
 

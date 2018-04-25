@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.db.model.stat_value;
+import es.developer.achambi.pkmng.modules.overview.model.EvSet;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
@@ -21,6 +22,14 @@ public class StatDataAccess {
         List<stat_value> rawStats =
                 database.statsModel().getStats(pokemonId);
         StatsSet statsSet = new StatsSet();
+        populateStats( statsSet, rawStats );
+        return statsSet;
+    }
+
+    public EvSet accessEvsSetData( int evsId ) {
+        List<stat_value> rawStats =
+                database.statsModel().getEvsSet(evsId);
+        EvSet statsSet = new EvSet();
         populateStats( statsSet, rawStats );
         return statsSet;
     }

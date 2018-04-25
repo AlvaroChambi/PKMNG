@@ -26,14 +26,14 @@ public class ConfigurationPresenter extends Presenter
     private PokemonConfig pokemonConfiguration;
     private static int staticID = 1001;
 
-    public ConfigurationPresenter( ) {
+    public ConfigurationPresenter(  ) {
         editableConfiguration = new Configuration();
         editablePokemon = new Pokemon(1);
     }
 
     @Override
     public int requestValueIncrement(Stat stat, int progress) {
-        StatsSet evData = editableConfiguration.getStatsSet();
+        StatsSet evData = editableConfiguration.getEvsSet();
         int totalStatsPreview = evData.getTotalStatsPreview( stat, progress );
         if( totalStatsPreview <= StatsSet.MAX_TOTAL_EVS ) {
             evData.getStats().put(stat, progress);
@@ -61,7 +61,7 @@ public class ConfigurationPresenter extends Presenter
     }
 
     public StatsSet getEvSet() {
-        return editableConfiguration.getStatsSet();
+        return editableConfiguration.getEvsSet();
     }
 
     public ConfigurationAction saveConfiguration(String name) {

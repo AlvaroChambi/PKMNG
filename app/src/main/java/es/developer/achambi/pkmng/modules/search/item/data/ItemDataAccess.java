@@ -27,4 +27,14 @@ public class ItemDataAccess {
         }
         return items;
     }
+
+    public Item accessItemData(int itemId) {
+        item_value rawItem = database.itemsModel().getItem(itemId);
+        Item item = new Item();
+        item.setId( rawItem.id );
+        item.setName( rawItem.name );
+        item.setDescriptionShort( rawItem.shortEffect );
+        item.setDescription( rawItem.effect );
+        return item;
+    }
 }
