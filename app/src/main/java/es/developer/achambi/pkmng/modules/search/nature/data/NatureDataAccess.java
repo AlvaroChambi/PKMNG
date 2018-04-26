@@ -36,10 +36,12 @@ public class NatureDataAccess {
     public Nature accessNatureDate(int natureId) {
         natures rawNature = database.naturesModel().getNature(natureId);
         Nature nature = new Nature();
-        nature.setId( rawNature.id );
-        nature.setName( rawNature.identifier );
-        nature.setIncreasedStat( statDataAccess.accessStatData( rawNature.increased_stat_id ) );
-        nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
+        if(rawNature != null) {
+            nature.setId( rawNature.id );
+            nature.setName( rawNature.identifier );
+            nature.setIncreasedStat( statDataAccess.accessStatData( rawNature.increased_stat_id ) );
+            nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
+        }
         return nature;
     }
 }

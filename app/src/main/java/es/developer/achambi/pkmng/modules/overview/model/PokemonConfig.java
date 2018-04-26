@@ -8,8 +8,14 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class PokemonConfig extends BaseConfig{
     private Configuration configuration;
-    private final int id;
+    private int id;
     private String name;
+
+    public PokemonConfig() {
+        super(new Pokemon());
+        this.id = EMPTY_ID;
+        this.configuration = new Configuration();
+    }
 
     public PokemonConfig( int id,
             Pokemon basePokemon, Configuration configuration) {
@@ -65,7 +71,11 @@ public class PokemonConfig extends BaseConfig{
         }
     };
 
-    public void setPokemon( Pokemon pokemon ) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPokemon(Pokemon pokemon ) {
         this.pokemon = pokemon;
     }
 
@@ -110,32 +120,32 @@ public class PokemonConfig extends BaseConfig{
 
     @Override
     public int getHP() {
-        return pokemon.getHP() + configuration.getEvsSet().getHP();
+        return pokemon.getHP() + configuration.getEvsSet().getStats().getHP();
     }
 
     @Override
     public int getAttack() {
-        return pokemon.getAttack() + configuration.getEvsSet().getAttack();
+        return pokemon.getAttack() + configuration.getEvsSet().getStats().getAttack();
     }
 
     @Override
     public int getDefense() {
-        return pokemon.getDefense() + configuration.getEvsSet().getDefense();
+        return pokemon.getDefense() + configuration.getEvsSet().getStats().getDefense();
     }
 
     @Override
     public int getSpAttack() {
-        return pokemon.getSpAttack() + configuration.getEvsSet().getSpAttack();
+        return pokemon.getSpAttack() + configuration.getEvsSet().getStats().getSpAttack();
     }
 
     @Override
     public int getSPDefense() {
-        return pokemon.getSPDefense() + configuration.getEvsSet().getSPDefense();
+        return pokemon.getSPDefense() + configuration.getEvsSet().getStats().getSPDefense();
     }
 
     @Override
     public int getSpeed() {
-        return pokemon.getSpeed() + configuration.getEvsSet().getSpeed();
+        return pokemon.getSpeed() + configuration.getEvsSet().getStats().getSpeed();
     }
 
     @Override

@@ -1,8 +1,10 @@
 package es.developer.achambi.pkmng.modules.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.model.configuration_stats;
 import es.developer.achambi.pkmng.core.db.model.stat_value;
 import es.developer.achambi.pkmng.modules.overview.model.EvSet;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
@@ -19,23 +21,33 @@ public class StatDataAccess {
     }
 
     public StatsSet accessPokemonStatsData( int pokemonId ) {
-        List<stat_value> rawStats =
-                database.statsModel().getStats(pokemonId);
+        List<stat_value> rawStats = database.statsModel().getStats(pokemonId);
         StatsSet statsSet = new StatsSet();
         populateStats( statsSet, rawStats );
         return statsSet;
     }
 
     public EvSet accessEvsSetData( int evsId ) {
-        List<stat_value> rawStats =
-                database.statsModel().getEvsSet(evsId);
+        List<stat_value> rawStats = database.statsModel().getEvsSet(evsId);
         EvSet statsSet = new EvSet();
-        populateStats( statsSet, rawStats );
+        populateStats( statsSet.getStats(), rawStats );
         return statsSet;
     }
 
     public Stat accessStatData(int statId ) {
         return parseStat( database.statsModel().getStat( statId ).identifier );
+    }
+
+    public int insertEvSet( List<EvSet> evSets ) {
+        ArrayList<configuration_stats> setsToInsert = new ArrayList<>();
+        for ( EvSet evSet : evSets ) {
+            setsToInsert.add(  )
+        }
+    }
+
+    private configuration_stats cast(int setId, Stat stat) {
+        configuration_stats stats = new configuration_stats();
+        stats.stat_id =
     }
 
     private void populateStats( StatsSet statsSet, List<stat_value> stats ) {
@@ -80,6 +92,16 @@ public class StatDataAccess {
             return Stat.SPEED;
         } else {
             return Stat.NONE;
+        }
+    }
+
+    private String parseStat(Stat stat) {
+        if( stat.name().equalsIgnoreCase(SP_ATTACK) ) {
+            return SP_ATTACK;
+        } else if( stat.name().equalsIgnoreCase(SP_DEFENSE) ) {
+            return SP_DEFENSE;
+        } else {
+            return stat.name();
         }
     }
 }

@@ -30,7 +30,7 @@ public class Configuration implements Parcelable{
         move3 = new Move();
     }
 
-    public Configuration(Configuration configuration ) {
+    public Configuration(Configuration configuration) {
         this.item = new Item( configuration.getItem() );
         this.ability = new Ability( configuration.getAbility() );
         this.nature = new Nature( configuration.getNature() );
@@ -74,7 +74,7 @@ public class Configuration implements Parcelable{
         item = in.readParcelable(Item.class.getClassLoader());
         ability = in.readParcelable(Ability.class.getClassLoader());
         nature = in.readParcelable(Nature.class.getClassLoader());
-        statsSet = in.readParcelable(StatsSet.class.getClassLoader());
+        statsSet = in.readParcelable(EvSet.class.getClassLoader());
         move0 = in.readParcelable(Move.class.getClassLoader());
         move1 = in.readParcelable(Move.class.getClassLoader());
         move2 = in.readParcelable(Move.class.getClassLoader());

@@ -1,10 +1,13 @@
 package es.developer.achambi.pkmng.core.db.dao;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import es.developer.achambi.pkmng.core.db.model.configuration_stats;
 import es.developer.achambi.pkmng.core.db.model.stat_value;
 import es.developer.achambi.pkmng.core.db.model.stats;
 
@@ -23,4 +26,10 @@ public interface StatsDAO {
     @Query("select id, identifier from stats " +
             "where id = :id")
     stats getStat( int id );
+
+    @Insert
+    long insertEvSet(configuration_stats evs);
+
+    @Update
+    void updateEvSet(configuration_stats evs);
 }

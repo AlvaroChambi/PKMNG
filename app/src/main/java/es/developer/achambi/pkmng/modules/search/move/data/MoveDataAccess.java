@@ -3,7 +3,7 @@ package es.developer.achambi.pkmng.modules.search.move.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
 import es.developer.achambi.pkmng.core.db.model.move_value;
 import es.developer.achambi.pkmng.modules.data.TypeDataAccess;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -13,17 +13,17 @@ public class MoveDataAccess {
     private static final String SPECIAL = "special";
     private static final String NON_DAMAGING = "non-damaging";
 
-    private AppDatabase database;
+    private MovesDAO movesDAO;
     private TypeDataAccess typeDataAccess;
 
-    public MoveDataAccess(AppDatabase database,
+    public MoveDataAccess(MovesDAO movesDAO,
                           TypeDataAccess typeDataAccess) {
-        this.database = database;
+        this.movesDAO = movesDAO;
         this.typeDataAccess = typeDataAccess;
     }
 
     public ArrayList<Move> accessPokemonMovesData( int pokemonId ) {
-        List<move_value> rawMoves = database.movesModel().getPokemonMoves( pokemonId );
+        List<move_value> rawMoves = movesDAO.getPokemonMoves( pokemonId );
         ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
         for (move_value rawMove : rawMoves) {
             Move move = new Move();
@@ -41,16 +41,18 @@ public class MoveDataAccess {
     }
 
     public Move accessMoveData(int moveId) {
-        move_value rawMove = database.movesModel().getMove(moveId);
+        move_value rawMove = movesDAO.getMove(moveId);
         Move move = new Move();
-        move.setId( rawMove.id );
-        move.setAccuracy(rawMove.accuracy);
-        move.setPower(rawMove.power);
-        move.setPp(rawMove.pp);
-        move.setName(rawMove.name);
-        move.setCategory(parseCategory(rawMove.category));
-        move.setEffect(rawMove.shortEffect);
-        move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
+        if(rawMove != null) {
+            move.setId( rawMove.id );
+            move.setAccuracy(rawMove.accuracy);
+            move.setPower(rawMove.power);
+            move.setPp(rawMove.pp);
+            move.setName(rawMove.name);
+            move.setCategory(parseCategory(rawMove.category));
+            move.setEffect(rawMove.shortEffect);
+            move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
+        }
         return  move;
     }
 

@@ -32,10 +32,12 @@ public class AbilityDataAccess {
     public Ability accessAbilityData( int abilityId ) {
         ability_value rawAbility = database.abilitiesModel().getAbility(abilityId);
         Ability ability = new Ability();
-        ability.setId( rawAbility.id );
-        ability.setName( rawAbility.name );
-        ability.setDescription( rawAbility.effect );
-        ability.setDescriptionShort( rawAbility.shortEffect );
+        if(rawAbility != null) {
+            ability.setId( rawAbility.id );
+            ability.setName( rawAbility.name );
+            ability.setDescription( rawAbility.effect );
+            ability.setDescriptionShort( rawAbility.shortEffect );
+        }
         return ability;
     }
 }

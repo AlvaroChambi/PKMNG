@@ -7,8 +7,7 @@ import android.support.annotation.NonNull;
 @Entity
 public class configurations {
     @PrimaryKey(autoGenerate = true)
-    @NonNull
-    public int id;
+    public Integer id;
     public String name;
     public int pokemon_id;
     public int item_id;

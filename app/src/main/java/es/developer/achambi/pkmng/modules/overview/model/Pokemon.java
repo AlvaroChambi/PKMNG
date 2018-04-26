@@ -15,9 +15,16 @@ public class Pokemon implements BasePokemon{
     private StatsSet stats;
     private String imageURL;
 
+    public Pokemon() {
+        this.id = EMPTY_ID;
+        stats = new StatsSet();
+        type = new Pair<>(Type.EMPTY, Type.EMPTY);
+    }
+
     public Pokemon( int id  ) {
         this.id = id;
         stats = new StatsSet();
+        type = new Pair<>(Type.EMPTY, Type.EMPTY);
     }
 
     public Pokemon( Pokemon pokemon ) {

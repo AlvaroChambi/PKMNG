@@ -14,7 +14,7 @@ public interface ConfigurationDAO {
     @Query("select * from configurations")
     List<configurations> getConfigurations();
     @Insert
-    void insert(configurations configuration);
+    long insert(configurations configuration);
     @Update
     void update(configurations configuration);
 }

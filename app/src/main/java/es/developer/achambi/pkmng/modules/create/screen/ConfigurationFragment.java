@@ -1,12 +1,10 @@
 package es.developer.achambi.pkmng.modules.create.screen;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -16,18 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.DrawableImageViewTarget;
-import com.bumptech.glide.request.target.ImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
+import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
@@ -45,7 +45,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.screen.SearchPokemonAct
 import static android.app.Activity.RESULT_OK;
 
 public class ConfigurationFragment extends BaseFragment
-        implements View.OnClickListener {
+        implements View.OnClickListener, Screen {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
@@ -154,7 +154,8 @@ public class ConfigurationFragment extends BaseFragment
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new ConfigurationPresenter();
+            presenter = AppWiring.createConfigurationAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
     }
@@ -319,23 +320,34 @@ public class ConfigurationFragment extends BaseFragment
     }
 
     private void saveConfigurationRequest( String configurationName ) {
+       presenter.saveConfigurationRequest( configurationName,
+               new ResponseHandler<ConfigurationAction>() {
+           @Override
+           public void onSuccess(Response<ConfigurationAction> response) {
+               handleSaveConfigurationResult( response.getData() );
+           }
+       });
+
+    }
+
+    private void handleSaveConfigurationResult( ConfigurationAction action ) {
         Intent data = new Intent();
-        switch ( presenter.saveConfiguration(configurationName) ) {
-            case CREATED:
+        switch ( action ) {
+            case CREATE:
                 data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
                 getActivity().setResult(Activity.RESULT_OK, data);
                 Toast createdToast = Toast.makeText(getActivity(),
-                                R.string.configuration_created_toast_message,
-                                Toast.LENGTH_SHORT);
+                        R.string.configuration_created_toast_message,
+                        Toast.LENGTH_SHORT);
                 createdToast.setGravity( Gravity.CENTER, 0, 0 );
                 createdToast.show();
                 break;
-            case UPDATED:
+            case UPDATE:
                 data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
                 getActivity().setResult(Activity.RESULT_OK, data);
                 Toast updatedToast = Toast.makeText(getActivity(),
-                                R.string.configuration_updated_toast_message,
-                                Toast.LENGTH_SHORT);
+                        R.string.configuration_updated_toast_message,
+                        Toast.LENGTH_SHORT);
                 updatedToast.setGravity( Gravity.CENTER, 0, 0 );
                 updatedToast.show();
                 break;
@@ -403,6 +415,11 @@ public class ConfigurationFragment extends BaseFragment
                 }
             }
         }
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     public class MoveRepresentationBuilder {

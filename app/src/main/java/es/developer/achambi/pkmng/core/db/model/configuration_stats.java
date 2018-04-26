@@ -6,8 +6,7 @@ import android.support.annotation.NonNull;
 
 @Entity
 public class configuration_stats {
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
     public int configuration_id;
     public int stat_id;
     public int ev_value;

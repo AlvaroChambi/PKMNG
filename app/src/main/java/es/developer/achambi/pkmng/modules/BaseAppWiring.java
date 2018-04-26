@@ -4,6 +4,8 @@ import android.content.Context;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.create.CreateConfigurationAssembler;
+import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenterFactory;
 import es.developer.achambi.pkmng.modules.data.StatDataAccessFactory;
 import es.developer.achambi.pkmng.modules.data.TypeDataAccessFactory;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
@@ -35,6 +37,7 @@ public abstract class BaseAppWiring {
     public static SearchAbilityAssembler searchAbilityAssembler;
     public static SearchMoveAssembler searchMoveAssembler;
     public static SearchConfigurationAssembler searchConfigurationAssembler;
+    public static CreateConfigurationAssembler createConfigurationAssembler;
 
     public void appWiring( Context context ) {
         AppDatabase database = AppDatabase.buildDatabase(context);
@@ -47,7 +50,8 @@ public abstract class BaseAppWiring {
         NatureDataAccessFactory natureDataAccessFactory = new NatureDataAccessFactory(database,
                 statDataAccessFactory );
         AbilityDataAccessFactory abilityDataAccessFactory = new AbilityDataAccessFactory(database);
-        MoveDataAccessFactory moveDataAccessFactory = new MoveDataAccessFactory(database,
+        MoveDataAccessFactory moveDataAccessFactory = new MoveDataAccessFactory(
+                database.movesModel(),
                 typeDataAccessFactory );
         ConfigurationDataAccessFactory configDataAccessFactory = new ConfigurationDataAccessFactory(
                 database,
@@ -90,6 +94,10 @@ public abstract class BaseAppWiring {
         searchMoveAssembler.setPresenterFactory( new SearchMovePresenterFactory(
                 moveDataAccessFactory, executor
         ));
+
+        createConfigurationAssembler = new CreateConfigurationAssembler();
+        createConfigurationAssembler.setPresenterFactory( new ConfigurationPresenterFactory(
+                configDataAccessFactory, executor) );
     }
 
     protected MainExecutor buildExecutor() {
