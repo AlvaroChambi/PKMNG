@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.calculator.screen;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,9 +15,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.core.ui.FloatingActionMenu;
 import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.calculator.screen.presentation.CalculatorPokemonPresentation;
 import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenter;
 import es.developer.achambi.pkmng.modules.calculator.screen.presentation.MoveDamagePresentation;
@@ -27,7 +32,7 @@ import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.screen.SearchMoveActivity;
 
 public class DamageCalculatorFragment extends BaseFragment implements View.OnClickListener,
-        FloatingActionMenu.MenuOptionClickedListener {
+        FloatingActionMenu.MenuOptionClickedListener, Screen {
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     public static final String POKEMON_CONFIGURATION_EXTRA_KEY = "LEFT_POKEMON_EXTRA_KEY";
     private static final int LEFT_POKEMON_REQUEST_CODE = 100;
@@ -63,7 +68,6 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupPresenter();
         if( savedInstanceState == null ) {
             presenter.setLeftPokemon(
                     (PokemonConfig) getArguments().getParcelable( CONFIGURATION_ARGUMENT_KEY ) );
@@ -73,7 +77,8 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new DamageCalculatorPresenter();
+            presenter = AppWiring.damageCalculatorAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
     }
@@ -285,32 +290,49 @@ public class DamageCalculatorFragment extends BaseFragment implements View.OnCli
 
     @Override
     public void onMenuOptionClicked(int id) {
-        Intent data = new Intent();
-        Toast updatedToast = Toast.makeText(getActivity(),
+        final Intent data = new Intent();
+        final Toast updatedToast = Toast.makeText(getActivity(),
                 R.string.configuration_updated_toast_message,
                 Toast.LENGTH_SHORT);
         switch ( id ) {
             case R.id.configuration_floating_save_button_left:
-                presenter.saveLeftConfiguration();
-                data.putExtra( ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY,
-                        presenter.getLeftPokemon() );
-                getActivity().setResult( Activity.RESULT_OK, data );
-                updatedToast.show();
-                getActivity().finish();
+                presenter.saveLeftConfiguration(new ResponseHandler<Boolean>() {
+                    @Override
+                    public void onSuccess(Response<Boolean> response) {
+                        data.putExtra( ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY,
+                                presenter.getLeftPokemon() );
+                        getActivity().setResult( Activity.RESULT_OK, data );
+                        updatedToast.show();
+                        getActivity().finish();data.putExtra(
+                                ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY,
+                                presenter.getLeftPokemon() );
+                        getActivity().setResult( Activity.RESULT_OK, data );
+                        updatedToast.show();
+                        getActivity().finish();
+                    }
+                });
                 break;
             case R.id.configuration_floating_save_button_right:
-                presenter.saveRightConfiguration();
-                data.putExtra( ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY,
-                        presenter.getRightPokemon() );
-                getActivity().setResult( Activity.RESULT_OK, data );
-                updatedToast.show();
-                getActivity().finish();
+                presenter.saveRightConfiguration(new ResponseHandler<Boolean>() {
+                    @Override
+                    public void onSuccess(Response<Boolean> response) {
+                        data.putExtra( ConfigurationFragment.POKEMON_CONFIG_RESULT_DATA_KEY,
+                                presenter.getRightPokemon() );
+                        getActivity().setResult( Activity.RESULT_OK, data );
+                        updatedToast.show();
+                        getActivity().finish();
+                    }
+                });
                 break;
             case R.id.configuration_floating_save_button_middle:
                 getActivity().setResult( Activity.RESULT_CANCELED );
-                presenter.saveBothConfigurations();
                 getActivity().finish();
                 break;
         }
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 }

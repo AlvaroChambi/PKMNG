@@ -4,6 +4,8 @@ import android.content.Context;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorAssembler;
+import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenterFactory;
 import es.developer.achambi.pkmng.modules.create.CreateConfigurationAssembler;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenterFactory;
 import es.developer.achambi.pkmng.modules.data.StatDataAccessFactory;
@@ -38,6 +40,7 @@ public abstract class BaseAppWiring {
     public static SearchMoveAssembler searchMoveAssembler;
     public static SearchConfigurationAssembler searchConfigurationAssembler;
     public static CreateConfigurationAssembler createConfigurationAssembler;
+    public static DamageCalculatorAssembler damageCalculatorAssembler;
 
     public void appWiring( Context context ) {
         AppDatabase database = AppDatabase.buildDatabase(context);
@@ -95,9 +98,19 @@ public abstract class BaseAppWiring {
                 moveDataAccessFactory, executor
         ));
 
+        searchConfigurationAssembler = new SearchConfigurationAssembler();
+        searchConfigurationAssembler.setPresenterFactory( new SearchConfigurationPresenterFactory(
+                configDataAccessFactory, executor
+        ) );
+
         createConfigurationAssembler = new CreateConfigurationAssembler();
         createConfigurationAssembler.setPresenterFactory( new ConfigurationPresenterFactory(
                 configDataAccessFactory, executor) );
+
+        damageCalculatorAssembler = new DamageCalculatorAssembler();
+        damageCalculatorAssembler.setPresenterFactory( new DamageCalculatorPresenterFactory(
+                configDataAccessFactory, executor
+        ));
     }
 
     protected MainExecutor buildExecutor() {

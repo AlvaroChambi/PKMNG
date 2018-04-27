@@ -3,13 +3,19 @@ package es.developer.achambi.pkmng.modules.calculator.presenter;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.search.configuration.data.ConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class DamageCalculatorPresenter extends Presenter {
@@ -23,13 +29,17 @@ public class DamageCalculatorPresenter extends Presenter {
     private boolean leftRightDirection;
     private Configuration editableLeftConfiguration;
     private Configuration editableRightConfiguration;
+    private ConfigurationDataAccess dataAccess;
 
-    public DamageCalculatorPresenter( ) {
+    public DamageCalculatorPresenter(Screen screen, ConfigurationDataAccess dataAccess,
+                                     MainExecutor executor) {
+        super(screen, executor);
         leftPokemon = new PokemonConfig();
         rightPokemon = new PokemonConfig();
         leftRightDirection = true;
         editableLeftConfiguration = new Configuration();
         editableRightConfiguration = new Configuration();
+        this.dataAccess = dataAccess;
     }
 
     public PokemonConfig getLeftPokemon() {
@@ -108,21 +118,30 @@ public class DamageCalculatorPresenter extends Presenter {
         }
     }
 
-    public void saveLeftConfiguration() {
+    public void saveLeftConfiguration( ResponseHandler<Boolean> responseHandler ) {
         if( !leftPokemon.getConfiguration().equals( editableLeftConfiguration ) ) {
-            leftPokemon.setConfiguration( editableLeftConfiguration );
+            request(new Request() {
+                @Override
+                public Response perform() {
+                    leftPokemon.setConfiguration( editableLeftConfiguration );
+                    dataAccess.updateConfiguration( leftPokemon );
+                    return new Response<>(true);
+                }
+            }, responseHandler);
         }
     }
 
-    public void saveRightConfiguration() {
+    public void saveRightConfiguration( ResponseHandler responseHandler ) {
         if( !rightPokemon.getConfiguration().equals( editableRightConfiguration ) ) {
-            rightPokemon.setConfiguration( editableRightConfiguration );
+            request(new Request() {
+                @Override
+                public Response perform() {
+                    rightPokemon.setConfiguration( editableRightConfiguration );
+                    dataAccess.updateConfiguration( rightPokemon );
+                    return new Response<>(true);
+                }
+            }, responseHandler);
         }
-    }
-
-    public void saveBothConfigurations() {
-        saveLeftConfiguration();
-        saveRightConfiguration();
     }
 
     public Move getMove0() {
