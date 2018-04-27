@@ -12,7 +12,7 @@ public class Configuration implements Parcelable{
     private Item item;
     private Ability ability;
     private Nature nature;
-    private EvSet statsSet;
+    private StatsSet statsSet;
 
     private Move move0;
     private Move move1;
@@ -20,7 +20,7 @@ public class Configuration implements Parcelable{
     private Move move3;
 
     public Configuration() {
-        statsSet = new EvSet();
+        statsSet = new StatsSet();
         item = new Item();
         ability = new Ability();
         nature = new Nature();
@@ -34,7 +34,7 @@ public class Configuration implements Parcelable{
         this.item = new Item( configuration.getItem() );
         this.ability = new Ability( configuration.getAbility() );
         this.nature = new Nature( configuration.getNature() );
-        this.statsSet = new EvSet( configuration.getEvsSet() );
+        this.statsSet = new StatsSet( configuration.getEvsSet() );
         this.move0 = new Move( configuration.getMove0() );
         this.move1 = new Move( configuration.getMove1() );
         this.move2 = new Move( configuration.getMove2() );
@@ -74,7 +74,7 @@ public class Configuration implements Parcelable{
         item = in.readParcelable(Item.class.getClassLoader());
         ability = in.readParcelable(Ability.class.getClassLoader());
         nature = in.readParcelable(Nature.class.getClassLoader());
-        statsSet = in.readParcelable(EvSet.class.getClassLoader());
+        statsSet = in.readParcelable(StatsSet.class.getClassLoader());
         move0 = in.readParcelable(Move.class.getClassLoader());
         move1 = in.readParcelable(Move.class.getClassLoader());
         move2 = in.readParcelable(Move.class.getClassLoader());
@@ -134,11 +134,11 @@ public class Configuration implements Parcelable{
         this.nature = nature;
     }
 
-    public EvSet getEvsSet() {
+    public StatsSet getEvsSet() {
         return statsSet;
     }
 
-    public void setEvsSet(EvSet statsSet) {
+    public void setEvsSet(StatsSet statsSet) {
         this.statsSet = statsSet;
     }
 

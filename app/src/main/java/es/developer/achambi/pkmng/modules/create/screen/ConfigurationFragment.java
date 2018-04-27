@@ -138,7 +138,7 @@ public class ConfigurationFragment extends BaseFragment
         populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
         populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
         populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
-        populateEvSetView( presenter.getEvSet(), view);
+        populateStatsSetView( presenter.getStatsSet(), view);
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
@@ -212,7 +212,7 @@ public class ConfigurationFragment extends BaseFragment
         }
     }
 
-    private void populateEvSetView( StatsSet evSet, View rootView ) {
+    private void populateStatsSetView( StatsSet StatsSet, View rootView ) {
         StatEVView hp = rootView.findViewById(R.id.configuration_hp_ev_stat_bar);
         StatEVView attack = rootView.findViewById(R.id.configuration_attack_ev_stat_bar);
         StatEVView defense = rootView.findViewById(R.id.configuration_defense_ev_stat_bar);
@@ -228,17 +228,17 @@ public class ConfigurationFragment extends BaseFragment
         speed.setProgressUpdateProvider(presenter);
         Pokemon pokemon = presenter.getPokemon();
         hp.setBaseValue( pokemon.getHP() );
-        hp.setValue( evSet.getHP() );
+        hp.setValue( StatsSet.getHP() );
         attack.setBaseValue( pokemon.getAttack() );
-        attack.setValue( evSet.getAttack() );
+        attack.setValue( StatsSet.getAttack() );
         defense.setBaseValue( pokemon.getDefense() );
-        defense.setValue( evSet.getDefense() );
+        defense.setValue( StatsSet.getDefense() );
         spAttack.setBaseValue( pokemon.getSpAttack() );
-        spAttack.setValue( evSet.getSpAttack() );
+        spAttack.setValue( StatsSet.getSpAttack() );
         spDefense.setBaseValue( pokemon.getSPDefense() );
-        spDefense.setValue( evSet.getSPDefense() );
+        spDefense.setValue( StatsSet.getSPDefense() );
         speed.setBaseValue( pokemon.getSpeed() );
-        speed.setValue( evSet.getSpeed() );
+        speed.setValue( StatsSet.getSpeed() );
     }
 
     private void populatePokemonView( View rootView ) {

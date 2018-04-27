@@ -8,7 +8,6 @@ import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
-import es.developer.achambi.pkmng.modules.overview.model.EmptyPokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -26,8 +25,8 @@ public class DamageCalculatorPresenter extends Presenter {
     private Configuration editableRightConfiguration;
 
     public DamageCalculatorPresenter( ) {
-        leftPokemon = new EmptyPokemonConfig();
-        rightPokemon = new EmptyPokemonConfig();
+        leftPokemon = new PokemonConfig();
+        rightPokemon = new PokemonConfig();
         leftRightDirection = true;
         editableLeftConfiguration = new Configuration();
         editableRightConfiguration = new Configuration();

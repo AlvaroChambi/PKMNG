@@ -44,19 +44,22 @@ public class ConfigurationDataAccess {
         ArrayList<PokemonConfig> configurationsResult = new ArrayList<>();
         List<configurations> rawConfigurations = database.configurationsModel().getConfigurations();
         for (configurations currentRaw : rawConfigurations) {
-            Pokemon pokemon = pokemonDataAccess.accessPokemonData(currentRaw.pokemon_id);
+            Pokemon pokemon = pokemonDataAccess.accessPokemonData( currentRaw.pokemon_id );
             Configuration configuration = new Configuration();
-            configuration.setEvsSet(statDataAccess.accessEvsSetData(currentRaw.evs_id));
+            configuration.setEvsSet(statDataAccess.accessEvsSetData( currentRaw.id ));
             configuration.setMove0( moveDataAccess.accessMoveData( currentRaw.move_0_id ) );
-            configuration.setMove0( moveDataAccess.accessMoveData( currentRaw.move_1_id ) );
-            configuration.setMove0( moveDataAccess.accessMoveData( currentRaw.move_2_id ) );
-            configuration.setMove0( moveDataAccess.accessMoveData( currentRaw.move_3_id ) );
+            configuration.setMove1( moveDataAccess.accessMoveData( currentRaw.move_1_id ) );
+            configuration.setMove2( moveDataAccess.accessMoveData( currentRaw.move_2_id ) );
+            configuration.setMove3( moveDataAccess.accessMoveData( currentRaw.move_3_id ) );
             configuration.setItem( itemDataAccess.accessItemData( currentRaw.item_id ) );
             configuration.setNature( natureDataAccess.accessNatureDate( currentRaw.nature_id ) );
             configuration.setAbility( abilityDataAccess.accessAbilityData( currentRaw.ability_id ) );
-            PokemonConfig pokemonConfig = new PokemonConfig(currentRaw.id, pokemon, configuration);
+            PokemonConfig pokemonConfig = new PokemonConfig();
+            pokemonConfig.setId( currentRaw.id );
             pokemonConfig.setName( currentRaw.name );
-            configurationsResult.add(pokemonConfig);
+            pokemonConfig.setConfiguration( configuration );
+            pokemonConfig.setPokemon( pokemon );
+            configurationsResult.add( pokemonConfig );
         }
         return configurationsResult;
     }
@@ -64,11 +67,14 @@ public class ConfigurationDataAccess {
     public int insertConfiguration(final PokemonConfig configuration) {
         configurations configurationToInsert = cast(configuration);
         configurationToInsert.id = null;
-        configurationToInsert.evs_id = statDataAccess.
-        return (int)database.configurationsModel().insert( configurationToInsert );
+        int configurationId = (int)database.configurationsModel().insert( configurationToInsert );
+        configuration.setId(configurationId);
+        statDataAccess.insertStatsSet( configuration.getId(), configuration.getStatsSet() );
+        return configurationId;
     }
 
     public void updateConfiguration(final PokemonConfig configuration) {
+        statDataAccess.updateStatsSet( configuration.getId(), configuration.getStatsSet() );
         database.configurationsModel().update( cast(configuration) );
     }
 
@@ -80,7 +86,6 @@ public class ConfigurationDataAccess {
         result.ability_id = configuration.getAbility().getId();
         result.item_id = configuration.getItem().getId();
         result.nature_id = configuration.getNature().getId();
-        result.evs_id = configuration.getEvSet().getId();
         result.move_0_id = configuration.getConfiguration().getMove0().getId();
         result.move_1_id = configuration.getConfiguration().getMove1().getId();
         result.move_2_id = configuration.getConfiguration().getMove2().getId();

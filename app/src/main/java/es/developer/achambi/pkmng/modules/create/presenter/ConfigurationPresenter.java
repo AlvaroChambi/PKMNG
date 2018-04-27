@@ -46,7 +46,7 @@ public class ConfigurationPresenter extends Presenter
 
     @Override
     public int requestValueIncrement(Stat stat, int progress) {
-        StatsSet evData = editableConfiguration.getEvsSet().getStats();
+        StatsSet evData = editableConfiguration.getEvsSet();
         int totalStatsPreview = evData.getTotalStatsPreview( stat, progress );
         if( totalStatsPreview <= StatsSet.MAX_TOTAL_EVS ) {
             evData.getStats().put(stat, progress);
@@ -73,8 +73,8 @@ public class ConfigurationPresenter extends Presenter
         pokemonConfiguration = bundle.getParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG );
     }
 
-    public StatsSet getEvSet() {
-        return editableConfiguration.getEvsSet().getStats();
+    public StatsSet getStatsSet() {
+        return editableConfiguration.getEvsSet();
     }
 
     public void saveConfigurationRequest(String name,

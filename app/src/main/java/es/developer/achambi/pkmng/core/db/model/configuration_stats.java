@@ -1,12 +1,9 @@
 package es.developer.achambi.pkmng.core.db.model;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
-@Entity
+@Entity(primaryKeys = {"configuration_id", "stat_id"})
 public class configuration_stats {
-    @PrimaryKey(autoGenerate = true)
     public int configuration_id;
     public int stat_id;
     public int ev_value;

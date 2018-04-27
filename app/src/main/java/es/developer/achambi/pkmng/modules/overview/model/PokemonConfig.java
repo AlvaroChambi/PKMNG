@@ -14,15 +14,8 @@ public class PokemonConfig extends BaseConfig{
     public PokemonConfig() {
         super(new Pokemon());
         this.id = EMPTY_ID;
-        this.configuration = new Configuration();
-    }
-
-    public PokemonConfig( int id,
-            Pokemon basePokemon, Configuration configuration) {
-        super(basePokemon);
         this.name = "";
-        this.id = id;
-        this.configuration = configuration;
+        this.configuration = new Configuration();
     }
 
     protected PokemonConfig(Parcel in) {
@@ -114,38 +107,38 @@ public class PokemonConfig extends BaseConfig{
         return totalStats;
     }
 
-    public EvSet getEvSet() {
+    public StatsSet getStatsSet() {
         return configuration.getEvsSet();
     }
 
     @Override
     public int getHP() {
-        return pokemon.getHP() + configuration.getEvsSet().getStats().getHP();
+        return pokemon.getHP() + configuration.getEvsSet().getHP();
     }
 
     @Override
     public int getAttack() {
-        return pokemon.getAttack() + configuration.getEvsSet().getStats().getAttack();
+        return pokemon.getAttack() + configuration.getEvsSet().getAttack();
     }
 
     @Override
     public int getDefense() {
-        return pokemon.getDefense() + configuration.getEvsSet().getStats().getDefense();
+        return pokemon.getDefense() + configuration.getEvsSet().getDefense();
     }
 
     @Override
     public int getSpAttack() {
-        return pokemon.getSpAttack() + configuration.getEvsSet().getStats().getSpAttack();
+        return pokemon.getSpAttack() + configuration.getEvsSet().getSpAttack();
     }
 
     @Override
     public int getSPDefense() {
-        return pokemon.getSPDefense() + configuration.getEvsSet().getStats().getSPDefense();
+        return pokemon.getSPDefense() + configuration.getEvsSet().getSPDefense();
     }
 
     @Override
     public int getSpeed() {
-        return pokemon.getSpeed() + configuration.getEvsSet().getStats().getSpeed();
+        return pokemon.getSpeed() + configuration.getEvsSet().getSpeed();
     }
 
     @Override

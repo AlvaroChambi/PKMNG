@@ -20,16 +20,16 @@ public interface StatsDAO {
 
     @Query("select stat_id, identifier, configuration_stats.ev_value base_stat from configuration_stats" +
             " join stats on configuration_stats.stat_id = stats.id" +
-            " where configuration_id = :evsId")
-    List<stat_value> getEvsSet( int evsId );
+            " where configuration_id = :configurationId")
+    List<stat_value> getEvsSet( int configurationId );
 
     @Query("select id, identifier from stats " +
             "where id = :id")
     stats getStat( int id );
 
     @Insert
-    long insertEvSet(configuration_stats evs);
+    void insertStatsSet(List<configuration_stats> evs);
 
     @Update
-    void updateEvSet(configuration_stats evs);
+    void updateStatsSet(List<configuration_stats> evs);
 }

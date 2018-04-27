@@ -13,7 +13,6 @@ public class configurations {
     public int item_id;
     public int ability_id;
     public int nature_id;
-    public int evs_id;
     public int move_0_id;
     public int move_1_id;
     public int move_2_id;

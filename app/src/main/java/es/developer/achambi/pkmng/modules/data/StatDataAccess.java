@@ -1,18 +1,24 @@
 package es.developer.achambi.pkmng.modules.data;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.db.model.configuration_stats;
 import es.developer.achambi.pkmng.core.db.model.stat_value;
-import es.developer.achambi.pkmng.modules.overview.model.EvSet;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
 public class StatDataAccess {
     private static final String SP_ATTACK = "special-attack";
     private static final String SP_DEFENSE = "special-defense";
+    private static final int HP_STAT_ID = 1;
+    private static final int ATTACK_STAT_ID = 2;
+    private static final int DEFENSE_STAT_ID = 3;
+    private static final int SPECIAL_ATTACK_STAT_ID = 4;
+    private static final int SPECIAL_DEFENSE_STAT_ID = 5;
+    private static final int SPEED_STAT_ID = 6;
 
     private AppDatabase database;
 
@@ -27,27 +33,71 @@ public class StatDataAccess {
         return statsSet;
     }
 
-    public EvSet accessEvsSetData( int evsId ) {
-        List<stat_value> rawStats = database.statsModel().getEvsSet(evsId);
-        EvSet statsSet = new EvSet();
-        populateStats( statsSet.getStats(), rawStats );
+    public StatsSet accessEvsSetData( int configurationId ) {
+        List<stat_value> rawStats = database.statsModel().getEvsSet(configurationId);
+        StatsSet statsSet = new StatsSet();
+        populateStats( statsSet, rawStats );
         return statsSet;
     }
 
-    public Stat accessStatData(int statId ) {
+    public Stat accessStatData( int statId ) {
         return parseStat( database.statsModel().getStat( statId ).identifier );
     }
 
-    public int insertEvSet( List<EvSet> evSets ) {
-        ArrayList<configuration_stats> setsToInsert = new ArrayList<>();
-        for ( EvSet evSet : evSets ) {
-            setsToInsert.add(  )
+    public void insertStatsSet( int configurationId,
+                                StatsSet statsSet ) throws IllegalArgumentException {
+        if(configurationId < 0) {
+            throw new IllegalArgumentException();
         }
+        ArrayList<configuration_stats> statsToInsert = new ArrayList<>();
+        Iterator<Stat> iterator = statsSet.getKeysIterator();
+        while (iterator.hasNext()) {
+            statsToInsert.add( cast(configurationId, iterator.next(), statsSet) );
+        }
+        database.statsModel().insertStatsSet(statsToInsert);
     }
 
-    private configuration_stats cast(int setId, Stat stat) {
-        configuration_stats stats = new configuration_stats();
-        stats.stat_id =
+    public void updateStatsSet( int configurationId, StatsSet StatsSet ) {
+        ArrayList<configuration_stats> statsToUpdate = new ArrayList<>();
+        Iterator<Stat> iterator = StatsSet.getKeysIterator();
+        while (iterator.hasNext()) {
+            statsToUpdate.add( cast(configurationId, iterator.next(), StatsSet) );
+        }
+        database.statsModel().updateStatsSet(statsToUpdate);
+    }
+
+    private configuration_stats cast(int setId, Stat stat, StatsSet StatsSet) {
+        configuration_stats rawStat = new configuration_stats();
+        rawStat.configuration_id = setId;
+        switch (stat) {
+            case HP:
+                rawStat.stat_id = HP_STAT_ID;
+                rawStat.ev_value = StatsSet.getHP();
+                break;
+            case ATTACK:
+                rawStat.stat_id = ATTACK_STAT_ID;
+                rawStat.ev_value = StatsSet.getAttack();
+                break;
+            case DEFENSE:
+                rawStat.stat_id = DEFENSE_STAT_ID;
+                rawStat.ev_value = StatsSet.getDefense();
+                break;
+            case SP_ATTACK:
+                rawStat.stat_id = SPECIAL_ATTACK_STAT_ID;
+                rawStat.ev_value = StatsSet.getSpAttack();
+                break;
+            case SP_DEFENSE:
+                rawStat.stat_id = SPECIAL_DEFENSE_STAT_ID;
+                rawStat.ev_value = StatsSet.getSPDefense();
+                break;
+            case SPEED:
+                rawStat.stat_id = SPEED_STAT_ID;
+                rawStat.ev_value = StatsSet.getSpeed();
+                break;
+            case NONE:
+                break;
+        }
+        return rawStat;
     }
 
     private void populateStats( StatsSet statsSet, List<stat_value> stats ) {
@@ -92,16 +142,6 @@ public class StatDataAccess {
             return Stat.SPEED;
         } else {
             return Stat.NONE;
-        }
-    }
-
-    private String parseStat(Stat stat) {
-        if( stat.name().equalsIgnoreCase(SP_ATTACK) ) {
-            return SP_ATTACK;
-        } else if( stat.name().equalsIgnoreCase(SP_DEFENSE) ) {
-            return SP_DEFENSE;
-        } else {
-            return stat.name();
         }
     }
 }
