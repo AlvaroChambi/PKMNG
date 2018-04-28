@@ -97,4 +97,9 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
                 .check( matches( isDisplayed() ) );
     }
+
+    @Test
+    public void configurationSaveValuesNotChanged() {
+
+    }
 }

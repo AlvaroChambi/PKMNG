@@ -11,6 +11,7 @@ import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
+import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -48,7 +49,7 @@ public class DamageCalculatorPresenter extends Presenter {
 
     public void setLeftPokemon(PokemonConfig leftPokemon) {
         this.leftPokemon = leftPokemon;
-        this.editableLeftConfiguration = leftPokemon.getConfiguration();
+        this.editableLeftConfiguration = new Configuration( leftPokemon.getConfiguration() );
     }
 
     public PokemonConfig getRightPokemon() {
@@ -57,7 +58,7 @@ public class DamageCalculatorPresenter extends Presenter {
 
     public void setRightPokemon(PokemonConfig rightPokemon) {
         this.rightPokemon = rightPokemon;
-        this.editableRightConfiguration = rightPokemon.getConfiguration();
+        this.editableRightConfiguration = new Configuration( rightPokemon.getConfiguration() );
     }
 
     public boolean isLeftRightDirection() {
@@ -107,8 +108,7 @@ public class DamageCalculatorPresenter extends Presenter {
     }
 
     /**
-     * Returns the current editable pokemon
-     * @return
+     * @return the current editable pokemon
      */
     public Pokemon getPokemon() {
         if( leftRightDirection ) {
@@ -118,29 +118,33 @@ public class DamageCalculatorPresenter extends Presenter {
         }
     }
 
-    public void saveLeftConfiguration( ResponseHandler<Boolean> responseHandler ) {
+    public void saveLeftConfiguration( ResponseHandler<ConfigurationAction> responseHandler ) {
         if( !leftPokemon.getConfiguration().equals( editableLeftConfiguration ) ) {
-            request(new Request() {
+            request(new Request<ConfigurationAction>() {
                 @Override
-                public Response perform() {
+                public Response<ConfigurationAction> perform() {
                     leftPokemon.setConfiguration( editableLeftConfiguration );
                     dataAccess.updateConfiguration( leftPokemon );
-                    return new Response<>(true);
+                    return new Response<>(ConfigurationAction.UPDATE);
                 }
             }, responseHandler);
+        } else {
+            responseHandler.onSuccess( new Response<>(ConfigurationAction.NONE) );
         }
     }
 
-    public void saveRightConfiguration( ResponseHandler responseHandler ) {
+    public void saveRightConfiguration( ResponseHandler<ConfigurationAction> responseHandler ) {
         if( !rightPokemon.getConfiguration().equals( editableRightConfiguration ) ) {
-            request(new Request() {
+            request(new Request<ConfigurationAction>() {
                 @Override
-                public Response perform() {
+                public Response<ConfigurationAction> perform() {
                     rightPokemon.setConfiguration( editableRightConfiguration );
                     dataAccess.updateConfiguration( rightPokemon );
-                    return new Response<>(true);
+                    return new Response<>(ConfigurationAction.UPDATE);
                 }
             }, responseHandler);
+        } else {
+            responseHandler.onSuccess( new Response<>(ConfigurationAction.NONE) );
         }
     }
 

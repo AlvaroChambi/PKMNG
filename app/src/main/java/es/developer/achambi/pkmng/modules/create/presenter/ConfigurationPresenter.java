@@ -88,7 +88,13 @@ public class ConfigurationPresenter extends Presenter
             request = new Request<Integer>() {
                 @Override
                 public Response<Integer> perform() {
-                    return new Response<>(dataAccess.insertConfiguration( pokemonConfiguration ));
+                    try {
+                        Thread.sleep(3000);
+                    } catch (Exception e) {
+
+                    }
+                    throw new IllegalArgumentException("Oops");
+                    //return new Response<>(dataAccess.insertConfiguration( pokemonConfiguration ));
                 }
             };
             presenterHandler = new ConfigurationResponseHandler( ConfigurationAction.CREATE,
@@ -105,6 +111,11 @@ public class ConfigurationPresenter extends Presenter
             request = new Request<Integer>() {
                 @Override
                 public Response<Integer> perform() {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (Exception e) {
+
+                    }
                     dataAccess.updateConfiguration( pokemonConfiguration );
                     return new Response<>( pokemonConfiguration.getId() );
                 }
@@ -119,7 +130,7 @@ public class ConfigurationPresenter extends Presenter
         private ConfigurationAction action;
         private ResponseHandler<ConfigurationAction> handler;
         private ConfigurationResponseHandler( ConfigurationAction action,
-                                                ResponseHandler<ConfigurationAction> handler ) {
+                                              ResponseHandler<ConfigurationAction> handler ) {
             this.action = action;
             this.handler = handler;
         }
@@ -132,6 +143,7 @@ public class ConfigurationPresenter extends Presenter
         @Override
         public void onError(Error error) {
             super.onError(error);
+            handler.onError(error);
         }
     }
 

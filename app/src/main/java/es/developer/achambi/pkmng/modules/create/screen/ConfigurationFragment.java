@@ -17,9 +17,10 @@ import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
-import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
@@ -27,7 +28,6 @@ import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
-import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
@@ -44,7 +44,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.screen.SearchPokemonAct
 
 import static android.app.Activity.RESULT_OK;
 
-public class ConfigurationFragment extends BaseFragment
+public class ConfigurationFragment extends BaseRequestFragment
         implements View.OnClickListener, Screen {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
@@ -158,6 +158,11 @@ public class ConfigurationFragment extends BaseFragment
                     .buildPresenter(this);
         }
         return presenter;
+    }
+
+    @Override
+    public int getLoadingFrame() {
+        return R.id.base_request_loading_frame;
     }
 
     @Override
@@ -320,14 +325,21 @@ public class ConfigurationFragment extends BaseFragment
     }
 
     private void saveConfigurationRequest( String configurationName ) {
+       doRequest(TRANSPARENT_LOADING_BACKGROUND);
        presenter.saveConfigurationRequest( configurationName,
                new ResponseHandler<ConfigurationAction>() {
            @Override
            public void onSuccess(Response<ConfigurationAction> response) {
                handleSaveConfigurationResult( response.getData() );
+               hideLoading();
+           }
+
+           @Override
+           public void onError(Error error) {
+               super.onError(error);
+               showSnackBackError( error );
            }
        });
-
     }
 
     private void handleSaveConfigurationResult( ConfigurationAction action ) {
@@ -353,6 +365,11 @@ public class ConfigurationFragment extends BaseFragment
                 break;
             case NONE:
                 getActivity().setResult( Activity.RESULT_CANCELED );
+                Toast noChangesToast = Toast.makeText(getActivity(),
+                        R.string.configuration_not_changed_toast_message,
+                        Toast.LENGTH_SHORT);
+                noChangesToast.setGravity( Gravity.CENTER, 0, 0 );
+                noChangesToast.show();
                 break;
         }
         getActivity().finish();

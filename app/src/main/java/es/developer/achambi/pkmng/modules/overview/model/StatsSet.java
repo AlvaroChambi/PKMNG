@@ -47,11 +47,11 @@ public class StatsSet implements Parcelable{
         }
 
         StatsSet statsSet = (StatsSet)obj;
-        Iterator<Integer> iterator = this.stats.values().iterator();
-        Iterator <Integer>compareIterator = statsSet.getStats().values().iterator();
+        Iterator<Stat> iterator = this.stats.keySet().iterator();
         while( iterator.hasNext() ) {
-            int value = iterator.next();
-            int compareValue = compareIterator.next();
+            Stat currentStat = iterator.next();
+            int value = stats.get( currentStat );
+            int compareValue = statsSet.getStats().get( currentStat );
             if( value != compareValue ) {
                 return false;
             }

@@ -10,8 +10,6 @@ import es.developer.achambi.pkmng.viewactions.CustomViewActions;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.swipeDown;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -291,5 +289,15 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
                 .check( matches( isDisplayed() ) );
         onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
                 .check( matches( not(isDisplayed()) ) );
+    }
+
+    @Test
+    public void testSaveConfigurationNotChanged() {
+
+    }
+
+    @Test
+    public void testSaveConfigurationFailed() {
+
     }
 }

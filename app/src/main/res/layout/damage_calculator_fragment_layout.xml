@@ -176,6 +176,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|bottom">
-
     </es.developer.achambi.pkmng.core.ui.FloatingActionMenu>
+    <include
+        android:id="@+id/base_request_loading_frame"
+        android:visibility="gone"
+        layout="@layout/base_request_fragment_layout"/>
 </FrameLayout>
