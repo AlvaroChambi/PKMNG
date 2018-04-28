@@ -6,6 +6,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import org.junit.Test;
 
 import es.developer.achambi.pkmng.viewactions.CustomViewActions;
+import es.developer.achambi.pkmng.viewactions.ToastMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -13,11 +14,13 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public class CreateConfigurationTest extends BaseAutomationTest {
@@ -183,12 +186,33 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
         onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
-        onView(withId( R.id.create_configuration_dialog_edit_text )).perform( typeText( "Test" ) );
+        onView(withId( R.id.create_configuration_dialog_edit_text ))
+                .perform( typeText( "Test" ) );
         onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_created_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
 
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView( withText("Test") ).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void saveConfigurationFailedTest() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+        onView(withId(R.id.details_create_config_action_button)).perform(click());
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_edit_text ))
+                .perform( typeText( "Test" ) );
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText("Error")).check(matches(isDisplayed()));
     }
 
     @Test

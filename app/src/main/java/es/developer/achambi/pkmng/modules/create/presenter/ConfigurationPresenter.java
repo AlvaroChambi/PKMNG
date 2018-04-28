@@ -88,13 +88,7 @@ public class ConfigurationPresenter extends Presenter
             request = new Request<Integer>() {
                 @Override
                 public Response<Integer> perform() {
-                    try {
-                        Thread.sleep(3000);
-                    } catch (Exception e) {
-
-                    }
-                    throw new IllegalArgumentException("Oops");
-                    //return new Response<>(dataAccess.insertConfiguration( pokemonConfiguration ));
+                    return new Response<>(dataAccess.insertConfiguration( pokemonConfiguration ));
                 }
             };
             presenterHandler = new ConfigurationResponseHandler( ConfigurationAction.CREATE,
@@ -111,11 +105,6 @@ public class ConfigurationPresenter extends Presenter
             request = new Request<Integer>() {
                 @Override
                 public Response<Integer> perform() {
-                    try {
-                        Thread.sleep(3000);
-                    } catch (Exception e) {
-
-                    }
                     dataAccess.updateConfiguration( pokemonConfiguration );
                     return new Response<>( pokemonConfiguration.getId() );
                 }

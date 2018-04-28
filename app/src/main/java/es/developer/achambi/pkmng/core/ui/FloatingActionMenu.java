@@ -66,14 +66,14 @@ public class FloatingActionMenu extends ConstraintLayout
         }
     }
 
-    public void showMenuOptions() {
+    private void showMenuOptions() {
         expanded = true;
         findViewById(R.id.configuration_floating_save_button_left).setVisibility(VISIBLE);
         findViewById(R.id.configuration_floating_save_button_right).setVisibility(VISIBLE);
         findViewById(R.id.floating_menu_background).setVisibility(VISIBLE);
     }
 
-    public void hideMenuOptions() {
+    private void hideMenuOptions() {
         expanded = false;
         findViewById(R.id.configuration_floating_save_button_left).setVisibility(GONE);
         findViewById(R.id.configuration_floating_save_button_right).setVisibility(GONE);

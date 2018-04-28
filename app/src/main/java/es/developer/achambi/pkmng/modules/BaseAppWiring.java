@@ -17,6 +17,7 @@ import es.developer.achambi.pkmng.modules.search.ability.data.AbilityDataAccessF
 import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.configuration.SearchConfigurationAssembler;
 import es.developer.achambi.pkmng.modules.search.configuration.data.ConfigurationDataAccessFactory;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.configuration.presenter.SearchConfigurationPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.item.SearchItemsAssembler;
 import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccessFactory;
@@ -56,7 +57,7 @@ public abstract class BaseAppWiring {
         MoveDataAccessFactory moveDataAccessFactory = new MoveDataAccessFactory(
                 database.movesModel(),
                 typeDataAccessFactory );
-        ConfigurationDataAccessFactory configDataAccessFactory = new ConfigurationDataAccessFactory(
+        IConfigurationDataAccessFactory configDataAccessFactory = new ConfigurationDataAccessFactory(
                 database,
                 pokemonDataAccessFactory,
                 statDataAccessFactory,
@@ -64,6 +65,7 @@ public abstract class BaseAppWiring {
                 itemDataAccessFactory,
                 natureDataAccessFactory,
                 abilityDataAccessFactory );
+        configDataAccessFactory = overrideConfigurationDataAccess(configDataAccessFactory);
 
         SearchPokemonPresenterFactory pokemonPresenterFactory = new SearchPokemonPresenterFactory(
                 pokemonDataAccessFactory, executor
@@ -115,5 +117,10 @@ public abstract class BaseAppWiring {
 
     protected MainExecutor buildExecutor() {
         return MainExecutor.buildExecutor();
+    }
+
+    protected IConfigurationDataAccessFactory overrideConfigurationDataAccess(
+            IConfigurationDataAccessFactory dataAccessFactory ) {
+        return dataAccessFactory;
     }
 }

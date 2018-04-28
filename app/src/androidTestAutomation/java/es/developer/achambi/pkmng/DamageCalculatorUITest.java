@@ -223,6 +223,9 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
         onView(withId(R.id.configuration_floating_save_button_main)).perform(click());
         onView(withId(R.id.configuration_floating_save_button_left)).perform(click());
 
+        onView(withText(R.string.configuration_updated_toast_message))
+                .check(matches(isDisplayed()));
+
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
@@ -250,6 +253,9 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
 
         onView(withId(R.id.configuration_floating_save_button_main)).perform(click());
         onView(withId(R.id.configuration_floating_save_button_right)).perform(click());
+
+        onView(withText(R.string.configuration_updated_toast_message))
+                .check(matches(isDisplayed()));
 
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );

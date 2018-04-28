@@ -18,7 +18,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 public class EditConfigurationTest extends BaseAutomationTest {
-
     @Test
     public void configurationPopulationEmptyValues() {
         onView( withId(R.id.base_search_recycler_view) )
@@ -86,6 +85,33 @@ public class EditConfigurationTest extends BaseAutomationTest {
     }
 
     @Test
+    public void configurationSaveValuesNotChanged() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_not_changed_toast_message))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void configurationSaveValuesFailed() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_edit_text )).perform( clearText(),
+                typeText( "Test" ) );
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText("Error")).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void configurationPokemonTypeDetail() {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -96,10 +122,5 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 .check( matches( isDisplayed() ) );
         onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
                 .check( matches( isDisplayed() ) );
-    }
-
-    @Test
-    public void configurationSaveValuesNotChanged() {
-
     }
 }
