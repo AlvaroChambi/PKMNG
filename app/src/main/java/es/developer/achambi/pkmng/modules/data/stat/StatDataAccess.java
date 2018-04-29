@@ -1,16 +1,17 @@
-package es.developer.achambi.pkmng.modules.data;
+package es.developer.achambi.pkmng.modules.data.stat;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.dao.StatsDAO;
 import es.developer.achambi.pkmng.core.db.model.configuration_stats;
 import es.developer.achambi.pkmng.core.db.model.stat_value;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
-public class StatDataAccess {
+public class StatDataAccess implements IStatDataAccess{
     private static final String SP_ATTACK = "special-attack";
     private static final String SP_DEFENSE = "special-defense";
     private static final int HP_STAT_ID = 1;
@@ -20,30 +21,34 @@ public class StatDataAccess {
     private static final int SPECIAL_DEFENSE_STAT_ID = 5;
     private static final int SPEED_STAT_ID = 6;
 
-    private AppDatabase database;
+    private StatsDAO statsDAO;
 
-    public StatDataAccess(AppDatabase database) {
-        this.database = database;
+    public StatDataAccess(StatsDAO statsDAO) {
+        this.statsDAO = statsDAO;
     }
 
+    @Override
     public StatsSet accessPokemonStatsData( int pokemonId ) {
-        List<stat_value> rawStats = database.statsModel().getStats(pokemonId);
+        List<stat_value> rawStats = statsDAO.getStats(pokemonId);
         StatsSet statsSet = new StatsSet();
         populateStats( statsSet, rawStats );
         return statsSet;
     }
 
+    @Override
     public StatsSet accessEvsSetData( int configurationId ) {
-        List<stat_value> rawStats = database.statsModel().getEvsSet(configurationId);
+        List<stat_value> rawStats = statsDAO.getEvsSet(configurationId);
         StatsSet statsSet = new StatsSet();
         populateStats( statsSet, rawStats );
         return statsSet;
     }
 
+    @Override
     public Stat accessStatData( int statId ) {
-        return parseStat( database.statsModel().getStat( statId ).identifier );
+        return parseStat( statsDAO.getStat( statId ).identifier );
     }
 
+    @Override
     public void insertStatsSet( int configurationId,
                                 StatsSet statsSet ) throws IllegalArgumentException {
         if(configurationId < 0) {
@@ -54,16 +59,17 @@ public class StatDataAccess {
         while (iterator.hasNext()) {
             statsToInsert.add( cast(configurationId, iterator.next(), statsSet) );
         }
-        database.statsModel().insertStatsSet(statsToInsert);
+        statsDAO.insertStatsSet(statsToInsert);
     }
 
+    @Override
     public void updateStatsSet( int configurationId, StatsSet StatsSet ) {
         ArrayList<configuration_stats> statsToUpdate = new ArrayList<>();
         Iterator<Stat> iterator = StatsSet.getKeysIterator();
         while (iterator.hasNext()) {
             statsToUpdate.add( cast(configurationId, iterator.next(), StatsSet) );
         }
-        database.statsModel().updateStatsSet(statsToUpdate);
+        statsDAO.updateStatsSet(statsToUpdate);
     }
 
     private configuration_stats cast(int setId, Stat stat, StatsSet StatsSet) {

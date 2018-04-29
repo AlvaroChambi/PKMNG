@@ -3,23 +3,24 @@ package es.developer.achambi.pkmng.modules.search.nature.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.dao.NaturesDAO;
 import es.developer.achambi.pkmng.core.db.model.natures;
-import es.developer.achambi.pkmng.modules.data.StatDataAccess;
+import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
-public class NatureDataAccess {
-    private AppDatabase database;
-    private StatDataAccess statDataAccess;
+public class NatureDataAccess implements INatureDataAccess {
+    private NaturesDAO naturesDAO;
+    private IStatDataAccess statDataAccess;
 
-    public NatureDataAccess( AppDatabase database,
-                             StatDataAccess statDataAccess ) {
-        this.database = database;
+    public NatureDataAccess( NaturesDAO naturesDAO,
+                             IStatDataAccess statDataAccess ) {
+        this.naturesDAO = naturesDAO;
         this.statDataAccess = statDataAccess;
     }
 
+    @Override
     public ArrayList<Nature> accessData() {
-        List<natures> rawNatures = database.naturesModel().getNatures();
+        List<natures> rawNatures = naturesDAO.getNatures();
         ArrayList<Nature> naturesList = new ArrayList<>(rawNatures.size());
         for ( natures rawNature : rawNatures ) {
             Nature nature = new Nature();
@@ -33,8 +34,9 @@ public class NatureDataAccess {
         return naturesList;
     }
 
+    @Override
     public Nature accessNatureDate(int natureId) {
-        natures rawNature = database.naturesModel().getNature(natureId);
+        natures rawNature = naturesDAO.getNature(natureId);
         Nature nature = new Nature();
         if(rawNature != null) {
             nature.setId( rawNature.id );

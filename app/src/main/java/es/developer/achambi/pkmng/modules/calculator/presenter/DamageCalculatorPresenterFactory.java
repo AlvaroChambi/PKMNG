@@ -2,7 +2,6 @@ package es.developer.achambi.pkmng.modules.calculator.presenter;
 
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.ui.Screen;
-import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccessFactory;
 
 public class DamageCalculatorPresenterFactory implements IDamageCalculatorPresenterFactory {
     private MainExecutor executor;

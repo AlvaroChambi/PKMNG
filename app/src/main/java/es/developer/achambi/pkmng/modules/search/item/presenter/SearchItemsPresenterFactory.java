@@ -1,7 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.item.presenter;
 
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.modules.search.item.data.IItemDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.item.screen.ISearchItemScreen;
 
 public class SearchItemsPresenterFactory implements ISearchItemsPresenterFactory{

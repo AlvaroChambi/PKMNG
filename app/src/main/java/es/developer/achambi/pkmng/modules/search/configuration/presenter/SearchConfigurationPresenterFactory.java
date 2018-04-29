@@ -1,22 +1,21 @@
 package es.developer.achambi.pkmng.modules.search.configuration.presenter;
 
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccessFactory;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.ISearchConfigurationScreen;
 
 public class SearchConfigurationPresenterFactory implements ISearchConfigurationPresenterFactory{
-    private IConfigurationDataAccessFactory dataAccessFactory;
+    private IConfigurationDataAccess dataAccess;
     private MainExecutor executor;
 
-    public SearchConfigurationPresenterFactory(IConfigurationDataAccessFactory dataAccessFactory,
+    public SearchConfigurationPresenterFactory(IConfigurationDataAccess dataAccess,
                                                MainExecutor executor) {
-        this.dataAccessFactory = dataAccessFactory;
+        this.dataAccess = dataAccess;
         this.executor = executor;
     }
 
     @Override
     public SearchConfigurationPresenter buildPresenter(ISearchConfigurationScreen screen) {
-        return new SearchConfigurationPresenter(screen, dataAccessFactory.buildDataAccess(),
-                executor);
+        return new SearchConfigurationPresenter(screen, dataAccess, executor);
     }
 }

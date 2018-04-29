@@ -17,7 +17,7 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
-import es.developer.achambi.pkmng.modules.search.configuration.data.ConfigurationDataAccess;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
@@ -32,10 +32,10 @@ public class ConfigurationPresenter extends Presenter
     private Pokemon editablePokemon;
     private Configuration editableConfiguration;
     private PokemonConfig pokemonConfiguration;
-    private ConfigurationDataAccess dataAccess;
+    private IConfigurationDataAccess dataAccess;
 
     public ConfigurationPresenter(Screen screen,
-                                  ConfigurationDataAccess configurationDataAccess,
+                                  IConfigurationDataAccess configurationDataAccess,
                                   MainExecutor executor) {
         super(screen, executor);
         editableConfiguration = new Configuration();

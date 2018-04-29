@@ -3,35 +3,35 @@ package es.developer.achambi.pkmng.modules.search.configuration.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.dao.ConfigurationDAO;
 import es.developer.achambi.pkmng.core.db.model.configurations;
-import es.developer.achambi.pkmng.modules.data.StatDataAccess;
+import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.search.ability.data.AbilityDataAccess;
-import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccess;
-import es.developer.achambi.pkmng.modules.search.move.data.MoveDataAccess;
-import es.developer.achambi.pkmng.modules.search.nature.data.NatureDataAccess;
-import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess;
+import es.developer.achambi.pkmng.modules.search.ability.data.IAbilityDataAccess;
+import es.developer.achambi.pkmng.modules.search.item.data.IItemDataAccess;
+import es.developer.achambi.pkmng.modules.search.move.data.IMoveDataAccess;
+import es.developer.achambi.pkmng.modules.search.nature.data.INatureDataAccess;
+import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccess;
 
-public class ConfigurationDataAccess {
-    private AppDatabase database;
-    private PokemonDataAccess pokemonDataAccess;
-    private StatDataAccess statDataAccess;
-    private ItemDataAccess itemDataAccess;
-    private AbilityDataAccess abilityDataAccess;
-    private NatureDataAccess natureDataAccess;
-    private MoveDataAccess moveDataAccess;
+public class ConfigurationDataAccess implements IConfigurationDataAccess {
+    private ConfigurationDAO configurationDAO;
+    private IPokemonDataAccess pokemonDataAccess;
+    private IStatDataAccess statDataAccess;
+    private IItemDataAccess itemDataAccess;
+    private IAbilityDataAccess abilityDataAccess;
+    private INatureDataAccess natureDataAccess;
+    private IMoveDataAccess moveDataAccess;
 
-    public ConfigurationDataAccess(AppDatabase database,
-                                   PokemonDataAccess pokemonDataAccess,
-                                   MoveDataAccess moveDataAccess,
-                                   ItemDataAccess itemDataAccess,
-                                   AbilityDataAccess abilityDataAccess,
-                                   NatureDataAccess natureDataAccess,
-                                   StatDataAccess statDataAccess) {
-        this.database = database;
+    public ConfigurationDataAccess(ConfigurationDAO configurationDAO,
+                                   IPokemonDataAccess pokemonDataAccess,
+                                   IMoveDataAccess moveDataAccess,
+                                   IItemDataAccess itemDataAccess,
+                                   IAbilityDataAccess abilityDataAccess,
+                                   INatureDataAccess natureDataAccess,
+                                   IStatDataAccess statDataAccess) {
+        this.configurationDAO = configurationDAO;
         this.pokemonDataAccess = pokemonDataAccess;
         this.statDataAccess = statDataAccess;
         this.moveDataAccess = moveDataAccess;
@@ -40,9 +40,10 @@ public class ConfigurationDataAccess {
         this.natureDataAccess = natureDataAccess;
     }
 
+    @Override
     public ArrayList<PokemonConfig> accessConfigurationData() {
         ArrayList<PokemonConfig> configurationsResult = new ArrayList<>();
-        List<configurations> rawConfigurations = database.configurationsModel().getConfigurations();
+        List<configurations> rawConfigurations = configurationDAO.getConfigurations();
         for (configurations currentRaw : rawConfigurations) {
             Pokemon pokemon = pokemonDataAccess.accessPokemonData( currentRaw.pokemon_id );
             Configuration configuration = new Configuration();
@@ -64,18 +65,20 @@ public class ConfigurationDataAccess {
         return configurationsResult;
     }
 
+    @Override
     public int insertConfiguration(final PokemonConfig configuration) {
         configurations configurationToInsert = cast(configuration);
         configurationToInsert.id = null;
-        int configurationId = (int)database.configurationsModel().insert( configurationToInsert );
+        int configurationId = (int)configurationDAO.insert( configurationToInsert );
         configuration.setId(configurationId);
         statDataAccess.insertStatsSet( configuration.getId(), configuration.getStatsSet() );
         return configurationId;
     }
 
+    @Override
     public void updateConfiguration(final PokemonConfig configuration) {
         statDataAccess.updateStatsSet( configuration.getId(), configuration.getStatsSet() );
-        database.configurationsModel().update( cast(configuration) );
+        configurationDAO.update( cast(configuration) );
     }
 
     private configurations cast(PokemonConfig configuration) {

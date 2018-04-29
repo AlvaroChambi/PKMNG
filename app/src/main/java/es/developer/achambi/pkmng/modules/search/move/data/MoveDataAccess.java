@@ -5,23 +5,24 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
 import es.developer.achambi.pkmng.core.db.model.move_value;
-import es.developer.achambi.pkmng.modules.data.TypeDataAccess;
+import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
-public class MoveDataAccess {
+public class MoveDataAccess implements  IMoveDataAccess {
     private static final String PHYSICAL = "physical";
     private static final String SPECIAL = "special";
     private static final String NON_DAMAGING = "non-damaging";
 
     private MovesDAO movesDAO;
-    private TypeDataAccess typeDataAccess;
+    private ITypeDataAccess typeDataAccess;
 
     public MoveDataAccess(MovesDAO movesDAO,
-                          TypeDataAccess typeDataAccess) {
+                          ITypeDataAccess typeDataAccess) {
         this.movesDAO = movesDAO;
         this.typeDataAccess = typeDataAccess;
     }
 
+    @Override
     public ArrayList<Move> accessPokemonMovesData( int pokemonId ) {
         List<move_value> rawMoves = movesDAO.getPokemonMoves( pokemonId );
         ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
@@ -40,6 +41,7 @@ public class MoveDataAccess {
         return movesList;
     }
 
+    @Override
     public Move accessMoveData(int moveId) {
         move_value rawMove = movesDAO.getMove(moveId);
         Move move = new Move();

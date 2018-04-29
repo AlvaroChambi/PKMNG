@@ -1,46 +1,29 @@
 package es.developer.achambi.pkmng.modules.search.configuration.data;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
-import es.developer.achambi.pkmng.modules.data.IStatDataAccessFactory;
-import es.developer.achambi.pkmng.modules.search.ability.data.IAbilityDataAccessFactory;
-import es.developer.achambi.pkmng.modules.search.item.data.IItemDataAccessFactory;
-import es.developer.achambi.pkmng.modules.search.move.data.IMoveDataAccessFactory;
-import es.developer.achambi.pkmng.modules.search.nature.data.INatureDataAccessFactory;
-import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccessFactory;
+import es.developer.achambi.pkmng.core.db.dao.ConfigurationDAO;
+import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
+import es.developer.achambi.pkmng.modules.search.ability.data.IAbilityDataAccess;
+import es.developer.achambi.pkmng.modules.search.item.data.IItemDataAccess;
+import es.developer.achambi.pkmng.modules.search.move.data.IMoveDataAccess;
+import es.developer.achambi.pkmng.modules.search.nature.data.INatureDataAccess;
+import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccess;
 
-public class ConfigurationDataAccessFactory implements IConfigurationDataAccessFactory{
-    private AppDatabase database;
-    private IPokemonDataAccessFactory pokemonDataAccessFactory;
-    private IStatDataAccessFactory statDataAccessFactory;
-    private IMoveDataAccessFactory moveDataAccessFactory;
-    private IItemDataAccessFactory itemDataAccessFactory;
-    private INatureDataAccessFactory natureDataAccessFactory;
-    private IAbilityDataAccessFactory abilityDataAccessFactory;
-
-    public ConfigurationDataAccessFactory(AppDatabase database,
-                                          IPokemonDataAccessFactory pokemonDataAccessFactory,
-                                          IStatDataAccessFactory statDataAccessFactory,
-                                          IMoveDataAccessFactory moveDataAccessFactory,
-                                          IItemDataAccessFactory itemDataAccessFactory,
-                                          INatureDataAccessFactory natureDataAccessFactory,
-                                          IAbilityDataAccessFactory abilityDataAccessFactory) {
-        this.database = database;
-        this.pokemonDataAccessFactory = pokemonDataAccessFactory;
-        this.statDataAccessFactory = statDataAccessFactory;
-        this.moveDataAccessFactory = moveDataAccessFactory;
-        this.itemDataAccessFactory = itemDataAccessFactory;
-        this.natureDataAccessFactory = natureDataAccessFactory;
-        this.abilityDataAccessFactory = abilityDataAccessFactory;
-    }
-
-    @Override
-    public ConfigurationDataAccess buildDataAccess() {
-        return new ConfigurationDataAccess( database,
-                pokemonDataAccessFactory.buildDataAccess(),
-                moveDataAccessFactory.buildDataAccess(),
-                itemDataAccessFactory.buildDataAccess(),
-                abilityDataAccessFactory.buildDataAccess(),
-                natureDataAccessFactory.buildDataAccess(),
-                statDataAccessFactory.buildDataAccess());
+public class ConfigurationDataAccessFactory {
+    public ConfigurationDataAccess buildDataAccess(
+            ConfigurationDAO configurationDAO,
+            IPokemonDataAccess pokemonDataAccess,
+            IMoveDataAccess moveDataAccess,
+            IItemDataAccess itemDataAccess,
+            IAbilityDataAccess abilityDataAccess,
+            INatureDataAccess natureDataAccess,
+            IStatDataAccess statDataAccess
+    ) {
+        return new ConfigurationDataAccess( configurationDAO,
+                pokemonDataAccess,
+                moveDataAccess,
+                itemDataAccess,
+                abilityDataAccess,
+                natureDataAccess,
+                statDataAccess );
     }
 }

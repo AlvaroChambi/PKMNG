@@ -1,26 +1,13 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.data;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
-import es.developer.achambi.pkmng.modules.data.IStatDataAccessFactory;
-import es.developer.achambi.pkmng.modules.data.ITypeDataAccessFactory;
+import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
+import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
+import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 
-public class PokemonDataAccessFactory implements IPokemonDataAccessFactory{
-    private AppDatabase database;
-    private IStatDataAccessFactory statDataAccessFactory;
-    private ITypeDataAccessFactory typeDataAccessFactory;
-
-    public PokemonDataAccessFactory(AppDatabase database,
-                                    IStatDataAccessFactory statDataAccessFactory,
-                                    ITypeDataAccessFactory typeDataAccessFactory) {
-        this.database = database;
-        this.statDataAccessFactory = statDataAccessFactory;
-        this.typeDataAccessFactory = typeDataAccessFactory;
-    }
-
-    @Override
-    public PokemonDataAccess buildDataAccess() {
-        return new PokemonDataAccess( database,
-                statDataAccessFactory.buildDataAccess(),
-                typeDataAccessFactory.buildDataAccess() );
+public class PokemonDataAccessFactory {
+    public PokemonDataAccess buildDataAccess(PokemonDAO pokemonDAO,
+                                             IStatDataAccess statDataAccess,
+                                             ITypeDataAccess typeDataAccess) {
+        return new PokemonDataAccess( pokemonDAO, statDataAccess, typeDataAccess );
     }
 }

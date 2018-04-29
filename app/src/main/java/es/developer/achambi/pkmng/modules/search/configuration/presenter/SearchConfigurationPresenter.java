@@ -20,6 +20,7 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.configuration.data.ConfigurationDataAccess;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.ISearchConfigurationScreen;
@@ -33,10 +34,10 @@ public class SearchConfigurationPresenter extends Presenter implements
 
     private ArrayList<PokemonConfig> pokemonConfigList;
     private ISearchConfigurationScreen screen;
-    private ConfigurationDataAccess dataAccess;
+    private IConfigurationDataAccess dataAccess;
 
     public SearchConfigurationPresenter( ISearchConfigurationScreen screen,
-                                         ConfigurationDataAccess dataAccess,
+                                         IConfigurationDataAccess dataAccess,
                                          MainExecutor executor ) {
         super(screen, executor);
         this.screen = screen;

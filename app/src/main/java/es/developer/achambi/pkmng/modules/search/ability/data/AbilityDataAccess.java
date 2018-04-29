@@ -3,19 +3,20 @@ package es.developer.achambi.pkmng.modules.search.ability.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.dao.AbilitiesDAO;
 import es.developer.achambi.pkmng.core.db.model.ability_value;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 
-public class AbilityDataAccess {
-    private AppDatabase database;
+public class AbilityDataAccess implements IAbilityDataAccess{
+    private AbilitiesDAO abilitiesDAO;
 
-    public AbilityDataAccess(AppDatabase database) {
-        this.database = database;
+    public AbilityDataAccess(AbilitiesDAO abilitiesDAO) {
+        this.abilitiesDAO = abilitiesDAO;
     }
 
+    @Override
     public ArrayList<Ability> accessAbilities( int pokemonId ) {
-        List<ability_value> rawAbilities = database.abilitiesModel().getPokemonAbilities(pokemonId);
+        List<ability_value> rawAbilities = abilitiesDAO.getPokemonAbilities(pokemonId);
         ArrayList<Ability> abilities = new ArrayList<>(rawAbilities.size());
         for (ability_value currentAbility : rawAbilities) {
             Ability ability = new Ability();
@@ -29,8 +30,9 @@ public class AbilityDataAccess {
         return abilities;
     }
 
+    @Override
     public Ability accessAbilityData( int abilityId ) {
-        ability_value rawAbility = database.abilitiesModel().getAbility(abilityId);
+        ability_value rawAbility = abilitiesDAO.getAbility(abilityId);
         Ability ability = new Ability();
         if(rawAbility != null) {
             ability.setId( rawAbility.id );
