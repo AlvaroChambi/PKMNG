@@ -3,8 +3,13 @@ package es.developer.achambi.pkmng;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
+import es.developer.achambi.pkmng.modules.search.configuration.data.MockConfigurationDataAccess;
 import es.developer.achambi.pkmng.viewactions.CustomViewActions;
 import es.developer.achambi.pkmng.viewactions.ToastMatcher;
 
@@ -14,16 +19,25 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public class CreateConfigurationTest extends BaseAutomationTest {
+    @BeforeClass
+    public static void beforeClass() {
+        ConfigurationDataAssembler mockAssembler = new ConfigurationDataAssembler(){
+            @Override
+            public IConfigurationDataAccess getConfigurationDataAccess() {
+                return new MockConfigurationDataAccess();
+            }
+        };
+        AppWiring.createConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
+        AppWiring.searchConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
+    }
 
     @Test
     public void changeCurrentPokemonTest() {

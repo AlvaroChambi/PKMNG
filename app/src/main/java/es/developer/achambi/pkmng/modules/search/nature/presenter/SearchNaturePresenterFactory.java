@@ -1,20 +1,21 @@
 package es.developer.achambi.pkmng.modules.search.nature.presenter;
 
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.search.nature.data.INatureDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
 
 public class SearchNaturePresenterFactory implements ISearchNaturePresenterFactory {
-    private INatureDataAccessFactory dataAccessFactory;
+    private INatureDataAccess dataAccess;
     private MainExecutor executor;
 
-    public SearchNaturePresenterFactory(INatureDataAccessFactory dataAccessFactory,
+    public SearchNaturePresenterFactory(INatureDataAccess dataAccess,
                                         MainExecutor executor) {
-        this.dataAccessFactory = dataAccessFactory;
+        this.dataAccess = dataAccess;
         this.executor = executor;
     }
 
     @Override
     public SearchNaturePresenter buildPresenter(ISearchNatureScreen screen) {
-        return new SearchNaturePresenter( screen, dataAccessFactory.buildDataAccess(), executor  );
+        return new SearchNaturePresenter( screen, dataAccess, executor  );
     }
 }

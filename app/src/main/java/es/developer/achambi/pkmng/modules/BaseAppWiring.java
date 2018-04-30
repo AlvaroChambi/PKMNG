@@ -5,12 +5,15 @@ import android.content.Context;
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorAssembler;
-import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenterFactory;
 import es.developer.achambi.pkmng.modules.create.CreateConfigurationAssembler;
-import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenterFactory;
 import es.developer.achambi.pkmng.modules.data.stat.StatDataAccessFactory;
 import es.developer.achambi.pkmng.modules.data.type.TypeDataAccessFactory;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
+import es.developer.achambi.pkmng.modules.search.AbilityDataAssembler;
+import es.developer.achambi.pkmng.modules.search.ItemDataAssembler;
+import es.developer.achambi.pkmng.modules.search.NatureDataAssembler;
+import es.developer.achambi.pkmng.modules.search.StatDataAssembler;
+import es.developer.achambi.pkmng.modules.search.TypeDataAssembler;
 import es.developer.achambi.pkmng.modules.search.ability.SearchAbilityAssembler;
 import es.developer.achambi.pkmng.modules.search.ability.data.AbilityDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.configuration.SearchConfigurationAssembler;
@@ -34,46 +37,85 @@ public abstract class BaseAppWiring {
     public static SearchConfigurationAssembler searchConfigurationAssembler;
     public static CreateConfigurationAssembler createConfigurationAssembler;
     public static DamageCalculatorAssembler damageCalculatorAssembler;
-    public static ConfigurationDataAssembler configurationDataAssembler;
-    public static PokemonDataAssembler pokemonDataAssembler;
+
+    private static ConfigurationDataAssembler configurationDataAssembler;
+    private static PokemonDataAssembler pokemonDataAssembler;
+    private static MoveDataAssembler moveDataAssembler;
+    private static NatureDataAssembler natureDataAssembler;
+    private static ItemDataAssembler itemDataAssembler;
+    private static AbilityDataAssembler abilityDataAssembler;
+    private static StatDataAssembler statDataAssembler;
+    private static TypeDataAssembler typeDataAssembler;
 
     public void appWiring( Context context ) {
         AppDatabase database = AppDatabase.buildDatabase(context);
         MainExecutor executor = buildExecutor();
-        pokemonDataAssembler = new PokemonDataAssembler();
-        pokemonDataAssembler.setAppDatabase(database)
-                .setPokemonDataAccessFactory(new PokemonDataAccessFactory())
-                .setStatDataAccessFactory(new StatDataAccessFactory())
-                .setTypeDataAccessFactory(new TypeDataAccessFactory());
+        abilityDataAssembler = new AbilityDataAssembler();
+        abilityDataAssembler.setAbilitiesDAO( database.abilitiesModel() )
+                .setDataAccessFactory(new AbilityDataAccessFactory());
+        itemDataAssembler = new ItemDataAssembler();
+        itemDataAssembler.setItemDAO( database.itemsModel() )
+                .setDataAccessFactory(new ItemDataAccessFactory());
+        statDataAssembler = new StatDataAssembler();
+        statDataAssembler.setStatsDAO( database.statsModel() )
+                .setDataAccessFactory(new StatDataAccessFactory());
+        typeDataAssembler = new TypeDataAssembler();
+        typeDataAssembler.setTypeDAO( database.typeModel() )
+                .setDataAccessFactory(new TypeDataAccessFactory());
 
+        moveDataAssembler = new MoveDataAssembler();
+        moveDataAssembler.setMovesDAO(database.movesModel())
+                .setMoveDataAccessFactory(new MoveDataAccessFactory())
+                .setTypeDataAssembler(typeDataAssembler);
+        natureDataAssembler = new NatureDataAssembler()
+                .setNaturesDAO(database.naturesModel())
+                .setStatDataAssembler(statDataAssembler)
+                .setNatureDataAccessFactory(new NatureDataAccessFactory());
+        pokemonDataAssembler = new PokemonDataAssembler();
+        pokemonDataAssembler.setPokemonDAO(database.pokemonModel())
+                .setPokemonDataAccessFactory(new PokemonDataAccessFactory())
+                .setStatDataAssembler(statDataAssembler)
+                .setTypeDataAssembler(typeDataAssembler);
         configurationDataAssembler = new ConfigurationDataAssembler();
-        configurationDataAssembler.setDatabase(database)
+        configurationDataAssembler.setConfigurationDAO(database.configurationsModel())
                 .setConfigurationDataAccessFactory(new ConfigurationDataAccessFactory())
                 .setPokemonDataAssembler(pokemonDataAssembler)
-                .setTypeDataAccessFactory(new TypeDataAccessFactory())
-                .setMoveDataAccessFactory(new MoveDataAccessFactory())
-                .setItemDataAccessFactory(new ItemDataAccessFactory())
-                .setAbilityDataAccessFactory(new AbilityDataAccessFactory())
-                .setNatureDataAccessFactory(new NatureDataAccessFactory())
-                .setStatDataAccessFactory(new StatDataAccessFactory());
+                .setMoveDataAssembler( moveDataAssembler )
+                .setItemDataAssembler(itemDataAssembler)
+                .setAbilityDataAssembler(abilityDataAssembler)
+                .setNatureDataAssembler(natureDataAssembler)
+                .setStatDataAssembler(statDataAssembler);
+
 
         searchPokemonAssembler = new SearchPokemonAssembler();
         searchPokemonAssembler.setMainExecutor(executor)
                 .setPokemonDataAssembler( pokemonDataAssembler );
-
         searchConfigurationAssembler = new SearchConfigurationAssembler();
         searchConfigurationAssembler.setMainExecutor(executor)
                 .setConfigurationDataAssembler(configurationDataAssembler);
-
         overviewAssembler = new OverviewAssembler();
         overviewAssembler.setSearchConfigurationAssembler( searchConfigurationAssembler )
                 .setSearchPokemonAssembler( searchPokemonAssembler )
                 .setExecutor( executor );
-
         createConfigurationAssembler = new CreateConfigurationAssembler();
-
-
+        createConfigurationAssembler.setConfigurationDataAssembler( configurationDataAssembler )
+                .setExecutor( executor );
         damageCalculatorAssembler = new DamageCalculatorAssembler();
+        damageCalculatorAssembler.setDataAssembler( configurationDataAssembler )
+                .setExecutor( executor );
+        searchMoveAssembler = new SearchMoveAssembler();
+        searchMoveAssembler.setExecutor( executor )
+                .setMoveDataAssembler( moveDataAssembler );
+        searchItemsAssembler = new SearchItemsAssembler();
+        searchItemsAssembler.setExecutor(executor)
+                .setItemDataAssembler(itemDataAssembler);
+        searchAbilityAssembler = new SearchAbilityAssembler()
+                .setExecutor(executor)
+                .setAbilityDataAssembler(abilityDataAssembler);
+        searchNatureAssembler = new SearchNatureAssembler()
+                .setExecutor(executor)
+                .setNatureDataAssembler(natureDataAssembler);
+
     }
 
     protected MainExecutor buildExecutor() {

@@ -1,15 +1,27 @@
 package es.developer.achambi.pkmng.modules.search.item;
 
+import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.search.ItemDataAssembler;
+import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.item.presenter.ISearchItemsPresenterFactory;
+import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenterFactory;
 
 public class SearchItemsAssembler {
-    private ISearchItemsPresenterFactory presenterFactory;
+    private MainExecutor executor;
+    private ItemDataAssembler itemDataAssembler;
 
-    public ISearchItemsPresenterFactory getPresenterFactory() {
-        return presenterFactory;
+    public SearchItemsAssembler setItemDataAssembler(ItemDataAssembler itemDataAssembler) {
+        this.itemDataAssembler = itemDataAssembler;
+        return this;
     }
 
-    public void setPresenterFactory(ISearchItemsPresenterFactory presenterFactory) {
-        this.presenterFactory = presenterFactory;
+    public SearchItemsAssembler setExecutor(MainExecutor executor) {
+        this.executor = executor;
+        return this;
+    }
+
+    public ISearchItemsPresenterFactory getPresenterFactory() {
+        return new SearchItemsPresenterFactory(itemDataAssembler.getDataAccess(), executor );
     }
 }

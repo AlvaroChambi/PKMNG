@@ -1,31 +1,29 @@
 package es.developer.achambi.pkmng.modules;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
-import es.developer.achambi.pkmng.modules.data.stat.StatDataAccessFactory;
-import es.developer.achambi.pkmng.modules.data.type.TypeDataAccessFactory;
-import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess;
+import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
+import es.developer.achambi.pkmng.modules.search.StatDataAssembler;
+import es.developer.achambi.pkmng.modules.search.TypeDataAssembler;
+import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccess;
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccessFactory;
 
 public class PokemonDataAssembler {
-    private AppDatabase appDatabase;
-    private TypeDataAccessFactory typeDataAccessFactory;
-    private StatDataAccessFactory statDataAccessFactory;
+    private PokemonDAO pokemonDAO;
+    private TypeDataAssembler typeDataAssembler;
+    private StatDataAssembler statDataAssembler;
     private PokemonDataAccessFactory pokemonDataAccessFactory;
 
-    public PokemonDataAssembler setAppDatabase(AppDatabase appDatabase) {
-        this.appDatabase = appDatabase;
+    public PokemonDataAssembler setPokemonDAO(PokemonDAO pokemonDAO) {
+        this.pokemonDAO = pokemonDAO;
         return this;
     }
 
-    public PokemonDataAssembler setTypeDataAccessFactory(
-            TypeDataAccessFactory typeDataAccessFactory) {
-        this.typeDataAccessFactory = typeDataAccessFactory;
+    public PokemonDataAssembler setTypeDataAssembler(TypeDataAssembler typeDataAssembler) {
+        this.typeDataAssembler = typeDataAssembler;
         return this;
     }
 
-    public PokemonDataAssembler setStatDataAccessFactory(
-            StatDataAccessFactory statDataAccessFactory) {
-        this.statDataAccessFactory = statDataAccessFactory;
+    public PokemonDataAssembler setStatDataAssembler(StatDataAssembler statDataAssembler) {
+        this.statDataAssembler = statDataAssembler;
         return this;
     }
 
@@ -35,9 +33,9 @@ public class PokemonDataAssembler {
         return this;
     }
 
-    public PokemonDataAccess getPokemonDataAccess() {
-        return pokemonDataAccessFactory.buildDataAccess(appDatabase.pokemonModel(),
-                statDataAccessFactory.buildDataAccess( appDatabase.statsModel() ),
-                typeDataAccessFactory.buildDataAccess( appDatabase.typeModel() ));
+    public IPokemonDataAccess getPokemonDataAccess() {
+        return pokemonDataAccessFactory.buildDataAccess(pokemonDAO,
+                statDataAssembler.getStatDataAccess(),
+                typeDataAssembler.getDataAccess() );
     }
 }

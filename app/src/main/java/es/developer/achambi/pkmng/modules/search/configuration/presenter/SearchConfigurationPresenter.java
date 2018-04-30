@@ -14,19 +14,10 @@ import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
-import es.developer.achambi.pkmng.modules.overview.model.Configuration;
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.model.Stat;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
-import es.developer.achambi.pkmng.modules.search.configuration.data.ConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
-import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.ISearchConfigurationScreen;
-import es.developer.achambi.pkmng.modules.search.item.model.Item;
-import es.developer.achambi.pkmng.modules.search.move.model.Move;
-import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class SearchConfigurationPresenter extends Presenter implements
         SearchAdapterDecorator.OnItemClickedListener<ConfigurationPresentation> {

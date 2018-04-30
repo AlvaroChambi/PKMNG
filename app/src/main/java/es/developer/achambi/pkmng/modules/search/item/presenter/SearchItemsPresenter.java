@@ -10,7 +10,7 @@ import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccess;
+import es.developer.achambi.pkmng.modules.search.item.data.IItemDataAccess;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.screen.ISearchItemScreen;
 import es.developer.achambi.pkmng.modules.search.item.screen.presentation.SearchItemPresentation;
@@ -20,10 +20,10 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
     private static final String DATA_SAVED_STATE = "DATA_SAVED_STATE";
     private ArrayList<Item> data;
     private ISearchItemScreen screen;
-    private ItemDataAccess dataAccess;
+    private IItemDataAccess dataAccess;
 
     public SearchItemsPresenter( ISearchItemScreen screen,
-                                 ItemDataAccess dataAccess,
+                                 IItemDataAccess dataAccess,
                                  MainExecutor executor ) {
         super(screen, executor);
         this.screen = screen;

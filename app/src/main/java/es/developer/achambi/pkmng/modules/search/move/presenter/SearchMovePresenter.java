@@ -10,8 +10,7 @@ import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
-import es.developer.achambi.pkmng.modules.search.move.data.MoveDataAccess;
+import es.developer.achambi.pkmng.modules.search.move.data.IMoveDataAccess;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.move.screen.ISearchMoveScreen;
 import es.developer.achambi.pkmng.modules.search.move.screen.presentation.SearchMovePresentation;
@@ -22,10 +21,10 @@ public class SearchMovePresenter extends ISearchMovePresenter
 
     private ArrayList<Move> data;
     private ISearchMoveScreen screen;
-    private MoveDataAccess dataAccess;
+    private IMoveDataAccess dataAccess;
 
     public SearchMovePresenter( ISearchMoveScreen screen,
-                                MoveDataAccess dataAccess,
+                                IMoveDataAccess dataAccess,
                                 MainExecutor executor ) {
         super(screen, executor);
         this.screen = screen;

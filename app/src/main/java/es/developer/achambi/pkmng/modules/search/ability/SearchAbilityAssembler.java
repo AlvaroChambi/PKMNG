@@ -1,15 +1,28 @@
 package es.developer.achambi.pkmng.modules.search.ability;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.search.AbilityDataAssembler;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.ISearchAbilityPresenterFactory;
+import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenterFactory;
 
 public class SearchAbilityAssembler {
-    private ISearchAbilityPresenterFactory presenterFactory;
+    private MainExecutor executor;
+    private AbilityDataAssembler abilityDataAssembler;
 
-    public ISearchAbilityPresenterFactory getPresenterFactory() {
-        return presenterFactory;
+    public SearchAbilityAssembler setExecutor(MainExecutor executor) {
+        this.executor = executor;
+        return this;
     }
 
-    public void setPresenterFactory(ISearchAbilityPresenterFactory presenterFactory) {
-        this.presenterFactory = presenterFactory;
+    public SearchAbilityAssembler setAbilityDataAssembler(
+            AbilityDataAssembler abilityDataAssembler) {
+        this.abilityDataAssembler = abilityDataAssembler;
+        return this;
+    }
+
+    public ISearchAbilityPresenterFactory getPresenterFactory() {
+        return new SearchAbilityPresenterFactory(
+                abilityDataAssembler.getAbilityDataAccess(),
+                executor );
     }
 }

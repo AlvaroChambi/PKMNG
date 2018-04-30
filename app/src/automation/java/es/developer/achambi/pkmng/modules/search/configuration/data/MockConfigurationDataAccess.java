@@ -1,4 +1,4 @@
-package es.developer.achambi.pkmng.core;
+package es.developer.achambi.pkmng.modules.search.configuration.data;
 
 import java.util.ArrayList;
 
@@ -8,18 +8,12 @@ import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
-import es.developer.achambi.pkmng.modules.search.configuration.data.ConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
-public class MockConfigurationDataAccess extends ConfigurationDataAccess{
+public class MockConfigurationDataAccess implements IConfigurationDataAccess {
     private static int STATIC_ID = 1001;
-    public MockConfigurationDataAccess() {
-        super(null, null, null, null,
-                null, null, null);
-    }
-
     @Override
     public ArrayList<PokemonConfig> accessConfigurationData() {
         return buildConfigurationData();
