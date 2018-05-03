@@ -3,6 +3,7 @@ package es.developer.achambi.pkmng;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -211,22 +212,6 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView( withText("Test") ).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void saveConfigurationFailedTest() {
-        onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
-        onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
-        onView(withId(R.id.details_create_config_action_button)).perform(click());
-
-        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
-        onView(withId( R.id.create_configuration_dialog_edit_text ))
-                .perform( typeText( "Test" ) );
-        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
-
-        onView(withText("Error")).check(matches(isDisplayed()));
     }
 
     @Test

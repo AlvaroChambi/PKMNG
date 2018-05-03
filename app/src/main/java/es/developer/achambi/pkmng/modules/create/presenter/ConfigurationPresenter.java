@@ -87,7 +87,7 @@ public class ConfigurationPresenter extends Presenter
             pokemonConfiguration.setConfiguration( editableConfiguration );
             request = new Request<Integer>() {
                 @Override
-                public Response<Integer> perform() {
+                public Response<Integer> perform() throws Exception{
                     return new Response<>(dataAccess.insertConfiguration( pokemonConfiguration ));
                 }
             };
@@ -104,7 +104,7 @@ public class ConfigurationPresenter extends Presenter
             pokemonConfiguration.setConfiguration( editableConfiguration );
             request = new Request<Integer>() {
                 @Override
-                public Response<Integer> perform() {
+                public Response<Integer> perform() throws Exception {
                     dataAccess.updateConfiguration( pokemonConfiguration );
                     return new Response<>( pokemonConfiguration.getId() );
                 }

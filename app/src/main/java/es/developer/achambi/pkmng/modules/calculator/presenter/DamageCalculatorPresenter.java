@@ -122,7 +122,7 @@ public class DamageCalculatorPresenter extends Presenter {
         if( !leftPokemon.getConfiguration().equals( editableLeftConfiguration ) ) {
             request(new Request<ConfigurationAction>() {
                 @Override
-                public Response<ConfigurationAction> perform() {
+                public Response<ConfigurationAction> perform() throws Exception{
                     leftPokemon.setConfiguration( editableLeftConfiguration );
                     dataAccess.updateConfiguration( leftPokemon );
                     return new Response<>(ConfigurationAction.UPDATE);
@@ -137,7 +137,7 @@ public class DamageCalculatorPresenter extends Presenter {
         if( !rightPokemon.getConfiguration().equals( editableRightConfiguration ) ) {
             request(new Request<ConfigurationAction>() {
                 @Override
-                public Response<ConfigurationAction> perform() {
+                public Response<ConfigurationAction> perform() throws Exception {
                     rightPokemon.setConfiguration( editableRightConfiguration );
                     dataAccess.updateConfiguration( rightPokemon );
                     return new Response<>(ConfigurationAction.UPDATE);

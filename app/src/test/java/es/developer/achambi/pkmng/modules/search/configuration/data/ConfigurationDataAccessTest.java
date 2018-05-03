@@ -2,8 +2,6 @@ package es.developer.achambi.pkmng.modules.search.configuration.data;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class ConfigurationDataAccessTest {
 
     @Test

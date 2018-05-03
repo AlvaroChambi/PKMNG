@@ -38,49 +38,40 @@ public abstract class BaseAppWiring {
     public static CreateConfigurationAssembler createConfigurationAssembler;
     public static DamageCalculatorAssembler damageCalculatorAssembler;
 
-    private static ConfigurationDataAssembler configurationDataAssembler;
-    private static PokemonDataAssembler pokemonDataAssembler;
-    private static MoveDataAssembler moveDataAssembler;
-    private static NatureDataAssembler natureDataAssembler;
-    private static ItemDataAssembler itemDataAssembler;
-    private static AbilityDataAssembler abilityDataAssembler;
-    private static StatDataAssembler statDataAssembler;
-    private static TypeDataAssembler typeDataAssembler;
-
     public void appWiring( Context context ) {
         AppDatabase database = AppDatabase.buildDatabase(context);
         MainExecutor executor = buildExecutor();
-        abilityDataAssembler = new AbilityDataAssembler();
+        AbilityDataAssembler abilityDataAssembler = new AbilityDataAssembler();
         abilityDataAssembler.setAbilitiesDAO( database.abilitiesModel() )
                 .setDataAccessFactory(new AbilityDataAccessFactory());
-        itemDataAssembler = new ItemDataAssembler();
+        ItemDataAssembler itemDataAssembler = new ItemDataAssembler();
         itemDataAssembler.setItemDAO( database.itemsModel() )
                 .setDataAccessFactory(new ItemDataAccessFactory());
-        statDataAssembler = new StatDataAssembler();
+        StatDataAssembler statDataAssembler = new StatDataAssembler();
         statDataAssembler.setStatsDAO( database.statsModel() )
                 .setDataAccessFactory(new StatDataAccessFactory());
-        typeDataAssembler = new TypeDataAssembler();
+        TypeDataAssembler typeDataAssembler = new TypeDataAssembler();
         typeDataAssembler.setTypeDAO( database.typeModel() )
                 .setDataAccessFactory(new TypeDataAccessFactory());
 
-        moveDataAssembler = new MoveDataAssembler();
+        MoveDataAssembler moveDataAssembler = new MoveDataAssembler();
         moveDataAssembler.setMovesDAO(database.movesModel())
                 .setMoveDataAccessFactory(new MoveDataAccessFactory())
                 .setTypeDataAssembler(typeDataAssembler);
-        natureDataAssembler = new NatureDataAssembler()
+        NatureDataAssembler natureDataAssembler = new NatureDataAssembler()
                 .setNaturesDAO(database.naturesModel())
                 .setStatDataAssembler(statDataAssembler)
                 .setNatureDataAccessFactory(new NatureDataAccessFactory());
-        pokemonDataAssembler = new PokemonDataAssembler();
+        PokemonDataAssembler pokemonDataAssembler = new PokemonDataAssembler();
         pokemonDataAssembler.setPokemonDAO(database.pokemonModel())
                 .setPokemonDataAccessFactory(new PokemonDataAccessFactory())
                 .setStatDataAssembler(statDataAssembler)
                 .setTypeDataAssembler(typeDataAssembler);
-        configurationDataAssembler = new ConfigurationDataAssembler();
+        ConfigurationDataAssembler configurationDataAssembler = new ConfigurationDataAssembler();
         configurationDataAssembler.setConfigurationDAO(database.configurationsModel())
                 .setConfigurationDataAccessFactory(new ConfigurationDataAccessFactory())
                 .setPokemonDataAssembler(pokemonDataAssembler)
-                .setMoveDataAssembler( moveDataAssembler )
+                .setMoveDataAssembler(moveDataAssembler)
                 .setItemDataAssembler(itemDataAssembler)
                 .setAbilityDataAssembler(abilityDataAssembler)
                 .setNatureDataAssembler(natureDataAssembler)
@@ -89,7 +80,7 @@ public abstract class BaseAppWiring {
 
         searchPokemonAssembler = new SearchPokemonAssembler();
         searchPokemonAssembler.setMainExecutor(executor)
-                .setPokemonDataAssembler( pokemonDataAssembler );
+                .setPokemonDataAssembler(pokemonDataAssembler);
         searchConfigurationAssembler = new SearchConfigurationAssembler();
         searchConfigurationAssembler.setMainExecutor(executor)
                 .setConfigurationDataAssembler(configurationDataAssembler);
@@ -98,14 +89,14 @@ public abstract class BaseAppWiring {
                 .setSearchPokemonAssembler( searchPokemonAssembler )
                 .setExecutor( executor );
         createConfigurationAssembler = new CreateConfigurationAssembler();
-        createConfigurationAssembler.setConfigurationDataAssembler( configurationDataAssembler )
+        createConfigurationAssembler.setConfigurationDataAssembler(configurationDataAssembler)
                 .setExecutor( executor );
         damageCalculatorAssembler = new DamageCalculatorAssembler();
-        damageCalculatorAssembler.setDataAssembler( configurationDataAssembler )
+        damageCalculatorAssembler.setDataAssembler(configurationDataAssembler)
                 .setExecutor( executor );
         searchMoveAssembler = new SearchMoveAssembler();
         searchMoveAssembler.setExecutor( executor )
-                .setMoveDataAssembler( moveDataAssembler );
+                .setMoveDataAssembler(moveDataAssembler);
         searchItemsAssembler = new SearchItemsAssembler();
         searchItemsAssembler.setExecutor(executor)
                 .setItemDataAssembler(itemDataAssembler);

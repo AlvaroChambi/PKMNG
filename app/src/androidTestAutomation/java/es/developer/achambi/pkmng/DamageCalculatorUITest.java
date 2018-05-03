@@ -3,9 +3,15 @@ package es.developer.achambi.pkmng;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
+import es.developer.achambi.pkmng.modules.search.configuration.data.MockConfigurationDataAccess;
 import es.developer.achambi.pkmng.viewactions.CustomViewActions;
+import es.developer.achambi.pkmng.viewactions.ToastMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,6 +26,17 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 public class DamageCalculatorUITest extends BaseAutomationTest {
+    @BeforeClass
+    public static void beforeClass() {
+        ConfigurationDataAssembler mockAssembler = new ConfigurationDataAssembler(){
+            @Override
+            public IConfigurationDataAccess getConfigurationDataAccess() {
+                return new MockConfigurationDataAccess();
+            }
+        };
+        AppWiring.searchConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
+        AppWiring.damageCalculatorAssembler.setDataAssembler( mockAssembler );
+    }
     @Test
     public void testLeftPokemonChange() {
         onView( withId(R.id.base_search_recycler_view) )
@@ -299,11 +316,20 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
 
     @Test
     public void testSaveConfigurationNotChanged() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
 
-    }
+        onView(withId(R.id.right_pokemon_image_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+        onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
 
-    @Test
-    public void testSaveConfigurationFailed() {
+        onView(withId(R.id.configuration_floating_save_button_main)).perform(click());
+        onView(withId(R.id.configuration_floating_save_button_left)).perform(click());
 
+        onView(withText(R.string.configuration_not_changed_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
     }
 }

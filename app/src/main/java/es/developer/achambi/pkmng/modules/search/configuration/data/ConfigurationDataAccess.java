@@ -66,7 +66,7 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
     }
 
     @Override
-    public int insertConfiguration(final PokemonConfig configuration) {
+    public int insertConfiguration(final PokemonConfig configuration) throws Error{
         configurations configurationToInsert = cast(configuration);
         configurationToInsert.id = null;
         int configurationId = (int)configurationDAO.insert( configurationToInsert );
