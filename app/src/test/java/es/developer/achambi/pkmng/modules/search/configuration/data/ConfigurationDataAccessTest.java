@@ -1,8 +1,13 @@
 package es.developer.achambi.pkmng.modules.search.configuration.data;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class ConfigurationDataAccessTest {
+
+    @Before
+    public void setup() {
+    }
 
     @Test
     public void accessConfigurationDataEmpty() {
@@ -10,6 +15,11 @@ public class ConfigurationDataAccessTest {
 
     @Test
     public void accessConfigurationData() {
+    }
+
+    @Test
+    public void updateConfiguration() {
+
     }
 
     @Test
@@ -22,10 +32,5 @@ public class ConfigurationDataAccessTest {
 
     @Test
     public void updateConfigurationNotExistingID() {
-    }
-
-    @Test
-    public void updateConfiguration() {
-
     }
 }

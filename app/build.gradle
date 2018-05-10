@@ -72,6 +72,7 @@ dependencies {
     }
 
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.6.3'
 }
 
 // Create performance testing tasks for all connected Android devices using a Gradle plugin defined

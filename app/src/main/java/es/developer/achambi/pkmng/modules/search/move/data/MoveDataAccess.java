@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
 import es.developer.achambi.pkmng.core.db.model.move_value;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
@@ -22,8 +23,17 @@ public class MoveDataAccess implements  IMoveDataAccess {
         this.typeDataAccess = typeDataAccess;
     }
 
+    /**
+     * Access Moves data for the given pokemon id
+     * @param pokemonId valid id's will never be lower than 1
+     * @return List of moves that are valid for the given pokemon id
+     * @throws IllegalIDException when an invalid id is requested
+     */
     @Override
-    public ArrayList<Move> accessPokemonMovesData( int pokemonId ) {
+    public ArrayList<Move> accessPokemonMovesData( int pokemonId ) throws IllegalIDException {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
         List<move_value> rawMoves = movesDAO.getPokemonMoves( pokemonId );
         ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
         for (move_value rawMove : rawMoves) {
@@ -41,8 +51,17 @@ public class MoveDataAccess implements  IMoveDataAccess {
         return movesList;
     }
 
+    /**
+     * Access Move data for the given id
+     * @param moveId valid id's will never be lower than 1
+     * @return Move that matches the given id or an empty Move instance if no match is found
+     * @throws IllegalArgumentException when and invalid id is requested
+     */
     @Override
-    public Move accessMoveData(int moveId) {
+    public Move accessMoveData(int moveId) throws IllegalIDException {
+        if( moveId < 1 ) {
+            throw new IllegalIDException( moveId );
+        }
         move_value rawMove = movesDAO.getMove(moveId);
         Move move = new Move();
         if(rawMove != null) {

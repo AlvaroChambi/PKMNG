@@ -29,10 +29,10 @@ public class MockConfigurationDataAccess implements IConfigurationDataAccess {
     }
 
     private ArrayList<PokemonConfig> buildConfigurationData() {
-        int numberOfPokemon = 1;
+        int numberOfPokemon = 2;
         ArrayList<PokemonConfig> pokemonList = new ArrayList<>(numberOfPokemon);
 
-        Pokemon pokemon0 = new Pokemon(1);
+        Pokemon pokemon0 = new Pokemon(4);
         pokemon0.setName("Pikachu");
         pokemon0.setType(Type.ELECTRIC);
         pokemon0.setHP(35);
@@ -47,8 +47,8 @@ public class MockConfigurationDataAccess implements IConfigurationDataAccess {
         pokemonConfiguration.setConfiguration(new Configuration());
         pokemonList.add(pokemonConfiguration);
 
-        for(int i = 0; i < numberOfPokemon; i++) {
-            Pokemon pokemon = new Pokemon(i);
+        for(int i = 1; i < numberOfPokemon; i++) {
+            Pokemon pokemon = new Pokemon(10001);
             pokemon.setName("Pikachu");
             pokemon.setType(Type.STEEL);
             pokemon.setHP(35);

@@ -241,6 +241,7 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
         onView(withId(R.id.configuration_floating_save_button_left)).perform(click());
 
         onView(withText(R.string.configuration_updated_toast_message))
+                .inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
 
         onView( withId(R.id.base_search_recycler_view) )
@@ -272,6 +273,7 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
         onView(withId(R.id.configuration_floating_save_button_right)).perform(click());
 
         onView(withText(R.string.configuration_updated_toast_message))
+                .inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
 
         onView( withId(R.id.base_search_recycler_view) )
