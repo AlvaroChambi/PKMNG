@@ -52,7 +52,7 @@ public class Ability implements Parcelable {
         }
         Ability ability = (Ability)obj;
         if( ability.id == id &&
-                ability.name == name &&
+                ability.name.equals(name) &&
                 ability.description == description &&
                 ability.descriptionShort == descriptionShort ) {
             return true;

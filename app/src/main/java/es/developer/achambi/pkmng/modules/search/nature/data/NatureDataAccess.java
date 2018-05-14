@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.NaturesDAO;
 import es.developer.achambi.pkmng.core.db.model.natures;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
@@ -35,7 +36,10 @@ public class NatureDataAccess implements INatureDataAccess {
     }
 
     @Override
-    public Nature accessNatureData(int natureId) {
+    public Nature accessNatureData(int natureId) throws IllegalIDException {
+        if( natureId < 1 ) {
+            throw new IllegalIDException( natureId );
+        }
         natures rawNature = naturesDAO.getNature(natureId);
         Nature nature = new Nature();
         if(rawNature != null) {

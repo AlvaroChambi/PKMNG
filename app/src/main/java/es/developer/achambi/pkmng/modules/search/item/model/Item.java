@@ -68,8 +68,8 @@ public class Item implements Parcelable{
         }
         Item item = (Item)obj;
         if( item.id == id &&
-                item.name == name &&
-                item.imageUrl == imageUrl &&
+                item.name.equals(name) &&
+                item.imageUrl.equals(imageUrl) &&
                 item.description == description &&
                 item.descriptionShort == descriptionShort ) {
             return true;
