@@ -3,13 +3,11 @@ package es.developer.achambi.pkmng.modules.search.pokemon.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
 import es.developer.achambi.pkmng.core.db.model.pokemon_species;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
-import es.developer.achambi.pkmng.modules.data.stat.StatDataAccess;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
-import es.developer.achambi.pkmng.modules.data.type.TypeDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 
 public class PokemonDataAccess implements IPokemonDataAccess{
@@ -41,12 +39,19 @@ public class PokemonDataAccess implements IPokemonDataAccess{
     }
 
     @Override
-    public Pokemon accessPokemonData(int pokemonId) {
+    public Pokemon accessPokemonData(int pokemonId) throws IllegalIDException {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
         pokemon_species rawPokemon = pokemonDAO.getPokemon(pokemonId);
-        Pokemon pokemon = new Pokemon(rawPokemon.id);
-        pokemon.setName(rawPokemon.identifier);
-        pokemon.setType( typeDataAccess.accessPokemonTypeData( rawPokemon.id ) );
-        pokemon.setStats( statDataAccess.accessPokemonStatsData( rawPokemon.id ) );
-        return pokemon;
+        if( rawPokemon != null ) {
+            Pokemon pokemon = new Pokemon(rawPokemon.id);
+            pokemon.setName(rawPokemon.identifier);
+            pokemon.setType( typeDataAccess.accessPokemonTypeData( rawPokemon.id ) );
+            pokemon.setStats( statDataAccess.accessPokemonStatsData( rawPokemon.id ) );
+            return pokemon;
+        } else {
+            return new Pokemon();
+        }
     }
 }
