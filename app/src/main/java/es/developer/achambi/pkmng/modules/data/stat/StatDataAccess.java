@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.db.dao.StatsDAO;
 import es.developer.achambi.pkmng.core.db.model.configuration_stats;
 import es.developer.achambi.pkmng.core.db.model.stat_value;
+import es.developer.achambi.pkmng.core.db.model.stats;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 
@@ -28,7 +29,10 @@ public class StatDataAccess implements IStatDataAccess{
     }
 
     @Override
-    public StatsSet accessPokemonStatsData( int pokemonId ) {
+    public StatsSet accessPokemonStatsData( int pokemonId ) throws IllegalIDException {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
         List<stat_value> rawStats = statsDAO.getStats(pokemonId);
         StatsSet statsSet = new StatsSet();
         populateStats( statsSet, rawStats );
@@ -36,7 +40,10 @@ public class StatDataAccess implements IStatDataAccess{
     }
 
     @Override
-    public StatsSet accessEvsSetData( int configurationId ) {
+    public StatsSet accessEvsSetData( int configurationId ) throws IllegalIDException {
+        if( configurationId < 1 ) {
+            throw new IllegalIDException( configurationId );
+        }
         List<stat_value> rawStats = statsDAO.getEvsSet(configurationId);
         StatsSet statsSet = new StatsSet();
         populateStats( statsSet, rawStats );
@@ -44,15 +51,27 @@ public class StatDataAccess implements IStatDataAccess{
     }
 
     @Override
-    public Stat accessStatData( int statId ) {
-        return parseStat( statsDAO.getStat( statId ).identifier );
+    public Stat accessStatData( int statId ) throws IllegalIDException {
+        if( statId < 1 ) {
+            throw new IllegalIDException( statId );
+        }
+        stats value = statsDAO.getStat( statId );
+        if( value != null ) {
+            return parseStat( statsDAO.getStat( statId ).identifier );
+        } else {
+            return Stat.NONE;
+        }
     }
 
     @Override
     public void insertStatsSet( int configurationId,
                                 StatsSet statsSet ) throws IllegalArgumentException {
         if(configurationId < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("invalid id : " + configurationId);
+        }
+
+        if(statsSet == null) {
+            throw new IllegalArgumentException( "invalid StatSet: " + statsSet );
         }
         ArrayList<configuration_stats> statsToInsert = new ArrayList<>();
         Iterator<Stat> iterator = statsSet.getKeysIterator();
@@ -63,11 +82,18 @@ public class StatDataAccess implements IStatDataAccess{
     }
 
     @Override
-    public void updateStatsSet( int configurationId, StatsSet StatsSet ) {
+    public void updateStatsSet( int configurationId, StatsSet statsSet ) {
+        if(configurationId < 0) {
+            throw new IllegalArgumentException("invalid id : " + configurationId);
+        }
+
+        if(statsSet == null) {
+            throw new IllegalArgumentException( "invalid StatSet: " + statsSet );
+        }
         ArrayList<configuration_stats> statsToUpdate = new ArrayList<>();
-        Iterator<Stat> iterator = StatsSet.getKeysIterator();
+        Iterator<Stat> iterator = statsSet.getKeysIterator();
         while (iterator.hasNext()) {
-            statsToUpdate.add( cast(configurationId, iterator.next(), StatsSet) );
+            statsToUpdate.add( cast(configurationId, iterator.next(), statsSet) );
         }
         statsDAO.updateStatsSet(statsToUpdate);
     }
