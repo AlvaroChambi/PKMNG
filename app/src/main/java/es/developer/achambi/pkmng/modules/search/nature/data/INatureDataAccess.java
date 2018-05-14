@@ -6,5 +6,5 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public interface INatureDataAccess {
     ArrayList<Nature> accessData();
-    Nature accessNatureDate(int natureId);
+    Nature accessNatureData(int natureId);
 }

@@ -35,7 +35,7 @@ public class NatureDataAccess implements INatureDataAccess {
     }
 
     @Override
-    public Nature accessNatureDate(int natureId) {
+    public Nature accessNatureData(int natureId) {
         natures rawNature = naturesDAO.getNature(natureId);
         Nature nature = new Nature();
         if(rawNature != null) {

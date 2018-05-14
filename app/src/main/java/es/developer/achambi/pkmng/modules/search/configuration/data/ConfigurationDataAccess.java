@@ -53,7 +53,7 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
             configuration.setMove2( moveDataAccess.accessMoveData( currentRaw.move_2_id ) );
             configuration.setMove3( moveDataAccess.accessMoveData( currentRaw.move_3_id ) );
             configuration.setItem( itemDataAccess.accessItemData( currentRaw.item_id ) );
-            configuration.setNature( natureDataAccess.accessNatureDate( currentRaw.nature_id ) );
+            configuration.setNature( natureDataAccess.accessNatureData( currentRaw.nature_id ) );
             configuration.setAbility( abilityDataAccess.accessAbilityData( currentRaw.ability_id ) );
             PokemonConfig pokemonConfig = new PokemonConfig();
             pokemonConfig.setId( currentRaw.id );
