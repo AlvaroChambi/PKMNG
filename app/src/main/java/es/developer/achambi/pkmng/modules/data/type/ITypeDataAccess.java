@@ -9,7 +9,7 @@ public interface ITypeDataAccess {
     /**
      * Access the type data for the given id
      * @param typeId of the request Type data
-     * @return Type data when id is found, null otherwise
+     * @return Type data when id is found, Empty type otherwise
      * @throws IllegalIDException on invalid id, 0 or negative values
      */
     Type accessTypeData(int typeId ) throws IllegalIDException;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.AbilitiesDAO;
 import es.developer.achambi.pkmng.core.db.model.ability_value;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 
 public class AbilityDataAccess implements IAbilityDataAccess{
@@ -16,6 +17,9 @@ public class AbilityDataAccess implements IAbilityDataAccess{
 
     @Override
     public ArrayList<Ability> accessAbilities( int pokemonId ) {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
         List<ability_value> rawAbilities = abilitiesDAO.getPokemonAbilities(pokemonId);
         ArrayList<Ability> abilities = new ArrayList<>(rawAbilities.size());
         for (ability_value currentAbility : rawAbilities) {
@@ -31,7 +35,10 @@ public class AbilityDataAccess implements IAbilityDataAccess{
     }
 
     @Override
-    public Ability accessAbilityData( int abilityId ) {
+    public Ability accessAbilityData( int abilityId ) throws IllegalIDException {
+        if( abilityId < 1 ) {
+            throw new IllegalIDException( abilityId );
+        }
         ability_value rawAbility = abilitiesDAO.getAbility(abilityId);
         Ability ability = new Ability();
         if(rawAbility != null) {

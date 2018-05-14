@@ -37,6 +37,30 @@ public class Ability implements Parcelable {
                 ability.getDescription(), ability.getDescriptionShort() );
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if( this == obj ) {
+            return true;
+        }
+
+        if( obj == null ) {
+            return false;
+        }
+
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        Ability ability = (Ability)obj;
+        if( ability.id == id &&
+                ability.name == name &&
+                ability.description == description &&
+                ability.descriptionShort == descriptionShort ) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected Ability(Parcel in) {
         id = in.readInt();
         name = in.readString();
