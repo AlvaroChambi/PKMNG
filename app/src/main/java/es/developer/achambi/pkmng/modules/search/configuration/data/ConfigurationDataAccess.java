@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.ConfigurationDAO;
 import es.developer.achambi.pkmng.core.db.model.configurations;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -66,7 +67,10 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
     }
 
     @Override
-    public int insertConfiguration(final PokemonConfig configuration) throws Error{
+    public int insertConfiguration(final PokemonConfig configuration) throws RuntimeException {
+        if( configuration.getId() < 1 ) {
+            throw new IllegalIDException( configuration.getId() );
+        }
         configurations configurationToInsert = cast(configuration);
         configurationToInsert.id = null;
         int configurationId = (int)configurationDAO.insert( configurationToInsert );
@@ -76,7 +80,10 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
     }
 
     @Override
-    public void updateConfiguration(final PokemonConfig configuration) {
+    public void updateConfiguration(final PokemonConfig configuration) throws RuntimeException {
+        if( configuration.getId() < 1 ) {
+            throw new IllegalIDException( configuration.getId() );
+        }
         statDataAccess.updateStatsSet( configuration.getId(), configuration.getStatsSet() );
         configurationDAO.update( cast(configuration) );
     }
