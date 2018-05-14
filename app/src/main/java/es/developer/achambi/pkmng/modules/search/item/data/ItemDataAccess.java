@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.ItemDAO;
 import es.developer.achambi.pkmng.core.db.model.item_value;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class ItemDataAccess implements IItemDataAccess{
@@ -30,7 +31,10 @@ public class ItemDataAccess implements IItemDataAccess{
     }
 
     @Override
-    public Item accessItemData(int itemId) {
+    public Item accessItemData(int itemId) throws IllegalIDException {
+        if( itemId < 1 ) {
+            throw new IllegalIDException( itemId );
+        }
         item_value rawItem = itemDAO.getItem(itemId);
         Item item = new Item();
         if(rawItem != null) {
