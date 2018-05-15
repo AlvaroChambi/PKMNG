@@ -1,5 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.configuration.data;
 
+import android.database.SQLException;
+
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
@@ -19,13 +21,13 @@ public class MockErrorConfigurationDataAccess implements IConfigurationDataAcces
     }
 
     @Override
-    public int insertConfiguration(PokemonConfig configuration) throws Exception {
-        throw new Exception("Failed to create configuration");
+    public int insertConfiguration(PokemonConfig configuration) throws RuntimeException {
+        throw new SQLException("Failed to create configuration");
     }
 
     @Override
-    public void updateConfiguration(PokemonConfig configuration) throws Exception {
-        throw new Exception("Failed to update configuration");
+    public void updateConfiguration(PokemonConfig configuration) throws RuntimeException {
+        throw new SQLException("Failed to update configuration");
     }
 
     private ArrayList<PokemonConfig> buildConfigurationData() {

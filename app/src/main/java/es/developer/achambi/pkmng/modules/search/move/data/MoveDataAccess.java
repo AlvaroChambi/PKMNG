@@ -23,12 +23,6 @@ public class MoveDataAccess implements  IMoveDataAccess {
         this.typeDataAccess = typeDataAccess;
     }
 
-    /**
-     * Access Moves data for the given pokemon id
-     * @param pokemonId valid id's will never be lower than 1
-     * @return List of moves that are valid for the given pokemon id
-     * @throws IllegalIDException when an invalid id is requested
-     */
     @Override
     public ArrayList<Move> accessPokemonMovesData( int pokemonId ) throws IllegalIDException {
         if( pokemonId < 1 ) {
@@ -51,12 +45,6 @@ public class MoveDataAccess implements  IMoveDataAccess {
         return movesList;
     }
 
-    /**
-     * Access Move data for the given id
-     * @param moveId valid id's will never be lower than 1
-     * @return Move that matches the given id or an empty Move instance if no match is found
-     * @throws IllegalArgumentException when and invalid id is requested
-     */
     @Override
     public Move accessMoveData(int moveId) throws IllegalIDException {
         if( moveId < 1 ) {
