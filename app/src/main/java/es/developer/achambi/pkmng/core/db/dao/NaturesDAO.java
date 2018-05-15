@@ -11,4 +11,8 @@ import es.developer.achambi.pkmng.core.db.model.natures;
 public interface NaturesDAO {
     @Query("select id, identifier, increased_stat_id, decreased_stat_id from natures ")
     List<natures> getNatures();
+
+    @Query("select id, identifier, increased_stat_id, decreased_stat_id from natures " +
+            "where id = :natureId")
+    natures getNature(int natureId);
 }

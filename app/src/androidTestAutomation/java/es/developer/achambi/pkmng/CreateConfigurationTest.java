@@ -3,9 +3,16 @@ package es.developer.achambi.pkmng;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
+import es.developer.achambi.pkmng.modules.search.configuration.data.MockConfigurationDataAccess;
 import es.developer.achambi.pkmng.viewactions.CustomViewActions;
+import es.developer.achambi.pkmng.viewactions.ToastMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -21,6 +28,17 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 public class CreateConfigurationTest extends BaseAutomationTest {
+    @BeforeClass
+    public static void beforeClass() {
+        ConfigurationDataAssembler mockAssembler = new ConfigurationDataAssembler(){
+            @Override
+            public IConfigurationDataAccess getConfigurationDataAccess() {
+                return new MockConfigurationDataAccess();
+            }
+        };
+        AppWiring.createConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
+        AppWiring.searchConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
+    }
 
     @Test
     public void changeCurrentPokemonTest() {
@@ -183,8 +201,13 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.details_create_config_action_button)).perform(click());
 
         onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
-        onView(withId( R.id.create_configuration_dialog_edit_text )).perform( typeText( "Test" ) );
+        onView(withId( R.id.create_configuration_dialog_edit_text ))
+                .perform( typeText( "Test" ) );
         onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_created_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
 
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));

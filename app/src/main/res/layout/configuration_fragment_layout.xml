@@ -489,7 +489,6 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-
     <FrameLayout
         android:id="@+id/configuration_floating_save_button_middle"
         android:layout_width="86dp"
@@ -514,4 +513,8 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </FrameLayout>
+    <include
+        android:id="@+id/base_request_loading_frame"
+        android:visibility="gone"
+        layout="@layout/base_request_fragment_layout"/>
 </FrameLayout>

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
@@ -28,7 +29,7 @@ public class StatsSet implements Parcelable{
     }
 
     public StatsSet(StatsSet statsSet ) {
-        this( new HashMap<Stat, Integer>(statsSet.getStats() ) );
+        this( new HashMap<>(statsSet.getStats() ) );
     }
 
     @Override
@@ -46,11 +47,11 @@ public class StatsSet implements Parcelable{
         }
 
         StatsSet statsSet = (StatsSet)obj;
-        Iterator<Integer> iterator = this.stats.values().iterator();
-        Iterator <Integer>compareIterator = statsSet.getStats().values().iterator();
+        Iterator<Stat> iterator = this.stats.keySet().iterator();
         while( iterator.hasNext() ) {
-            int value = iterator.next();
-            int compareValue = compareIterator.next();
+            Stat currentStat = iterator.next();
+            int value = stats.get( currentStat );
+            int compareValue = statsSet.getStats().get( currentStat );
             if( value != compareValue ) {
                 return false;
             }
@@ -108,6 +109,10 @@ public class StatsSet implements Parcelable{
 
     public HashMap<Stat, Integer> getStats() {
         return stats;
+    }
+
+    public Iterator<Stat> getKeysIterator() {
+        return stats.keySet().iterator();
     }
 
     public int getTotalStats() {

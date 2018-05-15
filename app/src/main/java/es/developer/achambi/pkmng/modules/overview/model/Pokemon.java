@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.support.v4.util.Pair;
 
 
+import java.util.Objects;
+
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
 public class Pokemon implements BasePokemon{
@@ -15,9 +17,16 @@ public class Pokemon implements BasePokemon{
     private StatsSet stats;
     private String imageURL;
 
+    public Pokemon() {
+        this.id = EMPTY_ID;
+        stats = new StatsSet();
+        type = new Pair<>(Type.EMPTY, Type.EMPTY);
+    }
+
     public Pokemon( int id  ) {
         this.id = id;
         stats = new StatsSet();
+        type = new Pair<>(Type.EMPTY, Type.EMPTY);
     }
 
     public Pokemon( Pokemon pokemon ) {
@@ -26,6 +35,18 @@ public class Pokemon implements BasePokemon{
         this.type = new Pair<>(pokemon.getType().first, pokemon.getType().second);
         this.stats = new StatsSet( pokemon.getStats() );
         this.imageURL = pokemon.getImageURL();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pokemon)) return false;
+        Pokemon pokemon = (Pokemon) o;
+        return id == pokemon.id &&
+                Objects.equals(name, pokemon.name) &&
+                Objects.equals(type, pokemon.type) &&
+                Objects.equals(stats, pokemon.stats) &&
+                Objects.equals(imageURL, pokemon.imageURL);
     }
 
     public void setStats(StatsSet stats) {

@@ -2,14 +2,22 @@ package es.developer.achambi.pkmng.modules.create.presenter;
 
 import android.os.Bundle;
 
+import es.developer.achambi.pkmng.core.threading.Error;
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.create.screen.StatEVView;
+import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
@@ -24,16 +32,21 @@ public class ConfigurationPresenter extends Presenter
     private Pokemon editablePokemon;
     private Configuration editableConfiguration;
     private PokemonConfig pokemonConfiguration;
-    private static int staticID = 1001;
+    private IConfigurationDataAccess dataAccess;
 
-    public ConfigurationPresenter( ) {
+    public ConfigurationPresenter(Screen screen,
+                                  IConfigurationDataAccess configurationDataAccess,
+                                  MainExecutor executor) {
+        super(screen, executor);
         editableConfiguration = new Configuration();
-        editablePokemon = new Pokemon(1);
+        editablePokemon = new Pokemon();
+        pokemonConfiguration = new PokemonConfig();
+        this.dataAccess = configurationDataAccess;
     }
 
     @Override
     public int requestValueIncrement(Stat stat, int progress) {
-        StatsSet evData = editableConfiguration.getStatsSet();
+        StatsSet evData = editableConfiguration.getEvsSet();
         int totalStatsPreview = evData.getTotalStatsPreview( stat, progress );
         if( totalStatsPreview <= StatsSet.MAX_TOTAL_EVS ) {
             evData.getStats().put(stat, progress);
@@ -60,25 +73,66 @@ public class ConfigurationPresenter extends Presenter
         pokemonConfiguration = bundle.getParcelable( ACTUAL_CONFIGURATION_SAVED_DATA_TAG );
     }
 
-    public StatsSet getEvSet() {
-        return editableConfiguration.getStatsSet();
+    public StatsSet getStatsSet() {
+        return editableConfiguration.getEvsSet();
     }
 
-    public ConfigurationAction saveConfiguration(String name) {
-        if( pokemonConfiguration == null ) {
-            PokemonConfig config = new PokemonConfig( staticID++, editablePokemon, editableConfiguration);
-            config.setName( name );
-            pokemonConfiguration = config;
-            return ConfigurationAction.CREATED;
+    public void saveConfigurationRequest(String name,
+                                         ResponseHandler<ConfigurationAction> responseHandler) {
+        Request<Integer> request;
+        ConfigurationResponseHandler presenterHandler;
+        if( pokemonConfiguration.getId() == BasePokemon.EMPTY_ID ) {
+            pokemonConfiguration.setName( name );
+            pokemonConfiguration.setPokemon( editablePokemon );
+            pokemonConfiguration.setConfiguration( editableConfiguration );
+            request = new Request<Integer>() {
+                @Override
+                public Response<Integer> perform() throws Exception{
+                    return new Response<>(dataAccess.insertConfiguration( pokemonConfiguration ));
+                }
+            };
+            presenterHandler = new ConfigurationResponseHandler( ConfigurationAction.CREATE,
+                    responseHandler );
+            request( request, presenterHandler );
         } else if( pokemonConfiguration.getName().equals( name ) &&
                pokemonConfiguration.getPokemon().getName().equals(editablePokemon.getName()) &&
-               pokemonConfiguration.getConfiguration().equals(editableConfiguration)  ) {
-            return ConfigurationAction.NONE;
+               pokemonConfiguration.getConfiguration().equals(editableConfiguration)) {
+            responseHandler.onSuccess( new Response<>(ConfigurationAction.NONE) );
         } else {
             pokemonConfiguration.setName( name );
             pokemonConfiguration.setPokemon( editablePokemon );
             pokemonConfiguration.setConfiguration( editableConfiguration );
-            return ConfigurationAction.UPDATED;
+            request = new Request<Integer>() {
+                @Override
+                public Response<Integer> perform() throws Exception {
+                    dataAccess.updateConfiguration( pokemonConfiguration );
+                    return new Response<>( pokemonConfiguration.getId() );
+                }
+            };
+            presenterHandler = new ConfigurationResponseHandler( ConfigurationAction.UPDATE,
+                    responseHandler );
+            request( request, presenterHandler );
+        }
+    }
+
+    private class ConfigurationResponseHandler extends ResponseHandler<Integer> {
+        private ConfigurationAction action;
+        private ResponseHandler<ConfigurationAction> handler;
+        private ConfigurationResponseHandler( ConfigurationAction action,
+                                              ResponseHandler<ConfigurationAction> handler ) {
+            this.action = action;
+            this.handler = handler;
+        }
+        @Override
+        public void onSuccess(Response<Integer> response) {
+            pokemonConfiguration.setId( response.getData() );
+            handler.onSuccess( new Response<>(action) );
+        }
+
+        @Override
+        public void onError(Error error) {
+            super.onError(error);
+            handler.onError(error);
         }
     }
 

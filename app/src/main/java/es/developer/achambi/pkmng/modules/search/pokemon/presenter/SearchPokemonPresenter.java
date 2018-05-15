@@ -15,7 +15,7 @@ import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess;
+import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccess;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.ISearchPokemonScreen;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
@@ -25,10 +25,10 @@ public class SearchPokemonPresenter extends Presenter implements
 
     private ArrayList<Pokemon> pokemonDataList;
     private ISearchPokemonScreen screen;
-    private PokemonDataAccess pokemonDataAccess;
+    private IPokemonDataAccess pokemonDataAccess;
 
     public SearchPokemonPresenter( ISearchPokemonScreen screen,
-                                   PokemonDataAccess dataAccess,
+                                   IPokemonDataAccess dataAccess,
                                    MainExecutor executor ) {
         super(screen, executor);
         this.screen = screen;

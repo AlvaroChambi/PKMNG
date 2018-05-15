@@ -53,6 +53,31 @@ public class Item implements Parcelable{
                 item.getDescriptionShort(), item.getDescription() );
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if( this == obj ) {
+            return true;
+        }
+
+        if( obj == null ) {
+            return false;
+        }
+
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        Item item = (Item)obj;
+        if( item.id == id &&
+                item.name.equals(name) &&
+                item.imageUrl.equals(imageUrl) &&
+                item.description == description &&
+                item.descriptionShort == descriptionShort ) {
+            return true;
+        }
+
+        return false;
+    }
+
     protected Item(Parcel in) {
         id = in.readInt();
         imageUrl = in.readString();

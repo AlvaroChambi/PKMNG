@@ -3,14 +3,20 @@ package es.developer.achambi.pkmng.modules.calculator.presenter;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.threading.Request;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
+import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
-import es.developer.achambi.pkmng.modules.overview.model.EmptyPokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class DamageCalculatorPresenter extends Presenter {
@@ -24,13 +30,17 @@ public class DamageCalculatorPresenter extends Presenter {
     private boolean leftRightDirection;
     private Configuration editableLeftConfiguration;
     private Configuration editableRightConfiguration;
+    private IConfigurationDataAccess dataAccess;
 
-    public DamageCalculatorPresenter( ) {
-        leftPokemon = new EmptyPokemonConfig();
-        rightPokemon = new EmptyPokemonConfig();
+    public DamageCalculatorPresenter(Screen screen, IConfigurationDataAccess dataAccess,
+                                     MainExecutor executor) {
+        super(screen, executor);
+        leftPokemon = new PokemonConfig();
+        rightPokemon = new PokemonConfig();
         leftRightDirection = true;
         editableLeftConfiguration = new Configuration();
         editableRightConfiguration = new Configuration();
+        this.dataAccess = dataAccess;
     }
 
     public PokemonConfig getLeftPokemon() {
@@ -39,7 +49,7 @@ public class DamageCalculatorPresenter extends Presenter {
 
     public void setLeftPokemon(PokemonConfig leftPokemon) {
         this.leftPokemon = leftPokemon;
-        this.editableLeftConfiguration = leftPokemon.getConfiguration();
+        this.editableLeftConfiguration = new Configuration( leftPokemon.getConfiguration() );
     }
 
     public PokemonConfig getRightPokemon() {
@@ -48,7 +58,7 @@ public class DamageCalculatorPresenter extends Presenter {
 
     public void setRightPokemon(PokemonConfig rightPokemon) {
         this.rightPokemon = rightPokemon;
-        this.editableRightConfiguration = rightPokemon.getConfiguration();
+        this.editableRightConfiguration = new Configuration( rightPokemon.getConfiguration() );
     }
 
     public boolean isLeftRightDirection() {
@@ -98,8 +108,7 @@ public class DamageCalculatorPresenter extends Presenter {
     }
 
     /**
-     * Returns the current editable pokemon
-     * @return
+     * @return the current editable pokemon
      */
     public Pokemon getPokemon() {
         if( leftRightDirection ) {
@@ -109,21 +118,34 @@ public class DamageCalculatorPresenter extends Presenter {
         }
     }
 
-    public void saveLeftConfiguration() {
+    public void saveLeftConfiguration( ResponseHandler<ConfigurationAction> responseHandler ) {
         if( !leftPokemon.getConfiguration().equals( editableLeftConfiguration ) ) {
-            leftPokemon.setConfiguration( editableLeftConfiguration );
+            request(new Request<ConfigurationAction>() {
+                @Override
+                public Response<ConfigurationAction> perform() throws Exception{
+                    leftPokemon.setConfiguration( editableLeftConfiguration );
+                    dataAccess.updateConfiguration( leftPokemon );
+                    return new Response<>(ConfigurationAction.UPDATE);
+                }
+            }, responseHandler);
+        } else {
+            responseHandler.onSuccess( new Response<>(ConfigurationAction.NONE) );
         }
     }
 
-    public void saveRightConfiguration() {
+    public void saveRightConfiguration( ResponseHandler<ConfigurationAction> responseHandler ) {
         if( !rightPokemon.getConfiguration().equals( editableRightConfiguration ) ) {
-            rightPokemon.setConfiguration( editableRightConfiguration );
+            request(new Request<ConfigurationAction>() {
+                @Override
+                public Response<ConfigurationAction> perform() throws Exception {
+                    rightPokemon.setConfiguration( editableRightConfiguration );
+                    dataAccess.updateConfiguration( rightPokemon );
+                    return new Response<>(ConfigurationAction.UPDATE);
+                }
+            }, responseHandler);
+        } else {
+            responseHandler.onSuccess( new Response<>(ConfigurationAction.NONE) );
         }
-    }
-
-    public void saveBothConfigurations() {
-        saveLeftConfiguration();
-        saveRightConfiguration();
     }
 
     public Move getMove0() {

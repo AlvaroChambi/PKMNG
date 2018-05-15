@@ -1,15 +1,25 @@
 package es.developer.achambi.pkmng.modules.search.move;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.MoveDataAssembler;
 import es.developer.achambi.pkmng.modules.search.move.presenter.ISearchMovePresenterFactory;
+import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenterFactory;
 
 public class SearchMoveAssembler {
-    private ISearchMovePresenterFactory presenterFactory;
+    private MainExecutor executor;
+    private MoveDataAssembler moveDataAssembler;
 
-    public ISearchMovePresenterFactory getPresenterFactory() {
-        return presenterFactory;
+    public SearchMoveAssembler setExecutor(MainExecutor executor) {
+        this.executor = executor;
+        return this;
     }
 
-    public void setPresenterFactory(ISearchMovePresenterFactory presenterFactory) {
-        this.presenterFactory = presenterFactory;
+    public SearchMoveAssembler setMoveDataAssembler(MoveDataAssembler moveDataAssembler) {
+        this.moveDataAssembler = moveDataAssembler;
+        return this;
+    }
+
+    public ISearchMovePresenterFactory getPresenterFactory() {
+        return new SearchMovePresenterFactory( executor, moveDataAssembler.getMoveDataAccess() );
     }
 }

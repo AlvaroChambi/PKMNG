@@ -1,21 +1,21 @@
 package es.developer.achambi.pkmng.modules.search.ability.presenter;
 
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.modules.search.ability.data.IAbilityDataAccessFactory;
+import es.developer.achambi.pkmng.modules.search.ability.data.IAbilityDataAccess;
 import es.developer.achambi.pkmng.modules.search.ability.screen.ISearchAbilityScreen;
 
 public class SearchAbilityPresenterFactory implements ISearchAbilityPresenterFactory {
-    private IAbilityDataAccessFactory dataAccessFactory;
+    private IAbilityDataAccess dataAccess;
     private MainExecutor executor;
 
-    public SearchAbilityPresenterFactory(IAbilityDataAccessFactory dataAccessFactory,
+    public SearchAbilityPresenterFactory(IAbilityDataAccess dataAccess,
                                          MainExecutor executor) {
-        this.dataAccessFactory = dataAccessFactory;
+        this.dataAccess = dataAccess;
         this.executor = executor;
     }
 
     @Override
     public SearchAbilityPresenter buildPresenter(ISearchAbilityScreen screen) {
-        return new SearchAbilityPresenter( screen, dataAccessFactory.buildDataAccess(), executor );
+        return new SearchAbilityPresenter( screen, dataAccess, executor );
     }
 }

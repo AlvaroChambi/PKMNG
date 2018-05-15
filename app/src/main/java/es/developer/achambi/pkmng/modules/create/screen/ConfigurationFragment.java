@@ -1,12 +1,10 @@
 package es.developer.achambi.pkmng.modules.create.screen;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -16,17 +14,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.DrawableImageViewTarget;
-import com.bumptech.glide.request.target.ImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.core.threading.Error;
+import es.developer.achambi.pkmng.core.threading.Response;
+import es.developer.achambi.pkmng.core.threading.ResponseHandler;
+import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
@@ -44,8 +44,8 @@ import es.developer.achambi.pkmng.modules.search.pokemon.screen.SearchPokemonAct
 
 import static android.app.Activity.RESULT_OK;
 
-public class ConfigurationFragment extends BaseFragment
-        implements View.OnClickListener {
+public class ConfigurationFragment extends BaseRequestFragment
+        implements View.OnClickListener, Screen {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String CONFIGURATION_ARGUMENT_KEY = "CONFIGURATION_ARGUMENT_KEY";
     private static final int REPLACE_POKEMON_RESULT_CODE = 100;
@@ -138,7 +138,7 @@ public class ConfigurationFragment extends BaseFragment
         populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
         populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
         populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
-        populateEvSetView( presenter.getEvSet(), view);
+        populateStatsSetView( presenter.getStatsSet(), view);
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);
@@ -154,9 +154,15 @@ public class ConfigurationFragment extends BaseFragment
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new ConfigurationPresenter();
+            presenter = AppWiring.createConfigurationAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
+    }
+
+    @Override
+    public int getLoadingFrame() {
+        return R.id.base_request_loading_frame;
     }
 
     @Override
@@ -211,7 +217,7 @@ public class ConfigurationFragment extends BaseFragment
         }
     }
 
-    private void populateEvSetView( StatsSet evSet, View rootView ) {
+    private void populateStatsSetView( StatsSet StatsSet, View rootView ) {
         StatEVView hp = rootView.findViewById(R.id.configuration_hp_ev_stat_bar);
         StatEVView attack = rootView.findViewById(R.id.configuration_attack_ev_stat_bar);
         StatEVView defense = rootView.findViewById(R.id.configuration_defense_ev_stat_bar);
@@ -227,17 +233,17 @@ public class ConfigurationFragment extends BaseFragment
         speed.setProgressUpdateProvider(presenter);
         Pokemon pokemon = presenter.getPokemon();
         hp.setBaseValue( pokemon.getHP() );
-        hp.setValue( evSet.getHP() );
+        hp.setValue( StatsSet.getHP() );
         attack.setBaseValue( pokemon.getAttack() );
-        attack.setValue( evSet.getAttack() );
+        attack.setValue( StatsSet.getAttack() );
         defense.setBaseValue( pokemon.getDefense() );
-        defense.setValue( evSet.getDefense() );
+        defense.setValue( StatsSet.getDefense() );
         spAttack.setBaseValue( pokemon.getSpAttack() );
-        spAttack.setValue( evSet.getSpAttack() );
+        spAttack.setValue( StatsSet.getSpAttack() );
         spDefense.setBaseValue( pokemon.getSPDefense() );
-        spDefense.setValue( evSet.getSPDefense() );
+        spDefense.setValue( StatsSet.getSPDefense() );
         speed.setBaseValue( pokemon.getSpeed() );
-        speed.setValue( evSet.getSpeed() );
+        speed.setValue( StatsSet.getSpeed() );
     }
 
     private void populatePokemonView( View rootView ) {
@@ -319,28 +325,51 @@ public class ConfigurationFragment extends BaseFragment
     }
 
     private void saveConfigurationRequest( String configurationName ) {
+       doRequest(TRANSPARENT_LOADING_BACKGROUND);
+       presenter.saveConfigurationRequest( configurationName,
+               new ResponseHandler<ConfigurationAction>() {
+           @Override
+           public void onSuccess(Response<ConfigurationAction> response) {
+               handleSaveConfigurationResult( response.getData() );
+               hideLoading();
+           }
+
+           @Override
+           public void onError(Error error) {
+               super.onError(error);
+               showSnackBackError( error );
+           }
+       });
+    }
+
+    private void handleSaveConfigurationResult( ConfigurationAction action ) {
         Intent data = new Intent();
-        switch ( presenter.saveConfiguration(configurationName) ) {
-            case CREATED:
+        switch ( action ) {
+            case CREATE:
                 data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
                 getActivity().setResult(Activity.RESULT_OK, data);
                 Toast createdToast = Toast.makeText(getActivity(),
-                                R.string.configuration_created_toast_message,
-                                Toast.LENGTH_SHORT);
+                        R.string.configuration_created_toast_message,
+                        Toast.LENGTH_SHORT);
                 createdToast.setGravity( Gravity.CENTER, 0, 0 );
                 createdToast.show();
                 break;
-            case UPDATED:
+            case UPDATE:
                 data.putExtra( POKEMON_CONFIG_RESULT_DATA_KEY, presenter.getPokemonConfiguration() );
                 getActivity().setResult(Activity.RESULT_OK, data);
                 Toast updatedToast = Toast.makeText(getActivity(),
-                                R.string.configuration_updated_toast_message,
-                                Toast.LENGTH_SHORT);
+                        R.string.configuration_updated_toast_message,
+                        Toast.LENGTH_SHORT);
                 updatedToast.setGravity( Gravity.CENTER, 0, 0 );
                 updatedToast.show();
                 break;
             case NONE:
                 getActivity().setResult( Activity.RESULT_CANCELED );
+                Toast noChangesToast = Toast.makeText(getActivity(),
+                        R.string.configuration_not_changed_toast_message,
+                        Toast.LENGTH_SHORT);
+                noChangesToast.setGravity( Gravity.CENTER, 0, 0 );
+                noChangesToast.show();
                 break;
         }
         getActivity().finish();
@@ -403,6 +432,11 @@ public class ConfigurationFragment extends BaseFragment
                 }
             }
         }
+    }
+
+    @Override
+    public Lifecycle screenLifecycle() {
+        return getLifecycle();
     }
 
     public class MoveRepresentationBuilder {

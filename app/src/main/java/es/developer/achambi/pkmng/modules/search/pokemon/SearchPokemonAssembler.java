@@ -1,15 +1,27 @@
 package es.developer.achambi.pkmng.modules.search.pokemon;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.PokemonDataAssembler;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.ISearchPokemonPresenterFactory;
+import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenterFactory;
 
 public class SearchPokemonAssembler {
-    private ISearchPokemonPresenterFactory presenterFactory;
+    private MainExecutor mainExecutor;
+    private PokemonDataAssembler pokemonDataAssembler;
 
-    public ISearchPokemonPresenterFactory getPresenterFactory() {
-        return presenterFactory;
+    public SearchPokemonAssembler setMainExecutor(MainExecutor mainExecutor) {
+        this.mainExecutor = mainExecutor;
+        return this;
     }
 
-    public void setPresenterFactory(ISearchPokemonPresenterFactory presenterFactory) {
-        this.presenterFactory = presenterFactory;
+    public SearchPokemonAssembler setPokemonDataAssembler(
+            PokemonDataAssembler pokemonDataAssembler) {
+        this.pokemonDataAssembler = pokemonDataAssembler;
+        return this;
+    }
+
+    public ISearchPokemonPresenterFactory getPresenterFactory() {
+        return new SearchPokemonPresenterFactory(pokemonDataAssembler.getPokemonDataAccess(),
+                mainExecutor);
     }
 }

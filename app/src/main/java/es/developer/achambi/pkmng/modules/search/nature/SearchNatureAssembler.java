@@ -1,15 +1,26 @@
 package es.developer.achambi.pkmng.modules.search.nature;
 
+import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.modules.search.NatureDataAssembler;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.ISearchNaturePresenterFactory;
+import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenterFactory;
 
 public class SearchNatureAssembler {
-    private ISearchNaturePresenterFactory presenterFactory;
+    private MainExecutor executor;
+    private NatureDataAssembler natureDataAssembler;
 
-    public ISearchNaturePresenterFactory getPresenterFactory() {
-        return presenterFactory;
+    public SearchNatureAssembler setExecutor(MainExecutor executor) {
+        this.executor = executor;
+        return this;
     }
 
-    public void setPresenterFactory(ISearchNaturePresenterFactory presenterFactory) {
-        this.presenterFactory = presenterFactory;
+    public SearchNatureAssembler setNatureDataAssembler(NatureDataAssembler natureDataAssembler) {
+        this.natureDataAssembler = natureDataAssembler;
+        return this;
+    }
+
+    public ISearchNaturePresenterFactory getPresenterFactory() {
+        return new SearchNaturePresenterFactory( natureDataAssembler.getNatureDataAccess(),
+                executor );
     }
 }

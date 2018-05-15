@@ -1,32 +1,51 @@
-package es.developer.achambi.pkmng.modules.data;
+package es.developer.achambi.pkmng.modules.data.type;
 
 import android.support.v4.util.Pair;
 
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.dao.TypeDAO;
 import es.developer.achambi.pkmng.core.db.model.type_value;
+import es.developer.achambi.pkmng.core.db.model.types;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
-public class TypeDataAccess {
-    private AppDatabase database;
+public class TypeDataAccess implements ITypeDataAccess{
+    private TypeDAO typeDAO;
 
-    public TypeDataAccess(AppDatabase database) {
-        this.database = database;
+    public TypeDataAccess(TypeDAO typeDAO) {
+        this.typeDAO = typeDAO;
     }
 
+    @Override
     public Type accessTypeData( int typeId ) {
-        return parseType( database.typeModel().getType( typeId ).identifier );
+        if( typeId < 1 ) {
+            throw new IllegalIDException( typeId );
+        }
+
+        types raw = typeDAO.getType( typeId );
+        if( raw != null ) {
+            return parseType( typeDAO.getType( typeId ).identifier );
+        } else {
+            return Type.EMPTY;
+        }
     }
 
+    @Override
     public Pair<Type, Type> accessPokemonTypeData( int pokemonId ) {
-        List<type_value> type =
-                database.typeModel().getPokemonType(pokemonId);
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
+        List<type_value> type = typeDAO.getPokemonType(pokemonId);
         Type secondType = Type.EMPTY;
+        Type primaryType = Type.EMPTY;
+        if( !type.isEmpty() ) {
+            primaryType = parseType(type.get(0).name);
+        }
         if( type.size() > 1 ) {
             secondType = parseType( type.get(1).name );
         }
-        return new Pair<>(parseType(type.get(0).name), secondType);
+        return new Pair<>(primaryType, secondType);
     }
 
     private Type parseType( String identifier ) {

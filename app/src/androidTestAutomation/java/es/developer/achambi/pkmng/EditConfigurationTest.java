@@ -2,7 +2,14 @@ package es.developer.achambi.pkmng;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
+import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
+import es.developer.achambi.pkmng.modules.search.configuration.data.MockConfigurationDataAccess;
+import es.developer.achambi.pkmng.viewactions.ToastMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -18,6 +25,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 public class EditConfigurationTest extends BaseAutomationTest {
+    @BeforeClass
+    public static void beforeClass() {
+        ConfigurationDataAssembler mockAssembler = new ConfigurationDataAssembler(){
+            @Override
+            public IConfigurationDataAccess getConfigurationDataAccess() {
+                return new MockConfigurationDataAccess();
+            }
+        };
+        AppWiring.searchConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
+    }
 
     @Test
     public void configurationPopulationEmptyValues() {
@@ -83,6 +100,20 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView( withText("Test") ).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void configurationSaveValuesNotChanged() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_not_changed_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
     }
 
     @Test

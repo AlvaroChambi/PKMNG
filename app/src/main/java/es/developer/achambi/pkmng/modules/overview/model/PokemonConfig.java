@@ -8,15 +8,14 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class PokemonConfig extends BaseConfig{
     private Configuration configuration;
-    private final int id;
+    private int id;
     private String name;
 
-    public PokemonConfig( int id,
-            Pokemon basePokemon, Configuration configuration) {
-        super(basePokemon);
+    public PokemonConfig() {
+        super(new Pokemon());
+        this.id = EMPTY_ID;
         this.name = "";
-        this.id = id;
-        this.configuration = configuration;
+        this.configuration = new Configuration();
     }
 
     protected PokemonConfig(Parcel in) {
@@ -65,7 +64,11 @@ public class PokemonConfig extends BaseConfig{
         }
     };
 
-    public void setPokemon( Pokemon pokemon ) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPokemon(Pokemon pokemon ) {
         this.pokemon = pokemon;
     }
 
@@ -104,34 +107,38 @@ public class PokemonConfig extends BaseConfig{
         return totalStats;
     }
 
+    public StatsSet getStatsSet() {
+        return configuration.getEvsSet();
+    }
+
     @Override
     public int getHP() {
-        return pokemon.getHP() + configuration.getStatsSet().getHP();
+        return pokemon.getHP() + configuration.getEvsSet().getHP();
     }
 
     @Override
     public int getAttack() {
-        return pokemon.getAttack() + configuration.getStatsSet().getAttack();
+        return pokemon.getAttack() + configuration.getEvsSet().getAttack();
     }
 
     @Override
     public int getDefense() {
-        return pokemon.getDefense() + configuration.getStatsSet().getDefense();
+        return pokemon.getDefense() + configuration.getEvsSet().getDefense();
     }
 
     @Override
     public int getSpAttack() {
-        return pokemon.getSpAttack() + configuration.getStatsSet().getSpAttack();
+        return pokemon.getSpAttack() + configuration.getEvsSet().getSpAttack();
     }
 
     @Override
     public int getSPDefense() {
-        return pokemon.getSPDefense() + configuration.getStatsSet().getSPDefense();
+        return pokemon.getSPDefense() + configuration.getEvsSet().getSPDefense();
     }
 
     @Override
     public int getSpeed() {
-        return pokemon.getSpeed() + configuration.getStatsSet().getSpeed();
+        return pokemon.getSpeed() + configuration.getEvsSet().getSpeed();
     }
 
     @Override

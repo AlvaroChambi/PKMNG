@@ -1,19 +1,10 @@
 package es.developer.achambi.pkmng.modules.search.nature.data;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
-import es.developer.achambi.pkmng.modules.data.IStatDataAccessFactory;
+import es.developer.achambi.pkmng.core.db.dao.NaturesDAO;
+import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 
-public class NatureDataAccessFactory implements INatureDataAccessFactory{
-    private AppDatabase database;
-    private IStatDataAccessFactory statDataAccessFactory;
-
-    public NatureDataAccessFactory(AppDatabase database, IStatDataAccessFactory statDataAccessFactory) {
-        this.database = database;
-        this.statDataAccessFactory = statDataAccessFactory;
-    }
-
-    @Override
-    public NatureDataAccess buildDataAccess() {
-        return new NatureDataAccess(database, statDataAccessFactory.buildDataAccess());
+public class NatureDataAccessFactory {
+    public NatureDataAccess buildDataAccess(NaturesDAO naturesDAO, IStatDataAccess statDataAccess) {
+        return new NatureDataAccess(naturesDAO, statDataAccess);
     }
 }

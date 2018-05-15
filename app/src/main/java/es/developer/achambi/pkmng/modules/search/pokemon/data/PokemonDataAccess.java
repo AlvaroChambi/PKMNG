@@ -3,38 +3,55 @@ package es.developer.achambi.pkmng.modules.search.pokemon.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
+import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
 import es.developer.achambi.pkmng.core.db.model.pokemon_species;
-import es.developer.achambi.pkmng.core.db.model.type_value;
-import es.developer.achambi.pkmng.modules.data.StatDataAccess;
-import es.developer.achambi.pkmng.modules.data.TypeDataAccess;
+import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
+import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
-import es.developer.achambi.pkmng.modules.overview.model.Type;
 
-public class PokemonDataAccess {
-    private AppDatabase database;
-    private StatDataAccess statDataAccess;
-    private TypeDataAccess typeDataAccess;
+public class PokemonDataAccess implements IPokemonDataAccess{
+    private PokemonDAO pokemonDAO;
+    private IStatDataAccess statDataAccess;
+    private ITypeDataAccess typeDataAccess;
 
-    public PokemonDataAccess( AppDatabase database,
-                              StatDataAccess statDataAccess,
-                              TypeDataAccess typeDataAccess ) {
-        this.database = database;
+    public PokemonDataAccess( PokemonDAO pokemonDAO,
+                              IStatDataAccess statDataAccess,
+                              ITypeDataAccess typeDataAccess ) {
+        this.pokemonDAO = pokemonDAO;
         this.statDataAccess = statDataAccess;
         this.typeDataAccess = typeDataAccess;
     }
 
+    @Override
     public ArrayList<Pokemon> accessData() {
-        List<pokemon_species> pokemonArray = database.pokemonModel().getPokemon();
+        List<pokemon_species> pokemonArray = pokemonDAO.getPokemon();
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
         for( pokemon_species currentPokemon : pokemonArray ) {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
             pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
-            pokemon.setStats( statDataAccess.accessPokemonStatsData( pokemon.getId() ) );
+            pokemon.setStats( statDataAccess.accessPokemonStatsData( currentPokemon.id ) );
 
             pokemonList.add( pokemon );
         }
         return pokemonList;
+    }
+
+    @Override
+    public Pokemon accessPokemonData(int pokemonId) throws IllegalIDException {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
+        pokemon_species rawPokemon = pokemonDAO.getPokemon(pokemonId);
+        if( rawPokemon != null ) {
+            Pokemon pokemon = new Pokemon(rawPokemon.id);
+            pokemon.setName(rawPokemon.identifier);
+            pokemon.setType( typeDataAccess.accessPokemonTypeData( rawPokemon.id ) );
+            pokemon.setStats( statDataAccess.accessPokemonStatsData( rawPokemon.id ) );
+            return pokemon;
+        } else {
+            return new Pokemon();
+        }
     }
 }

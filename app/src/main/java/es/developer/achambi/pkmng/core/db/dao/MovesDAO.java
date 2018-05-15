@@ -15,5 +15,12 @@ public interface MovesDAO {
             "join move_damage_classes on move_damage_classes.id = moves.damage_class_id " +
             "join move_effect_prose on moves.effect_id = move_effect_prose.move_effect_id " +
             "where pokemon_moves.pokemon_id = :pokemonId")
-    public List<move_value> getPokemonMoves( int pokemonId );
+    List<move_value> getPokemonMoves( int pokemonId );
+
+    @Query("select moves.id, moves.identifier name, move_damage_classes.identifier category, power, pp, accuracy," +
+            "short_effect, effect, type_id from moves " +
+            "join move_damage_classes on move_damage_classes.id = moves.damage_class_id " +
+            "join move_effect_prose on moves.effect_id = move_effect_prose.move_effect_id " +
+            "where moves.id = :moveId")
+    move_value getMove(int moveId);
 }

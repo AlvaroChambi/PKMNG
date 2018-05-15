@@ -10,7 +10,7 @@ import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.modules.search.nature.data.NatureDataAccess;
+import es.developer.achambi.pkmng.modules.search.nature.data.INatureDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;
 import es.developer.achambi.pkmng.modules.search.nature.screen.presentation.SearchNaturePresentation;
@@ -21,10 +21,10 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
 
     private ISearchNatureScreen searchNatureView;
     private ArrayList<Nature> data;
-    private NatureDataAccess dataAccess;
+    private INatureDataAccess dataAccess;
 
     public SearchNaturePresenter(ISearchNatureScreen searchNatureScreen,
-                                 NatureDataAccess dataAccess,
+                                 INatureDataAccess dataAccess,
                                  MainExecutor executor) {
         super(searchNatureScreen, executor);
         this.searchNatureView = searchNatureScreen;

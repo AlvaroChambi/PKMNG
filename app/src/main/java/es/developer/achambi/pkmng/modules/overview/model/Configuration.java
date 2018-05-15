@@ -30,11 +30,11 @@ public class Configuration implements Parcelable{
         move3 = new Move();
     }
 
-    public Configuration(Configuration configuration ) {
+    public Configuration(Configuration configuration) {
         this.item = new Item( configuration.getItem() );
         this.ability = new Ability( configuration.getAbility() );
         this.nature = new Nature( configuration.getNature() );
-        this.statsSet = new StatsSet( configuration.getStatsSet() );
+        this.statsSet = new StatsSet( configuration.getEvsSet() );
         this.move0 = new Move( configuration.getMove0() );
         this.move1 = new Move( configuration.getMove1() );
         this.move2 = new Move( configuration.getMove2() );
@@ -59,7 +59,7 @@ public class Configuration implements Parcelable{
         if( item.getName().equals( configuration.item.getName() )&&
                 ability.getName().equals( configuration.ability.getName() ) &&
                 nature.getName().equals( configuration.nature.getName() )&&
-                statsSet.equals( configuration.getStatsSet() ) &&
+                statsSet.equals( configuration.getEvsSet() ) &&
                 move0.getName().equals( configuration.move0.getName() ) &&
                 move1.getName().equals( configuration.move1.getName() ) &&
                 move2.getName().equals( configuration.move2.getName() ) &&
@@ -134,11 +134,11 @@ public class Configuration implements Parcelable{
         this.nature = nature;
     }
 
-    public StatsSet getStatsSet() {
+    public StatsSet getEvsSet() {
         return statsSet;
     }
 
-    public void setStatsSet(StatsSet statsSet) {
+    public void setEvsSet(StatsSet statsSet) {
         this.statsSet = statsSet;
     }
 

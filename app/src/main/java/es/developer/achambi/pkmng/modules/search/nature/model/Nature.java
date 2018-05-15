@@ -3,6 +3,8 @@ package es.developer.achambi.pkmng.modules.search.nature.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 
@@ -28,6 +30,17 @@ public class Nature implements Parcelable{
 
     public Nature( Nature nature ) {
         this( nature.getId(), nature.getName(), nature.getIncreasedStat(), nature.getDecreasedStat() );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Nature)) return false;
+        Nature nature = (Nature) o;
+        return id == nature.id &&
+                name.equals(nature.name) &&
+                increasedStat == nature.increasedStat &&
+                decreasedStat == nature.decreasedStat;
     }
 
     protected Nature(Parcel in) {

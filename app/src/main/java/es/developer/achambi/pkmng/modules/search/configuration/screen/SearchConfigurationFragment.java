@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
@@ -88,7 +89,8 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     @Override
     public Presenter setupPresenter() {
         if( presenter == null ) {
-            presenter = new SearchConfigurationPresenter( this, MainExecutor.buildExecutor());
+            presenter = AppWiring.searchConfigurationAssembler.getPresenterFactory()
+                    .buildPresenter(this);
         }
         return presenter;
     }
