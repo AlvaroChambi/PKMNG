@@ -48,7 +48,7 @@ public class MockConfigurationDataAccess implements IConfigurationDataAccess {
         pokemonList.add(pokemonConfiguration);
 
         for(int i = 1; i < numberOfPokemon; i++) {
-            Pokemon pokemon = new Pokemon(10001);
+            Pokemon pokemon = new Pokemon(1);
             pokemon.setName("Pikachu");
             pokemon.setType(Type.STEEL);
             pokemon.setHP(35);

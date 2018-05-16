@@ -163,8 +163,15 @@ public class ConfigurationPresenter extends Presenter
         return editableConfiguration;
     }
 
+    /**
+     * On a Pokemon change all editable values will be set to it's default empty value
+     * @param pokemon
+     */
     public void setPokemon(Pokemon pokemon) {
-        this.editablePokemon = pokemon;
+        if( !this.editablePokemon.equals( pokemon ) ) {
+            this.editablePokemon = pokemon;
+            this.editableConfiguration = new Configuration();
+        }
     }
 
     public Pokemon getPokemon() {

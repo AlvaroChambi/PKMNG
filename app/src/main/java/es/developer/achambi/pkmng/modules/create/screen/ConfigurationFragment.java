@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -217,6 +218,32 @@ public class ConfigurationFragment extends BaseRequestFragment
         }
     }
 
+    /**
+     * On a pokemon change configuration values could've changed, therefore an update of the
+     * ui values is required
+     */
+    private void onCurrentPokemonChanged( View view ) {
+        pokemonPresentation = PokemonPresentation.Builder
+                .buildPresentation(getActivity(), presenter.getPokemon());
+        MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
+        move0 = builder.build( presenter.getConfiguration().getMove0() );
+        move1 = builder.build( presenter.getConfiguration().getMove1() );
+        move2 = builder.build( presenter.getConfiguration().getMove2() );
+        move3 = builder.build( presenter.getConfiguration().getMove3() );
+        item = ItemPresentation.Builder.buildPresentation( getActivity(),
+                presenter.getConfiguration().getItem() );
+
+        populatePokemonView(view);
+        populateItemView(item, view);
+        populateAbilityView(view);
+        populateNatureView(view);
+        populateMoveView( view.findViewById(R.id.configuration_move_0_frame), move0 );
+        populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
+        populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
+        populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
+        populateStatsSetView( presenter.getStatsSet(), view);
+    }
+
     private void populateStatsSetView( StatsSet StatsSet, View rootView ) {
         StatEVView hp = rootView.findViewById(R.id.configuration_hp_ev_stat_bar);
         StatEVView attack = rootView.findViewById(R.id.configuration_attack_ev_stat_bar);
@@ -274,32 +301,45 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     private void populateItemView(ItemPresentation item, View rootView) {
+        TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
+        ImageView itemIcon = rootView.findViewById(R.id.configuration_item_image_view);
+        View empty = rootView.findViewById(R.id.configuration_item_empty_state);
         if( !item.empty ) {
-            TextView itemName = rootView.findViewById(R.id.configuration_item_name_text);
-            ImageView itemIcon = rootView.findViewById(R.id.configuration_item_image_view);
             itemName.setText(presenter.getItem().getName());
             itemName.setVisibility(View.VISIBLE);
             itemIcon.setVisibility(View.VISIBLE);
+            empty.setVisibility(View.GONE);
             Glide.with(this).load(Uri.parse(item.image)).into(itemIcon);
-            rootView.findViewById(R.id.configuration_item_empty_state).setVisibility(View.GONE);
+        } else {
+            itemName.setVisibility(View.GONE);
+            itemIcon.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
         }
     }
 
     private void populateAbilityView( View rootView ) {
-        if( !presenter.getAbility().getName().equals("") ) {
-            TextView abilityName = rootView.findViewById(R.id.configuration_ability_name_text);
+        TextView abilityName = rootView.findViewById(R.id.configuration_ability_name_text);
+        View empty = rootView.findViewById(R.id.configuration_ability_empty_state);
+        if( presenter.getAbility().getId() != -1 ) {
             abilityName.setText(presenter.getAbility().getName());
             abilityName.setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.configuration_ability_empty_state).setVisibility(View.GONE);
+            empty.setVisibility(View.GONE);
+        } else {
+            abilityName.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
         }
     }
 
     private void populateNatureView( View rootView ) {
-        if( !presenter.getNature().getName().equals("") ) {
-            TextView natureName = rootView.findViewById(R.id.configuration_nature_name_text);
+        TextView natureName = rootView.findViewById(R.id.configuration_nature_name_text);
+        View empty = rootView.findViewById(R.id.configuration_nature_empty_state);
+        if( presenter.getNature().getId() != -1 ) {
             natureName.setText(presenter.getNature().getName());
             natureName.setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.configuration_nature_empty_state).setVisibility(View.GONE);
+            empty.setVisibility(View.GONE);
+        } else {
+            natureName.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
         }
     }
 
@@ -320,6 +360,8 @@ public class ConfigurationFragment extends BaseRequestFragment
             moveName.setVisibility(View.GONE);
             movePower.setVisibility(View.GONE);
             moveType.setVisibility(View.GONE);
+            moveRootView.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(),
+                    R.color.primary ) );
             moveRootView.findViewById(R.id.move_view_empty_state_image).setVisibility(View.VISIBLE);
         }
     }
@@ -383,10 +425,8 @@ public class ConfigurationFragment extends BaseRequestFragment
                 requestCode == REPLACE_POKEMON_RESULT_CODE ) {
             presenter.setPokemon( (Pokemon)data
                     .getParcelableExtra( POKEMON_ACTIVITY_RESULT_DATA_KEY ) );
-            pokemonPresentation = PokemonPresentation.Builder
-                            .buildPresentation(getActivity(), presenter.getPokemon());
 
-            populatePokemonView( getView() );
+            onCurrentPokemonChanged( getView() );
         } else if( resultCode == RESULT_OK &&
                     requestCode == REPLACE_ITEM_RESULT_CODE ) {
             Item resultItem = data.getParcelableExtra( ITEM_ACTIVITY_RESULT_DATA_KEY );

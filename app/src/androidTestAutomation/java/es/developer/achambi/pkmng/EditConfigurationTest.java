@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng;
 
+import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.BeforeClass;
@@ -9,6 +10,7 @@ import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
 import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.configuration.data.MockConfigurationDataAccess;
+import es.developer.achambi.pkmng.viewactions.CustomViewActions;
 import es.developer.achambi.pkmng.viewactions.ToastMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -42,25 +44,7 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
 
-        onView(withId(R.id.configuration_ability_empty_state)).check(matches(isDisplayed()));
-        onView(withId(R.id.configuration_nature_empty_state)).check(matches(isDisplayed()));
-        onView(withId(R.id.configuration_item_empty_state)).check(matches(isDisplayed()));
-        onView( allOf( withId(R.id.move_view_empty_state_image),
-                isDescendantOfA(withId(R.id.configuration_move_0_frame)) ) )
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
-        onView( allOf( withId(R.id.move_view_empty_state_image),
-                isDescendantOfA(withId(R.id.configuration_move_1_frame)) ) )
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
-        onView( allOf( withId(R.id.move_view_empty_state_image),
-                isDescendantOfA(withId(R.id.configuration_move_2_frame)) ) )
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
-        onView( allOf( withId(R.id.move_view_empty_state_image),
-                isDescendantOfA(withId(R.id.configuration_move_3_frame)) ) )
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
+        assertEmptyValues();
     }
 
     @Test
@@ -68,22 +52,45 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
-        onView(withText("eviolite")).check(matches(isDisplayed()));
-        onView(withText("magic guard")).check(matches(isDisplayed()));
-        onView(withText("modest")).check(matches(isDisplayed()));
+        assertInitialValues();
+    }
 
-        onView(withText("Hidden power"))
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
-        onView(withText("Thunderbolt"))
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
-        onView(withText("Signal Beam"))
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
-        onView(withText("Grass knot"))
-                .perform(scrollTo())
-                .check(matches(isDisplayed()));
+    @Test
+    public void changeCurrentPokemonTest() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        assertInitialValues();
+
+        onView(withId(R.id.pokemon_image_view)).perform(click());
+
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1,
+                        CustomViewActions.click( GeneralLocation.TOP_CENTER )));
+        onView(withId(R.id.details_choose_pokemon_action_button)).perform(click());
+
+        onView( withText("ivysaur") ).check(matches(isDisplayed()));
+
+        assertEmptyValues();
+    }
+
+    @Test
+    public void changeCurrentPokemonWithSamePokemon() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        assertInitialValues();
+
+        onView(withId(R.id.pokemon_image_view)).perform(click());
+
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
+                        CustomViewActions.click( GeneralLocation.TOP_CENTER )));
+        onView(withId(R.id.details_choose_pokemon_action_button)).perform(click());
+
+        assertInitialValues();
     }
 
     @Test
@@ -127,5 +134,46 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 .check( matches( isDisplayed() ) );
         onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
                 .check( matches( isDisplayed() ) );
+    }
+
+    private void assertInitialValues() {
+        onView(withText("eviolite")).check(matches(isDisplayed()));
+        onView(withText("magic guard")).check(matches(isDisplayed()));
+        onView(withText("modest")).check(matches(isDisplayed()));
+
+        onView(withText("Hidden power"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("Thunderbolt"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("Signal Beam"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("Grass knot"))
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+    }
+
+    private void assertEmptyValues() {
+        onView(withId(R.id.configuration_ability_empty_state)).check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_nature_empty_state)).check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_item_empty_state)).check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_0_frame)) ) )
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_1_frame)) ) )
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_2_frame)) ) )
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.move_view_empty_state_image),
+                isDescendantOfA(withId(R.id.configuration_move_3_frame)) ) )
+                .perform(scrollTo())
+                .check(matches(isDisplayed()));
     }
 }

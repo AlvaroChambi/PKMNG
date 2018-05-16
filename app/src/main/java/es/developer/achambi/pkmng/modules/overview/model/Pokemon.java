@@ -42,11 +42,7 @@ public class Pokemon implements BasePokemon{
         if (this == o) return true;
         if (!(o instanceof Pokemon)) return false;
         Pokemon pokemon = (Pokemon) o;
-        return id == pokemon.id &&
-                Objects.equals(name, pokemon.name) &&
-                Objects.equals(type, pokemon.type) &&
-                Objects.equals(stats, pokemon.stats) &&
-                Objects.equals(imageURL, pokemon.imageURL);
+        return id == pokemon.id;
     }
 
     public void setStats(StatsSet stats) {
