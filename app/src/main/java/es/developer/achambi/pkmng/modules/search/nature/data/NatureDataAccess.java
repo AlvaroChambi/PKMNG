@@ -37,6 +37,9 @@ public class NatureDataAccess implements INatureDataAccess {
 
     @Override
     public Nature accessNatureData(int natureId) throws IllegalIDException {
+        if( natureId == -1 ) {
+            return new Nature();
+        }
         if( natureId < 1 ) {
             throw new IllegalIDException( natureId );
         }

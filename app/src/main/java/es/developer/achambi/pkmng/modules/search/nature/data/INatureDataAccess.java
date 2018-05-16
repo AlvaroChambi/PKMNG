@@ -15,7 +15,8 @@ public interface INatureDataAccess {
     /**
      * Access Nature data for the given nature id
      * @param natureId to be requested, id's should be higher than 0
-     * @return Nature data that matches the given id, empty Nature if no match is found
+     * @return Nature data that matches the given id, empty Nature if no match is found or
+     * the id is equals to -1
      * @throws IllegalIDException on 0 or negative id's provided
      */
     Nature accessNatureData(int natureId) throws IllegalIDException;

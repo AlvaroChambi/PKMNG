@@ -93,16 +93,20 @@ public class DamageCalculatorPresenter extends Presenter {
     }
 
     private Damage damageResult( PokemonConfig attacker, PokemonConfig attacked, Move move ) {
+        Damage damage = new Damage( move );
+        if( move.getCategory().equals( Move.Category.NON_DAMAGING ) ) {
+            return damage;
+        }
         Pair<Float, Float> moveDamage = DamageCalculator.moveDamageResult( attacker.getAttack(),
                 attacker.getSpAttack(), attacked.getDefense(), attacked.getSPDefense(), move ) ;
         float modifier = DamageCalculator.modifierValue( attacker, attacked, move );
         int hitsToKO = DamageCalculator.hitsToKO( moveDamage, attacked.getHP() );
 
-        Damage damage = new Damage( move );
         damage.setMoveDamage( moveDamage );
         damage.setModifier( modifier );
         damage.setHitsToKO( hitsToKO );
-        damage.setEffectivenessModifier( move.getType().modifier(attacked.getPokemon().getType()) );
+        damage.setEffectivenessModifier(
+                move.getType().modifier(attacked.getPokemon().getType()) );
 
         return damage;
     }

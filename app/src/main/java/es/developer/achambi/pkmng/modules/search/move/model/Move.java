@@ -3,6 +3,8 @@ package es.developer.achambi.pkmng.modules.search.move.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
@@ -65,7 +67,29 @@ public class Move implements Parcelable{
         contact = ParcelUtil.readBoolean( in );
     }
 
-    public void setContact( boolean isContact ) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Move)) return false;
+        Move move = (Move) o;
+        return id == move.id &&
+                power == move.power &&
+                accuracy == move.accuracy &&
+                pp == move.pp &&
+                contact == move.contact &&
+                Objects.equals(name, move.name) &&
+                Objects.equals(effect, move.effect) &&
+                type == move.type &&
+                category == move.category;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, effect, type, category, power, accuracy, pp, contact);
+    }
+
+    public void setContact(boolean isContact ) {
         this.contact = isContact;
     }
 

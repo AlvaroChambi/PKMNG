@@ -48,7 +48,7 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
         for (configurations currentRaw : rawConfigurations) {
             Pokemon pokemon = pokemonDataAccess.accessPokemonData( currentRaw.pokemon_id );
             Configuration configuration = new Configuration();
-            configuration.setEvsSet(statDataAccess.accessEvsSetData( currentRaw.id ));
+            configuration.setEvsSet( statDataAccess.accessEvsSetData( currentRaw.id ) );
             configuration.setMove0( moveDataAccess.accessMoveData( currentRaw.move_0_id ) );
             configuration.setMove1( moveDataAccess.accessMoveData( currentRaw.move_1_id ) );
             configuration.setMove2( moveDataAccess.accessMoveData( currentRaw.move_2_id ) );
@@ -68,7 +68,7 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
 
     @Override
     public int insertConfiguration(final PokemonConfig configuration) throws RuntimeException {
-        if( configuration.getId() < 1 ) {
+        if( configuration.getId() != -1 ) {
             throw new IllegalIDException( configuration.getId() );
         }
         configurations configurationToInsert = cast(configuration);

@@ -201,6 +201,35 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
     }
 
     @Test
+    public void testNonDamagingMoveResults() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 1,click() ) );
+        onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
+        onView(allOf( withId(R.id.right_pokemon_configuration_name), withText("")))
+                .check(matches(isDisplayed()));
+        onView(withText(R.string.damage_calculator_empty_opponent_text)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.right_pokemon_image_view)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
+        onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
+
+        onView(  allOf( isDescendantOfA(withId(R.id.move_1_damage_result_view)),
+                withId(R.id.move_damage_empty_view) ) ).check(matches(isDisplayed()));
+
+        onView(withId(R.id.move_1_damage_result_view)).perform(click());
+
+        onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 4,click() ) );
+
+        onView( allOf( isDescendantOfA(withId(R.id.move_1_damage_result_view)),
+                withText("swords-dance") ) ).check(matches(isDisplayed()));
+        onView( allOf( isDescendantOfA(withId(R.id.move_1_damage_result_view)),
+                withText("-") ) ).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void testAttackDirectionChange() {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );

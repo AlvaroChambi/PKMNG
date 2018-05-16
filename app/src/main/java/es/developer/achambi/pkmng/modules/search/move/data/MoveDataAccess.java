@@ -47,6 +47,9 @@ public class MoveDataAccess implements  IMoveDataAccess {
 
     @Override
     public Move accessMoveData(int moveId) throws IllegalIDException {
+        if( moveId == -1 ) {
+            return new Move();
+        }
         if( moveId < 1 ) {
             throw new IllegalIDException( moveId );
         }

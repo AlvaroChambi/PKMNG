@@ -23,7 +23,8 @@ public class DamageCalculator {
             throw new IllegalStateException();
         }
 
-        if( move.getCategory().equals( Move.Category.EMPTY ) ) {
+        if( move.getCategory().equals( Move.Category.EMPTY ) ||
+                move.getCategory().equals( Move.Category.NON_DAMAGING ) ) {
             throw new IllegalStateException();
         }
 

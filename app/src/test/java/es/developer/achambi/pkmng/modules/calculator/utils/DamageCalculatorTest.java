@@ -40,6 +40,13 @@ public class DamageCalculatorTest {
         DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, move );
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void moveDamageResultNonDamagingMove() {
+        int statValue = 90;
+        move.setCategory( Move.Category.NON_DAMAGING );
+        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, move );
+    }
+
     @Test
     public void specialAttackResult() {
         move.setCategory( Move.Category.SPECIAL );

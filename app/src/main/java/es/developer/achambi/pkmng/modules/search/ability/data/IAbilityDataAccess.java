@@ -17,7 +17,8 @@ public interface IAbilityDataAccess {
     /**
      * Access Ability data with the given id
      * @param abilityId to be searched, valid id's are higher than 0
-     * @return Ability data if the id is found, empty ability otherwise
+     * @return Ability data if the id is found, empty ability otherwise,
+     * empty Ability will also be returned on id equals to -1
      * @throws IllegalIDException on 0 or negative id's values
      */
     Ability accessAbilityData( int abilityId ) throws IllegalIDException;

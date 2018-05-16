@@ -53,9 +53,15 @@ public class NatureDataAccessTest {
         natureDataAccess.accessNatureData( 0 );
     }
 
+    @Test
+    public void accessNatureDataNOID() {
+        Nature nature = natureDataAccess.accessNatureData( -1 );
+        assertEquals( new Nature(), nature );
+    }
+
     @Test(expected = IllegalIDException.class)
     public void accessNatureDataNegative() {
-        natureDataAccess.accessNatureData( -1 );
+        natureDataAccess.accessNatureData( -2 );
     }
 
     @Test

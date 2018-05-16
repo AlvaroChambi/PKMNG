@@ -36,6 +36,9 @@ public class AbilityDataAccess implements IAbilityDataAccess{
 
     @Override
     public Ability accessAbilityData( int abilityId ) throws IllegalIDException {
+        if( abilityId == -1 ) {
+            return new Ability();
+        }
         if( abilityId < 1 ) {
             throw new IllegalIDException( abilityId );
         }

@@ -44,7 +44,7 @@ public abstract class BaseRequestFragment extends BaseFragment implements View.O
 
     protected void showSnackBackError( Error error ) {
         hideLoading();
-        Snackbar snackbar = Snackbar.make( getView(), error.getMessage(), Snackbar.LENGTH_LONG );
+        Snackbar snackbar = Snackbar.make( getView(), error.getMessage(), Snackbar.LENGTH_INDEFINITE );
         snackbar.show();
     }
 

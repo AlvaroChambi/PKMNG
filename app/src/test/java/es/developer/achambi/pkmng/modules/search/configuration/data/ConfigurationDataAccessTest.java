@@ -32,10 +32,6 @@ import static org.mockito.Mockito.when;
 public class ConfigurationDataAccessTest {
     private ConfigurationDAO mockDao;
     private IPokemonDataAccess mockPokemonDataAccess;
-    private IStatDataAccess mockStatDataAccess;
-    private IItemDataAccess mockItemDataAccess;
-    private IAbilityDataAccess mockAbilityDataAccess;
-    private INatureDataAccess mockNatureDataAccess;
     private IMoveDataAccess mockMoveDataAccess;
 
     private ConfigurationDataAccess configurationDataAccess;
@@ -44,20 +40,16 @@ public class ConfigurationDataAccessTest {
     public void setup() {
         mockDao = mock( ConfigurationDAO.class );
         mockPokemonDataAccess = mock( IPokemonDataAccess.class );
-        mockStatDataAccess = mock( IStatDataAccess.class );
-        mockItemDataAccess = mock( IItemDataAccess.class );
-        mockAbilityDataAccess = mock( IAbilityDataAccess.class );
-        mockNatureDataAccess = mock( INatureDataAccess.class );
         mockMoveDataAccess = mock( IMoveDataAccess.class );
 
         configurationDataAccess = new ConfigurationDataAccess(
                 mockDao,
                 mockPokemonDataAccess,
                 mockMoveDataAccess,
-                mockItemDataAccess,
-                mockAbilityDataAccess,
-                mockNatureDataAccess,
-                mockStatDataAccess);
+                mock( IItemDataAccess.class ),
+                mock( IAbilityDataAccess.class ),
+                mock( INatureDataAccess.class ),
+                mock( IStatDataAccess.class ));
     }
 
     @Test
@@ -108,17 +100,18 @@ public class ConfigurationDataAccessTest {
     public void insertConfigurationSuccessful() {
         ArgumentCaptor<configurations> captor = ArgumentCaptor.forClass(configurations.class);
         when(mockDao.insert(captor.capture())).thenReturn(1l);
-
-        configurationDataAccess.insertConfiguration( buildConfiguration() );
+        PokemonConfig newConfig = buildConfiguration();
+        newConfig.setId( -1 );
+        configurationDataAccess.insertConfiguration( newConfig );
 
         assertRawConfiguration( captor.getValue() );
         assertEquals( null, captor.getValue().id );
     }
 
     @Test(expected = IllegalIDException.class)
-    public void insertConfigurationIDNegative() {
+    public void insertConfigurationIDInvalid() {
         PokemonConfig pokemonConfig = new PokemonConfig();
-        pokemonConfig.setId( -1 );
+        pokemonConfig.setId( 0 );
         configurationDataAccess.insertConfiguration( pokemonConfig );
     }
 

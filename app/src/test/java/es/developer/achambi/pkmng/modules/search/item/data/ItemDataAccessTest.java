@@ -47,9 +47,15 @@ public class ItemDataAccessTest {
         itemDataAccess.accessItemData( 0 );
     }
 
+    @Test
+    public void accessItemDataNOID() {
+        Item item = itemDataAccess.accessItemData( -1 );
+        assertEquals( new Item(), item );
+    }
+
     @Test(expected = IllegalIDException.class)
     public void accessItemDataIDNegative() {
-        itemDataAccess.accessItemData( -1 );
+        itemDataAccess.accessItemData( -2 );
     }
 
     @Test

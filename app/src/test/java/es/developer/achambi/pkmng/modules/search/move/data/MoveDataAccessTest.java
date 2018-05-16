@@ -73,9 +73,15 @@ public class MoveDataAccessTest {
         moveDataAccess.accessMoveData( 0 );
     }
 
+    @Test
+    public void accessMoveDataNOID() {
+        Move move = moveDataAccess.accessMoveData( -1 );
+        assertEquals( new Move(), move );
+    }
+
     @Test(expected = IllegalIDException.class)
     public void accessMovesDataInvalidIDNegative() {
-        moveDataAccess.accessMoveData( -1 );
+        moveDataAccess.accessMoveData( -2 );
     }
 
     @Test(expected = IllegalIDException.class)

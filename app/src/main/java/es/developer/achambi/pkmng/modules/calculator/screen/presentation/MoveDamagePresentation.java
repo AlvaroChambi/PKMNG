@@ -5,9 +5,11 @@ import android.support.v4.util.Pair;
 
 import java.math.BigDecimal;
 
+import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.CategoryPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
+import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class MoveDamagePresentation {
     public final String name;
@@ -45,16 +47,20 @@ public class MoveDamagePresentation {
                                 context, damage.getCategory()),
                         "Power " + damage.getPower(),
                         buildEffectivenessText( damage.getEffectivenessModifier() ),
-                        formatDamage( damage ),
+                        formatDamage( context, damage ),
                         damage.getMoveName().equals("") );
             }
         }
 
-        private static String formatDamage( Damage damage ) {
-            Pair<Float, Float> damageResult = damage.getMoveDamage();
-            return "Guaranteed " + damage.getHitsToKO() + "HKO  " +
-                    round( damageResult.first, 2 ) + " ~ " +
-                    round( damageResult.second, 2 );
+        private static String formatDamage( Context context, Damage damage ) {
+            if( damage.getCategory().equals( Move.Category.NON_DAMAGING ) ) {
+                return context.getResources().getString( R.string.text_empty_placeholder );
+            } else {
+                Pair<Float, Float> damageResult = damage.getMoveDamage();
+                return "Guaranteed " + damage.getHitsToKO() + "HKO  " +
+                        round( damageResult.first, 2 ) + " ~ " +
+                        round( damageResult.second, 2 );
+            }
         }
 
         private static float round(float d, int decimalPlace) {

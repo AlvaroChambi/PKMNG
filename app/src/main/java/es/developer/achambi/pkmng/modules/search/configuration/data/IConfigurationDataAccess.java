@@ -14,8 +14,8 @@ public interface IConfigurationDataAccess {
     /**
      * Creates a new configuration for the given PokemonConfig
      * @param configuration to be created
-     * @return if successful id of the created configuration.
-     * @throws RuntimeException on not allowed pokemon config values, or duplicated id's
+     * @return if successful, id of the created configuration.
+     * @throws RuntimeException on not allowed pokemon config values, or id different than -1(NO_ID)
      *
      */
     int insertConfiguration(final PokemonConfig configuration) throws RuntimeException;

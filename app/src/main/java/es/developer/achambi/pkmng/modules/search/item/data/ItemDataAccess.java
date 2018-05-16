@@ -32,6 +32,9 @@ public class ItemDataAccess implements IItemDataAccess{
 
     @Override
     public Item accessItemData(int itemId) throws IllegalIDException {
+        if( itemId == -1 ) {
+            return new Item();
+        }
         if( itemId < 1 ) {
             throw new IllegalIDException( itemId );
         }

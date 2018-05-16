@@ -46,9 +46,15 @@ public class AbilityDataAccessTest {
         abilityDataAccess.accessAbilityData( 0 );
     }
 
+    @Test
+    public void accessAbilityDataNOID() {
+        Ability ability = abilityDataAccess.accessAbilityData( -1 );
+        assertEquals( new Ability(), ability );
+    }
+
     @Test(expected = IllegalIDException.class)
     public void accessAbilityDataIDNegative() {
-        abilityDataAccess.accessAbilityData( -1 );
+        abilityDataAccess.accessAbilityData( -2 );
     }
 
     @Test
