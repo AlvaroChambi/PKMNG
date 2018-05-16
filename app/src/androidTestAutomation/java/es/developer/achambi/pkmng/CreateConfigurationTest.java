@@ -59,11 +59,6 @@ public class CreateConfigurationTest extends BaseAutomationTest {
     }
 
     @Test
-    public void changeCurrentPokemonWithSamePokemon() {
-
-    }
-
-    @Test
     public void changeCurrentItemTest() {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));

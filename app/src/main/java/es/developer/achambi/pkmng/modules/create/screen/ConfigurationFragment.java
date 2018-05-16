@@ -219,7 +219,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     /**
-     * On a pokemon change configuration values could've changed, therefore an update of the
+     * On a pokemon change configuration values could've been changed, therefore an update of the
      * ui values is required
      */
     private void onCurrentPokemonChanged( View view ) {
