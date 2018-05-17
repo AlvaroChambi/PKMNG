@@ -3,8 +3,6 @@ package es.developer.achambi.pkmng.modules.search.nature.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Objects;
-
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 
@@ -80,6 +78,16 @@ public class Nature implements Parcelable{
 
     public void setDecreasedStat(Stat decreasedStat) {
         this.decreasedStat = decreasedStat;
+    }
+
+    public float getStatModifier( Stat stat ) {
+        if( stat.equals( increasedStat ) ) {
+            return 1.1f;
+        } else if( stat.equals( decreasedStat ) ) {
+            return 0.9f;
+        } else {
+            return 1.0f;
+        }
     }
 
     public static final Creator<Nature> CREATOR = new Creator<Nature>() {

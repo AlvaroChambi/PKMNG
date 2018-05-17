@@ -98,7 +98,8 @@ public class DamageCalculatorPresenter extends Presenter {
             return damage;
         }
         Pair<Float, Float> moveDamage = DamageCalculator.moveDamageResult( attacker.getAttack(),
-                attacker.getSpAttack(), attacked.getDefense(), attacked.getSPDefense(), move ) ;
+                attacker.getSpAttack(), attacked.getDefense(), attacked.getSPDefense(),
+                attacker.getPokemon().getLevel(), move ) ;
         float modifier = DamageCalculator.modifierValue( attacker, attacked, move );
         int hitsToKO = DamageCalculator.hitsToKO( moveDamage, attacked.getHP() );
 

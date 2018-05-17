@@ -49,9 +49,11 @@ public class ConfigurationView extends ConstraintLayout {
 
         TextView pokemonName = findViewById(R.id.pokemon_name_text);
         TextView baseStats = findViewById(R.id.pokemon_total_base_stats);
+        TextView pokemonLevel = findViewById(R.id.pokemon_level_text);
 
         configName.setTextColor( color );
         pokemonName.setTextColor( color );
         baseStats.setTextColor( color );
+        pokemonLevel.setTextColor( color );
     }
 }

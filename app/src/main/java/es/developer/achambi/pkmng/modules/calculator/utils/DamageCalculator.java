@@ -16,6 +16,7 @@ public class DamageCalculator {
 
     public static Pair<Float, Float> moveDamageResult( int attackerAttack, int attackerSpAttack,
                                                        int attackedDefense, int attackedSpDefense,
+                                                       int level,
                                                        @NotNull Move move ) {
         int attack = 0;
         int defense = 0;
@@ -39,10 +40,10 @@ public class DamageCalculator {
             attack = attackerSpAttack;
             defense = attackedSpDefense;
         }
-        float min = ( ( ( ( ( (2 * Pokemon.FIXED_LEVEL) / 5 ) + 2 ) * move.getPower() *
+        float min = ( ( ( ( ( (2 * level) / 5 ) + 2 ) * move.getPower() *
                 ( attack / defense ) ) / 50 )
                 + 2 ) * 0.85f;
-        float max = ( ( ( ( ( (2 * Pokemon.FIXED_LEVEL) / 5 ) + 2 ) * move.getPower() *
+        float max = ( ( ( ( ( (2 * level) / 5 ) + 2 ) * move.getPower() *
                 ( attack / defense ) ) / 50 )
                 + 2 ) * 1.0f;
         return new Pair<>( min, max );

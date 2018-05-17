@@ -18,6 +18,7 @@ public class PokemonPresentation implements SearchListData {
     public final PokemonTypePresentation type;
     public final String totalStats;
     public final StatSetPresentation stats;
+    public final String level;
     public final boolean empty;
 
     public PokemonPresentation(
@@ -27,6 +28,7 @@ public class PokemonPresentation implements SearchListData {
            PokemonTypePresentation type,
            String totalStats,
            StatSetPresentation stats,
+           String level,
            boolean empty ) {
         this.id = id;
         this.name = name;
@@ -34,6 +36,7 @@ public class PokemonPresentation implements SearchListData {
         this.type = type;
         this.totalStats = totalStats;
         this.stats = stats;
+        this.level = level;
         this.empty = empty;
     }
 
@@ -58,8 +61,13 @@ public class PokemonPresentation implements SearchListData {
                     totalStatsAttribute(context.getResources(), pokemon.getStats()),
                     StatSetPresentation.Builder.buildPresentation( context.getResources(),
                             pokemon.getStats() ),
+                    buildLevelString( context.getResources(), pokemon.getLevel() ),
                     pokemon.getId() == -1
             );
+        }
+
+        private static String buildLevelString( Resources resources, int level ) {
+            return resources.getString(R.string.pokemon_level_tag) + " " +level;
         }
 
         private static String totalStatsAttribute(Resources resources, StatsSet statsSet) {

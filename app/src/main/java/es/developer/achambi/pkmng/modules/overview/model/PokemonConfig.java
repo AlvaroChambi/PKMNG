@@ -5,6 +5,7 @@ import android.os.Parcel;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
+import es.developer.achambi.pkmng.modules.utils.PokemonUtils;
 
 public class PokemonConfig extends BaseConfig{
     private Configuration configuration;
@@ -113,32 +114,44 @@ public class PokemonConfig extends BaseConfig{
 
     @Override
     public int getHP() {
-        return pokemon.getHP() + configuration.getEvsSet().getHP();
+        return PokemonUtils.getHpStatValue( pokemon.getHP(),
+                configuration.getEvsSet().getHP(),
+                pokemon.getLevel() );
     }
 
     @Override
     public int getAttack() {
-        return pokemon.getAttack() + configuration.getEvsSet().getAttack();
+        return PokemonUtils.getStatValue( pokemon.getAttack(),
+                configuration.getEvsSet().getAttack(),
+                configuration.getNature().getStatModifier(Stat.ATTACK), pokemon.getLevel() );
     }
 
     @Override
     public int getDefense() {
-        return pokemon.getDefense() + configuration.getEvsSet().getDefense();
+        return PokemonUtils.getStatValue( pokemon.getDefense(),
+                configuration.getEvsSet().getDefense(),
+                configuration.getNature().getStatModifier(Stat.DEFENSE), pokemon.getLevel() );
     }
 
     @Override
     public int getSpAttack() {
-        return pokemon.getSpAttack() + configuration.getEvsSet().getSpAttack();
+        return PokemonUtils.getStatValue( pokemon.getSpAttack(),
+                configuration.getEvsSet().getSpAttack(),
+                configuration.getNature().getStatModifier(Stat.SP_ATTACK), pokemon.getLevel() );
     }
 
     @Override
     public int getSPDefense() {
-        return pokemon.getSPDefense() + configuration.getEvsSet().getSPDefense();
+        return PokemonUtils.getStatValue( pokemon.getSPDefense(),
+                configuration.getEvsSet().getSPDefense(),
+                configuration.getNature().getStatModifier(Stat.SP_DEFENSE), pokemon.getLevel() );
     }
 
     @Override
     public int getSpeed() {
-        return pokemon.getSpeed() + configuration.getEvsSet().getSpeed();
+        return PokemonUtils.getStatValue( pokemon.getSpeed(),
+                configuration.getEvsSet().getSpeed(),
+                configuration.getNature().getStatModifier(Stat.SPEED), pokemon.getLevel() );
     }
 
     @Override

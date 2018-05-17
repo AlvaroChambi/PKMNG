@@ -26,6 +26,7 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
     public TextView pokemonSpeed;
 
     private ImageView pokemonIcon;
+    private TextView pokemonLevel;
 
     public PokemonViewHolder(View rootView) {
         super(rootView);
@@ -43,6 +44,7 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
         pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
         pokemonIcon = rootView.findViewById(R.id.pokemon_image_view);
+        pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
     }
 
     public void bindTo(PokemonPresentation pokemon, RequestManager requestManager) {
@@ -60,5 +62,6 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
                     .load(Uri.parse(pokemon.image))
                     .into(pokemonIcon);
         }
+        pokemonLevel.setText(pokemon.level);
     }
 }

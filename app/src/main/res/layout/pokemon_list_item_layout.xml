@@ -7,21 +7,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_constraintWidth_default="wrap">
+
     <ImageView
         android:id="@+id/pokemon_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:srcCompat="@drawable/pokemon_placeholder_2"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/pokemon_type_text"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/pokemon_type_text"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_level_text"
+        app:srcCompat="@drawable/pokemon_placeholder_2" />
 
     <TextView
         android:id="@+id/pokemon_name_text"
@@ -131,5 +131,15 @@
         tools:text="HP: 35"
         android:layout_marginStart="0dp"
         app:layout_constraintLeft_toLeftOf="@+id/pokemon_def_text" />
+
+    <TextView
+        android:id="@+id/pokemon_level_text"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/pokemon_image_view"
+        app:layout_constraintStart_toStartOf="@+id/pokemon_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Level: 50" />
 
 </android.support.constraint.ConstraintLayout>

@@ -13,38 +13,45 @@ import static junit.framework.Assert.assertEquals;
 
 public class DamageCalculatorTest {
     private Move move;
+    private int level;
+
     @Before
     public void setup() {
         move = new Move();
         move.setPower( 90 );
         move.setCategory( Move.Category.PHYSICAL );
+        level = 50;
     }
 
     @Test(expected = IllegalStateException.class)
     public void moveDamageResultEmptyCategory() {
         int statValue = 90;
         move.setCategory( Move.Category.EMPTY );
-        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, move );
+        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue,
+                level, move );
     }
 
     @Test(expected = IllegalStateException.class)
     public void moveDamageResultInvalidPower() {
         int statValue = 90;
         move.setPower( 0 );
-        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, move );
+        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue,
+                level, move );
     }
 
     @Test(expected = IllegalStateException.class)
     public void moveDamageResultInvalidStats() {
         int statValue = 0;
-        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, move );
+        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, level,
+                move );
     }
 
     @Test(expected = IllegalStateException.class)
     public void moveDamageResultNonDamagingMove() {
         int statValue = 90;
         move.setCategory( Move.Category.NON_DAMAGING );
-        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, move );
+        DamageCalculator.moveDamageResult( statValue, statValue, statValue, statValue, level,
+                move );
     }
 
     @Test
@@ -54,8 +61,7 @@ public class DamageCalculatorTest {
         int specialDefense = 50;
         int emptyStat = 10;
         Pair<Float, Float> damage = DamageCalculator.moveDamageResult( emptyStat, specialAttack,
-                emptyStat, specialDefense,
-                move );
+                emptyStat, specialDefense, level, move );
         assertEquals( damage.first, 68.85f );
         assertEquals( damage.second, 81.0f );
     }
@@ -67,8 +73,7 @@ public class DamageCalculatorTest {
         int defense = 50;
         int emptyStat = 10;
         Pair<Float, Float> damage = DamageCalculator.moveDamageResult( attack, emptyStat,
-                defense, emptyStat,
-                move );
+                defense, emptyStat, level, move );
         assertEquals( damage.first, 68.85f );
         assertEquals( damage.second, 81.0f );
     }

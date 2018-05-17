@@ -154,6 +154,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         TextView configurationName = rootView.findViewById( R.id.pokemon_details_dialog_title );
         TextView pokemonName = rootView.findViewById(R.id.pokemon_name_text);
         TypeView pokemonType = rootView.findViewById(R.id.pokemon_type_text);
+        TextView pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
 
         ItemView item = rootView.findViewById(R.id.pokemon_item_text);
         AbilityView ability = rootView.findViewById(R.id.pokemon_ability_text);
@@ -177,6 +178,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         pokemonName.setText(configurationPresentation.pokemon.name);
         configurationName.setText(configurationPresentation.name);
         pokemonType.setType(configurationPresentation.pokemon.type);
+        pokemonLevel.setText(configurationPresentation.pokemon.level);
 
         item.setItem(configurationPresentation.item.name,
                 configurationPresentation.item.description,

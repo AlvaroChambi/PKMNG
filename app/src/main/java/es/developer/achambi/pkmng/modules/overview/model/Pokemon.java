@@ -4,27 +4,28 @@ import android.os.Parcel;
 import android.support.v4.util.Pair;
 
 
-import java.util.Objects;
-
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 
 public class Pokemon implements BasePokemon{
-    public static final int FIXED_LEVEL = 50;
+    private static final int FIXED_LEVEL = 50;
 
     private final int id;
     private String name;
     private Pair<Type, Type> type;
     private StatsSet stats;
     private String imageURL;
+    private int level;
 
     public Pokemon() {
         this.id = EMPTY_ID;
+        this.level = FIXED_LEVEL;
         stats = new StatsSet();
         type = new Pair<>(Type.EMPTY, Type.EMPTY);
     }
 
     public Pokemon( int id  ) {
         this.id = id;
+        this.level = FIXED_LEVEL;
         stats = new StatsSet();
         type = new Pair<>(Type.EMPTY, Type.EMPTY);
     }
@@ -35,6 +36,7 @@ public class Pokemon implements BasePokemon{
         this.type = new Pair<>(pokemon.getType().first, pokemon.getType().second);
         this.stats = new StatsSet( pokemon.getStats() );
         this.imageURL = pokemon.getImageURL();
+        this.level = pokemon.getLevel();
     }
 
     @Override
@@ -43,6 +45,10 @@ public class Pokemon implements BasePokemon{
         if (!(o instanceof Pokemon)) return false;
         Pokemon pokemon = (Pokemon) o;
         return id == pokemon.id;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public void setStats(StatsSet stats) {
@@ -146,6 +152,7 @@ public class Pokemon implements BasePokemon{
         type = ParcelUtil.readParcelablePair(in, Type.class, Type.class);
         stats = in.readParcelable(StatsSet.class.getClassLoader());
         imageURL = in.readString();
+        level = in.readInt();
     }
 
     public static final Creator<Pokemon> CREATOR = new Creator<Pokemon>() {
@@ -172,6 +179,7 @@ public class Pokemon implements BasePokemon{
         ParcelUtil.writeParcelablePair(dest, type);
         dest.writeParcelable(stats, flags);
         dest.writeString(imageURL);
+        dest.writeInt(level);
     }
 
 }

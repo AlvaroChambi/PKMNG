@@ -54,6 +54,7 @@ public class PokemonView extends ConstraintLayout {
         TextView pokemonSpAttack = findViewById(R.id.pokemon_spa_text);
         TextView pokemonSpDefense = findViewById(R.id.pokemon_spd_text);
         TextView pokemonSpeed = findViewById(R.id.pokemon_speed_text);
+        TextView pokemonLevel = findViewById(R.id.pokemon_level_text);
 
         pokemonName.setTextColor( color );
         baseStats.setTextColor( color );
@@ -63,5 +64,6 @@ public class PokemonView extends ConstraintLayout {
         pokemonSpAttack.setTextColor( color );
         pokemonSpDefense.setTextColor( color );
         pokemonSpeed.setTextColor( color );
+        pokemonLevel.setTextColor( color );
     }
 }

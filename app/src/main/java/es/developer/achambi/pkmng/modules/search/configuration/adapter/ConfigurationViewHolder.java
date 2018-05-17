@@ -26,6 +26,7 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
     public ImageView pokemonIcon;
     public TextView pokemonName;
     public TypeView pokemonType;
+    public TextView pokemonLevel;
 
     public ConfigurationViewHolder(View itemView) {
         super(itemView);
@@ -42,6 +43,7 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
         item = rootView.findViewById(R.id.pokemon_item_text);
         ability = rootView.findViewById(R.id.pokemon_ability_text);
         nature = rootView.findViewById(R.id.pokemon_nature_text);
+        pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
     }
 
     public void bindTo(ConfigurationPresentation configuration, RequestManager requestManager) {
@@ -50,7 +52,7 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
         configName.setText(configuration.name);
         pokemonName.setText(configuration.pokemon.name);
         pokemonType.setType(configuration.pokemon.type);
-        baseStats.setText(configuration.totalStats);
+        baseStats.setText(configuration.pokemon.totalStats);
         item.setItem(configuration.item.name,
                 configuration.item.description,
                 configuration.item.empty);
@@ -61,5 +63,6 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
                 configuration.nature.details.increased,
                 configuration.nature.details.decreased,
                 configuration.nature.empty);
+        pokemonLevel.setText(configuration.pokemon.level);
     }
 }
