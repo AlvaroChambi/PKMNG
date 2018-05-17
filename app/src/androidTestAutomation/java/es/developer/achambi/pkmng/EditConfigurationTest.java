@@ -137,9 +137,12 @@ public class EditConfigurationTest extends BaseAutomationTest {
     }
 
     private void assertInitialValues() {
-        onView(withText("eviolite")).check(matches(isDisplayed()));
-        onView(withText("magic guard")).check(matches(isDisplayed()));
-        onView(withText("modest")).check(matches(isDisplayed()));
+        onView(withText("eviolite")).perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("magic guard")).perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withText("modest")).perform(scrollTo())
+                .check(matches(isDisplayed()));
 
         onView(withText("Hidden power"))
                 .perform(scrollTo())
@@ -156,9 +159,12 @@ public class EditConfigurationTest extends BaseAutomationTest {
     }
 
     private void assertEmptyValues() {
-        onView(withId(R.id.configuration_ability_empty_state)).check(matches(isDisplayed()));
-        onView(withId(R.id.configuration_nature_empty_state)).check(matches(isDisplayed()));
-        onView(withId(R.id.configuration_item_empty_state)).check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_ability_empty_state)).perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_nature_empty_state)).perform(scrollTo())
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.configuration_item_empty_state)).perform(scrollTo())
+                .check(matches(isDisplayed()));
         onView( allOf( withId(R.id.move_view_empty_state_image),
                 isDescendantOfA(withId(R.id.configuration_move_0_frame)) ) )
                 .perform(scrollTo())
