@@ -60,6 +60,26 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
     }
 
     @Test
+    public void testMoveDamage() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 2,click() ) );
+        onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
+        onView(allOf( withId(R.id.left_pokemon_configuration_name), withText("Special")))
+                .check(matches(isDisplayed()));
+        onView(withText(R.string.damage_calculator_empty_opponent_text)).check(matches(isDisplayed()));
+        onView(withId(R.id.right_pokemon_image_view)).perform(click());
+
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform( RecyclerViewActions.actionOnItemAtPosition( 2,click() ) );
+        onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
+
+        onView( allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
+                withText("Sludge bomb") ) ).check(matches(isDisplayed()));
+        onView( allOf( isDescendantOfA(withId(R.id.move_0_damage_result_view)),
+                withText("Guaranteed 5HKO  40.0 ~ 48.0") ) ).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void testRightPokemonChange() {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );

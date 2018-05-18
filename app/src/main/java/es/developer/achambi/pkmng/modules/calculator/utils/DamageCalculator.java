@@ -40,12 +40,12 @@ public class DamageCalculator {
             attack = attackerSpAttack;
             defense = attackedSpDefense;
         }
-        float min = ( ( ( ( ( (2 * level) / 5 ) + 2 ) * move.getPower() *
-                ( attack / defense ) ) / 50 )
-                + 2 ) * 0.85f;
-        float max = ( ( ( ( ( (2 * level) / 5 ) + 2 ) * move.getPower() *
-                ( attack / defense ) ) / 50 )
-                + 2 ) * 1.0f;
+
+        float min = (float)Math.floor(Math.floor((Math.floor((2 * level) / 5 + 2)
+                * move.getPower() * attack) / defense) / 50 + 2) * 0.85f;
+        float max = (float)Math.floor(Math.floor((Math.floor((2 * level) / 5 + 2)
+                * move.getPower() * attack) / defense) / 50 + 2) * 1.0f;
+
         return new Pair<>( min, max );
     }
 

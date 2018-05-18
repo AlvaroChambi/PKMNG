@@ -1,7 +1,7 @@
 package es.developer.achambi.pkmng.modules.utils;
 
 public class PokemonUtils {
-    private static final int FIXED_IV = 21;
+    private static final int FIXED_IV = 31;
 
     public static int getHpStatValue(int baseHP, int evValue, int level ) {
         float stat = (((2 * baseHP + FIXED_IV + (evValue/4) ) * level ) /
