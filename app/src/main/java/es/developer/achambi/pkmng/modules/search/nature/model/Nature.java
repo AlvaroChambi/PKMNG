@@ -7,6 +7,10 @@ import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 
 public class Nature implements Parcelable{
+    public static final float INCREASED_STAT_MODIFIER = 1.1f;
+    public static final float DECREASED_STAT_MODIFIER = 0.9f;
+    public static final float NEUTRAL_STAT_MODIFIER = 1.0f;
+
     private int id;
     private String name;
     private Stat increasedStat;
@@ -82,11 +86,11 @@ public class Nature implements Parcelable{
 
     public float getStatModifier( Stat stat ) {
         if( stat.equals( increasedStat ) ) {
-            return 1.1f;
+            return INCREASED_STAT_MODIFIER;
         } else if( stat.equals( decreasedStat ) ) {
-            return 0.9f;
+            return DECREASED_STAT_MODIFIER;
         } else {
-            return 1.0f;
+            return NEUTRAL_STAT_MODIFIER;
         }
     }
 

@@ -79,14 +79,14 @@ public class DamageCalculatorTest {
     }
 
     @Test( expected = IllegalStateException.class )
-    public void hitsToKONegativeDamage() throws Exception {
+    public void hitsToKONegativeDamage() {
         Pair<Float, Float> damage = new Pair<>( -10f, -10f );
         int hp = 100;
         DamageCalculator.hitsToKO( damage, hp );
     }
 
     @Test
-    public void hitsToKOZeroDamage() throws Exception {
+    public void hitsToKOZeroDamage() {
         Pair<Float, Float> damage = new Pair<>( 0f, 0f );
         int hp = 100;
         int result = DamageCalculator.hitsToKO( damage, hp );
@@ -94,21 +94,21 @@ public class DamageCalculatorTest {
     }
 
     @Test( expected = IllegalStateException.class )
-    public void hitsToKOZeroHP() throws Exception {
+    public void hitsToKOZeroHP() {
         Pair<Float, Float> damage = new Pair<>( 10f, 10f );
         int hp = 0;
         DamageCalculator.hitsToKO( damage, hp );
     }
 
     @Test( expected = IllegalStateException.class )
-    public void hitsToKONegativeHP() throws Exception {
+    public void hitsToKONegativeHP() {
         Pair<Float, Float> damage = new Pair<>( 10f, 10f );
         int hp = -10;
         DamageCalculator.hitsToKO( damage, hp );
     }
 
     @Test
-    public void hitsToKOValidValue() throws Exception {
+    public void hitsToKOValidValue() {
         Pair<Float, Float> damage = new Pair<>( 30f, 30f );
         int hp = 100;
         int result = DamageCalculator.hitsToKO( damage, hp );
