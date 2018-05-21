@@ -114,6 +114,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         TextView pokemonSpAttack = rootView.findViewById(R.id.pokemon_spa_text);
         TextView pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
         TextView pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
+        TextView pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
 
         pokemonName.setText(pokemonPresentation.name);
         pokemonType.setType(pokemonPresentation.type);
@@ -127,6 +128,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         Glide.with(this)
                 .load(Uri.parse(pokemonPresentation.image))
                 .into(pokemonIcon);
+        pokemonLevel.setText(pokemonPresentation.level);
     }
 
     @Override

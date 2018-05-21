@@ -29,10 +29,10 @@ import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
+import es.developer.achambi.pkmng.modules.details.view.presentation.ConfigurationDetailsPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
-import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.screen.SearchAbilityActivity;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
@@ -69,7 +69,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     public static final String CONFIGURATION_NAME_DATA_KEY = "CONFIGURATION_NAME_DATA_KEY";
     public static final String POKEMON_CONFIG_RESULT_DATA_KEY = "PK_CONFIG_DATA_KEY";
 
-    private PokemonPresentation pokemonPresentation;
+    private ConfigurationDetailsPresentation configurationPresentation;
 
     private MoveConfigurationRepresentation move0;
     private MoveConfigurationRepresentation move1;
@@ -120,8 +120,8 @@ public class ConfigurationFragment extends BaseRequestFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
-            pokemonPresentation = PokemonPresentation.Builder
-                    .buildPresentation(getActivity(), presenter.getPokemon());
+            configurationPresentation = ConfigurationDetailsPresentation.Builder
+                    .buildPresentation(getActivity(), presenter.getEditablePokemonConfig());
             MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
             move0 = builder.build( presenter.getConfiguration().getMove0() );
             move1 = builder.build( presenter.getConfiguration().getMove1() );
@@ -223,8 +223,8 @@ public class ConfigurationFragment extends BaseRequestFragment
      * ui values is required
      */
     private void onCurrentPokemonChanged( View view ) {
-        pokemonPresentation = PokemonPresentation.Builder
-                .buildPresentation(getActivity(), presenter.getPokemon());
+        configurationPresentation = ConfigurationDetailsPresentation.Builder
+                .buildPresentation(getActivity(), presenter.getEditablePokemonConfig());
         MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
         move0 = builder.build( presenter.getConfiguration().getMove0() );
         move1 = builder.build( presenter.getConfiguration().getMove1() );
@@ -285,18 +285,20 @@ public class ConfigurationFragment extends BaseRequestFragment
         TextView pokemonSpAttack = rootView.findViewById(R.id.pokemon_spa_text);
         TextView pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
         TextView pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
+        TextView pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
 
-        pokemonName.setText(pokemonPresentation.name);
-        pokemonType.setType(pokemonPresentation.type);
-        baseStats.setText(pokemonPresentation.totalStats);
-        pokemonHP.setText(pokemonPresentation.stats.hp);
-        pokemonAttack.setText(pokemonPresentation.stats.attack);
-        pokemonDefense.setText(pokemonPresentation.stats.defense);
-        pokemonSpAttack.setText(pokemonPresentation.stats.spAttack);
-        pokemonSpDefense.setText(pokemonPresentation.stats.spDefense);
-        pokemonSpeed.setText(pokemonPresentation.stats.speed);
+        pokemonLevel.setText(configurationPresentation.pokemon.level);
+        pokemonName.setText(configurationPresentation.pokemon.name);
+        pokemonType.setType(configurationPresentation.pokemon.type);
+        baseStats.setText(configurationPresentation.pokemon.totalStats);
+        pokemonHP.setText(configurationPresentation.stats.hp);
+        pokemonAttack.setText(configurationPresentation.stats.attack);
+        pokemonDefense.setText(configurationPresentation.stats.defense);
+        pokemonSpAttack.setText(configurationPresentation.stats.spAttack);
+        pokemonSpDefense.setText(configurationPresentation.stats.spDefense);
+        pokemonSpeed.setText(configurationPresentation.stats.speed);
         Glide.with(this)
-                .load(Uri.parse(pokemonPresentation.image))
+                .load(Uri.parse(configurationPresentation.pokemon.image))
                 .into(pokemonIcon);
     }
 
@@ -481,14 +483,13 @@ public class ConfigurationFragment extends BaseRequestFragment
 
     public class MoveRepresentationBuilder {
         public MoveConfigurationRepresentation build( Move move ) {
-            MoveConfigurationRepresentation representation = new MoveConfigurationRepresentation(
+            return new MoveConfigurationRepresentation(
                     move.getId(),
                     move.getName(),
                     TypePresentation.Builder.build( getActivity(), move.getType() ),
                     "Pow. " + move.getPower(),
                     move.getName().equals("")
             );
-            return representation;
         }
     }
 }

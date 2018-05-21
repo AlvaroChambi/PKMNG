@@ -100,4 +100,6 @@
     <string name="text_empty_placeholder">-</string>
 
     <string name="error_message_retry">TRY AGAIN</string>
+
+    <string name="pokemon_level_tag">level</string>
 </resources>

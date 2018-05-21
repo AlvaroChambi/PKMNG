@@ -3,12 +3,14 @@ package es.developer.achambi.pkmng.modules.search.nature.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Objects;
-
 import es.developer.achambi.pkmng.core.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 
 public class Nature implements Parcelable{
+    public static final float INCREASED_STAT_MODIFIER = 1.1f;
+    public static final float DECREASED_STAT_MODIFIER = 0.9f;
+    public static final float NEUTRAL_STAT_MODIFIER = 1.0f;
+
     private int id;
     private String name;
     private Stat increasedStat;
@@ -80,6 +82,16 @@ public class Nature implements Parcelable{
 
     public void setDecreasedStat(Stat decreasedStat) {
         this.decreasedStat = decreasedStat;
+    }
+
+    public float getStatModifier( Stat stat ) {
+        if( stat.equals( increasedStat ) ) {
+            return INCREASED_STAT_MODIFIER;
+        } else if( stat.equals( decreasedStat ) ) {
+            return DECREASED_STAT_MODIFIER;
+        } else {
+            return NEUTRAL_STAT_MODIFIER;
+        }
     }
 
     public static final Creator<Nature> CREATOR = new Creator<Nature>() {
