@@ -20,8 +20,8 @@ public class AppWiring extends BaseAppWiring {
                 return new MockConfigurationDataAccess();
             }
         };
+        AppWiring.createConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
         AppWiring.searchConfigurationAssembler.setConfigurationDataAssembler( mockAssembler );
-        AppWiring.damageCalculatorAssembler.setDataAssembler( mockAssembler );
     }
 
     @Override

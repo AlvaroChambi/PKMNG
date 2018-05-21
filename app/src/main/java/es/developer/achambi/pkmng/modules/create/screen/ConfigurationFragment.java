@@ -121,7 +121,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         if(!isViewRecreated()) {
             configurationPresentation = ConfigurationDetailsPresentation.Builder
-                    .buildPresentation(getActivity(), presenter.getPokemonConfiguration());
+                    .buildPresentation(getActivity(), presenter.getEditablePokemonConfig());
             MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
             move0 = builder.build( presenter.getConfiguration().getMove0() );
             move1 = builder.build( presenter.getConfiguration().getMove1() );
@@ -224,7 +224,7 @@ public class ConfigurationFragment extends BaseRequestFragment
      */
     private void onCurrentPokemonChanged( View view ) {
         configurationPresentation = ConfigurationDetailsPresentation.Builder
-                .buildPresentation(getActivity(), presenter.getPokemonConfiguration());
+                .buildPresentation(getActivity(), presenter.getEditablePokemonConfig());
         MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
         move0 = builder.build( presenter.getConfiguration().getMove0() );
         move1 = builder.build( presenter.getConfiguration().getMove1() );
@@ -285,8 +285,10 @@ public class ConfigurationFragment extends BaseRequestFragment
         TextView pokemonSpAttack = rootView.findViewById(R.id.pokemon_spa_text);
         TextView pokemonSpDefense = rootView.findViewById(R.id.pokemon_spd_text);
         TextView pokemonSpeed = rootView.findViewById(R.id.pokemon_speed_text);
+        TextView pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
 
-        pokemonName.setText(configurationPresentation.name);
+        pokemonLevel.setText(configurationPresentation.pokemon.level);
+        pokemonName.setText(configurationPresentation.pokemon.name);
         pokemonType.setType(configurationPresentation.pokemon.type);
         baseStats.setText(configurationPresentation.pokemon.totalStats);
         pokemonHP.setText(configurationPresentation.stats.hp);
