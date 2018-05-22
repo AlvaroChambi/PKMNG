@@ -135,7 +135,11 @@ public class ConfigurationPresenter extends Presenter
 
     public void setPokemonConfiguration(PokemonConfig pokemonConfiguration) {
         this.pokemonConfiguration = pokemonConfiguration;
-        this.editablePokemonConfig = pokemonConfiguration;
+        this.editablePokemonConfig = new PokemonConfig();
+        this.editablePokemonConfig.setPokemon( new Pokemon( pokemonConfiguration.getPokemon() ) );
+        this.editablePokemonConfig.setConfiguration( new Configuration(
+                pokemonConfiguration.getConfiguration()
+        ) );
     }
 
     public PokemonConfig getPokemonConfiguration() {

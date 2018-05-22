@@ -94,19 +94,105 @@ public class EditConfigurationTest extends BaseAutomationTest {
     }
 
     @Test
-    public void configurationSaveValuesChanged() {
+    public void configurationSaveItemChanged() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        //change item
+        onView(withId(R.id.configuration_item_frame)).perform(click());
+        onView(withId(R.id.base_search_header_frame)).check(matches(isDisplayed()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_choose_item_action_button)).perform(click());
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_updated_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void configurationSaveAbilityChanged() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        //change ability
+        onView(withId(R.id.configuration_ability_frame)).perform(click());
+        onView(withId(R.id.base_search_header_frame)).check(matches(isDisplayed()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_choose_ability_action_button)).perform(click());
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_updated_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void configurationSaveNatureChanged() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        //change nature
+        onView(withId(R.id.configuration_nature_frame)).perform(click());
+        onView(withId(R.id.base_search_header_frame)).check(matches(isDisplayed()));
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_updated_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void configurationSaveMoveChanged() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        //change move
+        onView( allOf( withId(R.id.move_view_power_text),
+                isDescendantOfA(withId(R.id.configuration_move_0_frame)) ) ).perform(scrollTo(),
+                click());
+        onView(withId(R.id.base_search_header_frame)).check(matches(isDisplayed()));
+        onView(withId(R.id.base_search_recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
+        onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
+
+        onView(withText(R.string.configuration_updated_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void configurationSaveNameChanged() {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
 
         onView(withId( R.id.configuration_floating_save_button_middle)).perform(click());
-        onView(withId( R.id.create_configuration_dialog_edit_text )).perform( clearText(),
-                typeText( "Test" ) );
+
+        onView(withId(R.id.create_configuration_dialog_edit_text))
+                .perform(clearText(), typeText("Updated"));
+
         onView(withId( R.id.create_configuration_dialog_save_button )).perform(click());
 
-        onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView( withText("Test") ).check(matches(isDisplayed()));
+        onView(withText(R.string.configuration_updated_toast_message))
+                .inRoot(new ToastMatcher())
+                .check(matches(isDisplayed()));
     }
 
     @Test

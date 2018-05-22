@@ -72,7 +72,7 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.details_choose_item_action_button));
+        onView(withId(R.id.details_choose_item_action_button)).perform(click());
 
         onView(withText("master-ball")).check(matches(isDisplayed()));
     }
@@ -90,9 +90,8 @@ public class CreateConfigurationTest extends BaseAutomationTest {
         onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
         onView( withId(R.id.base_search_recycler_view) )
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.details_choose_ability_action_button));
+        onView(withId(R.id.details_choose_ability_action_button)).perform(click());
 
-        onView(withId(R.id.details_choose_ability_action_button));
         onView(withText("blaze")).check(matches(isDisplayed()));
     }
 
