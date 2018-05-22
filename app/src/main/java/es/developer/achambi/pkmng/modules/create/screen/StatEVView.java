@@ -102,7 +102,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         }
     }
 
-    public void setProgressUpdateProvider(ProgressUpdateProvider listener ) {
+    public void setProgressUpdateProvider( ProgressUpdateProvider listener ) {
         this.progressProvider = listener;
     }
 
@@ -117,14 +117,32 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
             totalValuePreviewText.setTextColor(ContextCompat.getColor(
                     getContext(), R.color.secondary_text_default_material_light ));
         }
+        if( progressProvider != null ) {
+            totalValuePreviewText.setText( String.valueOf(
+                    progressProvider.requestTotalStatValuePreview( stat, value ) ) );
+        }
     }
 
     public void setValue( int value ) {
         this.value = value;
-        valueEditText.setText( String.valueOf(value) );
+        setEditTextValue( value );
         totalValuePreviewText.setText( String.valueOf(
                 progressProvider.requestTotalStatValuePreview( stat, value )
         ) );
+    }
+
+    /**
+     * Whenever a Zero value is provided the edit text will clear any content and display an
+     * empty value
+     * @param value
+     */
+    private void setEditTextValue( int value ) {
+        String editValue = String.valueOf( value );
+        if( editValue.equals("0") ) {
+            valueEditText.setText( "" );
+        } else {
+            valueEditText.setText( editValue );
+        }
     }
 
     @Override
@@ -171,9 +189,7 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
             seekBar.setOnSeekBarChangeListener(null);
             seekBar.setProgress(value);
             seekBar.setOnSeekBarChangeListener(this);
-        } catch( NumberFormatException e ) {
-            setValue( 0 );
-        }
+        } catch( NumberFormatException e ) { }
     }
 
     @Override
@@ -181,8 +197,6 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
         if( s.length() > 1 && s.toString().startsWith("0") ) {
             String trimmed = s.toString().substring(1);
             setValue( Integer.valueOf( trimmed ) );
-        } else if( s.length() == 0 ) {
-            setValue( 0 );
         }
     }
 
