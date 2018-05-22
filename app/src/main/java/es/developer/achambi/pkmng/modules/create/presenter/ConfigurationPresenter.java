@@ -55,6 +55,26 @@ public class ConfigurationPresenter extends Presenter
     }
 
     @Override
+    public int requestTotalStatValuePreview(Stat stat, int value) {
+        switch (stat) {
+            case HP:
+                return editablePokemonConfig.getHP();
+            case ATTACK:
+                return editablePokemonConfig.getAttack();
+            case DEFENSE:
+                return editablePokemonConfig.getDefense();
+            case SP_ATTACK:
+                return editablePokemonConfig.getSpAttack();
+            case SP_DEFENSE:
+                return editablePokemonConfig.getSPDefense();
+            case SPEED:
+                return editablePokemonConfig.getSpeed();
+            default:
+                return  -1;
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putParcelable( EDITABLE_CONFIGURATION_SAVED_DATA_TAG, editablePokemonConfig );
