@@ -2,6 +2,7 @@ package es.developer.achambi.pkmng.core.ui;
 
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,11 +71,19 @@ public abstract class SearchAdapterDecorator<D extends SearchListData,VH extends
         }
     }
 
-    public ArrayList<D> getData() {
-        if( adapter != null && adapter.getData() != null ) {
-            data.addAll( adapter.getData() );
+    /**
+     * Build the data list adding any nested decorator's data if present
+     * @return data list with all available decorators information, empty list if no data
+     * is available for any decorator
+     */
+    public ArrayList<D> buildData() {
+        ArrayList<D> tempData = new ArrayList<>();
+        tempData.addAll( data );
+        if( adapter != null ) {
+            tempData.addAll( adapter.buildData() );
+
         }
-        return data;
+        return tempData;
     }
 
     public void setData(ArrayList<D> dataList ) {

@@ -11,6 +11,10 @@ import es.developer.achambi.pkmng.core.db.model.pokemon_species;
 public interface PokemonDAO {
     @Query("select id, identifier from pokemon_species")
     List<pokemon_species> getPokemon();
+
+    @Query("select id, identifier from pokemon_species where identifier like :query")
+    List<pokemon_species> getPokemon( String query );
+
     @Query("select id, identifier from pokemon_species where id=:pokemonId")
     pokemon_species getPokemon(int pokemonId);
 }

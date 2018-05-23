@@ -19,4 +19,6 @@ public interface IPokemonDataAccess {
      * @throws IllegalIDException when an invalid id is requested
      */
     Pokemon accessPokemonData(int pokemonId) throws IllegalIDException;
+
+    ArrayList<Pokemon> queryData( String query );
 }

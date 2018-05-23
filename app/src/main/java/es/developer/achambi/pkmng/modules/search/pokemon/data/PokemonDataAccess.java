@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.data;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,5 +54,21 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         } else {
             return new Pokemon();
         }
+    }
+
+    @Override
+    public ArrayList<Pokemon> queryData(String query) {
+        List<pokemon_species> pokemonArray = pokemonDAO.getPokemon( query + "%" );
+        ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
+
+        for( pokemon_species currentPokemon : pokemonArray ) {
+            Pokemon pokemon = new Pokemon(currentPokemon.id);
+            pokemon.setName(currentPokemon.identifier);
+            pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
+            pokemon.setStats( statDataAccess.accessPokemonStatsData( currentPokemon.id ) );
+
+            pokemonList.add( pokemon );
+        }
+        return pokemonList;
     }
 }

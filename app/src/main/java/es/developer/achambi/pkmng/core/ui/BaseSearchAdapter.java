@@ -95,11 +95,9 @@ public class BaseSearchAdapter extends RecyclerView.Adapter{
     }
 
     public void updateData() {
-        ArrayList<SearchListData> dataList = adapter.getData();
+        ArrayList<SearchListData> dataList = adapter.buildData();
         data.beginBatchedUpdates();
-        for( SearchListData current : dataList  ) {
-            data.add( current );
-        }
+        data.replaceAll( dataList );
         data.endBatchedUpdates();
     }
 }
