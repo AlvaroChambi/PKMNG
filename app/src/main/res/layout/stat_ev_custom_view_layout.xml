@@ -17,7 +17,7 @@
         android:inputType="number"
         android:textSize="12sp"
         android:gravity="center"
-        app:layout_constraintRight_toLeftOf="@+id/ev_stat_total_value_text"
+        app:layout_constraintRight_toLeftOf="@+id/ev_stat_total_preview_value_text"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="255"
         android:saveEnabled="false"/>
@@ -34,7 +34,7 @@
         android:layout_marginTop="8dp" />
 
     <TextView
-        android:id="@+id/ev_stat_total_value_text"
+        android:id="@+id/ev_stat_total_preview_value_text"
         android:layout_width="28dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

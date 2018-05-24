@@ -4,7 +4,6 @@ import android.support.v4.util.Pair;
 
 import org.jetbrains.annotations.NotNull;
 
-import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
