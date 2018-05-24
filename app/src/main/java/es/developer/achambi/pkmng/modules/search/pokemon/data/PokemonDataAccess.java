@@ -16,6 +16,8 @@ public class PokemonDataAccess implements IPokemonDataAccess{
     private IStatDataAccess statDataAccess;
     private ITypeDataAccess typeDataAccess;
 
+    private ArrayList<Pokemon> cachedData;
+
     public PokemonDataAccess( PokemonDAO pokemonDAO,
                               IStatDataAccess statDataAccess,
                               ITypeDataAccess typeDataAccess ) {
@@ -26,6 +28,9 @@ public class PokemonDataAccess implements IPokemonDataAccess{
 
     @Override
     public ArrayList<Pokemon> accessData() {
+        if(cachedData != null) {
+            return cachedData;
+        }
         List<pokemon_species> pokemonArray = pokemonDAO.getPokemon();
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
         for( pokemon_species currentPokemon : pokemonArray ) {
@@ -36,6 +41,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
 
             pokemonList.add( pokemon );
         }
+        cachedData = pokemonList;
         return pokemonList;
     }
 
@@ -70,5 +76,10 @@ public class PokemonDataAccess implements IPokemonDataAccess{
             pokemonList.add( pokemon );
         }
         return pokemonList;
+    }
+
+    @Override
+    public void clearCache() {
+        cachedData = null;
     }
 }

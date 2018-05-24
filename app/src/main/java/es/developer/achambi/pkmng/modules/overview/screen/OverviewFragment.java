@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -34,7 +31,6 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.search.pokemon.adapter.PokemonSearchAdapter;
-import es.developer.achambi.pkmng.modules.overview.screen.adapter.PokemonSuggestionsAdapter;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 import es.developer.achambi.pkmng.core.ui.Presenter;

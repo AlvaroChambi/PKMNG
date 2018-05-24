@@ -21,4 +21,9 @@ public interface IPokemonDataAccess {
     Pokemon accessPokemonData(int pokemonId) throws IllegalIDException;
 
     ArrayList<Pokemon> queryData( String query );
+
+    /**
+     * Clears local memory cache
+     */
+    void clearCache();
 }
