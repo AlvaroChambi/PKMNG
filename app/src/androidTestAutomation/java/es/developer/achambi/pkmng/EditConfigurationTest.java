@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -220,6 +221,82 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 .check( matches( isDisplayed() ) );
         onView( withId(R.id.type_quick_details_bottom_text) ).inRoot( isPlatformPopup() )
                 .check( matches( isDisplayed() ) );
+    }
+
+    @Test
+    public void configurationHpStatValueUpdate() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .perform( clearText(), typeText( "252" ) );
+        Espresso.pressBack();
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText("252"),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText("142"),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+    }
+
+    @Test
+    public void configurationStatValueUpdatePositiveNature() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView(withId(R.id.configuration_nature_empty_state)).perform(click());
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .perform( clearText(), typeText( "252" ) );
+        Espresso.pressBack();
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText("252"),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText("117"),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+    }
+
+    @Test
+    public void configurationOutOfBounds() {
+        onView( withId(R.id.base_search_recycler_view) )
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .perform( clearText(), typeText( "252" ) );
+        Espresso.pressBack();
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .perform( clearText(), typeText( "252" ) );
+        Espresso.pressBack();
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .perform( clearText(), typeText( "66" ) );
+        Espresso.pressBack();
+
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText("6"),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText("61"),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
     }
 
     private void assertInitialValues() {

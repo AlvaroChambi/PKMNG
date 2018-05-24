@@ -98,18 +98,35 @@ public class CreateConfigurationTest extends BaseAutomationTest {
     @Test
     public void changeCurrentNatureTest() {
         onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(5, scrollTo()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(6, scrollTo()));
         onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(6, click()));
         onView(withId(R.id.details_create_config_action_button)).perform(click());
+
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText("72"),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText("63"),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.configuration_nature_empty_state)).perform(click());
 
         onView(withId(R.id.base_search_header_frame)).check(matches(not(isDisplayed())));
         onView( withId(R.id.base_search_recycler_view) )
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
 
-        onView(withText("hardy")).check(matches(isDisplayed()));
+        onView(withText("lonely")).check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText("79"),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText("56"),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .check(matches(isDisplayed()));
     }
 
     @Test
