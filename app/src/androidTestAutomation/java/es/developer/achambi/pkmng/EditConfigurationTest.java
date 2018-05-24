@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import es.developer.achambi.pkmng.core.AppWiring;
+import es.developer.achambi.pkmng.matcher.SeekBarProgressMatcher;
 import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
 import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.configuration.data.MockConfigurationDataAccess;
@@ -74,6 +75,10 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView( withText("ivysaur") ).check(matches(isDisplayed()));
 
         assertEmptyValues();
+        onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
+                withText( "83" ),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
     }
 
     @Test
@@ -319,6 +324,21 @@ public class EditConfigurationTest extends BaseAutomationTest {
         onView(withText("Grass knot"))
                 .perform(scrollTo())
                 .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(50) ));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(50) ));
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "50" ),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "50" ),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
     }
 
     private void assertEmptyValues() {
@@ -344,5 +364,49 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 isDescendantOfA(withId(R.id.configuration_move_3_frame)) ) )
                 .perform(scrollTo())
                 .check(matches(isDisplayed()));
+
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(0) ));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(0) ));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(0) ));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_sp_attack_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(0) ));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_sp_defense_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(0) ));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_speed_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(0) ));
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "" ),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "" ),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "" ),
+                isDescendantOfA( withId( R.id.configuration_defense_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "" ),
+                isDescendantOfA( withId( R.id.configuration_sp_attack_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "" ),
+                isDescendantOfA( withId( R.id.configuration_sp_defense_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                withText( "" ),
+                isDescendantOfA( withId( R.id.configuration_speed_ev_stat_bar ) ) ) )
+                .check(matches( isDisplayed() ));
     }
 }

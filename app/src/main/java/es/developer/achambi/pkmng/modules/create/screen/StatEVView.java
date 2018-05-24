@@ -182,14 +182,22 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         try {
-            this.value = Integer.valueOf( s.toString() );
-            totalValuePreviewText.setText( String.valueOf(
-                    progressProvider.requestTotalStatValuePreview( stat, value )
-            ) );
-            seekBar.setOnSeekBarChangeListener(null);
-            seekBar.setProgress(value);
-            seekBar.setOnSeekBarChangeListener(this);
-        } catch( NumberFormatException e ) { }
+            syncEvViewValues( Integer.valueOf( value ) );
+        } catch( NumberFormatException e ) {
+            if(s.equals("")) {
+                syncEvViewValues( 0 );
+            }
+        }
+    }
+
+    private void syncEvViewValues( int value ) {
+        this.value = value;
+        totalValuePreviewText.setText( String.valueOf(
+                progressProvider.requestTotalStatValuePreview( stat, value )
+        ) );
+        seekBar.setOnSeekBarChangeListener(null);
+        seekBar.setProgress(value);
+        seekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override

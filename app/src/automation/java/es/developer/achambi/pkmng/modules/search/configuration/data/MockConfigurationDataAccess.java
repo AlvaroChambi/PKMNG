@@ -165,6 +165,11 @@ public class MockConfigurationDataAccess implements IConfigurationDataAccess {
         move3.setEffect("Inflicts regular damage with no additional effect.");
         config.setMove3(move3);
 
+        StatsSet evs = new StatsSet();
+        evs.setHP(50);
+        evs.setAttack(50);
+        pokemonConfig.getConfiguration().setEvsSet(evs);
+
         return pokemonConfig;
     }
 
