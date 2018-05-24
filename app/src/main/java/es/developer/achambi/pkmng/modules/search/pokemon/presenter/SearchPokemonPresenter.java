@@ -49,7 +49,7 @@ public class SearchPokemonPresenter extends Presenter implements
         return pokemonDataList;
     }
 
-    public void fetchPokemonList(final ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
+    public void fetchPokemonList( final ResponseHandler<ArrayList<Pokemon>> responseHandler ) {
         setDataState(DataState.NOT_FINISHED);
         ResponseHandler handler =
                 new ResponseHandlerDecorator<ArrayList<Pokemon>>( responseHandler ) {
@@ -71,6 +71,33 @@ public class SearchPokemonPresenter extends Presenter implements
             @Override
             public Response perform() {
                 return new Response<>( pokemonDataAccess.accessData() );
+            }
+        }, handler );
+    }
+
+    public void fetchPokemonQuery(final ResponseHandler<ArrayList<Pokemon>> responseHandler,
+                                  final String query) {
+        setDataState(DataState.NOT_FINISHED);
+        ResponseHandler handler =
+                new ResponseHandlerDecorator<ArrayList<Pokemon>>( responseHandler ) {
+                    @Override
+                    public void onSuccess(Response<ArrayList<Pokemon>> response) {
+                        setDataState( DataState.SUCCESS );
+                        pokemonDataList = response.getData();
+                        super.onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        setDataState( DataState.ERROR );
+                        super.onError(error);
+                    }
+                };
+
+        request( new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( pokemonDataAccess.queryData( query ) );
             }
         }, handler );
     }

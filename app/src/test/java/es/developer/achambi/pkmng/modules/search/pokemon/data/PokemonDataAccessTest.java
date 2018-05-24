@@ -18,6 +18,8 @@ import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PokemonDataAccessTest {
@@ -86,6 +88,40 @@ public class PokemonDataAccessTest {
 
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.accessData();
 
+        assertTrue( pokemonList.isEmpty() );
+    }
+
+    @Test
+    public void queryPokemonData() {
+        ArrayList<pokemon_species> rawPokemonList = new ArrayList<>();
+        rawPokemonList.add( buildRawPokemon() );
+        when( mockDao.getPokemon( "query%" ) ).thenReturn( rawPokemonList );
+        when( mockStatDataAccess.accessPokemonStatsData( 1 ) ).thenReturn( new StatsSet() );
+        when( mockTypeDataAccess.accessPokemonTypeData( 1 ) ).thenReturn(
+                new Pair<>( Type.ELECTRIC, Type.WATER )  );
+
+        ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData( "query" );
+
+        verify(mockDao, times(1)).getPokemon("query%");
+        assertEquals( 1, pokemonList.size() );
+        assertPokemon( pokemonList.get(0) );
+    }
+
+    @Test
+    public void queryPokemonDataEmptyResult() {
+        when( mockDao.getPokemon("query%") ).thenReturn( new ArrayList<pokemon_species>() );
+
+        ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData("query");
+
+        verify(mockDao, times(1)).getPokemon("query%");
+        assertTrue( pokemonList.isEmpty() );
+    }
+
+    @Test
+    public void queryPokemonDataNullQuery() {
+        ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData(null);
+
+        verify(mockDao, times(0)).getPokemon("null%");
         assertTrue( pokemonList.isEmpty() );
     }
 

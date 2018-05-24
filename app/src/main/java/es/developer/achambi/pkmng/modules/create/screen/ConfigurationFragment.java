@@ -32,7 +32,6 @@ import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresente
 import es.developer.achambi.pkmng.modules.details.view.presentation.ConfigurationDetailsPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
-import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.screen.SearchAbilityActivity;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;

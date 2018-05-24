@@ -1,5 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.data;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class PokemonDataAccess implements IPokemonDataAccess{
     private IStatDataAccess statDataAccess;
     private ITypeDataAccess typeDataAccess;
 
+    private ArrayList<Pokemon> cachedData;
+
     public PokemonDataAccess( PokemonDAO pokemonDAO,
                               IStatDataAccess statDataAccess,
                               ITypeDataAccess typeDataAccess ) {
@@ -25,6 +28,9 @@ public class PokemonDataAccess implements IPokemonDataAccess{
 
     @Override
     public ArrayList<Pokemon> accessData() {
+        if(cachedData != null) {
+            return cachedData;
+        }
         List<pokemon_species> pokemonArray = pokemonDAO.getPokemon();
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
         for( pokemon_species currentPokemon : pokemonArray ) {
@@ -35,6 +41,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
 
             pokemonList.add( pokemon );
         }
+        cachedData = pokemonList;
         return pokemonList;
     }
 
@@ -53,5 +60,24 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         } else {
             return new Pokemon();
         }
+    }
+
+    @Override
+    public ArrayList<Pokemon> queryData(String query) {
+        if(query == null) {
+            return new ArrayList<>();
+        }
+        List<pokemon_species> pokemonArray = pokemonDAO.getPokemon( query + "%" );
+        ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
+
+        for( pokemon_species currentPokemon : pokemonArray ) {
+            Pokemon pokemon = new Pokemon(currentPokemon.id);
+            pokemon.setName(currentPokemon.identifier);
+            pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
+            pokemon.setStats( statDataAccess.accessPokemonStatsData( currentPokemon.id ) );
+
+            pokemonList.add( pokemon );
+        }
+        return pokemonList;
     }
 }

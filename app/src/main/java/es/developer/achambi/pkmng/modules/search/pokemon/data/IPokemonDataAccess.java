@@ -19,4 +19,11 @@ public interface IPokemonDataAccess {
      * @throws IllegalIDException when an invalid id is requested
      */
     Pokemon accessPokemonData(int pokemonId) throws IllegalIDException;
+
+    /**
+     * Access pokemon data of the instances whose identifiers starts with the given query string
+     * @param query text to perform the query, on a null query an empty result will be returned
+     * @return available data that starts with the given query
+     */
+    ArrayList<Pokemon> queryData( String query );
 }

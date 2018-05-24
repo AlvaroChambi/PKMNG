@@ -48,6 +48,11 @@ public class OverviewPresenter extends IOverviewPresenter {
         configurationPresenter.fetchConfigurationList( responseHandler );
     }
 
+    public void fetchPokemonQuery(ResponseHandler<ArrayList<Pokemon>> responseHandler,
+                                  String query) {
+        pokemonPresenter.fetchPokemonQuery( responseHandler, query );
+    }
+
     @Override
     public DataState getDataState() {
         if( pokemonPresenter.getDataState() == DataState.NOT_FINISHED ||

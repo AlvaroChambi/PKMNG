@@ -23,7 +23,7 @@ public class OverviewTest extends BaseAutomationTest {
     @PerfTest
     public void test() {
         onView(withId(R.id.base_search_recycler_view)).check(matches(isDisplayed()));
-        RecyclerView recyclerView = (RecyclerView) customActivityTestRule.getActivity()
+        RecyclerView recyclerView = customActivityTestRule.getActivity()
                 .findViewById(R.id.base_search_recycler_view);
 
         RecyclerView.SmoothScroller smoothScroller =
