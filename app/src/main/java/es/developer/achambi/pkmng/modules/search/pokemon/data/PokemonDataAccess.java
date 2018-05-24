@@ -64,6 +64,9 @@ public class PokemonDataAccess implements IPokemonDataAccess{
 
     @Override
     public ArrayList<Pokemon> queryData(String query) {
+        if(query == null) {
+            return new ArrayList<>();
+        }
         List<pokemon_species> pokemonArray = pokemonDAO.getPokemon( query + "%" );
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
 
@@ -76,10 +79,5 @@ public class PokemonDataAccess implements IPokemonDataAccess{
             pokemonList.add( pokemon );
         }
         return pokemonList;
-    }
-
-    @Override
-    public void clearCache() {
-        cachedData = null;
     }
 }

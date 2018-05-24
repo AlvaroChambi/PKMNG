@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.Response;
@@ -85,7 +84,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 requestManager );
         configurationSearchAdapter.setListener( presenter.getConfigurationPresenter() );
 
-        return pokemonSearchAdapter;
+        return configurationSearchAdapter;
     }
 
     @Override
@@ -156,37 +155,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 configuration, DetailsUseContext.SELECT_CONTEXT );
         configDetails.setTargetFragment( this, UPDATE_CONFIGURATION_REQUEST_CODE );
         configDetails.show( transaction, CONFIGURATION_DETAILS_DIALOG_TAG );
-    }
-
-    @Override
-    public void onQueryTextSubmitted(String query) {
-        presenter.fetchPokemonQuery(new ResponseHandler<ArrayList<Pokemon>>() {
-            @Override
-            public void onSuccess(Response<ArrayList<Pokemon>> response) {
-                OverviewFragment.super.doRequest();
-                pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
-                        getActivity(), response.getData() ) );
-                presentAdapterData();
-                hideLoading();
-            }
-
-            @Override
-            public void onError(Error error) {
-                super.onError(error);
-                showError( error );
-            }
-        }, query);
-    }
-
-    @Override
-    public void onSearchFinished() {
-        super.onSearchFinished();
-        doRequest();
-    }
-
-    @Override
-    public int getSearchHintResource() {
-        return R.string.search_overview_hint;
     }
 
     @Override

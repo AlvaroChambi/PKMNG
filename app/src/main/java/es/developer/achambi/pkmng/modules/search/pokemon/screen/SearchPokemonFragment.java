@@ -7,9 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -144,6 +141,37 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
     @Override
     public Lifecycle screenLifecycle() {
         return getLifecycle();
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        presenter.fetchPokemonQuery(new ResponseHandler<ArrayList<Pokemon>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Pokemon>> response) {
+                SearchPokemonFragment.super.doRequest();
+                adapter.setData( PresentationBuilder.buildPresentation(
+                        getActivity(), response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+                showError( error );
+            }
+        }, query);
+    }
+
+    @Override
+    public void onSearchFinished() {
+        super.onSearchFinished();
+        doRequest();
+    }
+
+    @Override
+    public int getSearchHintResource() {
+        return R.string.search_pokemon_hint;
     }
 
     private static class PresentationBuilder {

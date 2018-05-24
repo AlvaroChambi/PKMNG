@@ -20,10 +20,10 @@ public interface IPokemonDataAccess {
      */
     Pokemon accessPokemonData(int pokemonId) throws IllegalIDException;
 
-    ArrayList<Pokemon> queryData( String query );
-
     /**
-     * Clears local memory cache
+     * Access pokemon data of the instances whose identifiers starts with the given query string
+     * @param query text to perform the query, on a null query an empty result will be returned
+     * @return available data that starts with the given query
      */
-    void clearCache();
+    ArrayList<Pokemon> queryData( String query );
 }
