@@ -107,7 +107,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 showError( error );
             }
         });
-
         presenter.fetchConfigurationList(
                 new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
@@ -184,6 +183,53 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public Lifecycle screenLifecycle() {
         return getLifecycle();
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        presenter.fetchPokemonQuery( query,
+                new ResponseHandler<ArrayList<Pokemon>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Pokemon>> response) {
+                pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
+                        getActivity(), response.getData() ) );
+                if( presenter.getDataState() == DataState.SUCCESS ) {
+                    presentAdapterData();
+                    hideLoading();
+                }
+            }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+                showError( error );
+            }
+        });
+
+        presenter.fetchConfigurationQuery( query,
+                new ResponseHandler<ArrayList<PokemonConfig>>() {
+                    @Override
+                    public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
+                        configurationSearchAdapter.setData(
+                                PresentationBuilder.buildConfigurationPresentation(
+                                        getActivity(), response.getData() ) );
+                        if( presenter.getDataState() == DataState.SUCCESS ) {
+                            presentAdapterData();
+                            hideLoading();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        super.onError(error);
+                        showError( error );
+                    }
+                });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        doRequest();
     }
 
     private static class PresentationBuilder {
