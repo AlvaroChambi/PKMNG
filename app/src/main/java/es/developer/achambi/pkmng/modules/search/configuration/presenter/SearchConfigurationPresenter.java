@@ -35,6 +35,33 @@ public class SearchConfigurationPresenter extends Presenter implements
         this.dataAccess = dataAccess;
     }
 
+    public void fetchConfigurationsQuery( final String query,
+            final ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
+        setDataState( DataState.NOT_FINISHED );
+        ResponseHandler handler = new ResponseHandlerDecorator<ArrayList<PokemonConfig>>(
+                responseHandler) {
+            @Override
+            public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
+                setDataState( DataState.SUCCESS );
+                pokemonConfigList = response.getData();
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onError(Error error) {
+                setDataState( DataState.ERROR );
+                super.onError(error);
+            }
+        };
+
+        request(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( dataAccess.queryConfigurationData( query ) );
+            }
+        }, handler );
+    }
+
     public void fetchConfigurationList(
             final ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
         setDataState( DataState.NOT_FINISHED );

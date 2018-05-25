@@ -110,6 +110,30 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
     }
 
     @Override
+    public int getSearchHintResource() {
+        return R.string.search_configuration_hint;
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        presenter.fetchConfigurationsQuery( query,
+                new ResponseHandler<ArrayList<PokemonConfig>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
+                adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
+                        response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        doRequest();
+    }
+
+    @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         adapter.setData( PresentationBuilder.buildPresentation( getActivity(),

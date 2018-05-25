@@ -21,6 +21,11 @@ public class MockErrorConfigurationDataAccess implements IConfigurationDataAcces
     }
 
     @Override
+    public ArrayList<PokemonConfig> queryConfigurationData(String query) {
+        return null;
+    }
+
+    @Override
     public int insertConfiguration(PokemonConfig configuration) throws RuntimeException {
         throw new SQLException("Failed to create configuration");
     }

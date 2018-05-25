@@ -23,6 +23,13 @@ public class MockConfigurationDataAccess implements IConfigurationDataAccess {
     }
 
     @Override
+    public ArrayList<PokemonConfig> queryConfigurationData(String query) {
+        ArrayList<PokemonConfig> list = new ArrayList<>(  );
+        list.add( buildDamageConfiguration() );
+        return list;
+    }
+
+    @Override
     public int insertConfiguration(PokemonConfig configuration) {
         return STATIC_ID++;
     }
@@ -114,7 +121,7 @@ public class MockConfigurationDataAccess implements IConfigurationDataAccess {
         pokemonConfig.setId(1);
         pokemonConfig.setPokemon(pokemon);
         pokemonConfig.setConfiguration(config);
-        pokemonConfig.setName("Special");
+        pokemonConfig.setName("Filled");
         Item item = new Item();
         item.setId(101);
         item.setName("eviolite");

@@ -12,6 +12,13 @@ public interface IConfigurationDataAccess {
     ArrayList<PokemonConfig> accessConfigurationData();
 
     /**
+     * Access configuration data of the instances whose name starts with the given query string
+     * @param query text to perform the query, on a null query an empty result will be returned
+     * @return available data that stats with the given query
+     */
+    ArrayList<PokemonConfig> queryConfigurationData( String query );
+
+    /**
      * Creates a new configuration for the given PokemonConfig
      * @param configuration to be created
      * @return if successful, id of the created configuration.
