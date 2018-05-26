@@ -87,13 +87,12 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
         super.onViewSetup(view, savedInstanceState);
         if( presenter.getDataState() == DataState.EMPTY
                 || presenter.getDataState() == DataState.NOT_FINISHED ) {
-            doRequest();
+            loadPokemonListData();
         }
     }
 
-    @Override
-    public void doRequest() {
-        super.doRequest();
+    private void loadPokemonListData() {
+        startLoading();
         presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> response) {
@@ -105,14 +104,14 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
             @Override
             public void onError(Error error) {
-               showError( error );
+                showError( error );
             }
         });
     }
 
     @Override
     public void onRetry() {
-        doRequest();
+        loadPokemonListData();
     }
 
     @Override
@@ -145,10 +144,10 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void onQueryTextSubmitted(String query) {
+        startLoading();
         presenter.fetchPokemonQuery(new ResponseHandler<ArrayList<Pokemon>>() {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> response) {
-                SearchPokemonFragment.super.doRequest();
                 adapter.setData( PresentationBuilder.buildPresentation(
                         getActivity(), response.getData() ) );
                 presentAdapterData();
@@ -165,8 +164,7 @@ public class SearchPokemonFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void onSearchFinished() {
-        super.onSearchFinished();
-        doRequest();
+        loadPokemonListData();
     }
 
     @Override

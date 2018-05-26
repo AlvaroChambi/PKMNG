@@ -351,7 +351,7 @@ public class ConfigurationFragment extends BaseRequestFragment
     }
 
     private void saveConfigurationRequest( String configurationName ) {
-       doRequest(TRANSPARENT_LOADING_BACKGROUND);
+       startLoading(TRANSPARENT_LOADING_BACKGROUND);
        presenter.saveConfigurationRequest( configurationName,
                new ResponseHandler<ConfigurationAction>() {
            @Override

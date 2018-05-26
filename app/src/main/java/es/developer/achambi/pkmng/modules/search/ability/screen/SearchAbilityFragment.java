@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
@@ -82,7 +81,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
         if( !isViewRecreated() ) {
-            doRequest();
+            startLoading();
         }
     }
 
@@ -96,8 +95,8 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     }
 
     @Override
-    public void doRequest() {
-        super.doRequest();
+    public void startLoading() {
+        super.startLoading();
         presenter.fetchAbilities( pokemonId,
                 new ResponseHandler<ArrayList<Ability>>() {
             @Override
