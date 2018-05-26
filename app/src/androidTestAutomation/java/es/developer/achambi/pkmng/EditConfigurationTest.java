@@ -243,10 +243,21 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 withText("252"),
                 isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
                 .check(matches(isDisplayed()));
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(252) ));
         onView( allOf( withId(R.id.ev_stat_total_preview_value_text),
                 withText("142"),
                 isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
                 .check(matches( isDisplayed() ));
+
+        onView( allOf( withId(R.id.ev_stat_value_text),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .perform( clearText(), typeText( "0" ) );
+        Espresso.pressBack();
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_hp_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(0) ));
     }
 
     @Test
@@ -264,6 +275,9 @@ public class EditConfigurationTest extends BaseAutomationTest {
                 .perform( clearText(), typeText( "252" ) );
         Espresso.pressBack();
 
+        onView( allOf( withId(R.id.ev_stat_seekbar),
+                isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )
+                .check(matches( SeekBarProgressMatcher.withSeekBarProgress(252) ));
         onView( allOf( withId(R.id.ev_stat_value_text),
                 withText("252"),
                 isDescendantOfA( withId( R.id.configuration_attack_ev_stat_bar ) ) ) )

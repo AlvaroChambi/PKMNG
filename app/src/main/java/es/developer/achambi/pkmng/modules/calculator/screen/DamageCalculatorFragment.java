@@ -19,7 +19,6 @@ import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
-import es.developer.achambi.pkmng.core.ui.BaseFragment;
 import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.FloatingActionMenu;
 import es.developer.achambi.pkmng.core.ui.Presenter;
@@ -301,7 +300,7 @@ public class DamageCalculatorFragment extends BaseRequestFragment implements Vie
 
         switch ( id ) {
             case R.id.configuration_floating_save_button_left:
-                doRequest(TRANSPARENT_LOADING_BACKGROUND);
+                startLoading(TRANSPARENT_LOADING_BACKGROUND);
                 presenter.saveLeftConfiguration(new ResponseHandler<ConfigurationAction>() {
                     @Override
                     public void onSuccess(Response<ConfigurationAction> response) {
@@ -321,7 +320,7 @@ public class DamageCalculatorFragment extends BaseRequestFragment implements Vie
                 });
                 break;
             case R.id.configuration_floating_save_button_right:
-                doRequest(TRANSPARENT_LOADING_BACKGROUND);
+                startLoading(TRANSPARENT_LOADING_BACKGROUND);
                 presenter.saveRightConfiguration(new ResponseHandler<ConfigurationAction>() {
                     @Override
                     public void onSuccess(Response<ConfigurationAction> response) {

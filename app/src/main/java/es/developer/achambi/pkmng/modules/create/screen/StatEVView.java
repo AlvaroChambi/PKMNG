@@ -182,9 +182,9 @@ public class StatEVView extends ConstraintLayout implements SeekBar.OnSeekBarCha
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         try {
-            syncEvViewValues( Integer.valueOf( value ) );
+            syncEvViewValues( Integer.valueOf( s.toString() ) );
         } catch( NumberFormatException e ) {
-            if(s.equals("")) {
+            if(s.toString().equals("")) {
                 syncEvViewValues( 0 );
             }
         }

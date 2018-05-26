@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
@@ -79,7 +78,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
         if( !isViewRecreated() ) {
-            doRequest();
+            startLoading();
         }
     }
 
@@ -93,7 +92,7 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     }
 
     @Override
-    public void doRequest() {
+    public void startLoading() {
         presenter.fetchNatureList(new ResponseHandler<ArrayList<Nature>>() {
             @Override
             public void onSuccess(Response<ArrayList<Nature>> response) {

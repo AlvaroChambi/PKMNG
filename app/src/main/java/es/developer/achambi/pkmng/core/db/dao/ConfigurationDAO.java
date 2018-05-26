@@ -13,6 +13,9 @@ import es.developer.achambi.pkmng.core.db.model.configurations;
 public interface ConfigurationDAO {
     @Query("select * from configurations")
     List<configurations> getConfigurations();
+    @Query("select * from configurations where name like :query")
+    List<configurations> queryConfigurations(String query);
+
     @Insert
     long insert(configurations configuration);
     @Update

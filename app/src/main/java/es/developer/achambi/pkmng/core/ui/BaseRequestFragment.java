@@ -9,7 +9,7 @@ import es.developer.achambi.pkmng.core.threading.Error;
 
 public abstract class BaseRequestFragment extends BaseFragment implements View.OnClickListener {
     public static final float TRANSPARENT_LOADING_BACKGROUND = 0.4f;
-    public void doRequest() {
+    public void startLoading() {
         View loadingFrame = getView().findViewById(getLoadingFrame());
         View background = loadingFrame.findViewById(R.id.base_request_background);
         background.setOnClickListener(this);//meant to catch any click action while it's visible
@@ -21,8 +21,12 @@ public abstract class BaseRequestFragment extends BaseFragment implements View.O
         loadingFrame.findViewById( R.id.base_request_retry_text ).setVisibility(View.GONE);
     }
 
-    public void doRequest( float backgroundAlpha ) {
-        doRequest();
+    /**
+     * Start loading animation applying the given alpha to the background
+     * @param backgroundAlpha
+     */
+    public void startLoading(float backgroundAlpha ) {
+        startLoading();
         View loadingFrame = getView().findViewById(getLoadingFrame());
         View background = loadingFrame.findViewById(R.id.base_request_background);
         background.setAlpha( backgroundAlpha );

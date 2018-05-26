@@ -12,7 +12,6 @@ public class SeekBarProgressMatcher {
         return new BoundedMatcher<View, SeekBar>(SeekBar.class) {
             @Override
             public void describeTo(Description description) {
-                description.appendText("expected: ");
                 description.appendText("" + expectedProgress);
             }
 

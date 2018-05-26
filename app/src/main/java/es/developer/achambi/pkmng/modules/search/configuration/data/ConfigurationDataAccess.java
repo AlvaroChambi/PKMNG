@@ -46,22 +46,21 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
         ArrayList<PokemonConfig> configurationsResult = new ArrayList<>();
         List<configurations> rawConfigurations = configurationDAO.getConfigurations();
         for (configurations currentRaw : rawConfigurations) {
-            Pokemon pokemon = pokemonDataAccess.accessPokemonData( currentRaw.pokemon_id );
-            Configuration configuration = new Configuration();
-            configuration.setEvsSet( statDataAccess.accessEvsSetData( currentRaw.id ) );
-            configuration.setMove0( moveDataAccess.accessMoveData( currentRaw.move_0_id ) );
-            configuration.setMove1( moveDataAccess.accessMoveData( currentRaw.move_1_id ) );
-            configuration.setMove2( moveDataAccess.accessMoveData( currentRaw.move_2_id ) );
-            configuration.setMove3( moveDataAccess.accessMoveData( currentRaw.move_3_id ) );
-            configuration.setItem( itemDataAccess.accessItemData( currentRaw.item_id ) );
-            configuration.setNature( natureDataAccess.accessNatureData( currentRaw.nature_id ) );
-            configuration.setAbility( abilityDataAccess.accessAbilityData( currentRaw.ability_id ) );
-            PokemonConfig pokemonConfig = new PokemonConfig();
-            pokemonConfig.setId( currentRaw.id );
-            pokemonConfig.setName( currentRaw.name );
-            pokemonConfig.setConfiguration( configuration );
-            pokemonConfig.setPokemon( pokemon );
-            configurationsResult.add( pokemonConfig );
+            configurationsResult.add( buildConfiguration( currentRaw ) );
+        }
+        return configurationsResult;
+    }
+
+    @Override
+    public ArrayList<PokemonConfig> queryConfigurationData( String query ) {
+        if( query == null ) {
+            return new ArrayList<>();
+        }
+        ArrayList<PokemonConfig> configurationsResult = new ArrayList<>();
+        List<configurations> rawConfigurations =
+                configurationDAO.queryConfigurations( query + "%" );
+        for (configurations currentRaw : rawConfigurations) {
+            configurationsResult.add( buildConfiguration( currentRaw ) );
         }
         return configurationsResult;
     }
@@ -86,6 +85,26 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
         }
         statDataAccess.updateStatsSet( configuration.getId(), configuration.getStatsSet() );
         configurationDAO.update( cast(configuration) );
+    }
+
+    private PokemonConfig buildConfiguration( configurations currentRaw ) {
+        Pokemon pokemon = pokemonDataAccess.accessPokemonData( currentRaw.pokemon_id );
+        Configuration configuration = new Configuration();
+        configuration.setEvsSet( statDataAccess.accessEvsSetData( currentRaw.id ) );
+        configuration.setMove0( moveDataAccess.accessMoveData( currentRaw.move_0_id ) );
+        configuration.setMove1( moveDataAccess.accessMoveData( currentRaw.move_1_id ) );
+        configuration.setMove2( moveDataAccess.accessMoveData( currentRaw.move_2_id ) );
+        configuration.setMove3( moveDataAccess.accessMoveData( currentRaw.move_3_id ) );
+        configuration.setItem( itemDataAccess.accessItemData( currentRaw.item_id ) );
+        configuration.setNature( natureDataAccess.accessNatureData( currentRaw.nature_id ) );
+        configuration.setAbility( abilityDataAccess.accessAbilityData( currentRaw.ability_id ) );
+        PokemonConfig pokemonConfig = new PokemonConfig();
+        pokemonConfig.setId( currentRaw.id );
+        pokemonConfig.setName( currentRaw.name );
+        pokemonConfig.setConfiguration( configuration );
+        pokemonConfig.setPokemon( pokemon );
+
+        return pokemonConfig;
     }
 
     private configurations cast(PokemonConfig configuration) {

@@ -63,7 +63,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         super.onViewSetup(view, savedInstanceState);
         if( presenter.getDataState() == DataState.EMPTY
                 || presenter.getDataState() == DataState.NOT_FINISHED ) {
-            doRequest();
+            loadOverviewListData();
         }
     }
 
@@ -87,9 +87,8 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
         return configurationSearchAdapter;
     }
 
-    @Override
-    public void doRequest() {
-        super.doRequest();
+    private void loadOverviewListData() {
+        startLoading();
         presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
             @Override
             public void onSuccess(Response<ArrayList<Pokemon>> response) {
@@ -107,14 +106,12 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 showError( error );
             }
         });
-
-        presenter.fetchConfigurationList(
-                new ResponseHandler<ArrayList<PokemonConfig>>() {
+        presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
                 configurationSearchAdapter.setData(
                         PresentationBuilder.buildConfigurationPresentation(
-                        getActivity(), response.getData() ) );
+                                getActivity(), response.getData() ) );
                 if( presenter.getDataState() == DataState.SUCCESS ) {
                     presentAdapterData();
                     hideLoading();
@@ -184,6 +181,52 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public Lifecycle screenLifecycle() {
         return getLifecycle();
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        startLoading();
+        presenter.fetchPokemonQuery( query, new ResponseHandler<ArrayList<Pokemon>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Pokemon>> response) {
+                pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
+                        getActivity(), response.getData() ) );
+                if( presenter.getDataState() == DataState.SUCCESS ) {
+                    presentAdapterData();
+                    hideLoading();
+                }
+            }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+                showError( error );
+            }
+        });
+
+        presenter.fetchConfigurationQuery( query, new ResponseHandler<ArrayList<PokemonConfig>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
+                configurationSearchAdapter.setData(
+                        PresentationBuilder.buildConfigurationPresentation(
+                                getActivity(), response.getData() ) );
+                if( presenter.getDataState() == DataState.SUCCESS ) {
+                    presentAdapterData();
+                    hideLoading();
+                }
+            }
+
+            @Override
+            public void onError(Error error) {
+                super.onError(error);
+                showError( error );
+            }
+        });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        loadOverviewListData();
     }
 
     private static class PresentationBuilder {

@@ -42,7 +42,7 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
         onView( withId(R.id.base_search_recycler_view) )
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
         onView(withId(R.id.details_damage_calculator_action_button)).perform(click());
-        onView(allOf( withId(R.id.left_pokemon_configuration_name), withText("Special")))
+        onView(allOf( withId(R.id.left_pokemon_configuration_name), withText("Filled")))
                 .check(matches(isDisplayed()));
         onView(withText(R.string.damage_calculator_empty_opponent_text)).check(matches(isDisplayed()));
         onView(withId(R.id.left_pokemon_image_view)).perform(click());
@@ -92,7 +92,7 @@ public class DamageCalculatorUITest extends BaseAutomationTest {
                 .perform( RecyclerViewActions.actionOnItemAtPosition( 0,click() ) );
         onView( withId(R.id.details_choose_configuration_action_button) ).perform(click());
 
-        onView(allOf( withId(R.id.right_pokemon_configuration_name), withText("Special") ))
+        onView(allOf( withId(R.id.right_pokemon_configuration_name), withText("Filled") ))
                 .check(matches(isDisplayed()));
 
         onView(withText(R.string.damage_calculator_damage_result_title))

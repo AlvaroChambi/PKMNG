@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
@@ -82,7 +81,7 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
         super.onViewSetup(view, savedInstanceState);
         if( presenter.getDataState() == DataState.EMPTY
                 || presenter.getDataState() == DataState.NOT_FINISHED ) {
-            doRequest();
+            loadConfigurationData();
         }
     }
 
@@ -95,9 +94,8 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
         return presenter;
     }
 
-    @Override
-    public void doRequest() {
-        super.doRequest();
+    private void loadConfigurationData() {
+        startLoading();
         presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
@@ -107,6 +105,30 @@ public class SearchConfigurationFragment extends BaseSearchListFragment
                 hideLoading();
             }
         });
+    }
+
+    @Override
+    public int getSearchHintResource() {
+        return R.string.search_configuration_hint;
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        startLoading();
+        presenter.fetchConfigurationsQuery( query, new ResponseHandler<ArrayList<PokemonConfig>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
+                adapter.setData( PresentationBuilder.buildPresentation( getActivity(),
+                        response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        loadConfigurationData();
     }
 
     @Override
