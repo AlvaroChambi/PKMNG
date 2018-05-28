@@ -51,6 +51,26 @@ public class SearchAbilityPresenter extends ISearchAbilityPresenter
         }, handler);
     }
 
+    @Override
+    public void fetchAbilitiesQuery(final int pokemonId, final String query,
+                                    final ResponseHandler<ArrayList<Ability>> responseHandler) {
+        ResponseHandler<ArrayList<Ability>> handler =
+                new ResponseHandlerDecorator<ArrayList<Ability>>( responseHandler ) {
+                    @Override
+                    public void onSuccess(Response<ArrayList<Ability>> response) {
+                        data = response.getData();
+                        responseHandler.onSuccess( response );
+                    }
+                };
+
+        request(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( dataAccess.accessAbilitiesQuery( pokemonId, query ) );
+            }
+        }, handler);
+    }
+
     public ArrayList<Ability> getAbilityList() {
         return data;
     }

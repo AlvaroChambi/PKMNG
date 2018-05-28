@@ -11,23 +11,29 @@ import es.developer.achambi.pkmng.modules.search.item.model.Item;
 public class ItemDataAccess implements IItemDataAccess{
     private ItemDAO itemDAO;
 
+    private ArrayList<Item> cachedData;
+
     public ItemDataAccess( ItemDAO itemDAO ) {
         this.itemDAO = itemDAO;
     }
 
     @Override
     public ArrayList<Item> accessData() {
-        List<item_value> itemsArray = itemDAO.getItems();
-        ArrayList<Item> items = new ArrayList<>( itemsArray.size() );
-        for( item_value currentItem : itemsArray ) {
-            Item item = new Item();
-            item.setId( currentItem.id );
-            item.setName( currentItem.name );
-            item.setDescriptionShort( currentItem.shortEffect );
-            item.setDescription( currentItem.effect );
-            items.add(item);
+        if(cachedData != null) {
+            return cachedData;
         }
-        return items;
+        List<item_value> rawItems = itemDAO.getItems();
+        cachedData = buildItemsList( rawItems );
+        return cachedData;
+    }
+
+    @Override
+    public ArrayList<Item> queryItemData(String query) {
+        if( query == null ) {
+            return new ArrayList<>();
+        }
+        List<item_value> rawItems = itemDAO.queryItems( query + "%" );
+        return buildItemsList( rawItems );
     }
 
     @Override
@@ -47,5 +53,18 @@ public class ItemDataAccess implements IItemDataAccess{
             item.setDescription( rawItem.effect );
         }
         return item;
+    }
+
+    private ArrayList<Item> buildItemsList( List<item_value> rawItems ) {
+        ArrayList<Item> items = new ArrayList<>( rawItems.size() );
+        for( item_value currentItem : rawItems ) {
+            Item item = new Item();
+            item.setId( currentItem.id );
+            item.setName( currentItem.name );
+            item.setDescriptionShort( currentItem.shortEffect );
+            item.setDescription( currentItem.effect );
+            items.add(item);
+        }
+        return items;
     }
 }

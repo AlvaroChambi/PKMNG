@@ -22,17 +22,16 @@ public class NatureDataAccess implements INatureDataAccess {
     @Override
     public ArrayList<Nature> accessData() {
         List<natures> rawNatures = naturesDAO.getNatures();
-        ArrayList<Nature> naturesList = new ArrayList<>(rawNatures.size());
-        for ( natures rawNature : rawNatures ) {
-            Nature nature = new Nature();
-            nature.setId( rawNature.id );
-            nature.setName( rawNature.identifier );
-            nature.setIncreasedStat( statDataAccess.accessStatData( rawNature.increased_stat_id ) );
-            nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
+        return buildNaturesList( rawNatures );
+    }
 
-            naturesList.add(nature);
+    @Override
+    public ArrayList<Nature> accessNatureQueryData( String query ) {
+        if( query == null ) {
+            return new ArrayList<>();
         }
-        return naturesList;
+        List<natures> rawNatures = naturesDAO.queryNatures( query + "%" );
+        return buildNaturesList( rawNatures );
     }
 
     @Override
@@ -52,5 +51,19 @@ public class NatureDataAccess implements INatureDataAccess {
             nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
         }
         return nature;
+    }
+
+    private ArrayList<Nature> buildNaturesList( List<natures> rawNatures ) {
+        ArrayList<Nature> naturesList = new ArrayList<>(rawNatures.size());
+        for ( natures rawNature : rawNatures ) {
+            Nature nature = new Nature();
+            nature.setId( rawNature.id );
+            nature.setName( rawNature.identifier );
+            nature.setIncreasedStat( statDataAccess.accessStatData( rawNature.increased_stat_id ) );
+            nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
+
+            naturesList.add(nature);
+        }
+        return naturesList;
     }
 }

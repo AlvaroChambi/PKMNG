@@ -14,6 +14,8 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class NatureDataAccessTest {
@@ -84,6 +86,39 @@ public class NatureDataAccessTest {
 
         ArrayList<Nature> natures = natureDataAccess.accessData();
 
+        assertTrue( natures.isEmpty() );
+    }
+
+    @Test
+    public void accessQueryData() {
+        when( mockStatDataAccess.accessStatData( 5 ) ).thenReturn( Stat.ATTACK );
+        when( mockStatDataAccess.accessStatData( 10 ) ).thenReturn( Stat.DEFENSE );
+        ArrayList<natures> rawNatures = new ArrayList<>();
+        rawNatures.add( buildRawNature() );
+        when( mockDao.queryNatures( "query%" ) ).thenReturn( rawNatures );
+
+        ArrayList<Nature> natures = natureDataAccess.accessNatureQueryData( "query" );
+
+        verify( mockDao, times(1) ).queryNatures( "query%" );
+        assertEquals( 1, natures.size() );
+        assertNature( natures.get(0) );
+    }
+
+    @Test
+    public void accessQueryDataEmptyResult() {
+        when( mockDao.queryNatures( "query%" ) ).thenReturn( new ArrayList<natures>() );
+
+        ArrayList<Nature> natures = natureDataAccess.accessNatureQueryData( "query" );
+
+        verify( mockDao, times(1) ).queryNatures( "query%" );
+        assertTrue( natures.isEmpty() );
+    }
+
+    @Test
+    public void accessQueryDataNullQuery() {
+        ArrayList<Nature> natures = natureDataAccess.accessNatureQueryData( null );
+
+        verify(mockDao, times(0)).queryNatures("null%");
         assertTrue( natures.isEmpty() );
     }
 

@@ -12,6 +12,8 @@ import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class AbilityDataAccessTest {
@@ -87,6 +89,49 @@ public class AbilityDataAccessTest {
     @Test(expected = IllegalIDException.class)
     public void accessAbilitiesIDNegative() {
         abilityDataAccess.accessAbilities( -1 );
+    }
+
+    @Test
+    public void accessQueryData() {
+        ArrayList<ability_value> rawAbilities = new ArrayList<>();
+        rawAbilities.add( buildRawAbility() );
+        when( mockDao.getAbilitiesQuery( 1, "query%" ) ).thenReturn( rawAbilities );
+
+        ArrayList<Ability> abilities = abilityDataAccess.accessAbilitiesQuery( 1,
+                "query" );
+
+        verify(mockDao, times(1)).getAbilitiesQuery(1,
+                "query%");
+        assertEquals(1, abilities.size());
+        assertAbility( abilities.get(0) );
+    }
+
+    @Test
+    public void accessQueryDataEmptyResult() {
+        when( mockDao.getAbilitiesQuery(1, "query%") )
+                .thenReturn(new ArrayList<ability_value>());
+
+        ArrayList<Ability> abilities = abilityDataAccess.accessAbilitiesQuery(1,
+                "query");
+
+        verify(mockDao, times(1)).getAbilitiesQuery(1,
+                "query%");
+        assertTrue( abilities.isEmpty() );
+    }
+
+    @Test
+    public void accessQueryDataNullQuery() {
+        ArrayList<Ability> abilities = abilityDataAccess.accessAbilitiesQuery(1,
+                null);
+
+        verify(mockDao, times(0)).getAbilitiesQuery(1,
+                "null%");
+        assertTrue( abilities.isEmpty() );
+    }
+
+    @Test(expected = IllegalIDException.class)
+    public void accessQueryDataInvalidID() {
+        abilityDataAccess.accessAbilitiesQuery(-1, "query");
     }
 
     private void assertAbility( Ability ability ) {

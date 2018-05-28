@@ -17,6 +17,14 @@ public interface AbilitiesDAO {
     List<ability_value> getPokemonAbilities( int pokemonId );
 
     @Query("select abilities.id, abilities.identifier, effect, short_effect " +
+            "from pokemon_abilities " +
+            "join abilities on abilities.id = pokemon_abilities.ability_id " +
+            "join ability_prose on abilities.id = ability_prose.ability_id " +
+            "where pokemon_abilities.pokemon_id = :pokemonId " +
+            "and abilities.identifier like :query" )
+    List<ability_value> getAbilitiesQuery( int pokemonId, String query );
+
+    @Query("select abilities.id, abilities.identifier, effect, short_effect " +
             "from abilities " +
             "join ability_prose on abilities.id = ability_prose.ability_id " +
             "where abilities.id = :abilityId" )

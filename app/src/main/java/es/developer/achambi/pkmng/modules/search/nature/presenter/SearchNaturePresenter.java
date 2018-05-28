@@ -63,6 +63,26 @@ public class SearchNaturePresenter extends ISearchNaturePresenter
     }
 
     @Override
+    public void fetchNatureQueryList(final String query,
+                                     final ResponseHandler<ArrayList<Nature>> responseHandler) {
+        ResponseHandler<ArrayList<Nature>> handler = new ResponseHandlerDecorator<ArrayList<Nature>>(
+                responseHandler) {
+            @Override
+            public void onSuccess(Response<ArrayList<Nature>> response) {
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+        };
+
+        request(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( dataAccess.accessNatureQueryData(query) );
+            }
+        }, handler);
+    }
+
+    @Override
     public void onItemClicked(SearchNaturePresentation item) {
         for( Nature nature : data ) {
             if( item.id == nature.getId() ) {

@@ -4,6 +4,9 @@
     <string name="search_default_hint">Search</string>
     <string name="search_pokemon_hint">Search pokemon</string>
     <string name="search_configuration_hint">Search configuration</string>
+    <string name="search_item_hint">Search item</string>
+    <string name="search_nature_hint">Search nature</string>
+    <string name="search_ability_hint">Search ability</string>
     <string name="overview_activity_title">Overview</string>
     <string name="damage_calculator_activity_title">Damage Calculator</string>
     <string name="create_config_activity_title">Create Configuration</string>

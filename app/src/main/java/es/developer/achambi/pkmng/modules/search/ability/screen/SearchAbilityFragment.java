@@ -16,6 +16,7 @@ import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.details.view.AbilityDetailsFragment;
@@ -80,8 +81,9 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( !isViewRecreated() ) {
-            startLoading();
+        if( presenter.getDataState() == DataState.EMPTY
+                || presenter.getDataState() == DataState.NOT_FINISHED ) {
+            loadAbilities();
         }
     }
 
@@ -92,21 +94,6 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
                     .buildPresenter(this);
         }
         return presenter;
-    }
-
-    @Override
-    public void startLoading() {
-        super.startLoading();
-        presenter.fetchAbilities( pokemonId,
-                new ResponseHandler<ArrayList<Ability>>() {
-            @Override
-            public void onSuccess(Response<ArrayList<Ability>> response) {
-                adapter.setData(
-                        new AbilityPresentationDataBuilder().build( response.getData() ) );
-                presentAdapterData();
-                hideLoading();
-            }
-        });
     }
 
     @Override
@@ -133,6 +120,44 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
     @Override
     public Lifecycle screenLifecycle() {
         return getLifecycle();
+    }
+
+    @Override
+    public int getSearchHintResource() {
+        return R.string.search_ability_hint;
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        presenter.fetchAbilitiesQuery( pokemonId, query,
+                new ResponseHandler<ArrayList<Ability>>() {
+                    @Override
+                    public void onSuccess(Response<ArrayList<Ability>> response) {
+                        adapter.setData(
+                                new AbilityPresentationDataBuilder().build( response.getData() ) );
+                        presentAdapterData();
+                        hideLoading();
+                    }
+                });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        loadAbilities();
+    }
+
+    private void loadAbilities() {
+        startLoading();
+        presenter.fetchAbilities( pokemonId,
+                new ResponseHandler<ArrayList<Ability>>() {
+                    @Override
+                    public void onSuccess(Response<ArrayList<Ability>> response) {
+                        adapter.setData(
+                                new AbilityPresentationDataBuilder().build( response.getData() ) );
+                        presentAdapterData();
+                        hideLoading();
+                    }
+                });
     }
 
     public class AbilitiesListAdapter extends
