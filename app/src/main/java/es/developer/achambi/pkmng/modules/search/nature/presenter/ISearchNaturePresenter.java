@@ -13,4 +13,6 @@ public abstract class ISearchNaturePresenter extends Presenter {
         super(screen, executor);
     }
     public abstract void fetchNatureList( ResponseHandler<ArrayList<Nature>> responseHandler );
+    public abstract void fetchNatureQueryList( String query,
+                                               ResponseHandler<ArrayList<Nature>> responseHandler );
 }

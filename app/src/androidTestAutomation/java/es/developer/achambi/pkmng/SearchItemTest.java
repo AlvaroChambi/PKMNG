@@ -26,8 +26,7 @@ public class SearchItemTest extends  BaseAutomationTest{
         onView(withId(R.id.details_edit_configuration_action_button)).perform(click());
 
         onView( withId(R.id.configuration_item_frame) )
-                .perform(scrollTo(),
-                        click());
+                .perform(scrollTo(), click());
         onView( allOf( withId( R.id.item_name_text ),
                 withText( "eviolite" ),
                 isDescendantOfA( withId( R.id.base_search_header_frame ) ) ) )

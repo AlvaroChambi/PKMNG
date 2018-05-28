@@ -13,6 +13,10 @@ public interface NaturesDAO {
     List<natures> getNatures();
 
     @Query("select id, identifier, increased_stat_id, decreased_stat_id from natures " +
+            "where identifier like :query" )
+    List<natures> queryNatures( String query );
+
+    @Query("select id, identifier, increased_stat_id, decreased_stat_id from natures " +
             "where id = :natureId")
     natures getNature(int natureId);
 }

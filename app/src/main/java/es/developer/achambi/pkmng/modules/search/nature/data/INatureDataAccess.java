@@ -13,6 +13,13 @@ public interface INatureDataAccess {
     ArrayList<Nature> accessData();
 
     /**
+     * Access the items data that matches the given query
+     * @param query text to perform the query, on a null query an empty result will be returned
+     * @return available data that starts with the given query
+     */
+    ArrayList<Nature> accessNatureQueryData( String query );
+
+    /**
      * Access Nature data for the given nature id
      * @param natureId to be requested, id's should be higher than 0
      * @return Nature data that matches the given id, empty Nature if no match is found or

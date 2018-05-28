@@ -18,6 +18,7 @@ import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
@@ -77,8 +78,9 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( !isViewRecreated() ) {
-            startLoading();
+        if( presenter.getDataState() == DataState.EMPTY
+                || presenter.getDataState() == DataState.NOT_FINISHED ) {
+            loadNaturesList();
         }
     }
 
@@ -89,19 +91,6 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
                     .buildPresenter(this);
         }
         return presenter;
-    }
-
-    @Override
-    public void startLoading() {
-        presenter.fetchNatureList(new ResponseHandler<ArrayList<Nature>>() {
-            @Override
-            public void onSuccess(Response<ArrayList<Nature>> response) {
-                adapter.setData( new NaturePresentationDataBuilder().build(
-                        getActivity(), response.getData() ) );
-                presentAdapterData();
-                hideLoading();
-            }
-        });
     }
 
     @Override
@@ -132,6 +121,41 @@ public class SearchNatureFragment extends BaseSearchListFragment implements ISea
         return getLifecycle();
     }
 
+    @Override
+    public int getSearchHintResource() {
+        return R.string.search_nature_hint;
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        presenter.fetchNatureQueryList( query, new ResponseHandler<ArrayList<Nature>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Nature>> response) {
+                adapter.setData( new NaturePresentationDataBuilder().build(
+                        getActivity(), response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        loadNaturesList();
+    }
+
+    private void loadNaturesList() {
+        startLoading();
+        presenter.fetchNatureList(new ResponseHandler<ArrayList<Nature>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Nature>> response) {
+                adapter.setData( new NaturePresentationDataBuilder().build(
+                        getActivity(), response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
+    }
 
     public class NatureListAdapter extends
             SearchAdapterDecorator<SearchNaturePresentation, NatureListAdapter.NatureViewHolder> {
