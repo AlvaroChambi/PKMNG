@@ -21,17 +21,19 @@ public class AbilityDataAccess implements IAbilityDataAccess{
             throw new IllegalIDException( pokemonId );
         }
         List<ability_value> rawAbilities = abilitiesDAO.getPokemonAbilities(pokemonId);
-        ArrayList<Ability> abilities = new ArrayList<>(rawAbilities.size());
-        for (ability_value currentAbility : rawAbilities) {
-            Ability ability = new Ability();
-            ability.setId( currentAbility.id );
-            ability.setName( currentAbility.name );
-            ability.setDescription( currentAbility.effect );
-            ability.setDescriptionShort( currentAbility.shortEffect );
+       return buildAbilities( rawAbilities );
+    }
 
-            abilities.add( ability );
+    @Override
+    public ArrayList<Ability> accessAbilitiesQuery(int pokemonId, String query) throws IllegalIDException {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
         }
-        return abilities;
+        if( query == null ) {
+            return new ArrayList<>();
+        }
+        List<ability_value> rawAbilities = abilitiesDAO.getAbilitiesQuery(pokemonId, query+"%");
+        return buildAbilities( rawAbilities );
     }
 
     @Override
@@ -51,5 +53,19 @@ public class AbilityDataAccess implements IAbilityDataAccess{
             ability.setDescriptionShort( rawAbility.shortEffect );
         }
         return ability;
+    }
+
+    private ArrayList<Ability> buildAbilities( List<ability_value> rawAbilities ) {
+        ArrayList<Ability> abilities = new ArrayList<>(rawAbilities.size());
+        for (ability_value currentAbility : rawAbilities) {
+            Ability ability = new Ability();
+            ability.setId( currentAbility.id );
+            ability.setName( currentAbility.name );
+            ability.setDescription( currentAbility.effect );
+            ability.setDescriptionShort( currentAbility.shortEffect );
+
+            abilities.add( ability );
+        }
+        return abilities;
     }
 }

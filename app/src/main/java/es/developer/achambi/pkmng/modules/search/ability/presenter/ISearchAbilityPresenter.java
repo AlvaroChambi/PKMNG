@@ -14,4 +14,6 @@ public abstract class ISearchAbilityPresenter extends Presenter {
     }
     public abstract void fetchAbilities( int pokemonId,
                                          ResponseHandler<ArrayList<Ability>> responseHandler );
+    public abstract void fetchAbilitiesQuery( int pokemonId, String query,
+                                              ResponseHandler<ArrayList<Ability>> responseHandler );
 }

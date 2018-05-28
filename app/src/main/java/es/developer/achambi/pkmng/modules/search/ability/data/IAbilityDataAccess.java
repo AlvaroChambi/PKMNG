@@ -12,7 +12,16 @@ public interface IAbilityDataAccess {
      * @return Abilities data if the id is found, empty abilities otherwise
      * @throws IllegalIDException on 0 or negative id's values
      */
-    ArrayList<Ability> accessAbilities(int pokemonId ) throws IllegalIDException;
+    ArrayList<Ability> accessAbilities( int pokemonId ) throws IllegalIDException;
+
+    /**
+     * Access the natures data for the given pokemon and query
+     * @param pokemonId to be searched, valid id's are higher than 0
+     * @param query text to perform the query, on a null query an empty result will be returned
+     * @return available data that starts with the given query
+     * @throws IllegalIDException on 0 or negative id's values
+     */
+    ArrayList<Ability> accessAbilitiesQuery( int pokemonId, String query ) throws IllegalIDException;
 
     /**
      * Access Ability data with the given id
