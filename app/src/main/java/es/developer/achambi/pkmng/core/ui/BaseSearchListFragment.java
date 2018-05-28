@@ -99,20 +99,16 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
         return R.id.base_request_loading_frame;
     }
 
-    public void onQueryTextSubmitted(String query) {
-
+    public int getSearchHintResource() {
+        return R.string.search_default_hint;
     }
 
-    public void onSearchFinished(){
+    public void onQueryTextSubmitted(String query){}
 
-    }
+    public void onSearchFinished(){}
 
     public void presentAdapterData( ) {
         adapter.updateData();
-    }
-
-    public int getSearchHintResource() {
-        return R.string.search_default_hint;
     }
 
     public abstract SearchAdapterDecorator provideAdapter();

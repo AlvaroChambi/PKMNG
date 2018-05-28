@@ -12,6 +12,8 @@ import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ItemDataAccessTest {
@@ -76,6 +78,37 @@ public class ItemDataAccessTest {
 
         ArrayList<Item> items = itemDataAccess.accessData();
 
+        assertTrue( items.isEmpty() );
+    }
+
+    @Test
+    public void accessQueryData() {
+        ArrayList<item_value> rawItemsList = new ArrayList<>();
+        rawItemsList.add( buildRawItem() );
+        when( mockDao.queryItems( "query%" ) ).thenReturn( rawItemsList);
+
+        ArrayList<Item> items = itemDataAccess.queryItemData( "query" );
+
+        verify(mockDao, times(1)).queryItems("query%");
+        assertEquals( 1, items.size() );
+        assertItem( items.get(0) );
+    }
+
+    @Test
+    public void accessQueryDataEmptyResult() {
+        when( mockDao.queryItems( "query%" ) ).thenReturn( new ArrayList<item_value>());
+
+        ArrayList<Item> items = itemDataAccess.queryItemData( "query" );
+
+        verify(mockDao, times(1)).queryItems("query%");
+        assertTrue( items.isEmpty() );
+    }
+
+    @Test
+    public void accessQueryDataNullQuery() {
+        ArrayList<Item> items = itemDataAccess.queryItemData(null);
+
+        verify(mockDao, times(0)).queryItems("null%");
         assertTrue( items.isEmpty() );
     }
 

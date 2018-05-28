@@ -51,6 +51,26 @@ public class SearchItemsPresenter extends ISearchItemsPresenter
     }
 
     @Override
+    public void fetchItemsQuery(final String query,
+                                final ResponseHandler<ArrayList<Item>> responseHandler) {
+        ResponseHandler<ArrayList<Item>> handler = new ResponseHandlerDecorator<ArrayList<Item>>(
+                responseHandler ) {
+            @Override
+            public void onSuccess(Response<ArrayList<Item>> response) {
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+        };
+
+        request(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( dataAccess.queryItemData(query) );
+            }
+        }, handler );
+    }
+
+    @Override
     public void onItemClicked(SearchItemPresentation itemRepresentation) {
         for( Item item : data ) {
             if( itemRepresentation.id == item.getId() ) {

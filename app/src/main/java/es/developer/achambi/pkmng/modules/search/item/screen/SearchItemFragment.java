@@ -85,7 +85,7 @@ public class SearchItemFragment extends BaseSearchListFragment
         super.onViewSetup(view, savedInstanceState);
         if( presenter.getDataState() == DataState.EMPTY
                 || presenter.getDataState() == DataState.NOT_FINISHED ) {
-            startLoading();
+            loadItemsData();
         }
     }
 
@@ -105,9 +105,8 @@ public class SearchItemFragment extends BaseSearchListFragment
         return presenter;
     }
 
-    @Override
-    public void startLoading() {
-        super.startLoading();
+    private void loadItemsData() {
+        startLoading();
         presenter.fetchItems(new ResponseHandler<ArrayList<Item>>() {
             @Override
             public void onSuccess(Response<ArrayList<Item>> response) {
@@ -117,6 +116,29 @@ public class SearchItemFragment extends BaseSearchListFragment
                 hideLoading();
             }
         });
+    }
+
+    @Override
+    public int getSearchHintResource() {
+        return R.string.search_item_hint;
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        presenter.fetchItemsQuery(query, new ResponseHandler<ArrayList<Item>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Item>> response) {
+                adapter.setData(
+                        new ItemResultDataBuilder().buildViewRepresentation(response.getData()) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        loadItemsData();
     }
 
     @Override

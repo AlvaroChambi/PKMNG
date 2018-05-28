@@ -17,6 +17,12 @@ public interface ItemDAO {
     @Query("select id, identifier, short_effect, effect " +
             "from items " +
             "join item_prose on items.id = item_prose.item_id " +
+            "where identifier like :query")
+    List<item_value> queryItems( String query );
+
+    @Query("select id, identifier, short_effect, effect " +
+            "from items " +
+            "join item_prose on items.id = item_prose.item_id " +
             "where id = :itemId")
     item_value getItem(int itemId);
 }

@@ -14,4 +14,6 @@ public abstract class ISearchItemsPresenter extends Presenter {
     }
 
     public abstract void fetchItems(ResponseHandler<ArrayList<Item>> responseHandler );
+    public abstract void fetchItemsQuery( String query,
+                                          ResponseHandler<ArrayList<Item>> responseHandler );
 }
