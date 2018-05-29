@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
-import es.developer.achambi.pkmng.core.db.model.pokemon_species;
+import es.developer.achambi.pkmng.core.db.model.pokemon;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
@@ -69,7 +69,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void accessData() {
-        ArrayList<pokemon_species> rawPokemonList = new ArrayList<>();
+        ArrayList<pokemon> rawPokemonList = new ArrayList<>();
         rawPokemonList.add( buildRawPokemon() );
         when( mockDao.getPokemon() ).thenReturn( rawPokemonList );
         when( mockStatDataAccess.accessPokemonStatsData( 1 ) ).thenReturn( new StatsSet() );
@@ -84,7 +84,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void accessDataEmptyResult() {
-        when( mockDao.getPokemon() ).thenReturn( new ArrayList<pokemon_species>() );
+        when( mockDao.getPokemon() ).thenReturn( new ArrayList<pokemon>() );
 
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.accessData();
 
@@ -93,7 +93,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void queryPokemonData() {
-        ArrayList<pokemon_species> rawPokemonList = new ArrayList<>();
+        ArrayList<pokemon> rawPokemonList = new ArrayList<>();
         rawPokemonList.add( buildRawPokemon() );
         when( mockDao.getPokemon( "query%" ) ).thenReturn( rawPokemonList );
         when( mockStatDataAccess.accessPokemonStatsData( 1 ) ).thenReturn( new StatsSet() );
@@ -109,7 +109,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void queryPokemonDataEmptyResult() {
-        when( mockDao.getPokemon("query%") ).thenReturn( new ArrayList<pokemon_species>() );
+        when( mockDao.getPokemon("query%") ).thenReturn( new ArrayList<pokemon>() );
 
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData("query");
 
@@ -132,8 +132,8 @@ public class PokemonDataAccessTest {
         assertEquals( new Pair<>(Type.ELECTRIC, Type.WATER), pokemon.getType() );
     }
 
-    private pokemon_species buildRawPokemon() {
-        pokemon_species pokemon = new pokemon_species();
+    private pokemon buildRawPokemon() {
+        pokemon pokemon = new pokemon();
         pokemon.id = 1;
         pokemon.identifier = "pokemon";
 

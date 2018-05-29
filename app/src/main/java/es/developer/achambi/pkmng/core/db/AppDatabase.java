@@ -25,14 +25,14 @@ import es.developer.achambi.pkmng.core.db.model.moves;
 import es.developer.achambi.pkmng.core.db.model.natures;
 import es.developer.achambi.pkmng.core.db.model.pokemon_abilities;
 import es.developer.achambi.pkmng.core.db.model.pokemon_moves;
-import es.developer.achambi.pkmng.core.db.model.pokemon_species;
+import es.developer.achambi.pkmng.core.db.model.pokemon;
 import es.developer.achambi.pkmng.core.db.model.pokemon_stats;
 import es.developer.achambi.pkmng.core.db.model.pokemon_types;
 import es.developer.achambi.pkmng.core.db.model.stats;
 import es.developer.achambi.pkmng.core.db.model.types;
 import es.developer.achambi.pkmng.core.db.utils.DatabaseUtils;
 
-@Database(entities = {pokemon_species.class, pokemon_types.class, pokemon_stats.class,
+@Database(entities = {pokemon.class, pokemon_types.class, pokemon_stats.class,
     stats.class, types.class, items.class, item_prose.class, natures.class,
     abilities.class, ability_prose.class, pokemon_abilities.class, move_damage_classes.class,
     move_effect_prose.class, moves.class, pokemon_moves.class, configurations.class,

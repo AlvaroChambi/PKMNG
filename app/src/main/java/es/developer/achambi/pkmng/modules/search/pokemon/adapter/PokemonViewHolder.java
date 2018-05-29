@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.target.SizeReadyCallback;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;

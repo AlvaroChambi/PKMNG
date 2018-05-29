@@ -55,8 +55,8 @@ public class PokemonPresentation implements SearchListData {
                 Context context, Pokemon pokemon ) {
             return new PokemonPresentation(
                     pokemon.getId(),
-                    pokemon.getName(),
-                    buildImageUrl(pokemon.getId()),
+                    "#" +pokemon.getId() + " " +pokemon.getName(),
+                    buildImageUrl(pokemon.getId(), pokemon.getName()),
                     PokemonTypePresentation.Builder.buildPresentation( context, pokemon.getType() ),
                     totalStatsAttribute(context.getResources(), pokemon.getStats()),
                     StatSetPresentation.Builder.buildPresentation( context.getResources(),
@@ -75,8 +75,10 @@ public class PokemonPresentation implements SearchListData {
                     statsSet.getTotalStats();
         }
 
-        private static String buildImageUrl(int pokemonId) {
-            return AssetResourceUtil.buildPokemonImageAssetPath(String.valueOf(pokemonId));
+        private static String buildImageUrl(int pokemonId, String name) {
+            return AssetResourceUtil.buildPokemonImageAssetPath(
+                    AssetResourceUtil.buildImageIdentifier( pokemonId, name )
+            );
         }
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
-import es.developer.achambi.pkmng.core.db.model.pokemon_species;
+import es.developer.achambi.pkmng.core.db.model.pokemon;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
@@ -31,9 +31,9 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         if(cachedData != null) {
             return cachedData;
         }
-        List<pokemon_species> pokemonArray = pokemonDAO.getPokemon();
+        List<pokemon> pokemonArray = pokemonDAO.getPokemon();
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
-        for( pokemon_species currentPokemon : pokemonArray ) {
+        for( pokemon currentPokemon : pokemonArray ) {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
             pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
@@ -50,7 +50,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         if( pokemonId < 1 ) {
             throw new IllegalIDException( pokemonId );
         }
-        pokemon_species rawPokemon = pokemonDAO.getPokemon(pokemonId);
+        pokemon rawPokemon = pokemonDAO.getPokemon(pokemonId);
         if( rawPokemon != null ) {
             Pokemon pokemon = new Pokemon(rawPokemon.id);
             pokemon.setName(rawPokemon.identifier);
@@ -67,10 +67,10 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         if(query == null) {
             return new ArrayList<>();
         }
-        List<pokemon_species> pokemonArray = pokemonDAO.getPokemon( query + "%" );
+        List<pokemon> pokemonArray = pokemonDAO.getPokemon( query + "%" );
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
 
-        for( pokemon_species currentPokemon : pokemonArray ) {
+        for( pokemon currentPokemon : pokemonArray ) {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
             pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
