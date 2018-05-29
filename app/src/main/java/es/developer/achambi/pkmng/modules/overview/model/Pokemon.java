@@ -13,7 +13,7 @@ public class Pokemon implements BasePokemon{
     private String name;
     private Pair<Type, Type> type;
     private StatsSet stats;
-    private String imageURL;
+    private String baseImageUrl;
     private int level;
 
     public Pokemon() {
@@ -35,7 +35,7 @@ public class Pokemon implements BasePokemon{
         this.name = pokemon.getName();
         this.type = new Pair<>(pokemon.getType().first, pokemon.getType().second);
         this.stats = new StatsSet( pokemon.getStats() );
-        this.imageURL = pokemon.getImageURL();
+        this.baseImageUrl = pokemon.getBaseImageUrl();
         this.level = pokemon.getLevel();
     }
 
@@ -59,8 +59,12 @@ public class Pokemon implements BasePokemon{
         return name;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getBaseImageUrl() {
+        return baseImageUrl;
+    }
+
+    public void setBaseImageUrl(String baseImageUrl) {
+        this.baseImageUrl = baseImageUrl;
     }
 
     public StatsSet getStats() {
@@ -151,7 +155,7 @@ public class Pokemon implements BasePokemon{
         name = in.readString();
         type = ParcelUtil.readParcelablePair(in, Type.class, Type.class);
         stats = in.readParcelable(StatsSet.class.getClassLoader());
-        imageURL = in.readString();
+        baseImageUrl = in.readString();
         level = in.readInt();
     }
 
@@ -178,7 +182,7 @@ public class Pokemon implements BasePokemon{
         dest.writeString(name);
         ParcelUtil.writeParcelablePair(dest, type);
         dest.writeParcelable(stats, flags);
-        dest.writeString(imageURL);
+        dest.writeString(baseImageUrl);
         dest.writeInt(level);
     }
 

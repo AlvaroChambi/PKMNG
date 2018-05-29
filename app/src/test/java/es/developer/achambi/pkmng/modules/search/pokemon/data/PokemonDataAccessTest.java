@@ -128,6 +128,7 @@ public class PokemonDataAccessTest {
     private void assertPokemon( Pokemon pokemon ) {
         assertEquals( 1, pokemon.getId() );
         assertEquals( "pokemon", pokemon.getName() );
+        assertEquals( "1", pokemon.getBaseImageUrl() );
         assertEquals( new StatsSet(), pokemon.getStats() );
         assertEquals( new Pair<>(Type.ELECTRIC, Type.WATER), pokemon.getType() );
     }
@@ -136,7 +137,7 @@ public class PokemonDataAccessTest {
         pokemon pokemon = new pokemon();
         pokemon.id = 1;
         pokemon.identifier = "pokemon";
-
+        pokemon.species_id = 1;
         return pokemon;
     }
 }

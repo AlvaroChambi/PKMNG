@@ -36,6 +36,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         for( pokemon currentPokemon : pokemonArray ) {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
+            pokemon.setBaseImageUrl( String.valueOf( currentPokemon.species_id ) );
             pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
             pokemon.setStats( statDataAccess.accessPokemonStatsData( currentPokemon.id ) );
 
@@ -54,6 +55,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         if( rawPokemon != null ) {
             Pokemon pokemon = new Pokemon(rawPokemon.id);
             pokemon.setName(rawPokemon.identifier);
+            pokemon.setBaseImageUrl( String.valueOf( rawPokemon.species_id ) );
             pokemon.setType( typeDataAccess.accessPokemonTypeData( rawPokemon.id ) );
             pokemon.setStats( statDataAccess.accessPokemonStatsData( rawPokemon.id ) );
             return pokemon;
@@ -73,6 +75,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         for( pokemon currentPokemon : pokemonArray ) {
             Pokemon pokemon = new Pokemon(currentPokemon.id);
             pokemon.setName(currentPokemon.identifier);
+            pokemon.setBaseImageUrl( String.valueOf( currentPokemon.species_id ) );
             pokemon.setType( typeDataAccess.accessPokemonTypeData( currentPokemon.id ) );
             pokemon.setStats( statDataAccess.accessPokemonStatsData( currentPokemon.id ) );
 

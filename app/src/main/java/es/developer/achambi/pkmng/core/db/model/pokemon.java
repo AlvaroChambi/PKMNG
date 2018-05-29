@@ -10,4 +10,5 @@ public class pokemon {
     @NonNull
     public int id;
     public String identifier;
+    public int species_id;
 }
