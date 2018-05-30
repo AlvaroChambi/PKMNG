@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules;
 
 import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
+import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.search.StatDataAssembler;
 import es.developer.achambi.pkmng.modules.search.TypeDataAssembler;
 import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccess;
@@ -10,6 +11,7 @@ public class PokemonDataAssembler {
     private PokemonDAO pokemonDAO;
     private TypeDataAssembler typeDataAssembler;
     private StatDataAssembler statDataAssembler;
+    private ImageResourceBuilder imageResourceBuilder;
     private PokemonDataAccessFactory pokemonDataAccessFactory;
 
     public PokemonDataAssembler setPokemonDAO(PokemonDAO pokemonDAO) {
@@ -33,9 +35,14 @@ public class PokemonDataAssembler {
         return this;
     }
 
+    public PokemonDataAssembler setImageResourceBuilder(ImageResourceBuilder imageResourceBuilder) {
+        this.imageResourceBuilder = imageResourceBuilder;
+        return this;
+    }
+
     public IPokemonDataAccess getPokemonDataAccess() {
         return pokemonDataAccessFactory.buildDataAccess(pokemonDAO,
                 statDataAssembler.getStatDataAccess(),
-                typeDataAssembler.getDataAccess() );
+                typeDataAssembler.getDataAccess(), imageResourceBuilder );
     }
 }

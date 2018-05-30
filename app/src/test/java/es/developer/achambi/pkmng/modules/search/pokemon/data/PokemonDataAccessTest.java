@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
 import es.developer.achambi.pkmng.core.db.model.pokemon;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -27,13 +28,18 @@ public class PokemonDataAccessTest {
     private PokemonDAO mockDao;
     private IStatDataAccess mockStatDataAccess;
     private ITypeDataAccess mockTypeDataAccess;
+    private ImageResourceBuilder mockImageResourceBuilder;
 
     @Before
     public void setup() {
         mockDao = mock( PokemonDAO.class );
         mockStatDataAccess = mock( IStatDataAccess.class );
         mockTypeDataAccess = mock( ITypeDataAccess.class );
-        pokemonDataAccess = new PokemonDataAccess( mockDao, mockStatDataAccess, mockTypeDataAccess );
+        mockImageResourceBuilder = mock( ImageResourceBuilder.class );
+        when( mockImageResourceBuilder.buildPokemonImageIdentifier( 1, "pokemon" ) )
+                .thenReturn( "1" );
+        pokemonDataAccess = new PokemonDataAccess( mockDao, mockStatDataAccess, mockTypeDataAccess,
+                mockImageResourceBuilder );
     }
 
     @Test

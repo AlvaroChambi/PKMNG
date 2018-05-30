@@ -56,11 +56,8 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonSpAttack.setText(pokemon.stats.spAttack);
         pokemonSpDefense.setText(pokemon.stats.spDefense);
         pokemonSpeed.setText(pokemon.stats.speed);
-        if( pokemon.image != null && !pokemon.image.isEmpty() ) {
-            requestManager
-                    .load(Uri.parse(pokemon.image))
-                    .into(pokemonIcon);
-        }
+        requestManager.load(pokemon.image)
+                .into(pokemonIcon);
         pokemonLevel.setText(pokemon.level);
     }
 }
