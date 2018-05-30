@@ -173,7 +173,7 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         TextView move3 = rootView.findViewById(R.id.configuration_details_move_3);
 
         Glide.with(this)
-                .load(Uri.parse(configurationPresentation.pokemon.image))
+                .load(configurationPresentation.pokemon.image)
                 .into(pokemonIcon);
         pokemonName.setText(configurationPresentation.pokemon.name);
         configurationName.setText(configurationPresentation.name);

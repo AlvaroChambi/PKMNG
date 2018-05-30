@@ -5,16 +5,16 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.model.pokemon_species;
+import es.developer.achambi.pkmng.core.db.model.pokemon;
 
 @Dao
 public interface PokemonDAO {
-    @Query("select id, identifier from pokemon_species")
-    List<pokemon_species> getPokemon();
+    @Query("select pokemon.id, pokemon.identifier, pokemon.species_id from pokemon " )
+    List<pokemon> getPokemon();
 
-    @Query("select id, identifier from pokemon_species where identifier like :query")
-    List<pokemon_species> getPokemon( String query );
+    @Query("select id, identifier, pokemon.species_id from pokemon where identifier like :query")
+    List<pokemon> getPokemon(String query );
 
-    @Query("select id, identifier from pokemon_species where id=:pokemonId")
-    pokemon_species getPokemon(int pokemonId);
+    @Query("select id, identifier, pokemon.species_id from pokemon where id=:pokemonId")
+    pokemon getPokemon(int pokemonId);
 }

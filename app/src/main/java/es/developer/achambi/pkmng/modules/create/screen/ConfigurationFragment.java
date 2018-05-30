@@ -276,7 +276,7 @@ public class ConfigurationFragment extends BaseRequestFragment
         pokemonSpDefense.setText(configurationPresentation.stats.spDefense);
         pokemonSpeed.setText(configurationPresentation.stats.speed);
         Glide.with(this)
-                .load(Uri.parse(configurationPresentation.pokemon.image))
+                .load(configurationPresentation.pokemon.image)
                 .into(pokemonIcon);
     }
 
@@ -289,7 +289,7 @@ public class ConfigurationFragment extends BaseRequestFragment
             itemName.setVisibility(View.VISIBLE);
             itemIcon.setVisibility(View.VISIBLE);
             empty.setVisibility(View.GONE);
-            Glide.with(this).load(Uri.parse(item.image)).into(itemIcon);
+            Glide.with(this).load(item.image).into(itemIcon);
         } else {
             itemName.setVisibility(View.GONE);
             itemIcon.setVisibility(View.GONE);

@@ -1,20 +1,22 @@
 package es.developer.achambi.pkmng.modules.search.item.screen.presentation;
 
+import android.net.Uri;
+
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
-import es.developer.achambi.pkmng.core.utils.AssetResourceUtil;
+import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class SearchItemPresentation implements SearchListData{
     public final int id;
     public final String name;
-    public final String imageUrl;
+    public final Uri imageUrl;
     public final String description;
     public final boolean empty;
 
     public SearchItemPresentation(
             int id,
-            String name, String imageUrl, String description, boolean empty) {
+            String name, Uri imageUrl, String description, boolean empty) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -37,7 +39,7 @@ public class SearchItemPresentation implements SearchListData{
             return new SearchItemPresentation(
                     item.getId(),
                     item.getName(),
-                    AssetResourceUtil.buildItemImageAssetPath(item.getName()),
+                    ImageResourceBuilder.buildItemImageAssetPath(item.getName()),
                     item.getDescriptionShort(),
                     item.getId() == -1
             );

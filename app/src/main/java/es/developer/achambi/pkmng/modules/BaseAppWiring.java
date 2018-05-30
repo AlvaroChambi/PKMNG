@@ -4,6 +4,7 @@ import android.content.Context;
 
 import es.developer.achambi.pkmng.core.db.AppDatabase;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorAssembler;
 import es.developer.achambi.pkmng.modules.create.CreateConfigurationAssembler;
 import es.developer.achambi.pkmng.modules.data.stat.StatDataAccessFactory;
@@ -66,7 +67,8 @@ public abstract class BaseAppWiring {
         pokemonDataAssembler.setPokemonDAO(database.pokemonModel())
                 .setPokemonDataAccessFactory(new PokemonDataAccessFactory())
                 .setStatDataAssembler(statDataAssembler)
-                .setTypeDataAssembler(typeDataAssembler);
+                .setTypeDataAssembler(typeDataAssembler)
+                .setImageResourceBuilder( new ImageResourceBuilder() );
         ConfigurationDataAssembler configurationDataAssembler = new ConfigurationDataAssembler();
         configurationDataAssembler.setConfigurationDAO(database.configurationsModel())
                 .setConfigurationDataAccessFactory(new ConfigurationDataAccessFactory())

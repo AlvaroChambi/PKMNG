@@ -25,7 +25,7 @@ public abstract class BaseRequestFragment extends BaseFragment implements View.O
      * Start loading animation applying the given alpha to the background
      * @param backgroundAlpha
      */
-    public void startLoading(float backgroundAlpha ) {
+    public void startLoading( float backgroundAlpha ) {
         startLoading();
         View loadingFrame = getView().findViewById(getLoadingFrame());
         View background = loadingFrame.findViewById(R.id.base_request_background);

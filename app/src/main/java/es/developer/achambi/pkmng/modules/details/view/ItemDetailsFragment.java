@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.core.utils.AssetResourceUtil;
+import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
@@ -60,7 +60,7 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
         TextView itemName = rootView.findViewById(R.id.item_name_text);
         TextView itemDescription = rootView.findViewById(R.id.item_description_text);
         ImageView itemIcon = rootView.findViewById(R.id.item_image_view);
-        Glide.with(this).load(Uri.parse(viewRepresentation.image)).into(itemIcon);
+        Glide.with(this).load(viewRepresentation.image).into(itemIcon);
 
         itemName.setText( viewRepresentation.name );
         itemDescription.setText( viewRepresentation.description);
@@ -70,16 +70,16 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
         public ItemDetailsPresentation buildViewRepresentation( Item item ) {
             return new ItemDetailsPresentation( item.getName(),
                     item.getDescription(),
-                    AssetResourceUtil.buildItemImageAssetPath(item.getName()));
+                    ImageResourceBuilder.buildItemImageAssetPath(item.getName()));
         }
     }
 
     private class ItemDetailsPresentation {
         public final String name;
         public final String description;
-        public final String image;
+        public final Uri image;
 
-        public ItemDetailsPresentation(String name, String description, String image) {
+        public ItemDetailsPresentation(String name, String description, Uri image) {
             this.name = name;
             this.description = description;
             this.image = image;

@@ -47,7 +47,7 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindTo(ConfigurationPresentation configuration, RequestManager requestManager) {
-        requestManager.load(Uri.parse(configuration.pokemon.image))
+        requestManager.load(configuration.pokemon.image)
                 .into(pokemonIcon);
         configName.setText(configuration.name);
         pokemonName.setText(configuration.pokemon.name);

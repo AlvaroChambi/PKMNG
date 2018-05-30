@@ -66,7 +66,7 @@ public class SearchItemFragment extends BaseSearchListFragment
             header.setVisibility(View.VISIBLE);
             final TextView itemName = header.findViewById(R.id.item_name_text);
             ImageView itemIcon = header.findViewById(R.id.item_image_view);
-            requestManager.load(Uri.parse(item.imageUrl))
+            requestManager.load(item.imageUrl)
                     .into(itemIcon);
             TextView itemDescription = header.findViewById(R.id.item_description_text);
             itemName.setText( item.name );
@@ -205,7 +205,7 @@ public class SearchItemFragment extends BaseSearchListFragment
         public void bindViewHolder(ItemViewHolder holder, SearchItemPresentation item) {
             holder.itemName.setText( item.name );
             holder.itemDescription.setText( item.description);
-            requestManager.load(Uri.parse(item.imageUrl)).into(holder.itemIcon);
+            requestManager.load(item.imageUrl).into(holder.itemIcon);
         }
 
         public class ItemViewHolder extends RecyclerView.ViewHolder {

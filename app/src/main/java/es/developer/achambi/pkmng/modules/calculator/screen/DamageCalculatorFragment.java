@@ -125,7 +125,7 @@ public class DamageCalculatorFragment extends BaseRequestFragment implements Vie
         if( !leftPresentation.empty ) {
             leftConfigurationName.setText( leftPresentation.name );
             Glide.with(this)
-                    .load(Uri.parse(leftPresentation.image))
+                    .load(leftPresentation.image)
                     .into(leftView);
             leftView.setColorFilter(null);
         } else {
@@ -140,7 +140,7 @@ public class DamageCalculatorFragment extends BaseRequestFragment implements Vie
         if( !rightPresentation.empty ) {
             rightConfigurationName.setText( rightPresentation.name );
             Glide.with(this)
-                    .load(Uri.parse(rightPresentation.image))
+                    .load(rightPresentation.image)
                     .into(rightView);
             rightView.setColorFilter(null);
             rootView.findViewById( R.id.damage_results_frame_view ).setVisibility( View.VISIBLE );

@@ -8,8 +8,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
-import es.developer.achambi.pkmng.core.db.model.pokemon_species;
+import es.developer.achambi.pkmng.core.db.model.pokemon;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
@@ -27,13 +28,18 @@ public class PokemonDataAccessTest {
     private PokemonDAO mockDao;
     private IStatDataAccess mockStatDataAccess;
     private ITypeDataAccess mockTypeDataAccess;
+    private ImageResourceBuilder mockImageResourceBuilder;
 
     @Before
     public void setup() {
         mockDao = mock( PokemonDAO.class );
         mockStatDataAccess = mock( IStatDataAccess.class );
         mockTypeDataAccess = mock( ITypeDataAccess.class );
-        pokemonDataAccess = new PokemonDataAccess( mockDao, mockStatDataAccess, mockTypeDataAccess );
+        mockImageResourceBuilder = mock( ImageResourceBuilder.class );
+        when( mockImageResourceBuilder.buildPokemonImageIdentifier( 1, "pokemon" ) )
+                .thenReturn( "1" );
+        pokemonDataAccess = new PokemonDataAccess( mockDao, mockStatDataAccess, mockTypeDataAccess,
+                mockImageResourceBuilder );
     }
 
     @Test
@@ -69,7 +75,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void accessData() {
-        ArrayList<pokemon_species> rawPokemonList = new ArrayList<>();
+        ArrayList<pokemon> rawPokemonList = new ArrayList<>();
         rawPokemonList.add( buildRawPokemon() );
         when( mockDao.getPokemon() ).thenReturn( rawPokemonList );
         when( mockStatDataAccess.accessPokemonStatsData( 1 ) ).thenReturn( new StatsSet() );
@@ -84,7 +90,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void accessDataEmptyResult() {
-        when( mockDao.getPokemon() ).thenReturn( new ArrayList<pokemon_species>() );
+        when( mockDao.getPokemon() ).thenReturn( new ArrayList<pokemon>() );
 
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.accessData();
 
@@ -93,7 +99,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void queryPokemonData() {
-        ArrayList<pokemon_species> rawPokemonList = new ArrayList<>();
+        ArrayList<pokemon> rawPokemonList = new ArrayList<>();
         rawPokemonList.add( buildRawPokemon() );
         when( mockDao.getPokemon( "query%" ) ).thenReturn( rawPokemonList );
         when( mockStatDataAccess.accessPokemonStatsData( 1 ) ).thenReturn( new StatsSet() );
@@ -109,7 +115,7 @@ public class PokemonDataAccessTest {
 
     @Test
     public void queryPokemonDataEmptyResult() {
-        when( mockDao.getPokemon("query%") ).thenReturn( new ArrayList<pokemon_species>() );
+        when( mockDao.getPokemon("query%") ).thenReturn( new ArrayList<pokemon>() );
 
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData("query");
 
@@ -128,15 +134,16 @@ public class PokemonDataAccessTest {
     private void assertPokemon( Pokemon pokemon ) {
         assertEquals( 1, pokemon.getId() );
         assertEquals( "pokemon", pokemon.getName() );
+        assertEquals( "1", pokemon.getBaseImageUrl() );
         assertEquals( new StatsSet(), pokemon.getStats() );
         assertEquals( new Pair<>(Type.ELECTRIC, Type.WATER), pokemon.getType() );
     }
 
-    private pokemon_species buildRawPokemon() {
-        pokemon_species pokemon = new pokemon_species();
+    private pokemon buildRawPokemon() {
+        pokemon pokemon = new pokemon();
         pokemon.id = 1;
         pokemon.identifier = "pokemon";
-
+        pokemon.species_id = 1;
         return pokemon;
     }
 }

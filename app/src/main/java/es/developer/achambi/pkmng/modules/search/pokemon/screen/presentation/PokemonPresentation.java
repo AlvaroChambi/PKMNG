@@ -2,11 +2,12 @@ package es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.Uri;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
-import es.developer.achambi.pkmng.core.utils.AssetResourceUtil;
+import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
@@ -14,7 +15,7 @@ import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
 public class PokemonPresentation implements SearchListData {
     public final int id;
     public final String name;
-    public final String image;
+    public final Uri image;
     public final PokemonTypePresentation type;
     public final String totalStats;
     public final StatSetPresentation stats;
@@ -24,7 +25,7 @@ public class PokemonPresentation implements SearchListData {
     public PokemonPresentation(
             int id,
            String name,
-           String image,
+           Uri image,
            PokemonTypePresentation type,
            String totalStats,
            StatSetPresentation stats,
@@ -56,7 +57,7 @@ public class PokemonPresentation implements SearchListData {
             return new PokemonPresentation(
                     pokemon.getId(),
                     pokemon.getName(),
-                    buildImageUrl(pokemon.getId()),
+                    ImageResourceBuilder.buildPokemonImageAssetPath( pokemon.getBaseImageUrl() ),
                     PokemonTypePresentation.Builder.buildPresentation( context, pokemon.getType() ),
                     totalStatsAttribute(context.getResources(), pokemon.getStats()),
                     StatSetPresentation.Builder.buildPresentation( context.getResources(),
@@ -73,10 +74,6 @@ public class PokemonPresentation implements SearchListData {
         private static String totalStatsAttribute(Resources resources, StatsSet statsSet) {
             return resources.getString(R.string.pokemon_item_total_stats_tag) +
                     statsSet.getTotalStats();
-        }
-
-        private static String buildImageUrl(int pokemonId) {
-            return AssetResourceUtil.buildPokemonImageAssetPath(String.valueOf(pokemonId));
         }
     }
 }
