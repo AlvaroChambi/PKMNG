@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.core.db.dao.ItemDAO;
 import es.developer.achambi.pkmng.core.db.model.item_value;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 import static org.junit.Assert.*;
@@ -23,7 +24,7 @@ public class ItemDataAccessTest {
     @Before
     public void setup() {
         mockDao = mock( ItemDAO.class );
-        itemDataAccess = new ItemDataAccess( mockDao );
+        itemDataAccess = new ItemDataAccess( mockDao, new DataFormatUtil());
     }
 
     @Test

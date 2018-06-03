@@ -6,15 +6,17 @@ import java.util.List;
 import es.developer.achambi.pkmng.core.db.dao.ItemDAO;
 import es.developer.achambi.pkmng.core.db.model.item_value;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class ItemDataAccess implements IItemDataAccess{
     private ItemDAO itemDAO;
-
+    private DataFormatUtil formatter;
     private ArrayList<Item> cachedData;
 
-    public ItemDataAccess( ItemDAO itemDAO ) {
+    public ItemDataAccess( ItemDAO itemDAO, DataFormatUtil formatter ) {
         this.itemDAO = itemDAO;
+        this.formatter = formatter;
     }
 
     @Override
@@ -45,26 +47,26 @@ public class ItemDataAccess implements IItemDataAccess{
             throw new IllegalIDException( itemId );
         }
         item_value rawItem = itemDAO.getItem(itemId);
-        Item item = new Item();
-        if(rawItem != null) {
-            item.setId( rawItem.id );
-            item.setName( rawItem.name );
-            item.setDescriptionShort( rawItem.shortEffect );
-            item.setDescription( rawItem.effect );
-        }
-        return item;
+        return buildItem( rawItem );
     }
 
     private ArrayList<Item> buildItemsList( List<item_value> rawItems ) {
         ArrayList<Item> items = new ArrayList<>( rawItems.size() );
         for( item_value currentItem : rawItems ) {
-            Item item = new Item();
-            item.setId( currentItem.id );
-            item.setName( currentItem.name );
-            item.setDescriptionShort( currentItem.shortEffect );
-            item.setDescription( currentItem.effect );
-            items.add(item);
+            items.add(buildItem( currentItem ));
         }
         return items;
+    }
+
+    private Item buildItem( item_value rawItem ) {
+        Item item = new Item();
+        if(rawItem == null) {
+            return item;
+        }
+        item.setId( rawItem.id );
+        item.setName( rawItem.name );
+        item.setDescriptionShort( formatter.formatDescriptionMessage(rawItem.shortEffect) );
+        item.setDescription( formatter.formatDescriptionMessage(rawItem.effect) );
+        return item;
     }
 }

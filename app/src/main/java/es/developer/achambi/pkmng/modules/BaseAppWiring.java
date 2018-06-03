@@ -9,6 +9,7 @@ import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorAssembler;
 import es.developer.achambi.pkmng.modules.create.CreateConfigurationAssembler;
 import es.developer.achambi.pkmng.modules.data.stat.StatDataAccessFactory;
 import es.developer.achambi.pkmng.modules.data.type.TypeDataAccessFactory;
+import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.overview.OverviewAssembler;
 import es.developer.achambi.pkmng.modules.search.AbilityDataAssembler;
 import es.developer.achambi.pkmng.modules.search.ItemDataAssembler;
@@ -44,10 +45,12 @@ public abstract class BaseAppWiring {
         MainExecutor executor = buildExecutor();
         AbilityDataAssembler abilityDataAssembler = new AbilityDataAssembler();
         abilityDataAssembler.setAbilitiesDAO( database.abilitiesModel() )
-                .setDataAccessFactory(new AbilityDataAccessFactory());
+                .setDataAccessFactory(new AbilityDataAccessFactory())
+                .setFormatter(new DataFormatUtil());
         ItemDataAssembler itemDataAssembler = new ItemDataAssembler();
         itemDataAssembler.setItemDAO( database.itemsModel() )
-                .setDataAccessFactory(new ItemDataAccessFactory());
+                .setDataAccessFactory(new ItemDataAccessFactory())
+                .setFormatter(new DataFormatUtil());
         StatDataAssembler statDataAssembler = new StatDataAssembler();
         statDataAssembler.setStatsDAO( database.statsModel() )
                 .setDataAccessFactory(new StatDataAccessFactory());
@@ -58,7 +61,8 @@ public abstract class BaseAppWiring {
         MoveDataAssembler moveDataAssembler = new MoveDataAssembler();
         moveDataAssembler.setMovesDAO(database.movesModel())
                 .setMoveDataAccessFactory(new MoveDataAccessFactory())
-                .setTypeDataAssembler(typeDataAssembler);
+                .setTypeDataAssembler(typeDataAssembler)
+                .setFormatter(new DataFormatUtil());
         NatureDataAssembler natureDataAssembler = new NatureDataAssembler()
                 .setNaturesDAO(database.naturesModel())
                 .setStatDataAssembler(statDataAssembler)

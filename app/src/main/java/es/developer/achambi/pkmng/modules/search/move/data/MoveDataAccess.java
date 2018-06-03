@@ -7,6 +7,7 @@ import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
 import es.developer.achambi.pkmng.core.db.model.move_value;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
+import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class MoveDataAccess implements  IMoveDataAccess {
@@ -16,11 +17,14 @@ public class MoveDataAccess implements  IMoveDataAccess {
 
     private MovesDAO movesDAO;
     private ITypeDataAccess typeDataAccess;
+    private DataFormatUtil formatter;
 
     public MoveDataAccess(MovesDAO movesDAO,
-                          ITypeDataAccess typeDataAccess) {
+                          ITypeDataAccess typeDataAccess,
+                          DataFormatUtil formatter) {
         this.movesDAO = movesDAO;
         this.typeDataAccess = typeDataAccess;
+        this.formatter = formatter;
     }
 
     @Override
@@ -31,16 +35,7 @@ public class MoveDataAccess implements  IMoveDataAccess {
         List<move_value> rawMoves = movesDAO.getPokemonMoves( pokemonId );
         ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
         for (move_value rawMove : rawMoves) {
-            Move move = new Move();
-            move.setId( rawMove.id );
-            move.setAccuracy(rawMove.accuracy);
-            move.setPower(rawMove.power);
-            move.setPp(rawMove.pp);
-            move.setName(rawMove.name);
-            move.setCategory(parseCategory(rawMove.category));
-            move.setEffect(rawMove.shortEffect);
-            move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
-            movesList.add(move);
+            movesList.add(buildMove( rawMove ));
         }
         return movesList;
     }
@@ -54,18 +49,24 @@ public class MoveDataAccess implements  IMoveDataAccess {
             throw new IllegalIDException( moveId );
         }
         move_value rawMove = movesDAO.getMove(moveId);
+        return  buildMove( rawMove );
+    }
+
+    private Move buildMove( move_value rawMove ) {
         Move move = new Move();
-        if(rawMove != null) {
-            move.setId( rawMove.id );
-            move.setAccuracy(rawMove.accuracy);
-            move.setPower(rawMove.power);
-            move.setPp(rawMove.pp);
-            move.setName(rawMove.name);
-            move.setCategory(parseCategory(rawMove.category));
-            move.setEffect(rawMove.shortEffect);
-            move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
+        if( rawMove == null ) {
+            return move;
         }
-        return  move;
+        move.setId( rawMove.id );
+        move.setAccuracy(rawMove.accuracy);
+        move.setPower(rawMove.power);
+        move.setPp(rawMove.pp);
+        move.setName(rawMove.name);
+        move.setCategory(parseCategory(rawMove.category));
+        move.setEffect(formatter.formatDescriptionMessage( rawMove.shortEffect ));
+        move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
+
+        return move;
     }
 
     private Move.Category parseCategory( String value ) {

@@ -10,6 +10,7 @@ import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
 import es.developer.achambi.pkmng.core.db.model.move_value;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.type.TypeDataAccess;
+import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
@@ -27,7 +28,7 @@ public class MoveDataAccessTest {
     public void setup() {
         movesDAO = mock(MovesDAO.class);
         typeDataAccess = mock(TypeDataAccess.class);
-        moveDataAccess = new MoveDataAccess(movesDAO, typeDataAccess);
+        moveDataAccess = new MoveDataAccess(movesDAO, typeDataAccess, new DataFormatUtil());
     }
 
     @Test

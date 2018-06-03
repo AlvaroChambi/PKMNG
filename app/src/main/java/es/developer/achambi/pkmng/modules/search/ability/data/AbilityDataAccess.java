@@ -6,13 +6,17 @@ import java.util.List;
 import es.developer.achambi.pkmng.core.db.dao.AbilitiesDAO;
 import es.developer.achambi.pkmng.core.db.model.ability_value;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 
 public class AbilityDataAccess implements IAbilityDataAccess{
     private AbilitiesDAO abilitiesDAO;
+    private DataFormatUtil formatter;
 
-    public AbilityDataAccess(AbilitiesDAO abilitiesDAO) {
+    public AbilityDataAccess(AbilitiesDAO abilitiesDAO,
+                             DataFormatUtil formatter) {
         this.abilitiesDAO = abilitiesDAO;
+        this.formatter = formatter;
     }
 
     @Override
@@ -45,27 +49,27 @@ public class AbilityDataAccess implements IAbilityDataAccess{
             throw new IllegalIDException( abilityId );
         }
         ability_value rawAbility = abilitiesDAO.getAbility(abilityId);
-        Ability ability = new Ability();
-        if(rawAbility != null) {
-            ability.setId( rawAbility.id );
-            ability.setName( rawAbility.name );
-            ability.setDescription( rawAbility.effect );
-            ability.setDescriptionShort( rawAbility.shortEffect );
-        }
-        return ability;
+        return buildAbility( rawAbility );
     }
 
     private ArrayList<Ability> buildAbilities( List<ability_value> rawAbilities ) {
         ArrayList<Ability> abilities = new ArrayList<>(rawAbilities.size());
         for (ability_value currentAbility : rawAbilities) {
-            Ability ability = new Ability();
-            ability.setId( currentAbility.id );
-            ability.setName( currentAbility.name );
-            ability.setDescription( currentAbility.effect );
-            ability.setDescriptionShort( currentAbility.shortEffect );
-
-            abilities.add( ability );
+            abilities.add( buildAbility(currentAbility) );
         }
         return abilities;
+    }
+
+    private Ability buildAbility( ability_value rawAbility ) {
+        Ability ability = new Ability();
+        if( rawAbility == null ) {
+            return ability;
+        }
+        ability.setId( rawAbility.id );
+        ability.setName( rawAbility.name );
+        ability.setDescription( formatter.formatDescriptionMessage(rawAbility.effect) );
+        ability.setDescriptionShort( formatter.formatDescriptionMessage(rawAbility.shortEffect) );
+
+        return ability;
     }
 }

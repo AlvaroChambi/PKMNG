@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import es.developer.achambi.pkmng.core.db.dao.AbilitiesDAO;
 import es.developer.achambi.pkmng.core.db.model.ability_value;
 import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 
 import static org.junit.Assert.*;
@@ -23,7 +24,7 @@ public class AbilityDataAccessTest {
     @Before
     public void setup() {
         mockDao = mock( AbilitiesDAO.class );
-        abilityDataAccess = new AbilityDataAccess( mockDao );
+        abilityDataAccess = new AbilityDataAccess( mockDao, new DataFormatUtil());
     }
 
     @Test
