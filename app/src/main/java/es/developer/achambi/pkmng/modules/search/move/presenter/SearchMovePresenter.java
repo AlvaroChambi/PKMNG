@@ -4,11 +4,13 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import es.developer.achambi.pkmng.core.threading.Error;
 import es.developer.achambi.pkmng.core.threading.MainExecutor;
 import es.developer.achambi.pkmng.core.threading.Request;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.move.data.IMoveDataAccess;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
@@ -34,18 +36,53 @@ public class SearchMovePresenter extends ISearchMovePresenter
     @Override
     public void fetchMoves(final int pokemonId,
                            final ResponseHandler<ArrayList<Move>> responseHandler ) {
+        setDataState(DataState.NOT_FINISHED);
         ResponseHandler<ArrayList<Move>> handler = new ResponseHandlerDecorator<ArrayList<Move>>(
                 responseHandler ) {
             @Override
             public void onSuccess(Response<ArrayList<Move>> response) {
+                setDataState( DataState.SUCCESS );
                 data = response.getData();
                 responseHandler.onSuccess( response );
+            }
+
+            @Override
+            public void onError(Error error) {
+                setDataState( DataState.ERROR );
+                super.onError(error);
             }
         };
         request(new Request() {
             @Override
             public Response perform() {
                 return new Response<>( dataAccess.accessPokemonMovesData(pokemonId) );
+            }
+        }, handler );
+    }
+
+    @Override
+    public void fetchMovesQuery( final int pokemonId, final String query,
+                                 final ResponseHandler<ArrayList<Move>> responseHandler) {
+        setDataState(DataState.NOT_FINISHED);
+        ResponseHandler<ArrayList<Move>> handler = new ResponseHandlerDecorator<ArrayList<Move>>(
+                responseHandler ) {
+            @Override
+            public void onSuccess(Response<ArrayList<Move>> response) {
+                setDataState( DataState.SUCCESS );
+                data = response.getData();
+                responseHandler.onSuccess( response );
+            }
+
+            @Override
+            public void onError(Error error) {
+                setDataState( DataState.ERROR );
+                super.onError(error);
+            }
+        };
+        request(new Request() {
+            @Override
+            public Response perform() {
+                return new Response<>( dataAccess.queryPokemonMovesData(pokemonId, query) );
             }
         }, handler );
     }

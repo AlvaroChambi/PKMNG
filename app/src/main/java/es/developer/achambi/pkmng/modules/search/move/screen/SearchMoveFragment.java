@@ -19,6 +19,7 @@ import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Response;
 import es.developer.achambi.pkmng.core.threading.ResponseHandler;
 import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
+import es.developer.achambi.pkmng.core.ui.DataState;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
@@ -99,14 +100,14 @@ public class SearchMoveFragment extends BaseSearchListFragment
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
         super.onViewSetup(view, savedInstanceState);
-        if( !isViewRecreated() ) {
-            startLoading();
+        if( presenter.getDataState() == DataState.EMPTY
+                || presenter.getDataState() == DataState.NOT_FINISHED ) {
+            loadMoves();
         }
     }
 
-    @Override
-    public void startLoading() {
-        super.startLoading();
+    private void loadMoves() {
+        startLoading();
         presenter.fetchMoves( pokemonId, new ResponseHandler<ArrayList<Move>>() {
             @Override
             public void onSuccess(Response<ArrayList<Move>> response) {
@@ -116,6 +117,30 @@ public class SearchMoveFragment extends BaseSearchListFragment
                 hideLoading();
             }
         });
+    }
+
+    @Override
+    public int getSearchHintResource() {
+        return R.string.search_move_hint;
+    }
+
+    @Override
+    public void onQueryTextSubmitted(String query) {
+        startLoading();
+        presenter.fetchMovesQuery( pokemonId, query, new ResponseHandler<ArrayList<Move>>() {
+            @Override
+            public void onSuccess(Response<ArrayList<Move>> response) {
+                adapter.setData( new MovesPresentationBuilder().build( getActivity(),
+                        response.getData() ) );
+                presentAdapterData();
+                hideLoading();
+            }
+        });
+    }
+
+    @Override
+    public void onSearchFinished() {
+        loadMoves();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.move.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
@@ -17,10 +18,13 @@ public class MoveDataAccess implements  IMoveDataAccess {
     private MovesDAO movesDAO;
     private ITypeDataAccess typeDataAccess;
 
+    private HashMap<Integer, ArrayList<Move>> cachedData;
+
     public MoveDataAccess(MovesDAO movesDAO,
                           ITypeDataAccess typeDataAccess) {
         this.movesDAO = movesDAO;
         this.typeDataAccess = typeDataAccess;
+        cachedData = new HashMap<>();
     }
 
     @Override
@@ -28,19 +32,34 @@ public class MoveDataAccess implements  IMoveDataAccess {
         if( pokemonId < 1 ) {
             throw new IllegalIDException( pokemonId );
         }
+
+        if( cachedData.containsKey( pokemonId ) ) {
+            return cachedData.get( pokemonId );
+        }
+
         List<move_value> rawMoves = movesDAO.getPokemonMoves( pokemonId );
         ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
         for (move_value rawMove : rawMoves) {
-            Move move = new Move();
-            move.setId( rawMove.id );
-            move.setAccuracy(rawMove.accuracy);
-            move.setPower(rawMove.power);
-            move.setPp(rawMove.pp);
-            move.setName(rawMove.name);
-            move.setCategory(parseCategory(rawMove.category));
-            move.setEffect(rawMove.shortEffect);
-            move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
-            movesList.add(move);
+            movesList.add( buildMove( rawMove ) );
+        }
+
+        cachedData.put( pokemonId, movesList );
+        return movesList;
+    }
+
+    @Override
+    public ArrayList<Move> queryPokemonMovesData(int pokemonId, String query) throws IllegalIDException {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
+        if( query == null ) {
+            return new ArrayList<>();
+        }
+
+        List<move_value> rawMoves = movesDAO.getPokemonMovesQuery( pokemonId, query + "%" );
+        ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
+        for (move_value rawMove : rawMoves) {
+            movesList.add( buildMove( rawMove ) );
         }
         return movesList;
     }
@@ -54,18 +73,24 @@ public class MoveDataAccess implements  IMoveDataAccess {
             throw new IllegalIDException( moveId );
         }
         move_value rawMove = movesDAO.getMove(moveId);
+        return  buildMove( rawMove );
+    }
+
+    private Move buildMove( move_value rawMove ) {
         Move move = new Move();
-        if(rawMove != null) {
-            move.setId( rawMove.id );
-            move.setAccuracy(rawMove.accuracy);
-            move.setPower(rawMove.power);
-            move.setPp(rawMove.pp);
-            move.setName(rawMove.name);
-            move.setCategory(parseCategory(rawMove.category));
-            move.setEffect(rawMove.shortEffect);
-            move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
+        if( rawMove == null ) {
+            return move;
         }
-        return  move;
+        move.setId( rawMove.id );
+        move.setAccuracy(rawMove.accuracy);
+        move.setPower(rawMove.power);
+        move.setPp(rawMove.pp);
+        move.setName(rawMove.name);
+        move.setCategory(parseCategory(rawMove.category));
+        move.setEffect(rawMove.shortEffect);
+        move.setType(typeDataAccess.accessTypeData(rawMove.typeId));
+
+        return move;
     }
 
     private Move.Category parseCategory( String value ) {
