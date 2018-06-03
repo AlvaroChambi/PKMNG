@@ -132,7 +132,8 @@ public class AbilityDataAccessTest {
 
     @Test(expected = IllegalIDException.class)
     public void accessQueryDataInvalidID() {
-        abilityDataAccess.accessAbilitiesQuery(-1, "query");
+        abilityDataAccess.accessAbilitiesQuery(-1,
+                "query");
     }
 
     private void assertAbility( Ability ability ) {

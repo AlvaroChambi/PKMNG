@@ -1,6 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.move.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
@@ -19,12 +20,15 @@ public class MoveDataAccess implements  IMoveDataAccess {
     private ITypeDataAccess typeDataAccess;
     private DataFormatUtil formatter;
 
+    private HashMap<Integer, ArrayList<Move>> cachedData;
+
     public MoveDataAccess(MovesDAO movesDAO,
                           ITypeDataAccess typeDataAccess,
                           DataFormatUtil formatter) {
         this.movesDAO = movesDAO;
         this.typeDataAccess = typeDataAccess;
         this.formatter = formatter;
+        cachedData = new HashMap<>();
     }
 
     @Override
@@ -32,10 +36,34 @@ public class MoveDataAccess implements  IMoveDataAccess {
         if( pokemonId < 1 ) {
             throw new IllegalIDException( pokemonId );
         }
+
+        if( cachedData.containsKey( pokemonId ) ) {
+            return cachedData.get( pokemonId );
+        }
+
         List<move_value> rawMoves = movesDAO.getPokemonMoves( pokemonId );
         ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
         for (move_value rawMove : rawMoves) {
-            movesList.add(buildMove( rawMove ));
+            movesList.add( buildMove( rawMove ) );
+        }
+
+        cachedData.put( pokemonId, movesList );
+        return movesList;
+    }
+
+    @Override
+    public ArrayList<Move> queryPokemonMovesData(int pokemonId, String query) throws IllegalIDException {
+        if( pokemonId < 1 ) {
+            throw new IllegalIDException( pokemonId );
+        }
+        if( query == null ) {
+            return new ArrayList<>();
+        }
+
+        List<move_value> rawMoves = movesDAO.getPokemonMovesQuery( pokemonId, query + "%" );
+        ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
+        for (move_value rawMove : rawMoves) {
+            movesList.add( buildMove( rawMove ) );
         }
         return movesList;
     }

@@ -13,6 +13,16 @@ public interface IMoveDataAccess {
      * @throws IllegalIDException when an invalid id is requested
      */
     ArrayList<Move> accessPokemonMovesData( int pokemonId ) throws IllegalIDException;
+
+    /**
+     * Access Moves data for the given pokemon id and query
+     * @param pokemonId valid id's will never be lower than 1
+     * @param query text to perform the query, on a null query an empty result will be returned
+     * @return available data that starts with the given query
+     * @throws IllegalIDException when an invalid id is requested
+     */
+    ArrayList<Move> queryPokemonMovesData( int pokemonId, String query ) throws IllegalIDException;
+
     /**
      * Access Move data for the given id
      * @param moveId valid id's will never be lower than 1

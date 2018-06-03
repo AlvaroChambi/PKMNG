@@ -129,6 +129,7 @@ public class SearchAbilityFragment extends BaseSearchListFragment implements ISe
 
     @Override
     public void onQueryTextSubmitted(String query) {
+        startLoading();
         presenter.fetchAbilitiesQuery( pokemonId, query,
                 new ResponseHandler<ArrayList<Ability>>() {
                     @Override
