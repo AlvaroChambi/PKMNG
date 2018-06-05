@@ -6,12 +6,13 @@ import com.bumptech.glide.RequestManager;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.pkmng.core.utils.GlideRequests;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
 public class PokemonSearchAdapter extends SearchAdapterDecorator<PokemonPresentation,
         PokemonViewHolder> {
-    private RequestManager requestManager;
-    public PokemonSearchAdapter(RequestManager requestManager) {
+    private GlideRequests requestManager;
+    public PokemonSearchAdapter(GlideRequests requestManager) {
         super();
         this.requestManager = requestManager;
     }

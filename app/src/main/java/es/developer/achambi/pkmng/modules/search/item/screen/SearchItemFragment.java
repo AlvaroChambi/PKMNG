@@ -205,7 +205,9 @@ public class SearchItemFragment extends BaseSearchListFragment
         public void bindViewHolder(ItemViewHolder holder, SearchItemPresentation item) {
             holder.itemName.setText( item.name );
             holder.itemDescription.setText( item.description);
-            requestManager.load(item.imageUrl).into(holder.itemIcon);
+            requestManager.load(item.imageUrl)
+                    .placeholder(R.drawable.icon_placeholder)
+                    .into(holder.itemIcon);
         }
 
         public class ItemViewHolder extends RecyclerView.ViewHolder {

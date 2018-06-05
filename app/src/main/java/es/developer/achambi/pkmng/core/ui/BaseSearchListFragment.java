@@ -12,10 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-
 import es.developer.achambi.pkmng.R;
+import es.developer.achambi.pkmng.core.utils.GlideApp;
+import es.developer.achambi.pkmng.core.utils.GlideRequests;
 
 public abstract class BaseSearchListFragment extends BaseRequestFragment {
     private static int NO_ID = -1;
@@ -23,7 +22,7 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
     private RecyclerView.LayoutManager layoutManager;
     private ViewGroup header;
     private BaseSearchAdapter adapter;
-    protected RequestManager requestManager;
+    protected GlideRequests requestManager;
 
     @Override
     public int getLayoutResource() {
@@ -33,7 +32,7 @@ public abstract class BaseSearchListFragment extends BaseRequestFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestManager = Glide.with(this);
+        requestManager = GlideApp.with(this);
         adapter = new BaseSearchAdapter( provideAdapter() );
     }
 

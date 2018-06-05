@@ -13,6 +13,7 @@ import es.developer.achambi.pkmng.core.ui.screen.AbilityView;
 import es.developer.achambi.pkmng.core.ui.screen.ItemView;
 import es.developer.achambi.pkmng.core.ui.screen.NatureView;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.core.utils.GlideRequests;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 
 public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
@@ -46,8 +47,9 @@ public class ConfigurationViewHolder extends RecyclerView.ViewHolder {
         pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
     }
 
-    public void bindTo(ConfigurationPresentation configuration, RequestManager requestManager) {
+    public void bindTo(ConfigurationPresentation configuration, GlideRequests requestManager) {
         requestManager.load(configuration.pokemon.image)
+                .placeholder(configuration.pokemon.defaultImage)
                 .into(pokemonIcon);
         configName.setText(configuration.name);
         pokemonName.setText(configuration.pokemon.name);

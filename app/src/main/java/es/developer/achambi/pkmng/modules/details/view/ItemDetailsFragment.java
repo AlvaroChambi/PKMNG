@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.core.utils.GlideApp;
 import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
@@ -60,7 +61,9 @@ public class ItemDetailsFragment extends BaseDialogFragment implements View.OnCl
         TextView itemName = rootView.findViewById(R.id.item_name_text);
         TextView itemDescription = rootView.findViewById(R.id.item_description_text);
         ImageView itemIcon = rootView.findViewById(R.id.item_image_view);
-        Glide.with(this).load(viewRepresentation.image).into(itemIcon);
+        GlideApp.with(this).load(viewRepresentation.image)
+                .placeholder(R.drawable.icon_placeholder)
+                .into(itemIcon);
 
         itemName.setText( viewRepresentation.name );
         itemDescription.setText( viewRepresentation.description);

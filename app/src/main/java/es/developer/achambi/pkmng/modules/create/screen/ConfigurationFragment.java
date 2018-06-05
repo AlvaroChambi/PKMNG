@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
 import es.developer.achambi.pkmng.core.threading.Error;
@@ -26,6 +24,7 @@ import es.developer.achambi.pkmng.core.ui.Screen;
 import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.core.utils.GlideApp;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationPresenter;
 import es.developer.achambi.pkmng.modules.details.view.presentation.ConfigurationDetailsPresentation;
@@ -274,8 +273,9 @@ public class ConfigurationFragment extends BaseRequestFragment
         pokemonSpAttack.setText(configurationPresentation.stats.spAttack);
         pokemonSpDefense.setText(configurationPresentation.stats.spDefense);
         pokemonSpeed.setText(configurationPresentation.stats.speed);
-        Glide.with(this)
+        GlideApp.with(this)
                 .load(configurationPresentation.pokemon.image)
+                .placeholder(configurationPresentation.pokemon.defaultImage)
                 .into(pokemonIcon);
     }
 
@@ -288,7 +288,7 @@ public class ConfigurationFragment extends BaseRequestFragment
             itemName.setVisibility(View.VISIBLE);
             itemIcon.setVisibility(View.VISIBLE);
             empty.setVisibility(View.GONE);
-            Glide.with(this).load(item.image).into(itemIcon);
+            GlideApp.with(this).load(item.image).into(itemIcon);
         } else {
             itemName.setVisibility(View.GONE);
             itemIcon.setVisibility(View.GONE);

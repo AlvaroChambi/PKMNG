@@ -16,6 +16,7 @@ public class PokemonPresentation implements SearchListData {
     public final int id;
     public final String name;
     public final Uri image;
+    public final int defaultImage;
     public final PokemonTypePresentation type;
     public final String totalStats;
     public final StatSetPresentation stats;
@@ -26,6 +27,7 @@ public class PokemonPresentation implements SearchListData {
             int id,
            String name,
            Uri image,
+           int defaultImage,
            PokemonTypePresentation type,
            String totalStats,
            StatSetPresentation stats,
@@ -34,6 +36,7 @@ public class PokemonPresentation implements SearchListData {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.defaultImage = defaultImage;
         this.type = type;
         this.totalStats = totalStats;
         this.stats = stats;
@@ -58,6 +61,7 @@ public class PokemonPresentation implements SearchListData {
                     pokemon.getId(),
                     pokemon.getName(),
                     ImageResourceBuilder.buildPokemonImageAssetPath( pokemon.getBaseImageUrl() ),
+                    R.drawable.icon_placeholder,
                     PokemonTypePresentation.Builder.buildPresentation( context, pokemon.getType() ),
                     totalStatsAttribute(context.getResources(), pokemon.getStats()),
                     StatSetPresentation.Builder.buildPresentation( context.getResources(),
