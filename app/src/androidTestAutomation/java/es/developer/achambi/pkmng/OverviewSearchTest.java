@@ -44,7 +44,7 @@ public class OverviewSearchTest extends BaseAutomationTest {
 
         onView(withId(R.id.overview_search_action)).perform(click());
         onView(withId(R.id.search_src_text)).perform( clearText(),
-                typeText("F"),
+                typeText("Fearow"),
                 pressImeActionButton() );
 
         onView( allOf( withId(R.id.pokemon_config_name_text), withText("Special") ) )
