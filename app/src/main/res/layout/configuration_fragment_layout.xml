@@ -197,7 +197,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:visibility="gone"
-                            android:src="@drawable/item_placeholder"/>
+                            android:src="@drawable/icon_placeholder"/>
 
                         <TextView
                             android:id="@+id/configuration_item_name_text"

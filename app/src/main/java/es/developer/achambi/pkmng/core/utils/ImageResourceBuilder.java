@@ -7,8 +7,6 @@ public class ImageResourceBuilder {
     private static final String ITEMS_PATH = "items/";
     private static final String ASSET_FILE_PATH = "file:///android_asset/";
     private static final String IMAGE_URL_EXTENSION = ".png";
-    private static final String POKEMON_PLACEHOLDER = "0";
-
     private static final String IMAGE_TOKEN_SEPARATOR = "-";
 
     public String buildPokemonImageIdentifier( int speciesId, String identifier )
@@ -28,11 +26,6 @@ public class ImageResourceBuilder {
 
     private String append( String base, String extension ) {
         return base + IMAGE_TOKEN_SEPARATOR + extension;
-    }
-
-    public static Uri buildPokemonDefaultImageAssetPath() {
-        return Uri.parse( ASSET_FILE_PATH + POKEMON_PATH + POKEMON_PLACEHOLDER +
-                IMAGE_URL_EXTENSION );
     }
 
     public static Uri buildPokemonImageAssetPath(String imageName) {
