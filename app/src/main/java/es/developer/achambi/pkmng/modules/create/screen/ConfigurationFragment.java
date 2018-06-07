@@ -288,7 +288,10 @@ public class ConfigurationFragment extends BaseRequestFragment
             itemName.setVisibility(View.VISIBLE);
             itemIcon.setVisibility(View.VISIBLE);
             empty.setVisibility(View.GONE);
-            GlideApp.with(this).load(item.image).into(itemIcon);
+            GlideApp.with(this)
+                    .load(item.image)
+                    .placeholder(R.drawable.icon_placeholder)
+                    .into(itemIcon);
         } else {
             itemName.setVisibility(View.GONE);
             itemIcon.setVisibility(View.GONE);

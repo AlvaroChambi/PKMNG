@@ -67,6 +67,7 @@ public class SearchItemFragment extends BaseSearchListFragment
             final TextView itemName = header.findViewById(R.id.item_name_text);
             ImageView itemIcon = header.findViewById(R.id.item_image_view);
             requestManager.load(item.imageUrl)
+                    .placeholder(R.drawable.icon_placeholder)
                     .into(itemIcon);
             TextView itemDescription = header.findViewById(R.id.item_description_text);
             itemName.setText( item.name );

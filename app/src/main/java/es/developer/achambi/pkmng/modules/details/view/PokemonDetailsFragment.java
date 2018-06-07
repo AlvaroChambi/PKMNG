@@ -125,6 +125,7 @@ public class PokemonDetailsFragment extends BaseDialogFragment implements View.O
         pokemonSpeed.setText(pokemonPresentation.stats.speed);
         GlideApp.with(this)
                 .load(pokemonPresentation.image)
+                .placeholder(pokemonPresentation.defaultImage)
                 .into(pokemonIcon);
         pokemonLevel.setText(pokemonPresentation.level);
     }
