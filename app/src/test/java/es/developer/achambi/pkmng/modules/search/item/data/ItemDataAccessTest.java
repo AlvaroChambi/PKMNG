@@ -86,22 +86,22 @@ public class ItemDataAccessTest {
     public void accessQueryData() {
         ArrayList<item_value> rawItemsList = new ArrayList<>();
         rawItemsList.add( buildRawItem() );
-        when( mockDao.queryItems( "query%" ) ).thenReturn( rawItemsList);
+        when( mockDao.queryItems( "%query%" ) ).thenReturn( rawItemsList);
 
         ArrayList<Item> items = itemDataAccess.queryItemData( "query" );
 
-        verify(mockDao, times(1)).queryItems("query%");
+        verify(mockDao, times(1)).queryItems("%query%");
         assertEquals( 1, items.size() );
         assertItem( items.get(0) );
     }
 
     @Test
     public void accessQueryDataEmptyResult() {
-        when( mockDao.queryItems( "query%" ) ).thenReturn( new ArrayList<item_value>());
+        when( mockDao.queryItems( "%query%" ) ).thenReturn( new ArrayList<item_value>());
 
         ArrayList<Item> items = itemDataAccess.queryItemData( "query" );
 
-        verify(mockDao, times(1)).queryItems("query%");
+        verify(mockDao, times(1)).queryItems("%query%");
         assertTrue( items.isEmpty() );
     }
 
@@ -109,7 +109,7 @@ public class ItemDataAccessTest {
     public void accessQueryDataNullQuery() {
         ArrayList<Item> items = itemDataAccess.queryItemData(null);
 
-        verify(mockDao, times(0)).queryItems("null%");
+        verify(mockDao, times(0)).queryItems("%null%");
         assertTrue( items.isEmpty() );
     }
 

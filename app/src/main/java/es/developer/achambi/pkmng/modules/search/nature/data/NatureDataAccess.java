@@ -30,7 +30,7 @@ public class NatureDataAccess implements INatureDataAccess {
         if( query == null ) {
             return new ArrayList<>();
         }
-        List<natures> rawNatures = naturesDAO.queryNatures( query + "%" );
+        List<natures> rawNatures = naturesDAO.queryNatures( "%" + query + "%" );
         return buildNaturesList( rawNatures );
     }
 

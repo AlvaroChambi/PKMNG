@@ -36,7 +36,7 @@ public class AbilityDataAccess implements IAbilityDataAccess{
         if( query == null ) {
             return new ArrayList<>();
         }
-        List<ability_value> rawAbilities = abilitiesDAO.getAbilitiesQuery(pokemonId, query+"%");
+        List<ability_value> rawAbilities = abilitiesDAO.getAbilitiesQuery(pokemonId, "%" + query+"%");
         return buildAbilities( rawAbilities );
     }
 

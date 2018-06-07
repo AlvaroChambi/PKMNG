@@ -60,7 +60,7 @@ public class MoveDataAccess implements  IMoveDataAccess {
             return new ArrayList<>();
         }
 
-        List<move_value> rawMoves = movesDAO.getPokemonMovesQuery( pokemonId, query + "%" );
+        List<move_value> rawMoves = movesDAO.getPokemonMovesQuery( pokemonId, "%" + query + "%" );
         ArrayList<Move> movesList = new ArrayList<>(rawMoves.size());
         for (move_value rawMove : rawMoves) {
             movesList.add( buildMove( rawMove ) );
