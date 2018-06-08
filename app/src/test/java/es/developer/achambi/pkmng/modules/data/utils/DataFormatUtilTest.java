@@ -63,4 +63,34 @@ public class DataFormatUtilTest {
 
         assertEquals( expected, result );
     }
+
+    @Test
+    public void overrideMultipleTypeToken() {
+        String multipleTokens = "First token []{type:fire}, second token []{type:poison}";
+        String expected = "First token fire, second token []{type:poison}";
+
+        String result = dataFormatUtil.formatDescriptionMessage( multipleTokens );
+
+        assertEquals( expected, result );
+    }
+
+    @Test
+    public void overrideMultipleMechanicToken() {
+        String multipleTokens = "First token [fire]{mechanic:fire}, second token [poison]{mechanic:poison}";
+        String expected = "First token fire, second token [poison]{mechanic:poison}";
+
+        String result = dataFormatUtil.formatDescriptionMessage( multipleTokens );
+
+        assertEquals( expected, result );
+    }
+
+    @Test
+    public void overrideMultiplePokemonToken() {
+        String multipleTokens = "First token []{pokemon:archen}, second token []{pokemon:archen2}";
+        String expected = "First token archen, second token []{pokemon:archen2}";
+
+        String result = dataFormatUtil.formatDescriptionMessage( multipleTokens );
+
+        assertEquals( expected, result );
+    }
 }

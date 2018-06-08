@@ -33,7 +33,7 @@ public class DataFormatUtil {
     private String overrideTypeToken( String message ) {
         Matcher tokenMatcher = Pattern.compile( TYPE_RAW_FORMAT_REGEX ).matcher(message);
         if( tokenMatcher.find() ) {
-            message = tokenMatcher.replaceAll( tokenMatcher.group( 1 ) );
+            message = tokenMatcher.replaceFirst( tokenMatcher.group( 1 ) );
         }
         return message;
     }
@@ -49,7 +49,7 @@ public class DataFormatUtil {
     private String overridePokemonToken( String message ) {
         Matcher tokenMatcher = Pattern.compile( POKEMON_RAW_FORMAT_REGEX ).matcher( message );
         if( tokenMatcher.find() ) {
-            message = tokenMatcher.replaceAll( tokenMatcher.group( 1 ) );
+            message = tokenMatcher.replaceFirst( tokenMatcher.group( 1 ) );
         }
         return message;
     }
