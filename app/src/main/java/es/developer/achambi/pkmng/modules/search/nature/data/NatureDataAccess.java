@@ -30,7 +30,7 @@ public class NatureDataAccess implements INatureDataAccess {
         if( query == null ) {
             return new ArrayList<>();
         }
-        List<natures> rawNatures = naturesDAO.queryNatures( query + "%" );
+        List<natures> rawNatures = naturesDAO.queryNatures( "%" + query + "%" );
         return buildNaturesList( rawNatures );
     }
 
@@ -43,27 +43,28 @@ public class NatureDataAccess implements INatureDataAccess {
             throw new IllegalIDException( natureId );
         }
         natures rawNature = naturesDAO.getNature(natureId);
-        Nature nature = new Nature();
-        if(rawNature != null) {
-            nature.setId( rawNature.id );
-            nature.setName( rawNature.identifier );
-            nature.setIncreasedStat( statDataAccess.accessStatData( rawNature.increased_stat_id ) );
-            nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
-        }
-        return nature;
+        return buildNature( rawNature );
     }
 
     private ArrayList<Nature> buildNaturesList( List<natures> rawNatures ) {
         ArrayList<Nature> naturesList = new ArrayList<>(rawNatures.size());
         for ( natures rawNature : rawNatures ) {
-            Nature nature = new Nature();
-            nature.setId( rawNature.id );
-            nature.setName( rawNature.identifier );
-            nature.setIncreasedStat( statDataAccess.accessStatData( rawNature.increased_stat_id ) );
-            nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
-
-            naturesList.add(nature);
+            naturesList.add( buildNature( rawNature ) );
         }
         return naturesList;
+    }
+
+    private Nature buildNature( natures rawNature ) {
+        Nature nature = new Nature();
+        if( rawNature == null ) {
+            return nature;
+        }
+        nature.setId( rawNature.id );
+        nature.setName( rawNature.identifier );
+        if( rawNature.increased_stat_id != rawNature.decreased_stat_id ) {
+            nature.setIncreasedStat( statDataAccess.accessStatData( rawNature.increased_stat_id ) );
+            nature.setDecreasedStat( statDataAccess.accessStatData( rawNature.decreased_stat_id ) );
+        }
+        return nature;
     }
 }

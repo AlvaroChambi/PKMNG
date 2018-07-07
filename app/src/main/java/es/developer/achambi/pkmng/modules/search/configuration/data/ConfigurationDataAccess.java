@@ -58,7 +58,7 @@ public class ConfigurationDataAccess implements IConfigurationDataAccess {
         }
         ArrayList<PokemonConfig> configurationsResult = new ArrayList<>();
         List<configurations> rawConfigurations =
-                configurationDAO.queryConfigurations( query + "%" );
+                configurationDAO.queryConfigurations( "%" + query + "%" );
         for (configurations currentRaw : rawConfigurations) {
             configurationsResult.add( buildConfiguration( currentRaw ) );
         }

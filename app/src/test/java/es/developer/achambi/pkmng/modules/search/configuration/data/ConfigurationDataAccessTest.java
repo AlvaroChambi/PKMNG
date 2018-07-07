@@ -75,7 +75,7 @@ public class ConfigurationDataAccessTest {
     public void queryConfigurationData() {
         ArrayList<configurations> rawConfigurations = new ArrayList<>();
         rawConfigurations.add( buildRawConfiguration() );
-        when( mockDao.queryConfigurations( "query%" ) ).thenReturn( rawConfigurations );
+        when( mockDao.queryConfigurations( "%query%" ) ).thenReturn( rawConfigurations );
         when( mockPokemonDataAccess.accessPokemonData( 1 ) ).thenReturn( new Pokemon(1) );
         when( mockMoveDataAccess.accessMoveData( 1 ) ).thenReturn( new Move( 1 ));
         when( mockMoveDataAccess.accessMoveData( 2 ) ).thenReturn( new Move( 2 ));
@@ -85,18 +85,18 @@ public class ConfigurationDataAccessTest {
         ArrayList<PokemonConfig> configuration =
                 configurationDataAccess.queryConfigurationData( "query" );
 
-        verify(mockDao, times(1)).queryConfigurations("query%");
+        verify(mockDao, times(1)).queryConfigurations("%query%");
         assertEquals( 1, configuration.size() );
         assertConfiguration( configuration.get(0) );
     }
 
     @Test
     public void queryConfigurationDataEmptyResult() {
-        when( mockDao.queryConfigurations("query%") ).thenReturn( new ArrayList<configurations>() );
+        when( mockDao.queryConfigurations("%query%") ).thenReturn( new ArrayList<configurations>() );
 
         ArrayList<PokemonConfig> configs = configurationDataAccess.queryConfigurationData( "query" );
 
-        verify(mockDao, times(1)).queryConfigurations("query%");
+        verify(mockDao, times(1)).queryConfigurations("%query%");
         assertTrue( configs.isEmpty() );
     }
 
@@ -104,7 +104,7 @@ public class ConfigurationDataAccessTest {
     public void queryConfigurationDataNullQuery() {
         ArrayList<PokemonConfig> pokemonList = configurationDataAccess.queryConfigurationData(null);
 
-        verify(mockDao, times(0)).queryConfigurations("null%");
+        verify(mockDao, times(0)).queryConfigurations("%null%");
         assertTrue( pokemonList.isEmpty() );
     }
 

@@ -75,7 +75,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
         if(query == null) {
             return new ArrayList<>();
         }
-        List<pokemon> pokemonArray = pokemonDAO.getPokemon( query + "%" );
+        List<pokemon> pokemonArray = pokemonDAO.getPokemon( "%" + query + "%" );
         ArrayList<Pokemon> pokemonList = new ArrayList<>( pokemonArray.size() );
 
         for( pokemon currentPokemon : pokemonArray ) {

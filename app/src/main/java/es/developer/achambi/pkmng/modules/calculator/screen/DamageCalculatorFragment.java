@@ -3,7 +3,6 @@ package es.developer.achambi.pkmng.modules.calculator.screen;
 import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
@@ -23,6 +20,7 @@ import es.developer.achambi.pkmng.core.ui.BaseRequestFragment;
 import es.developer.achambi.pkmng.core.ui.FloatingActionMenu;
 import es.developer.achambi.pkmng.core.ui.Presenter;
 import es.developer.achambi.pkmng.core.ui.Screen;
+import es.developer.achambi.pkmng.core.utils.GlideApp;
 import es.developer.achambi.pkmng.modules.calculator.screen.presentation.CalculatorPokemonPresentation;
 import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenter;
 import es.developer.achambi.pkmng.modules.calculator.screen.presentation.MoveDamagePresentation;
@@ -124,8 +122,9 @@ public class DamageCalculatorFragment extends BaseRequestFragment implements Vie
         TextView leftConfigurationName = rootView.findViewById(R.id.left_pokemon_configuration_name);
         if( !leftPresentation.empty ) {
             leftConfigurationName.setText( leftPresentation.name );
-            Glide.with(this)
+            GlideApp.with(this)
                     .load(leftPresentation.image)
+                    .placeholder(R.drawable.icon_placeholder)
                     .into(leftView);
             leftView.setColorFilter(null);
         } else {
@@ -139,8 +138,9 @@ public class DamageCalculatorFragment extends BaseRequestFragment implements Vie
 
         if( !rightPresentation.empty ) {
             rightConfigurationName.setText( rightPresentation.name );
-            Glide.with(this)
+            GlideApp.with(this)
                     .load(rightPresentation.image)
+                    .placeholder(R.drawable.icon_placeholder)
                     .into(rightView);
             rightView.setColorFilter(null);
             rootView.findViewById( R.id.damage_results_frame_view ).setVisibility( View.VISIBLE );

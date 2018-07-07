@@ -21,6 +21,7 @@ import es.developer.achambi.pkmng.core.ui.screen.AbilityView;
 import es.developer.achambi.pkmng.core.ui.screen.ItemView;
 import es.developer.achambi.pkmng.core.ui.screen.NatureView;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.core.utils.GlideApp;
 import es.developer.achambi.pkmng.modules.calculator.screen.DamageCalculatorActivity;
 import es.developer.achambi.pkmng.modules.calculator.screen.DamageCalculatorFragment;
 import es.developer.achambi.pkmng.modules.create.EditConfigurationActivity;
@@ -172,8 +173,9 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
         TextView move2 = rootView.findViewById(R.id.configuration_details_move_2);
         TextView move3 = rootView.findViewById(R.id.configuration_details_move_3);
 
-        Glide.with(this)
+        GlideApp.with(this)
                 .load(configurationPresentation.pokemon.image)
+                .placeholder(configurationPresentation.pokemon.defaultImage)
                 .into(pokemonIcon);
         pokemonName.setText(configurationPresentation.pokemon.name);
         configurationName.setText(configurationPresentation.name);

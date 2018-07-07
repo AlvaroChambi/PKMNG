@@ -101,25 +101,25 @@ public class PokemonDataAccessTest {
     public void queryPokemonData() {
         ArrayList<pokemon> rawPokemonList = new ArrayList<>();
         rawPokemonList.add( buildRawPokemon() );
-        when( mockDao.getPokemon( "query%" ) ).thenReturn( rawPokemonList );
+        when( mockDao.getPokemon( "%query%" ) ).thenReturn( rawPokemonList );
         when( mockStatDataAccess.accessPokemonStatsData( 1 ) ).thenReturn( new StatsSet() );
         when( mockTypeDataAccess.accessPokemonTypeData( 1 ) ).thenReturn(
                 new Pair<>( Type.ELECTRIC, Type.WATER )  );
 
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData( "query" );
 
-        verify(mockDao, times(1)).getPokemon("query%");
+        verify(mockDao, times(1)).getPokemon("%query%");
         assertEquals( 1, pokemonList.size() );
         assertPokemon( pokemonList.get(0) );
     }
 
     @Test
     public void queryPokemonDataEmptyResult() {
-        when( mockDao.getPokemon("query%") ).thenReturn( new ArrayList<pokemon>() );
+        when( mockDao.getPokemon("%query%") ).thenReturn( new ArrayList<pokemon>() );
 
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData("query");
 
-        verify(mockDao, times(1)).getPokemon("query%");
+        verify(mockDao, times(1)).getPokemon("%query%");
         assertTrue( pokemonList.isEmpty() );
     }
 
@@ -127,7 +127,7 @@ public class PokemonDataAccessTest {
     public void queryPokemonDataNullQuery() {
         ArrayList<Pokemon> pokemonList = pokemonDataAccess.queryData(null);
 
-        verify(mockDao, times(0)).getPokemon("null%");
+        verify(mockDao, times(0)).getPokemon("%null%");
         assertTrue( pokemonList.isEmpty() );
     }
 

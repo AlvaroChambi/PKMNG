@@ -31,7 +31,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pokemon_level_text"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/pokemon_placeholder" />
+            app:srcCompat="@drawable/icon_placeholder" />
 
         <TextView
             android:id="@+id/pokemon_name_text"

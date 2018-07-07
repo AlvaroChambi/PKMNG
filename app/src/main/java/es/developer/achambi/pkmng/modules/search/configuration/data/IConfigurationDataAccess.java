@@ -12,7 +12,7 @@ public interface IConfigurationDataAccess {
     ArrayList<PokemonConfig> accessConfigurationData();
 
     /**
-     * Access configuration data of the instances whose name starts with the given query string
+     * Access configuration data of the instances whose identifiers contains the given query string
      * @param query text to perform the query, on a null query an empty result will be returned
      * @return available data that stats with the given query
      */

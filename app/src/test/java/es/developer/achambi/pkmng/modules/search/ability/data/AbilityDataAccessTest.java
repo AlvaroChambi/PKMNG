@@ -96,27 +96,27 @@ public class AbilityDataAccessTest {
     public void accessQueryData() {
         ArrayList<ability_value> rawAbilities = new ArrayList<>();
         rawAbilities.add( buildRawAbility() );
-        when( mockDao.getAbilitiesQuery( 1, "query%" ) ).thenReturn( rawAbilities );
+        when( mockDao.getAbilitiesQuery( 1, "%query%" ) ).thenReturn( rawAbilities );
 
         ArrayList<Ability> abilities = abilityDataAccess.accessAbilitiesQuery( 1,
                 "query" );
 
         verify(mockDao, times(1)).getAbilitiesQuery(1,
-                "query%");
+                "%query%");
         assertEquals(1, abilities.size());
         assertAbility( abilities.get(0) );
     }
 
     @Test
     public void accessQueryDataEmptyResult() {
-        when( mockDao.getAbilitiesQuery(1, "query%") )
+        when( mockDao.getAbilitiesQuery(1, "%query%") )
                 .thenReturn(new ArrayList<ability_value>());
 
         ArrayList<Ability> abilities = abilityDataAccess.accessAbilitiesQuery(1,
                 "query");
 
         verify(mockDao, times(1)).getAbilitiesQuery(1,
-                "query%");
+                "%query%");
         assertTrue( abilities.isEmpty() );
     }
 
@@ -126,7 +126,7 @@ public class AbilityDataAccessTest {
                 null);
 
         verify(mockDao, times(0)).getAbilitiesQuery(1,
-                "null%");
+                "%null%");
         assertTrue( abilities.isEmpty() );
     }
 

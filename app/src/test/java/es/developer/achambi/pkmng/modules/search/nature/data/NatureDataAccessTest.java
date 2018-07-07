@@ -95,22 +95,22 @@ public class NatureDataAccessTest {
         when( mockStatDataAccess.accessStatData( 10 ) ).thenReturn( Stat.DEFENSE );
         ArrayList<natures> rawNatures = new ArrayList<>();
         rawNatures.add( buildRawNature() );
-        when( mockDao.queryNatures( "query%" ) ).thenReturn( rawNatures );
+        when( mockDao.queryNatures( "%query%" ) ).thenReturn( rawNatures );
 
         ArrayList<Nature> natures = natureDataAccess.accessNatureQueryData( "query" );
 
-        verify( mockDao, times(1) ).queryNatures( "query%" );
+        verify( mockDao, times(1) ).queryNatures( "%query%" );
         assertEquals( 1, natures.size() );
         assertNature( natures.get(0) );
     }
 
     @Test
     public void accessQueryDataEmptyResult() {
-        when( mockDao.queryNatures( "query%" ) ).thenReturn( new ArrayList<natures>() );
+        when( mockDao.queryNatures( "%query%" ) ).thenReturn( new ArrayList<natures>() );
 
         ArrayList<Nature> natures = natureDataAccess.accessNatureQueryData( "query" );
 
-        verify( mockDao, times(1) ).queryNatures( "query%" );
+        verify( mockDao, times(1) ).queryNatures( "%query%" );
         assertTrue( natures.isEmpty() );
     }
 
@@ -118,8 +118,20 @@ public class NatureDataAccessTest {
     public void accessQueryDataNullQuery() {
         ArrayList<Nature> natures = natureDataAccess.accessNatureQueryData( null );
 
-        verify(mockDao, times(0)).queryNatures("null%");
+        verify(mockDao, times(0)).queryNatures("%null%");
         assertTrue( natures.isEmpty() );
+    }
+
+    @Test
+    public void accessNatureDataNeutralNature() {
+        ArrayList<natures> rawNatures = new ArrayList<>();
+        rawNatures.add( buildRawNeutralNature() );
+        when( mockDao.getNatures() ).thenReturn( rawNatures );
+
+        ArrayList<Nature> natures = natureDataAccess.accessData();
+
+        assertEquals( 1, natures.size() );
+        assertNeutralNature( natures.get(0) );
     }
 
     private void assertNature( Nature nature ) {
@@ -129,12 +141,27 @@ public class NatureDataAccessTest {
         assertEquals( Stat.DEFENSE, nature.getDecreasedStat() );
     }
 
+    private void assertNeutralNature( Nature nature ) {
+        assertEquals( 1, nature.getId() );
+        assertEquals( "nature", nature.getName() );
+        assertEquals( Stat.NONE, nature.getIncreasedStat() );
+        assertEquals( Stat.NONE, nature.getDecreasedStat() );
+    }
+
     private natures buildRawNature() {
         natures rawNature = new natures();
         rawNature.id = 1;
         rawNature.identifier = "nature";
         rawNature.increased_stat_id = 5;
         rawNature.decreased_stat_id = 10;
+
+        return rawNature;
+    }
+
+    private natures buildRawNeutralNature() {
+        natures rawNature = buildRawNature();
+        rawNature.increased_stat_id = 5;
+        rawNature.decreased_stat_id = 5;
 
         return rawNature;
     }

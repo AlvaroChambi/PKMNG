@@ -1,15 +1,13 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.adapter;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.RequestManager;
-
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.core.utils.GlideRequests;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
 public class PokemonViewHolder extends RecyclerView.ViewHolder {
@@ -46,7 +44,7 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonLevel = rootView.findViewById(R.id.pokemon_level_text);
     }
 
-    public void bindTo(PokemonPresentation pokemon, RequestManager requestManager) {
+    public void bindTo(PokemonPresentation pokemon, GlideRequests requestManager) {
         pokemonName.setText(pokemon.name);
         pokemonType.setType(pokemon.type);
         baseStats.setText(pokemon.totalStats);
@@ -57,6 +55,7 @@ public class PokemonViewHolder extends RecyclerView.ViewHolder {
         pokemonSpDefense.setText(pokemon.stats.spDefense);
         pokemonSpeed.setText(pokemon.stats.speed);
         requestManager.load(pokemon.image)
+                .placeholder(pokemon.defaultImage)
                 .into(pokemonIcon);
         pokemonLevel.setText(pokemon.level);
     }

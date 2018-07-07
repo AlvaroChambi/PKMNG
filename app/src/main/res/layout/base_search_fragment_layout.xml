@@ -21,7 +21,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:scrollbars="vertical">
         </android.support.v7.widget.RecyclerView>
         <include
             android:id="@+id/base_request_loading_frame"

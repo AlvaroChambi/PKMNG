@@ -44,9 +44,9 @@ public class OverviewSearchTest extends BaseAutomationTest {
 
         onView(withId(R.id.overview_search_action)).perform(click());
         onView(withId(R.id.search_src_text)).perform( clearText(),
-                typeText("F"),
+                typeText("Fearow"),
                 pressImeActionButton() );
-
+        delay(500);// don't know why :(
         onView( allOf( withId(R.id.pokemon_config_name_text), withText("Special") ) )
                 .check(matches(isDisplayed()) );
         onView( allOf( withId(R.id.pokemon_name_text), withText("fearow") ) )

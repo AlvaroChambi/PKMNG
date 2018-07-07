@@ -34,7 +34,7 @@ public class ItemDataAccess implements IItemDataAccess{
         if( query == null ) {
             return new ArrayList<>();
         }
-        List<item_value> rawItems = itemDAO.queryItems( query + "%" );
+        List<item_value> rawItems = itemDAO.queryItems( "%" + query + "%" );
         return buildItemsList( rawItems );
     }
 

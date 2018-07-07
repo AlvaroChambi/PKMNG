@@ -103,26 +103,26 @@ public class MoveDataAccessTest {
         int pokemonId = 1;
         ArrayList<move_value> rawMoves = new ArrayList<>();
         rawMoves.add( buildMove() );
-        when(movesDAO.getPokemonMovesQuery(1, "query%")).thenReturn(rawMoves);
+        when(movesDAO.getPokemonMovesQuery(1, "%query%")).thenReturn(rawMoves);
         when(typeDataAccess.accessTypeData(1)).thenReturn(Type.ICE);
 
         List<Move> moves = moveDataAccess.queryPokemonMovesData( pokemonId, query );
 
         verify( movesDAO, times(1) ).getPokemonMovesQuery(1,
-                "query%");
+                "%query%");
         assertEquals( 1, moves.size() );
         assertMove( moves.get(0) );
     }
 
     @Test
     public void queryPokemonMovesEmptyResult() {
-        when(movesDAO.getPokemonMovesQuery(1, "query%")).thenReturn(
+        when(movesDAO.getPokemonMovesQuery(1, "%query%")).thenReturn(
                 new ArrayList<move_value>() );
 
         ArrayList<Move> moves = moveDataAccess.queryPokemonMovesData( 1, "query" );
 
         verify( movesDAO, times(1) ).getPokemonMovesQuery(1,
-                "query%");
+                "%query%");
         assertTrue(moves.isEmpty());
     }
 
@@ -131,7 +131,7 @@ public class MoveDataAccessTest {
         ArrayList<Move> moves = moveDataAccess.queryPokemonMovesData( 1, "query" );
 
         verify(movesDAO, times(0)).getPokemonMovesQuery(1,
-                "null%");
+                "%null%");
         assertTrue( moves.isEmpty() );
     }
 

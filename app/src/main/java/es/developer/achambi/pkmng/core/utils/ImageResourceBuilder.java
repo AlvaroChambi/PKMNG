@@ -7,7 +7,6 @@ public class ImageResourceBuilder {
     private static final String ITEMS_PATH = "items/";
     private static final String ASSET_FILE_PATH = "file:///android_asset/";
     private static final String IMAGE_URL_EXTENSION = ".png";
-
     private static final String IMAGE_TOKEN_SEPARATOR = "-";
 
     public String buildPokemonImageIdentifier( int speciesId, String identifier )
