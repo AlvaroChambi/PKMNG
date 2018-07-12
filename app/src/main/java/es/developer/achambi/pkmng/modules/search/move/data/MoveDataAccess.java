@@ -1,5 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.move.data;
 
+import android.annotation.SuppressLint;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,7 @@ public class MoveDataAccess implements  IMoveDataAccess {
 
     private HashMap<Integer, ArrayList<Move>> cachedData;
 
+    @SuppressLint("UseSparseArrays")
     public MoveDataAccess(MovesDAO movesDAO,
                           ITypeDataAccess typeDataAccess,
                           DataFormatUtil formatter) {
