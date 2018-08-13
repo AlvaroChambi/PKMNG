@@ -15,3 +15,13 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn android.arch.util.paging.CountedDataSource
+-dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
+
+-keep class android.support.v4.app.** { *; }
+-keep interface android.support.v4.app.** { *; }
+-keep class android.support.v7.app.** { *; }
+-keep interface android.support.v7.app.** { *; }
+
+-keep class android.support.v7.widget.SearchView { *; }
