@@ -73,6 +73,8 @@
     <string name="damage_calculator_damage_result_title">Damage results</string>
     <string name="damage_calculator_empty_opponent_text">Choose an opponent configuration to display the damage result</string>
 
+    <string name="damage_not_available_placeholder">Damage calculation not available for the current move</string>
+
     <string name="type_normal_text">NORMAL</string>
     <string name="type_fire_text">FIRE</string>
     <string name="type_water_text">WATER</string>

@@ -55,7 +55,9 @@ public class MoveDamagePresentation {
         private static String formatDamage( Context context, Damage damage ) {
             if( damage.getCategory().equals( Move.Category.NON_DAMAGING ) ) {
                 return context.getResources().getString( R.string.text_empty_placeholder );
-            } else {
+            } else if( damage.getPower() == 0 ) {
+                return context.getResources().getString(R.string.damage_not_available_placeholder );
+            }else {
                 Pair<Float, Float> damageResult = damage.getMoveDamage();
                 return "Guaranteed " + damage.getHitsToKO() + "HKO  " +
                         round( damageResult.first, 2 ) + " ~ " +

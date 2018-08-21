@@ -94,9 +94,11 @@ public class DamageCalculatorPresenter extends Presenter {
 
     private Damage damageResult( PokemonConfig attacker, PokemonConfig attacked, Move move ) {
         Damage damage = new Damage( move );
-        if( move.getCategory().equals( Move.Category.NON_DAMAGING ) ) {
+        if( move.getCategory().equals( Move.Category.NON_DAMAGING ) ||
+                move.getPower() == 0 ) {
             return damage;
         }
+
         Pair<Float, Float> moveBaseDamage = DamageCalculator.moveDamageResult( attacker.getAttack(),
                 attacker.getSpAttack(), attacked.getDefense(), attacked.getSPDefense(),
                 attacker.getPokemon().getLevel(), move ) ;

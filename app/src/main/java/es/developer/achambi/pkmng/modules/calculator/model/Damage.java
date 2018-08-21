@@ -16,6 +16,7 @@ public class Damage {
     private float effectivenessModifier;
 
     public Damage() {
+        power = 0;
         this.moveName = "";
     }
 
