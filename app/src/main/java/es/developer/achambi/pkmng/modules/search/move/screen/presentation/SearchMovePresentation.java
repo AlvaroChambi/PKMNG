@@ -50,12 +50,23 @@ public class SearchMovePresentation implements SearchListData{
                     move.getEffect(),
                     buildCategory(move.getCategory()),
                     MoveTypePresentation.Builder.buildPresentation( context, move.getType()),
-                    "Pow. " + move.getPower(),
-                    "PP " + move.getPp(),
-                    "Acc. " + move.getAccuracy(),
+                    formatPower( context, move.getPower() ),
+                    formatPP( context, move.getPp() ),
+                    formatAccuracy( context, move.getAccuracy() ),
                     move.getId() == -1
-
             );
+        }
+
+        private static String formatPower( Context context, int power ) {
+            return context.getString( R.string.move_power_text_tag ) + " " + power;
+        }
+
+        private static String formatAccuracy( Context context, int accuracy ) {
+            return context.getString( R.string.move_accuracy_text_tag ) + " " + accuracy;
+        }
+
+        private static String formatPP( Context context, int pp ) {
+            return context.getString( R.string.move_pp_text_tag ) + " " + pp;
         }
 
         private static int buildCategory( Move.Category category ) {

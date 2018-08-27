@@ -104,6 +104,7 @@
 
     <string name="move_power_text_tag">Power</string>
     <string name="move_accuracy_text_tag">Accuracy</string>
+    <string name="move_pp_text_tag">PP</string>
 
     <string name="text_empty_placeholder">-</string>
 
