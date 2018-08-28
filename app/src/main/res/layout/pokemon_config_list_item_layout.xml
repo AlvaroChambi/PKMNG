@@ -88,17 +88,19 @@
         app:layout_constraintGuide_percent="0.6"
         android:orientation="vertical"
         android:id="@+id/guideline" />
+
     <es.developer.achambi.pkmng.core.ui.screen.ItemView
         android:id="@+id/pokemon_item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Item: Eviolite"
-        app:layout_constraintLeft_toLeftOf="@+id/pokemon_ability_text"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/pokemon_ability_text"
-        android:layout_marginStart="0dp"
         android:ellipsize="end"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pokemon_ability_text"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_ability_text"
+        tools:text="Item: Eviolite" />
 
     <es.developer.achambi.pkmng.core.ui.screen.AbilityView
         android:id="@+id/pokemon_ability_text"
@@ -116,16 +118,17 @@
         android:id="@+id/pokemon_nature_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Nature: Sassy"
-        android:layout_marginStart="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/pokemon_item_text"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/pokemon_item_text"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pokemon_item_text"
+        app:layout_constraintTop_toBottomOf="@+id/pokemon_item_text"
         app:layout_constraintVertical_bias="0.0"
-        android:layout_marginBottom="8dp" />
+        tools:text="Nature: Sassy" />
 
     <TextView
         android:id="@+id/pokemon_level_text"

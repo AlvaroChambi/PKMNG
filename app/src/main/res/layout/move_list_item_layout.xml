@@ -83,7 +83,7 @@
         android:id="@+id/move_effect_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toRightOf="@+id/move_accuracy_value_text"
         app:layout_constraintRight_toRightOf="parent"
