@@ -1,6 +1,10 @@
 import PerfTestTaskGeneratorPlugin
 apply plugin: 'com.android.application'
 
+def version_major = 1
+def version_minor = 0
+def version_micro = 1
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -9,8 +13,8 @@ android {
         applicationId "es.developer.achambi.pkmng"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode version_major * 10000 + version_minor * 1000 + version_micro * 100
+        versionName version_major + "." + version_minor + "." + version_micro
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
