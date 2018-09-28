@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.create.screen;
 
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.TypePresentation;
 
 public class MoveConfigurationRepresentation {
     public final int id;

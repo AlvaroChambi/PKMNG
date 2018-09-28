@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search;
 
-import es.developer.achambi.pkmng.core.db.dao.NaturesDAO;
+import es.developer.achambi.coreframework.db.dao.NaturesDAO;
 import es.developer.achambi.pkmng.modules.search.nature.data.INatureDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.data.NatureDataAccessFactory;
 

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.utils.ParcelUtil;
+import es.developer.achambi.coreframework.utils.ParcelUtil;
 
 public class StatsSet implements Parcelable{
     public static final int MAX_STAT_EV = 252;

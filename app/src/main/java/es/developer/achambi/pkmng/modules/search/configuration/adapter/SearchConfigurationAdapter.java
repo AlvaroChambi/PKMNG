@@ -3,8 +3,8 @@ package es.developer.achambi.pkmng.modules.search.configuration.adapter;
 import android.view.View;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.utils.GlideRequests;
+import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
+import es.developer.achambi.coreframework.utils.GlideRequests;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 
 public class SearchConfigurationAdapter extends SearchAdapterDecorator<ConfigurationPresentation,

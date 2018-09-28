@@ -3,8 +3,8 @@ package es.developer.achambi.pkmng.modules.details.view.presentation;
 import android.content.Context;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.CategoryPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.TypePresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.CategoryPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class MovePresentation {

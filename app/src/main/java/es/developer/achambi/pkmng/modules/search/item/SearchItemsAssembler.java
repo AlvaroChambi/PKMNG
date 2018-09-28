@@ -1,7 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.item;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.db.AppDatabase;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.search.ItemDataAssembler;
 import es.developer.achambi.pkmng.modules.search.item.data.ItemDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.item.presenter.ISearchItemsPresenterFactory;

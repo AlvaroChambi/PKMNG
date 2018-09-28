@@ -1,7 +1,7 @@
 package es.developer.achambi.pkmng.modules.create.presenter;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.core.ui.Screen;
+import es.developer.achambi.coreframework.threading.MainExecutor;
+import es.developer.achambi.coreframework.ui.Screen;
 import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 
 public class ConfigurationPresenterFactory {

@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.presenter;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccess;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.ISearchPokemonScreen;
 

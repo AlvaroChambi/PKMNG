@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.screen.TypeView;
-import es.developer.achambi.pkmng.core.utils.GlideRequests;
+import es.developer.achambi.pkmng.modules.ui.screen.TypeView;
+import es.developer.achambi.coreframework.utils.GlideRequests;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 
 public class PokemonViewHolder extends RecyclerView.ViewHolder {

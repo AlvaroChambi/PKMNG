@@ -3,9 +3,9 @@ package es.developer.achambi.pkmng.modules.search.configuration.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.dao.ConfigurationDAO;
-import es.developer.achambi.pkmng.core.db.model.configurations;
-import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.coreframework.db.dao.ConfigurationDAO;
+import es.developer.achambi.coreframework.db.model.configurations;
+import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;

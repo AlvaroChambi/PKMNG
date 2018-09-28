@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.configuration.presenter;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.ISearchConfigurationScreen;
 

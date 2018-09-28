@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules;
 
-import es.developer.achambi.pkmng.core.db.dao.ConfigurationDAO;
+import es.developer.achambi.coreframework.db.dao.ConfigurationDAO;
 import es.developer.achambi.pkmng.modules.search.AbilityDataAssembler;
 import es.developer.achambi.pkmng.modules.search.ItemDataAssembler;
 import es.developer.achambi.pkmng.modules.search.NatureDataAssembler;

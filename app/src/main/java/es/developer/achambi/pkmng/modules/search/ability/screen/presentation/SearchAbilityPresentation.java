@@ -1,7 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.ability.screen.presentation;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
+import es.developer.achambi.coreframework.ui.presentation.SearchListData;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 
 public class SearchAbilityPresentation implements SearchListData{

@@ -2,13 +2,13 @@ package es.developer.achambi.pkmng.modules.create.presenter;
 
 import android.os.Bundle;
 
-import es.developer.achambi.pkmng.core.threading.Error;
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.core.threading.Request;
-import es.developer.achambi.pkmng.core.threading.Response;
-import es.developer.achambi.pkmng.core.threading.ResponseHandler;
-import es.developer.achambi.pkmng.core.ui.Presenter;
-import es.developer.achambi.pkmng.core.ui.Screen;
+import es.developer.achambi.coreframework.threading.Error;
+import es.developer.achambi.coreframework.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.Request;
+import es.developer.achambi.coreframework.threading.Response;
+import es.developer.achambi.coreframework.threading.ResponseHandler;
+import es.developer.achambi.coreframework.ui.Presenter;
+import es.developer.achambi.coreframework.ui.Screen;
 import es.developer.achambi.pkmng.modules.create.screen.StatEVView;
 import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;

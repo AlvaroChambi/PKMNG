@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.core.ui.screen.TypeView;
-import es.developer.achambi.pkmng.core.utils.GlideApp;
+import es.developer.achambi.coreframework.ui.BaseDialogFragment;
+import es.developer.achambi.pkmng.modules.ui.screen.TypeView;
+import es.developer.achambi.coreframework.utils.GlideApp;
 import es.developer.achambi.pkmng.modules.create.screen.CreateConfigurationActivity;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;

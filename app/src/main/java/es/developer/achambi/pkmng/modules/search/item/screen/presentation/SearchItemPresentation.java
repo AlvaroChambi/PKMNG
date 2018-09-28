@@ -3,8 +3,8 @@ package es.developer.achambi.pkmng.modules.search.item.screen.presentation;
 import android.net.Uri;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
-import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
+import es.developer.achambi.coreframework.ui.presentation.SearchListData;
+import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
 public class SearchItemPresentation implements SearchListData{

@@ -1,7 +1,7 @@
 package es.developer.achambi.pkmng.modules;
 
-import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
-import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
+import es.developer.achambi.coreframework.db.dao.PokemonDAO;
+import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.search.StatDataAssembler;
 import es.developer.achambi.pkmng.modules.search.TypeDataAssembler;
 import es.developer.achambi.pkmng.modules.search.pokemon.data.IPokemonDataAccess;

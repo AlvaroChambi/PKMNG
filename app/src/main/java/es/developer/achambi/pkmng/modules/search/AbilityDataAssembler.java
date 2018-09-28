@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search;
 
-import es.developer.achambi.pkmng.core.db.dao.AbilitiesDAO;
+import es.developer.achambi.coreframework.db.dao.AbilitiesDAO;
 import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.ability.data.AbilityDataAccessFactory;
 import es.developer.achambi.pkmng.modules.search.ability.data.IAbilityDataAccess;

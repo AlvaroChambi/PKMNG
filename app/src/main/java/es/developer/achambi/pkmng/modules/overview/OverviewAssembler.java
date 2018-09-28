@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.overview;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.overview.presenter.IOverviewPresenterFactory;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.configuration.SearchConfigurationAssembler;

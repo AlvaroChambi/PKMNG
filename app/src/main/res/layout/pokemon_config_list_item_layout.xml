@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text"
         tools:text="Pikachu" />
 
-    <es.developer.achambi.pkmng.core.ui.screen.TypeView
+    <es.developer.achambi.pkmng.modules.ui.screen.TypeView
         android:id="@+id/pokemon_type_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         android:orientation="vertical"
         android:id="@+id/guideline" />
 
-    <es.developer.achambi.pkmng.core.ui.screen.ItemView
+    <es.developer.achambi.pkmng.modules.ui.screen.ItemView
         android:id="@+id/pokemon_item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pokemon_ability_text"
         tools:text="Item: Eviolite" />
 
-    <es.developer.achambi.pkmng.core.ui.screen.AbilityView
+    <es.developer.achambi.pkmng.modules.ui.screen.AbilityView
         android:id="@+id/pokemon_ability_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
         android:layout_marginTop="4dp"
         app:layout_constraintTop_toBottomOf="@+id/pokemon_config_name_text" />
 
-    <es.developer.achambi.pkmng.core.ui.screen.NatureView
+    <es.developer.achambi.pkmng.modules.ui.screen.NatureView
         android:id="@+id/pokemon_nature_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.core.db.dao.PokemonDAO;
-import es.developer.achambi.pkmng.core.db.model.pokemon;
-import es.developer.achambi.pkmng.core.exception.IllegalIDException;
-import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
+import es.developer.achambi.coreframework.db.dao.PokemonDAO;
+import es.developer.achambi.coreframework.db.model.pokemon;
+import es.developer.achambi.coreframework.exception.IllegalIDException;
+import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;

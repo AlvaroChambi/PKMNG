@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.AbilityPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.NaturePresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.AbilityPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.ItemPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.NaturePresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
+import es.developer.achambi.coreframework.ui.presentation.SearchListData;
 
 public class ConfigurationPresentation implements SearchListData {
     public final int id;

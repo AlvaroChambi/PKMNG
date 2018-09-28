@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search;
 
-import es.developer.achambi.pkmng.core.db.dao.TypeDAO;
+import es.developer.achambi.coreframework.db.dao.TypeDAO;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.data.type.TypeDataAccessFactory;
 

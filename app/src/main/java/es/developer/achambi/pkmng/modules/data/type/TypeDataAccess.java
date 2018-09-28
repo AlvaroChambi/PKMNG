@@ -4,10 +4,10 @@ import android.support.v4.util.Pair;
 
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.dao.TypeDAO;
-import es.developer.achambi.pkmng.core.db.model.type_value;
-import es.developer.achambi.pkmng.core.db.model.types;
-import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.coreframework.db.dao.TypeDAO;
+import es.developer.achambi.coreframework.db.model.type_value;
+import es.developer.achambi.coreframework.db.model.types;
+import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public class TypeDataAccess implements ITypeDataAccess{

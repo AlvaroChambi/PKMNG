@@ -2,9 +2,9 @@ package es.developer.achambi.pkmng.modules.overview.presenter;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.core.ui.Presenter;
-import es.developer.achambi.pkmng.core.ui.Screen;
+import es.developer.achambi.coreframework.threading.MainExecutor;
+import es.developer.achambi.coreframework.ui.Presenter;
+import es.developer.achambi.coreframework.ui.Screen;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.search.configuration.presenter.SearchConfigurationPresenter;

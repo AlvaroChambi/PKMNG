@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.ability;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.search.AbilityDataAssembler;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.ISearchAbilityPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.ability.presenter.SearchAbilityPresenterFactory;

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.coreframework.ui.BaseDialogFragment;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 import es.developer.achambi.pkmng.modules.search.ability.screen.presentation.SearchAbilityPresentation;

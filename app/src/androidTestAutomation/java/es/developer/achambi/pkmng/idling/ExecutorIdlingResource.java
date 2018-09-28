@@ -2,7 +2,7 @@ package es.developer.achambi.pkmng.idling;
 
 import android.support.test.espresso.IdlingResource;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 
 public class ExecutorIdlingResource implements IdlingResource {
     boolean isIdle;

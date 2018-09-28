@@ -2,7 +2,7 @@ package es.developer.achambi.pkmng.modules.data.type;
 
 import android.support.v4.util.Pair;
 
-import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public interface ITypeDataAccess {

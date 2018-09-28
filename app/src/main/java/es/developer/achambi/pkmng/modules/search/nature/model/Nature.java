@@ -3,7 +3,7 @@ package es.developer.achambi.pkmng.modules.search.nature.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import es.developer.achambi.pkmng.core.utils.ParcelUtil;
+import es.developer.achambi.coreframework.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 
 public class Nature implements Parcelable{

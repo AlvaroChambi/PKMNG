@@ -3,9 +3,9 @@ package es.developer.achambi.pkmng.modules.search.ability.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.dao.AbilitiesDAO;
-import es.developer.achambi.pkmng.core.db.model.ability_value;
-import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.coreframework.db.dao.AbilitiesDAO;
+import es.developer.achambi.coreframework.db.model.ability_value;
+import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.ability.model.Ability;
 

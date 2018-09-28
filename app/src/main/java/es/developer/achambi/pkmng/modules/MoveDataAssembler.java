@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules;
 
-import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
+import es.developer.achambi.coreframework.db.dao.MovesDAO;
 import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.TypeDataAssembler;
 import es.developer.achambi.pkmng.modules.search.move.data.IMoveDataAccess;
