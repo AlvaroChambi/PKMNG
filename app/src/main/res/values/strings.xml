@@ -26,7 +26,6 @@
     <string name="configuration_ability_title">Ability</string>
     <string name="configuration_moves_title">Moves</string>
     <string name="configuration_evs_title">EV\'s</string>
-    <string name="configuration_save_action_text">SAVE</string>
 
     <string name="configuration_save_dialog_title">Create Configuration</string>
     <string name="configuration_save_dialog_name_tag">Name</string>
@@ -106,8 +105,6 @@
     <string name="move_pp_text_tag">PP</string>
 
     <string name="text_empty_placeholder">-</string>
-
-    <string name="error_message_retry">TRY AGAIN</string>
 
     <string name="pokemon_level_tag">level</string>
 </resources>
