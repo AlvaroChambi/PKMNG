@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import es.developer.achambi.pkmng.R;
+import es.developer.achambi.coreframework.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
     public static final String BASE_ARGUMENTS = "base_arguments";

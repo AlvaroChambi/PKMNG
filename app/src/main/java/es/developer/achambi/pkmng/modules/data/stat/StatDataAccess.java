@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import es.developer.achambi.coreframework.db.dao.StatsDAO;
-import es.developer.achambi.coreframework.db.model.configuration_stats;
-import es.developer.achambi.coreframework.db.model.stat_value;
-import es.developer.achambi.coreframework.db.model.stats;
+import es.developer.achambi.pkmng.database.dao.StatsDAO;
+import es.developer.achambi.pkmng.database.model.configuration_stats;
+import es.developer.achambi.pkmng.database.model.stat_value;
+import es.developer.achambi.pkmng.database.model.stats;
 import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.overview.model.Stat;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;

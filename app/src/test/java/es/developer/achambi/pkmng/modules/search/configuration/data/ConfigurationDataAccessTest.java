@@ -6,8 +6,8 @@ import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.coreframework.db.dao.ConfigurationDAO;
-import es.developer.achambi.coreframework.db.model.configurations;
+import es.developer.achambi.pkmng.database.dao.ConfigurationDAO;
+import es.developer.achambi.pkmng.database.model.configurations;
 import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.overview.model.Configuration;

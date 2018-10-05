@@ -1,7 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.item.data;
 
 
-import es.developer.achambi.coreframework.db.dao.ItemDAO;
+import es.developer.achambi.pkmng.database.dao.ItemDAO;
 import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 
 public class ItemDataAccessFactory {

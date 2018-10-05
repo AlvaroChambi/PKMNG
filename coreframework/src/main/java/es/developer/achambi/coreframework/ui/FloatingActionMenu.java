@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import es.developer.achambi.pkmng.R;
+import es.developer.achambi.coreframework.R;
 import es.developer.achambi.coreframework.utils.ParcelUtil;
 
 public class FloatingActionMenu extends ConstraintLayout
@@ -53,13 +53,11 @@ public class FloatingActionMenu extends ConstraintLayout
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.configuration_floating_save_button_main:
-                showMenuOptions();
-                break;
-            default:
-                hideMenuOptions();
-                break;
+        int i = v.getId();
+        if (i == R.id.configuration_floating_save_button_main) {
+            showMenuOptions();
+        } else {
+            hideMenuOptions();
         }
         if( listener != null ) {
             listener.onMenuOptionClicked( v.getId() );

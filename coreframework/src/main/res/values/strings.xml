@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CoreFramework</string>
+    <string name="search_default_hint">Search</string>
+
 </resources>

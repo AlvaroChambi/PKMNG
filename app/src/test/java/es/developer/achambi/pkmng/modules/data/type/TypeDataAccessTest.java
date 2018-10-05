@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.coreframework.db.dao.TypeDAO;
-import es.developer.achambi.coreframework.db.model.type_value;
-import es.developer.achambi.coreframework.db.model.types;
+import es.developer.achambi.pkmng.database.dao.TypeDAO;
+import es.developer.achambi.pkmng.database.model.type_value;
+import es.developer.achambi.pkmng.database.model.types;
 import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 

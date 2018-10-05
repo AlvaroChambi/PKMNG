@@ -1,8 +1,7 @@
 package es.developer.achambi.pkmng.modules.search.move.data;
 
-import es.developer.achambi.coreframework.db.dao.MovesDAO;
+import es.developer.achambi.pkmng.database.dao.MovesDAO;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
-import es.developer.achambi.pkmng.modules.data.type.TypeDataAccessFactory;
 import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 
 public class MoveDataAccessFactory {

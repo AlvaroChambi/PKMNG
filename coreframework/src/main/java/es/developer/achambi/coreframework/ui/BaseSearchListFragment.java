@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import es.developer.achambi.pkmng.R;
+import es.developer.achambi.coreframework.R;
 import es.developer.achambi.coreframework.utils.GlideApp;
 import es.developer.achambi.coreframework.utils.GlideRequests;
 

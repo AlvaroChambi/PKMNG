@@ -4,7 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
-import es.developer.achambi.pkmng.R;
+import es.developer.achambi.coreframework.R;
 import es.developer.achambi.coreframework.threading.Error;
 
 public abstract class BaseRequestFragment extends BaseFragment implements View.OnClickListener {
@@ -58,12 +58,9 @@ public abstract class BaseRequestFragment extends BaseFragment implements View.O
 
     @Override
     public void onClick(View v) {
-        switch ( v.getId() ) {
-            case R.id.base_request_retry_text:
-                onRetry();
-                break;
-            default:
-                break;
+        int i = v.getId();
+        if (i == R.id.base_request_retry_text) {
+            onRetry();
         }
     }
 }

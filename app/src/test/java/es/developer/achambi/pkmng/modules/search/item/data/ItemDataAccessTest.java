@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.coreframework.db.dao.ItemDAO;
-import es.developer.achambi.coreframework.db.model.item_value;
+import es.developer.achambi.pkmng.database.dao.ItemDAO;
+import es.developer.achambi.pkmng.database.model.item_value;
 import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;

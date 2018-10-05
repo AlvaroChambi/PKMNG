@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import es.developer.achambi.pkmng.R;
+import es.developer.achambi.coreframework.R;
 
 public class FloatingTextButton extends FrameLayout {
     public FloatingTextButton(@NonNull Context context) {

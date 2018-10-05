@@ -4,8 +4,8 @@ package es.developer.achambi.pkmng.modules.search.pokemon.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.coreframework.db.dao.PokemonDAO;
-import es.developer.achambi.coreframework.db.model.pokemon;
+import es.developer.achambi.pkmng.database.dao.PokemonDAO;
+import es.developer.achambi.pkmng.database.model.pokemon;
 import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
