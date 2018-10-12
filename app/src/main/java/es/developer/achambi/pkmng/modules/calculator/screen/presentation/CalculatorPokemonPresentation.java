@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
+import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 
 public class CalculatorPokemonPresentation {

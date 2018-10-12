@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search;
 
-import es.developer.achambi.pkmng.core.db.dao.StatsDAO;
+import es.developer.achambi.pkmng.database.dao.StatsDAO;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.data.stat.StatDataAccessFactory;
 

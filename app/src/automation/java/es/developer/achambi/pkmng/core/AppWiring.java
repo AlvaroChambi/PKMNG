@@ -2,7 +2,7 @@ package es.developer.achambi.pkmng.core;
 
 import android.content.Context;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.BaseAppWiring;
 import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
 import es.developer.achambi.pkmng.modules.search.configuration.data.IConfigurationDataAccess;

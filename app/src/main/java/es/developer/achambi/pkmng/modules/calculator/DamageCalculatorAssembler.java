@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.calculator;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.ConfigurationDataAssembler;
 import es.developer.achambi.pkmng.modules.calculator.presenter.DamageCalculatorPresenterFactory;
 import es.developer.achambi.pkmng.modules.calculator.presenter.IDamageCalculatorPresenterFactory;

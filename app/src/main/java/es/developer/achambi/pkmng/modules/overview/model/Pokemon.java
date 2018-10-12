@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.support.v4.util.Pair;
 
 
-import es.developer.achambi.pkmng.core.utils.ParcelUtil;
+import es.developer.achambi.coreframework.utils.ParcelUtil;
 
 public class Pokemon implements BasePokemon{
     private static final int FIXED_LEVEL = 50;

@@ -6,8 +6,8 @@ import android.support.v4.util.Pair;
 import java.math.BigDecimal;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.CategoryPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.CategoryPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.MoveTypePresentation;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 

@@ -8,8 +8,8 @@
     android:padding="8dp"
     android:layout_margin="8dp">
 
-    <es.developer.achambi.pkmng.core.ui.screen.PokemonView
+    <es.developer.achambi.pkmng.modules.ui.screen.PokemonView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </es.developer.achambi.pkmng.core.ui.screen.PokemonView>
+    </es.developer.achambi.pkmng.modules.ui.screen.PokemonView>
 </android.support.v7.widget.CardView>

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.dao.MovesDAO;
-import es.developer.achambi.pkmng.core.db.model.move_value;
-import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.database.dao.MovesDAO;
+import es.developer.achambi.pkmng.database.model.move_value;
+import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.type.ITypeDataAccess;
 import es.developer.achambi.pkmng.modules.data.utils.DataFormatUtil;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;

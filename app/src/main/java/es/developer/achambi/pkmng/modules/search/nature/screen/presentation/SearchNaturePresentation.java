@@ -3,8 +3,8 @@ package es.developer.achambi.pkmng.modules.search.nature.screen.presentation;
 import android.content.Context;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.NatureDetailPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
+import es.developer.achambi.pkmng.modules.ui.presentation.NatureDetailPresentation;
+import es.developer.achambi.coreframework.ui.presentation.SearchListData;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 
 public class SearchNaturePresentation implements SearchListData{

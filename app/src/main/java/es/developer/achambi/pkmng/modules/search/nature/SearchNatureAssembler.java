@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.nature;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.search.NatureDataAssembler;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.ISearchNaturePresenterFactory;
 import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePresenterFactory;

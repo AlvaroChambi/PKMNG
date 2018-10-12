@@ -16,13 +16,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.core.AppWiring;
-import es.developer.achambi.pkmng.core.threading.Error;
-import es.developer.achambi.pkmng.core.threading.Response;
-import es.developer.achambi.pkmng.core.threading.ResponseHandler;
-import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
-import es.developer.achambi.pkmng.core.ui.DataState;
-import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.utils.GlideApp;
+import es.developer.achambi.coreframework.threading.Error;
+import es.developer.achambi.coreframework.threading.Response;
+import es.developer.achambi.coreframework.threading.ResponseHandler;
+import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
+import es.developer.achambi.coreframework.ui.DataState;
+import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
+import es.developer.achambi.coreframework.utils.GlideApp;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.DetailsUseContext;
@@ -33,7 +33,7 @@ import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
 import es.developer.achambi.pkmng.modules.search.pokemon.adapter.PokemonSearchAdapter;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
-import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.coreframework.ui.Presenter;
 import es.developer.achambi.pkmng.modules.search.configuration.adapter.SearchConfigurationAdapter;
 
 public class OverviewFragment extends BaseSearchListFragment implements IOverviewScreen {

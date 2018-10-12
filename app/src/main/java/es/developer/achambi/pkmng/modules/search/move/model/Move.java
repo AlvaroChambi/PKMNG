@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
-import es.developer.achambi.pkmng.core.utils.ParcelUtil;
+import es.developer.achambi.coreframework.utils.ParcelUtil;
 import es.developer.achambi.pkmng.modules.overview.model.Type;
 
 public class Move implements Parcelable{

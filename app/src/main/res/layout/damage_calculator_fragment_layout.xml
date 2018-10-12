@@ -171,12 +171,12 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-    <es.developer.achambi.pkmng.core.ui.FloatingActionMenu
+    <es.developer.achambi.coreframework.ui.FloatingActionMenu
         android:id="@+id/damage_calculator_floating_save_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|bottom">
-    </es.developer.achambi.pkmng.core.ui.FloatingActionMenu>
+    </es.developer.achambi.coreframework.ui.FloatingActionMenu>
     <include
         android:id="@+id/base_request_loading_frame"
         android:visibility="gone"

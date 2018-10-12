@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.nature.data;
 
-import es.developer.achambi.pkmng.core.db.dao.NaturesDAO;
+import es.developer.achambi.pkmng.database.dao.NaturesDAO;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 
 public class NatureDataAccessFactory {

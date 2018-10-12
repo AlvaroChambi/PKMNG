@@ -3,12 +3,12 @@ package es.developer.achambi.pkmng.modules.calculator.presenter;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.core.threading.Request;
-import es.developer.achambi.pkmng.core.threading.Response;
-import es.developer.achambi.pkmng.core.threading.ResponseHandler;
-import es.developer.achambi.pkmng.core.ui.Presenter;
-import es.developer.achambi.pkmng.core.ui.Screen;
+import es.developer.achambi.coreframework.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.Request;
+import es.developer.achambi.coreframework.threading.Response;
+import es.developer.achambi.coreframework.threading.ResponseHandler;
+import es.developer.achambi.coreframework.ui.Presenter;
+import es.developer.achambi.coreframework.ui.Screen;
 import es.developer.achambi.pkmng.modules.calculator.model.Damage;
 import es.developer.achambi.pkmng.modules.calculator.utils.DamageCalculator;
 import es.developer.achambi.pkmng.modules.create.presenter.ConfigurationAction;

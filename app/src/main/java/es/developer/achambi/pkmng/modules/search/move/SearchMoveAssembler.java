@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.move;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.MoveDataAssembler;
 import es.developer.achambi.pkmng.modules.search.move.presenter.ISearchMovePresenterFactory;
 import es.developer.achambi.pkmng.modules.search.move.presenter.SearchMovePresenterFactory;

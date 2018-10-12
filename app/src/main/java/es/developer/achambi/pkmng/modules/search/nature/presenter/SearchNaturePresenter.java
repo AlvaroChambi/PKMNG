@@ -4,12 +4,12 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.core.threading.Request;
-import es.developer.achambi.pkmng.core.threading.Response;
-import es.developer.achambi.pkmng.core.threading.ResponseHandler;
-import es.developer.achambi.pkmng.core.threading.ResponseHandlerDecorator;
-import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
+import es.developer.achambi.coreframework.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.Request;
+import es.developer.achambi.coreframework.threading.Response;
+import es.developer.achambi.coreframework.threading.ResponseHandler;
+import es.developer.achambi.coreframework.threading.ResponseHandlerDecorator;
+import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
 import es.developer.achambi.pkmng.modules.search.nature.data.INatureDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 import es.developer.achambi.pkmng.modules.search.nature.screen.ISearchNatureScreen;

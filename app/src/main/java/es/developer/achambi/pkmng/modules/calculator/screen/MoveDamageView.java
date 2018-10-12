@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
-import es.developer.achambi.pkmng.core.ui.screen.TypeView;
+import es.developer.achambi.pkmng.modules.ui.presentation.MoveTypePresentation;
+import es.developer.achambi.pkmng.modules.ui.screen.TypeView;
 
 public class MoveDamageView extends CardView {
     public MoveDamageView(Context context) {

@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.item.presenter;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.search.item.data.IItemDataAccess;
 import es.developer.achambi.pkmng.modules.search.item.screen.ISearchItemScreen;
 

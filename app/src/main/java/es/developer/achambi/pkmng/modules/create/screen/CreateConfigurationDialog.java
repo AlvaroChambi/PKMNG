@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
+import es.developer.achambi.coreframework.ui.BaseDialogFragment;
 
 public class CreateConfigurationDialog extends BaseDialogFragment
     implements View.OnClickListener {

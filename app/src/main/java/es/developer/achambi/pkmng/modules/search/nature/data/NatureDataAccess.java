@@ -3,9 +3,9 @@ package es.developer.achambi.pkmng.modules.search.nature.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.developer.achambi.pkmng.core.db.dao.NaturesDAO;
-import es.developer.achambi.pkmng.core.db.model.natures;
-import es.developer.achambi.pkmng.core.exception.IllegalIDException;
+import es.developer.achambi.pkmng.database.dao.NaturesDAO;
+import es.developer.achambi.pkmng.database.model.natures;
+import es.developer.achambi.coreframework.exception.IllegalIDException;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature;
 

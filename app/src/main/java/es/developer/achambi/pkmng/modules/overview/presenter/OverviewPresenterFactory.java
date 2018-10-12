@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.overview.presenter;
 
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
+import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.overview.screen.IOverviewScreen;
 import es.developer.achambi.pkmng.modules.search.configuration.presenter.ISearchConfigurationPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.ISearchPokemonPresenterFactory;

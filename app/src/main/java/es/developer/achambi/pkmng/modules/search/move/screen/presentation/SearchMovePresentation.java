@@ -3,8 +3,8 @@ package es.developer.achambi.pkmng.modules.search.move.screen.presentation;
 import android.content.Context;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.MoveTypePresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
+import es.developer.achambi.pkmng.modules.ui.presentation.MoveTypePresentation;
+import es.developer.achambi.coreframework.ui.presentation.SearchListData;
 import es.developer.achambi.pkmng.modules.search.move.model.Move;
 
 public class SearchMovePresentation implements SearchListData{

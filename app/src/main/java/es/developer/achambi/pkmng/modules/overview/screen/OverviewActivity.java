@@ -3,8 +3,8 @@ package es.developer.achambi.pkmng.modules.overview.screen;
 import android.os.Bundle;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseActivity;
-import es.developer.achambi.pkmng.core.ui.BaseFragment;
+import es.developer.achambi.coreframework.ui.BaseActivity;
+import es.developer.achambi.coreframework.ui.BaseFragment;
 
 public class OverviewActivity extends BaseActivity{
 

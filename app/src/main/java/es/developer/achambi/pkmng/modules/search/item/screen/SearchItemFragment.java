@@ -15,12 +15,12 @@ import java.util.ArrayList;
 
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.pkmng.core.AppWiring;
-import es.developer.achambi.pkmng.core.threading.Response;
-import es.developer.achambi.pkmng.core.threading.ResponseHandler;
-import es.developer.achambi.pkmng.core.ui.BaseSearchListFragment;
-import es.developer.achambi.pkmng.core.ui.DataState;
-import es.developer.achambi.pkmng.core.ui.SearchAdapterDecorator;
-import es.developer.achambi.pkmng.core.ui.Presenter;
+import es.developer.achambi.coreframework.threading.Response;
+import es.developer.achambi.coreframework.threading.ResponseHandler;
+import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
+import es.developer.achambi.coreframework.ui.DataState;
+import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
+import es.developer.achambi.coreframework.ui.Presenter;
 import es.developer.achambi.pkmng.modules.details.view.ItemDetailsFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 import es.developer.achambi.pkmng.modules.search.item.presenter.SearchItemsPresenter;

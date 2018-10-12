@@ -1,19 +1,16 @@
 package es.developer.achambi.pkmng.modules.search.configuration.adapter;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.RequestManager;
-
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.screen.AbilityView;
-import es.developer.achambi.pkmng.core.ui.screen.ItemView;
-import es.developer.achambi.pkmng.core.ui.screen.NatureView;
-import es.developer.achambi.pkmng.core.ui.screen.TypeView;
-import es.developer.achambi.pkmng.core.utils.GlideRequests;
+import es.developer.achambi.pkmng.modules.ui.screen.AbilityView;
+import es.developer.achambi.pkmng.modules.ui.screen.ItemView;
+import es.developer.achambi.pkmng.modules.ui.screen.NatureView;
+import es.developer.achambi.pkmng.modules.ui.screen.TypeView;
+import es.developer.achambi.coreframework.utils.GlideRequests;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
 
 public class ConfigurationViewHolder extends RecyclerView.ViewHolder {

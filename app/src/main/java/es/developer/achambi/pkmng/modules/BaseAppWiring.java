@@ -2,9 +2,9 @@ package es.developer.achambi.pkmng.modules;
 
 import android.content.Context;
 
-import es.developer.achambi.pkmng.core.db.AppDatabase;
-import es.developer.achambi.pkmng.core.threading.MainExecutor;
-import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
+import es.developer.achambi.pkmng.database.AppDatabase;
+import es.developer.achambi.coreframework.threading.MainExecutor;
+import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.calculator.DamageCalculatorAssembler;
 import es.developer.achambi.pkmng.modules.create.CreateConfigurationAssembler;
 import es.developer.achambi.pkmng.modules.data.stat.StatDataAccessFactory;

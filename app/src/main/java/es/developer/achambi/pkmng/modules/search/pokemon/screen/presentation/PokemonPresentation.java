@@ -5,12 +5,12 @@ import android.content.res.Resources;
 import android.net.Uri;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.PokemonTypePresentation;
-import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
+import es.developer.achambi.pkmng.modules.ui.presentation.StatSetPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.PokemonTypePresentation;
+import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.StatsSet;
-import es.developer.achambi.pkmng.core.ui.presentation.SearchListData;
+import es.developer.achambi.coreframework.ui.presentation.SearchListData;
 
 public class PokemonPresentation implements SearchListData {
     public final int id;

@@ -1,6 +1,6 @@
 package es.developer.achambi.pkmng.modules.search.configuration.data;
 
-import es.developer.achambi.pkmng.core.db.dao.ConfigurationDAO;
+import es.developer.achambi.pkmng.database.dao.ConfigurationDAO;
 import es.developer.achambi.pkmng.modules.data.stat.IStatDataAccess;
 import es.developer.achambi.pkmng.modules.search.ability.data.IAbilityDataAccess;
 import es.developer.achambi.pkmng.modules.search.item.data.IItemDataAccess;

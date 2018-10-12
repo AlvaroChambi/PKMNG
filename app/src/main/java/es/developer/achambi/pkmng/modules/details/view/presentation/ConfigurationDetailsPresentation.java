@@ -2,10 +2,10 @@ package es.developer.achambi.pkmng.modules.details.view.presentation;
 
 import android.content.Context;
 
-import es.developer.achambi.pkmng.core.ui.presentation.AbilityPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.ItemPresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.NaturePresentation;
-import es.developer.achambi.pkmng.core.ui.presentation.StatSetPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.AbilityPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.ItemPresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.NaturePresentation;
+import es.developer.achambi.pkmng.modules.ui.presentation.StatSetPresentation;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 

@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import es.developer.achambi.pkmng.R;
-import es.developer.achambi.pkmng.core.ui.BaseDialogFragment;
-import es.developer.achambi.pkmng.core.utils.GlideApp;
-import es.developer.achambi.pkmng.core.utils.ImageResourceBuilder;
+import es.developer.achambi.coreframework.ui.BaseDialogFragment;
+import es.developer.achambi.coreframework.utils.GlideApp;
+import es.developer.achambi.coreframework.utils.ImageResourceBuilder;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
 import es.developer.achambi.pkmng.modules.search.item.model.Item;
 
