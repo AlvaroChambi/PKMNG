@@ -23,3 +23,10 @@ after_success:
   - echo "y" | ./google-cloud-sdk/bin/gcloud components update beta
   - ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file secret.json
   - ./google-cloud-sdk/bin/gcloud beta test android run --async --type instrumentation --app app/build/outputs/apk/automation/debug/app-automation-debug.apk --test app/build/outputs/apk/androidTest/automation/debug/app-automation-debug-androidTest.apk --device-ids athene_f  --os-version-ids 23 --locales en_US --orientations portrait --project pkmng-ff0d2
+deploy:
+  provider: releases
+  api_key: "9fff9f89341fa37372dea1e2abc0e6101a86ad5a"
+  file: "app/build/outputs/apk/dev/debug/app-dev-debug.apk"
+  skip_cleanup: true
+  on:
+    tags: true
