@@ -16,7 +16,7 @@ android:
 install:
   - true
 script:
-  - ./gradlew testDevDebugUnitTest assembleDebug assembleAndroidTest
+  - ./gradlew testDevDebugUnitTest assembleDevDebug --scan -s assembleAndroidTest
 after_success:
   - wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-127.0.0-linux-x86_64.tar.gz
   - tar xf google-cloud-sdk-127.0.0-linux-x86_64.tar.gz
@@ -30,5 +30,6 @@ deploy:
   file: "app/build/outputs/apk/dev/debug/app-dev-debug.apk"
   skip_cleanup: true
   on:
+    tags: true
     branch: master
     repo: AlvaroChambi/PKMNG
