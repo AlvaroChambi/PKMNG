@@ -25,8 +25,9 @@ after_success:
   - ./google-cloud-sdk/bin/gcloud beta test android run --async --type instrumentation --app app/build/outputs/apk/automation/debug/app-automation-debug.apk --test app/build/outputs/apk/androidTest/automation/debug/app-automation-debug-androidTest.apk --device-ids athene_f  --os-version-ids 23 --locales en_US --orientations portrait --project pkmng-ff0d2
 deploy:
   provider: releases
-  api_key: "$API_KEY"
+  api_key: "AbfjxPRkJd1Nng+NSIBlZx3w+1in3neNEv7/+PHJcu7CFtfNBpxlvxxDgcSHnJwNIzlxgAAP5qdpMrINWZeoekCwUPnRspyxcZg3ldG6sCLWhBAWkTH/6ydsi6WfseG9fZZWgRkYMarRbGL/IQ+3zhTa5C42purHGeZFz1hnRZB7uuTRci12qLsV8u8ilSRwTxI0gzfs43pAjZE3nbH5V+dTvRwOEHhnAzhKcwAaZQCDDJ0AdqfZ6TFvO39Zs/CZGO+LzsNYiBoe5Zi2xLyv4F78zsBix6rWc94Hxd4RZfzVnLIhBnFe1LFDQ33wCZ/etkrCkO2c6WKfAfZyD5W2xtwndTf9Qu+6iD1EhvdwlmKX9OJD282TdfjxoNGF9HRpnnKiVzM6yqVEHGJq9LPqqKCoX8UUzGwvd4jIIHZyCsBUFS2BHW3Wx9qtGLIPRi5IG7JayeMnMqAVcbI7oXa8JGKheXMrQuMmSMngfF9lg8mmZU0wcjwU6r41hEOE/dv024PvHA1tUFM0BbnsSx/rm1WUy1S5jZ4UfTYD5XecLIdSByvdiG9jkToeTVaxBDWR8RrE3OHWuFpqqlU2E+83w5t/PEm/2I300+n1nv9J56dDrPQJ77BKeuWqsodC1wr46t9Dzf4+MM7+6oqm+BVPR7dqgMwnS9wcPj9EzaGxucQ="
   file: "app/build/outputs/apk/dev/debug/app-dev-debug.apk"
   skip_cleanup: true
   on:
-    tags: true
+    branch: master
+    repo: AlvaroChambi/PKMNG
