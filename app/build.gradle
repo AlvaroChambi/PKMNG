@@ -6,13 +6,18 @@ def version_minor = 0
 def version_micro = 1
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
 
     defaultConfig {
         applicationId "es.developer.achambi.pkmng"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode version_major * 10000 + version_minor * 1000 + version_micro * 100
         versionName version_major + "." + version_minor + "." + version_micro
 
