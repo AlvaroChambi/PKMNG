@@ -11,6 +11,11 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+    }
+
     defaultConfig {
         applicationId "es.developer.achambi.pkmng"
         minSdkVersion 21

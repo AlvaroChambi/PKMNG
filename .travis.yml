@@ -16,10 +16,20 @@ android:
 install:
   - true
 script:
-  - ./gradlew testDevDebugUnitTest assembleDebug assembleAndroidTest
+  - ./gradlew testDevDebugUnitTest assembleDevDebug --scan -s assembleAndroidTest
 after_success:
   - wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-127.0.0-linux-x86_64.tar.gz
   - tar xf google-cloud-sdk-127.0.0-linux-x86_64.tar.gz
   - echo "y" | ./google-cloud-sdk/bin/gcloud components update beta
   - ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file secret.json
   - ./google-cloud-sdk/bin/gcloud beta test android run --async --type instrumentation --app app/build/outputs/apk/automation/debug/app-automation-debug.apk --test app/build/outputs/apk/androidTest/automation/debug/app-automation-debug-androidTest.apk --device-ids athene_f  --os-version-ids 23 --locales en_US --orientations portrait --project pkmng-ff0d2
+deploy:
+  provider: releases
+  api_key:
+    secure: "mWulTosYL0MqYg1SxMWi0VUcOWiWE/3Por1xeQay+YTEi9bK7buWA1xLH3n0JL+pv3d0vfqEFFrtMUSejHv9qBTOiClWPcV9Kad2ca0iCN5sL0HvjTdwgixLYvwNYczddt95PlOgSU1nXUkIdgIXdX9i7oAMBqOK9FWcnTPT1UuEJ+FPLXi5OkAv+4YG+v0ko5+bAgfxptHtJtOkYHLBoi+zqAiRPI8cFTHs39KyAn9gFRfESHAzMYw7te0+ClOtyQmjEkYNThT2LP6n0M3nzgk3VdOGoCLD+azwXrb5b5LWiPVc8fdk7ieuTSLa1ytuSQ325G5DolLkQncG+u3YUpFSVVPCZcCEF7bVwC9enYEJiIsQ8FEOzr6s/233ReiHV6BxK/YD5GQVTcLzCoa/x+4q0pPtia3jrOl+Jk9J1maxDE4FP7mhmie49fCw+6h762fEbrwkCCM6QiJc5BNuryOj6w9Ffrj/Z5yjsZE5ftH5MQTB6xXESwL98H90oWaRwme99KU07i/+j2motxJEcLnhnW3W79tQbQ5Uh1dWrcbltKGFT6V3YNpxVcqItmD4LRTjajZ99CTRVVjUW4GnwG26FnDOJe8zObRzr3IvUyyrcwMpjjjGIl6lIdiSuHZbU6KyFwDGo6+ZTs5dfTIGBqr+XdhTQ/lFNLJ9OBYf8j8="
+  file: "app/build/outputs/apk/dev/debug/app-dev-debug.apk"
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master
+    repo: AlvaroChambi/PKMNG
