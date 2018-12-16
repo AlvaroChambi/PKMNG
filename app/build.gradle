@@ -1,18 +1,20 @@
 import PerfTestTaskGeneratorPlugin
 apply plugin: 'com.android.application'
-
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: 'kotlin-kapt'
 def version_major = 1
 def version_minor = 0
 def version_micro = 1
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "es.developer.achambi.pkmng"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode version_major * 10000 + version_minor * 1000 + version_micro * 100
         versionName version_major + "." + version_minor + "." + version_micro
 
@@ -55,8 +57,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    annotationProcessor 'android.arch.lifecycle:compiler:1.1.0'
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 
     implementation project(path: ':coreframework')
 
@@ -76,6 +76,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.6.3'
+
+    kapt "android.arch.persistence.room:compiler:1.1.1"
 }
 
 // Create performance testing tasks for all connected Android devices using a Gradle plugin defined

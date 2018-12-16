@@ -36,7 +36,7 @@ import es.developer.achambi.pkmng.database.model.types;
     stats.class, types.class, items.class, item_prose.class, natures.class,
     abilities.class, ability_prose.class, pokemon_abilities.class, move_damage_classes.class,
     move_effect_prose.class, moves.class, pokemon_moves.class, configurations.class,
-    configuration_stats.class},version = 1)
+    configuration_stats.class},version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "pokedex.sqlite";
 
