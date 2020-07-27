@@ -16,6 +16,11 @@ android {
         termsOfServiceAgree = "yes"
     }
 
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains' , module:'annotations'
+    }
+
     defaultConfig {
         applicationId "es.developer.achambi.pkmng"
         minSdkVersion 21
@@ -83,8 +88,12 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.6.3'
 
     kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 // Create performance testing tasks for all connected Android devices using a Gradle plugin defined
 // in the buildSrc directory.
 apply plugin: PerfTestTaskGeneratorPlugin
+repositories {
+    mavenCentral()
+}

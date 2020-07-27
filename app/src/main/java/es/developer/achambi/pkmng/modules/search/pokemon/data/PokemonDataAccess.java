@@ -1,6 +1,8 @@
 package es.developer.achambi.pkmng.modules.search.pokemon.data;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class PokemonDataAccess implements IPokemonDataAccess{
     }
 
     @Override
-    public ArrayList<Pokemon> accessData() {
+    public @NonNull ArrayList<Pokemon> accessData() {
         if(cachedData != null) {
             return cachedData;
         }

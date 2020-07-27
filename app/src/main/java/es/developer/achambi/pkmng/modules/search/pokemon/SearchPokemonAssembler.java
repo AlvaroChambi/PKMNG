@@ -7,7 +7,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemon
 
 public class SearchPokemonAssembler {
     private MainExecutor mainExecutor;
-    private PokemonDataAssembler pokemonDataAssembler;
+    public PokemonDataAssembler pokemonDataAssembler;
 
     public SearchPokemonAssembler setMainExecutor(MainExecutor mainExecutor) {
         this.mainExecutor = mainExecutor;

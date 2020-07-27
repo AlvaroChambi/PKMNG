@@ -7,7 +7,7 @@ import es.developer.achambi.pkmng.modules.search.nature.presenter.SearchNaturePr
 
 public class SearchNatureAssembler {
     private MainExecutor executor;
-    private NatureDataAssembler natureDataAssembler;
+    public NatureDataAssembler natureDataAssembler;
 
     public SearchNatureAssembler setExecutor(MainExecutor executor) {
         this.executor = executor;

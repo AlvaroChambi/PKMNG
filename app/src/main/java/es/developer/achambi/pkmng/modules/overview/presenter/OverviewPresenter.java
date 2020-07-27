@@ -58,6 +58,8 @@ public class OverviewPresenter extends IOverviewPresenter {
         configurationPresenter.fetchConfigurationsQuery( query, responseHandler );
     }
 
+    //what the fuck was I trying to solve here?¿?¿?¿
+
     @Override
     public DataState getDataState() {
         if( pokemonPresenter.getDataState() == DataState.NOT_FINISHED ||

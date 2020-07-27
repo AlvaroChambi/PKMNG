@@ -37,6 +37,7 @@ public class SearchConfigurationPresenter extends Presenter implements
 
     public void fetchConfigurationsQuery( final String query,
             final ResponseHandler<ArrayList<PokemonConfig>> responseHandler ) {
+        //Mixing logic of when I need the data with where I get that data from
         setDataState( DataState.NOT_FINISHED );
         ResponseHandler handler = new ResponseHandlerDecorator<ArrayList<PokemonConfig>>(
                 responseHandler) {
