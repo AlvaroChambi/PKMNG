@@ -14,6 +14,8 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
     private lateinit var pokemons: ArrayList<Pokemon>
     private lateinit var natures: ArrayList<Nature>
 
+    fun test() {}
+
     fun onViewSetup(){
         val handler = object : ResponseHandler<ArrayList<Pokemon>>() {
             override fun onSuccess(response: Response<ArrayList<Pokemon>>?) {
@@ -92,16 +94,63 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             }
         }
 
-
-
-        evs.forEach { ev ->
+/*        evs.forEach { ev ->
             repeat(speeds.size) {
                 matrix[it + 1][matrix.size - 1] = ev
             }
-        }
+        }*/
+
+        /*repeat(ivs.size) {
+            matrix.add(ArrayList())
+            repeat(matrix.size) {
+                matrix[matrix.size - 1].add(0)
+            }
+            matrix.forEach {
+                it.add(0)
+            }
+        }*/
+
+
 
         Log.i("POC", printMatrix(matrix))
 
+    }
+
+    fun addEmptyNode(matrix: ArrayList<ArrayList<Int>>) {
+        matrix.add(ArrayList())
+        matrix.forEach {
+            it.add(0)
+        }
+    }
+
+    fun buildMatrix() {
+        val speeds = ArrayList<Int>()
+
+        pokemons.forEach {
+            if(!speeds.contains(it.speed)) {
+                speeds.add(it.speed)
+            }
+        }
+
+        val matrix = ArrayList<ArrayList<Int>>()
+        //add root node to matrix
+        addEmptyNode(matrix)
+
+        //add first step nodes
+        repeat(speeds.size) {
+            addEmptyNode(matrix)
+        }
+
+        //link nodes to root
+        for(pos in 0..speeds.size) {
+            linkRootToNode(matrix, speeds[pos], pos)
+        }
+    }
+
+    fun linkRootToNode(matrix: ArrayList<ArrayList<Int>>, value: Int, position: Int) {
+        //root wont link to itself, but with every other added node
+        val jList = matrix[0]
+        jList[position + 1] = value
     }
 
     fun printMatrix(matrix: ArrayList<ArrayList<Int>>): String {
