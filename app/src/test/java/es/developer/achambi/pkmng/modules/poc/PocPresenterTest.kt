@@ -39,16 +39,35 @@ class PocPresenterTest {
 
         assertEquals(2, initialMatrix.size)
         assertEquals( 2, initialMatrix[0].size)
+        assertEquals( 2, initialMatrix[1].size)
     }
 
     @Test
     fun testLinkToRoot() {
-        repeat(2) {
+        repeat(3) {
             presenterTest.addEmptyNode(initialMatrix)
         }
         presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
 
         assertEquals(0, initialMatrix[0][0])
-        assertEquals(10, initialMatrix[0][1])
+        assertEquals(10, initialMatrix[1][0])
+        assertEquals(15, initialMatrix[2][0])
+    }
+
+    @Test
+    fun linkFirstStepToNew() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,20)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,30)
+
+        assertEquals(20, initialMatrix[3][1] )
+        assertEquals(30, initialMatrix[3][2] )
     }
 }

@@ -49,78 +49,29 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         request(natureRequest, natureHandler)
     }
 
-    fun performQuery() {
-        val evs = ArrayList<Int>()
-        val ivs = ArrayList<Int>()
-        for (value: Int in 0..62) {
-            evs.add(value)
-        }
-        for (value: Int in 0..30) {
-            ivs.add(value)
-        }
-        val baseStats = ArrayList<Pair<Int, Int>>()
-        val speeds = ArrayList<Int>()
-
-        pokemons.forEach {
-            baseStats.add(Pair(it.id, it.speed))
-            if(!speeds.contains(it.speed)) {
-                speeds.add(it.speed)
-            }
-        }
-
-        val matrix = ArrayList<ArrayList<Int>>()
-
-        for( i in 0..speeds.size) {
-            matrix.add(ArrayList())
-        }
-
-        for(i in 0..speeds.size) {
-            for(j in 0..speeds.size) {
-                matrix[i].add(0)
-            }
-        }
-
-        for(i in 1..speeds.size) {
-            matrix[0][i] = speeds[i - 1]
-        }
-
-        evs.forEach {
-            matrix.add(ArrayList())
-            repeat(matrix.size) {
-                matrix[matrix.size - 1].add(0)
-            }
-            matrix.forEach{
-                it.add(0)
-            }
-        }
-
-/*        evs.forEach { ev ->
-            repeat(speeds.size) {
-                matrix[it + 1][matrix.size - 1] = ev
-            }
-        }*/
-
-        /*repeat(ivs.size) {
-            matrix.add(ArrayList())
-            repeat(matrix.size) {
-                matrix[matrix.size - 1].add(0)
-            }
-            matrix.forEach {
-                it.add(0)
-            }
-        }*/
-
-
-
-        Log.i("POC", printMatrix(matrix))
-
-    }
-
     fun addEmptyNode(matrix: ArrayList<ArrayList<Int>>) {
+        //Create new column
+        val matrixSize = matrix.size
         matrix.add(ArrayList())
+
+        //fill up new column to match previous size
+        repeat(matrixSize){
+            matrix[matrixSize].add(0)
+        }
+
+        //fill up new row
         matrix.forEach {
             it.add(0)
         }
+    }
+
+
+    /**
+     * Links node in position to the new added node: position will be adjusted with the offset
+     */
+    fun linkPosToNewNode(matrix: ArrayList<ArrayList<Int>>, offset: Int,position: Int, value: Int) {
+        //move to the last created node, then set required position to the required value.
+        matrix[matrix.size - 1][position + offset] = value
     }
 
     fun buildMatrix() {
@@ -132,6 +83,13 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             }
         }
 
+      /*  repeat(10) {
+            val speed = pokemons[it].speed
+            if(!speeds.contains(speed)) {
+                speeds.add(speed)
+            }
+        }*/
+
         val matrix = ArrayList<ArrayList<Int>>()
         //add root node to matrix
         addEmptyNode(matrix)
@@ -142,21 +100,74 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         }
 
         //link nodes to root
-        for(pos in 0..speeds.size) {
+        repeat(speeds.size) {pos ->
             linkRootToNode(matrix, speeds[pos], pos)
         }
+
+
+
+
+        val evs = ArrayList<Int>()
+        val ivs = ArrayList<Int>()
+        for (value: Int in 1..63) {
+            evs.add(value)
+        }
+        for (value: Int in 1..31) {
+            ivs.add(value)
+        }
+        val rootOffset = 1
+        //Link speed nodes to the ev nodes
+        //Each speed node will be linked to every ev node
+        evs.forEach {
+            //create node for each IV
+            addEmptyNode(matrix)
+            repeat(speeds.size) { pos ->
+                //Link previous nodes to that node
+                linkPosToNewNode(matrix, offset = rootOffset,
+                        position = pos,value =  it)
+            }
+
+        }
+
+
+
+       //Link every ev to the new Iv's nodes
+        val speedsOffset = rootOffset + speeds.size
+        ivs.forEach {
+            addEmptyNode(matrix)
+            repeat(evs.size) { pos ->
+                linkPosToNewNode(matrix, offset = speedsOffset, position = pos,
+                        value = it)
+            }
+        }
+
+        //Link to end
+        val evsOffset = speedsOffset + evs.size
+        addEmptyNode(matrix)
+        repeat(ivs.size) {pos ->
+            linkPosToNewNode(matrix, offset = evsOffset, position = pos,
+                    value = 1)
+        }
+
+
+        printMatrix(matrix)
     }
 
+    /**
+     * Input node value to link the root to and position where it should go:
+     * position will be adjusted to never link 0 with itself
+     */
     fun linkRootToNode(matrix: ArrayList<ArrayList<Int>>, value: Int, position: Int) {
         //root wont link to itself, but with every other added node
-        val jList = matrix[0]
-        jList[position + 1] = value
+        val jList = matrix[position + 1]
+        jList[0] = value
     }
 
     fun printMatrix(matrix: ArrayList<ArrayList<Int>>): String {
         var result = ""
-        matrix.forEach {
-            it.forEach {value ->
+        for( i in 0..matrix.size - 1) {
+            for( j in 0..matrix.size - 1 ) {
+                val value = matrix[j][i]
                 result += "$value,"
             }
             result += '\n'

@@ -45,7 +45,7 @@ class PocFragment: BaseFragment(), PocScreen {
 
     override fun onViewSetup(view: View?, savedInstanceState: Bundle?) {
         pokemon_name_text.text = config.pokemon.name
-        perform_query_button.setOnClickListener { presenter.performQuery() }
+        perform_query_button.setOnClickListener { presenter.buildMatrix() }
         presenter.onViewSetup()
     }
 
