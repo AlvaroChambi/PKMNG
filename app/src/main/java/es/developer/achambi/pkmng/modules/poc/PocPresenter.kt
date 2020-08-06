@@ -86,13 +86,6 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             }
         }
 
-      /*  repeat(10) {
-            val speed = pokemons[it].speed
-            if(!speeds.contains(speed)) {
-                speeds.add(speed)
-            }
-        }*/
-
         val matrix = ArrayList<ArrayList<Int>>()
         //add root node to matrix
         addEmptyNode(matrix)
@@ -153,11 +146,35 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         }
 
 
-        val vertexSet = ArrayList<Node>()
         val result = Path()
-        shortestPath(matrix, END_NODE, vertexSet, result)
-        result.toString()
-       // printMatrix(matrix)
+        shortestPath(matrix, END_NODE, result)
+        //Lets cast this to something I can understand
+
+        //path will include 3 nodes, ivs, evs, base_speed:
+
+        //first we get the iv's step, because is the last one that we added
+       val rawIv = result.path[0]
+       val actualIVIndex = rawIv - evsOffset
+       val iv = ivs[actualIVIndex]
+
+        val rawEv = result.path[1]
+        val  actualEVIndex = rawEv - speedsOffset
+        val ev = evs[actualEVIndex]
+
+        val rawBaseStat = result.path[2]
+        val actualBaseIndex = rawBaseStat - rootOffset
+        val baseSpeed = speeds[actualBaseIndex]
+
+        val pokemonList = ArrayList<Pokemon>()
+        var pokemonString = ""
+        pokemons.forEach {
+            if(it.stats.speed == baseSpeed) {
+                pokemonList.add(it)
+                pokemonString += it.name + ", "
+            }
+        }
+
+        screen.showBestPathResult(pokemonString, ev = ev, iv= iv)
     }
 
     /**
@@ -182,42 +199,51 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         return result
     }
 
-    fun shortestPath( matrix: ArrayList<ArrayList<Int>>, end: Int, vertexSet: ArrayList<Node>, result: Path ) {
+    fun shortestPath( matrix: ArrayList<ArrayList<Int>>, end: Int, result: Path ) {
+        val vertexSet = ArrayList<Node>()
+        val visited = ArrayList<Node>()
         //populate vertex set //vertex set should be sorted, but maybe not here, but when values are updated, here i want the source node
         //to be the first one
         repeat(matrix.size) {
             vertexSet.add(Node(id = it))
         }
-        //pop highest value node: first one should be the source
-        val currentNode = vertexSet[0]
-        vertexSet.remove(currentNode)
 
-        //check if we got to the destination and finish
-        if(currentNode.id == end) {
-            var setCurrent = vertexSet[currentNode.id]
 
-            do {
-                result.path.add(setCurrent.id)
-                result.totalWeight = setCurrent.value
-                setCurrent = vertexSet[setCurrent.previousId]
-            }while(setCurrent.previousId != UNDEFINED)
-        }
+        while(vertexSet.isNotEmpty()) {
+            //pop highest value node: first one should be the source
+            val currentNode = vertexSet[0]
+            vertexSet.remove(currentNode)
+            visited.add(currentNode)
 
-        //iterate each neighbour
-        repeat(matrix.size) {pos -> //position should be the node id
-            val neighbourWeight = matrix[pos][currentNode.id] //current node id should be it's position on the matrix
-            if(neighbourWeight != 0) { //neighbour will be the vertex weight
-                //found valid neighbour
-                val neighbourNode = vertexSet.find { it.id == pos }!! //vertex set iteration
-                //calculate new value and check if it's better than the previous
-                val newValue = currentNode.value + neighbourWeight
-                if(newValue > currentNode.value) {
-                    neighbourNode.value = newValue
-                    neighbourNode.previousId = currentNode.id
+            //check if we got to the destination and finish
+            if(currentNode.id == end) {
+                var setCurrent = visited.find { currentNode.id == it.id }!! //another iteration, but it should be over a rly small list
+
+                do {
+                    setCurrent = visited.find { setCurrent.previousId == it.id }!!
+                    result.path.add(setCurrent.id)
+                    result.totalWeight = setCurrent.value
+                }while(setCurrent.previousId != UNDEFINED)
+                return
+            }
+
+            //iterate each neighbour
+            repeat(matrix.size) {pos -> //position should be the node id
+                val neighbourWeight = matrix[pos][currentNode.id] //current node id should be it's position on the matrix
+                if(neighbourWeight != 0) { //neighbour will be the vertex weight
+                    //found valid neighbour
+                    val neighbourNode = vertexSet.find { it.id == pos }!! //vertex set iteration
+                    //calculate new value and check if it's better than the previous
+                    val newValue = currentNode.value + neighbourWeight
+                    if(newValue > currentNode.value) {
+                        neighbourNode.value = newValue
+                        neighbourNode.previousId = currentNode.id
+                    }
                 }
             }
+            //Need to sort, but putting the highest values first
+            vertexSet.sortByDescending { it.value }//This may be more efficient?¿
         }
-        vertexSet.sortBy { it.value }//This may be more efficient?¿
     }
 }
 

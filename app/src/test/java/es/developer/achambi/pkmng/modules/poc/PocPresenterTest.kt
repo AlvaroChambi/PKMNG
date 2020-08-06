@@ -70,4 +70,30 @@ class PocPresenterTest {
         assertEquals(20, initialMatrix[3][1] )
         assertEquals(30, initialMatrix[3][2] )
     }
+
+    @Test
+    fun dijkstra() {
+        val path = Path()
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,20)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,30)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,40)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,50)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
+
+        presenterTest.shortestPath(initialMatrix,5, path)
+        assertEquals(4, path.path[0])
+        assertEquals(2, path.path[1])
+    }
 }

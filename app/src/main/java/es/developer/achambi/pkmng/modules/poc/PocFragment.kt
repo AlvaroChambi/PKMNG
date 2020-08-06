@@ -64,9 +64,16 @@ class PocFragment: BaseFragment(), PocScreen {
     override fun showNumberOfNature(total: Int) {
         natures_number_text.text = total.toString()
     }
+
+    override fun showBestPathResult(pokemon: String, ev: Int, iv: Int) {
+        result_pokemon_name.text = pokemon
+        result_target_ev.text = "ev: $ev"
+        result_target_iv.text = "iv: $iv"
+    }
 }
 
 interface PocScreen: Screen {
     fun showNumberOfPokemons(total: Int)
     fun showNumberOfNature(total: Int)
+    fun showBestPathResult(pokemon: String, ev: Int, iv: Int)
 }
