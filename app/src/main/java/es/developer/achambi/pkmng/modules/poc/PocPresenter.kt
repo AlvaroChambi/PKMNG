@@ -249,4 +249,49 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
 class Path(val path: ArrayList<Int> = ArrayList(), var totalWeight: Int = 0)
 
+class Edge(val start: Int, val end: Int,  val weight: Int)
+
+class Graph(private val matrix: ArrayList<ArrayList<Int>>,
+            private var removed: ArrayList<Int>,
+            private var removedEdges: ArrayList<Edge>) {
+    fun removeNode(node: Int) {
+        removed.add(node)
+    }
+
+    fun removeEdge(start: Int, end: Int) {
+        val weight = matrix[start][end]
+        removedEdges.add(Edge(start, end, weight))
+    }
+
+    fun restore() {
+        removed.clear()
+        removedEdges.forEach {
+            matrix[it.start][it.end] = it.weight
+        }
+        removedEdges.clear()
+    }
+
+    fun getAdjacencyList(node: Int): ArrayList<Int> {
+        val result = ArrayList<Int>()
+        var position = 0
+        repeat(matrix.size) {
+            if(!removed.contains(it)) {
+                val neighbourWeight = matrix[position++][node]
+            }
+        }
+        return result
+    }
+
+    fun getAllNodes(): ArrayList<Int> {
+        var position = 0
+        val result = ArrayList<Int>()
+        repeat(matrix.size) {
+            if(!removed.contains(it)) {
+                result.add(position++)
+            }
+        }
+        return result
+    }
+}
+
 data class Node(val id: Int = 0, public var value: Int = 0, var previousId: Int = PocPresenter.UNDEFINED)
