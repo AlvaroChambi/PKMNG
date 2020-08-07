@@ -16,7 +16,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
     companion object {
         val UNDEFINED = -1
-        val END_NODE = 214
+        val END_NODE = 214 //only valid for the graph containing base speeds, evs and ivs
     }
 
     fun onViewSetup(){
@@ -243,6 +243,44 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             }
             //Need to sort, but putting the highest values first
             vertexSet.sortByDescending { it.value }//This may be more efficient?¿
+        }
+    }
+
+    fun yens(matrix: ArrayList<ArrayList<Int>>, source: Int, sink: Int, iterations: Int) {
+        val initialPath = Path()
+        shortestPath(matrix, sink, initialPath)
+
+        val bestPaths = ArrayList<Path>()
+        bestPaths.add(initialPath)
+        val potentialPaths = ArrayList<Path>()
+
+        for(iteration in 1..iterations) {
+            //iterate each spur node of the previous best path( initial on the first iteration )
+            //spur will be each path nodes from first to the next to last
+            val currentPath = bestPaths[iteration - 1]
+            for(spurPosition in 0..currentPath.path.size - 2){
+                //using the spur node find the spur path  (from 0 to spurNode)
+                val spurNode = currentPath.path[spurPosition]
+                val rootPath = ArrayList<Int>()
+                var index = 0
+                while(rootPath[index++] != spurNode) { //not checking index out of bound, it should never happen
+                    rootPath.add(currentPath.path[index])
+                }
+                //Then for each previous path, remove edges when needed to avoid
+                //choosing always the same best paths
+                bestPaths.forEach {
+                    //here I have to remove edges from the graph, but I should be able to restore the graph later
+                    //ideas: remember what i've removed ?, but how can I exactly remove an edge?
+
+                    //So I'll have two nodes: A and B
+                    //And I have to remove the edge linking those, basically
+                    //matrix[A][B] == //it's a directed graph, so not really sure if it's matrix[B][A]
+                    // = 0  -> But first I have to save the weight value and the A and B index
+
+                    //for the nodes, how can I remove a node :( basically collapsing every row/column into the disappearing one
+                    //And of course save every link value on some kind of array to be able to add this in it's previous place :(
+                }
+            }
         }
     }
 }
