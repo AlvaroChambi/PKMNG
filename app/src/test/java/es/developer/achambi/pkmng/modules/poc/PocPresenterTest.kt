@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import java.lang.Exception
 
 @RunWith(MockitoJUnitRunner::class)
 class PocPresenterTest {
@@ -23,12 +24,14 @@ class PocPresenterTest {
     lateinit var natureAccess: NatureDataAccess
 
     val initialMatrix = ArrayList<ArrayList<Int>>()
+    lateinit var graph: Graph
 
     lateinit var presenterTest: PocPresenter
     @Before
     fun setUp() {
         presenterTest = PocPresenter(executor, screen, dataAccess, natureAccess)
         initialMatrix.clear()
+        graph = Graph(initialMatrix)
     }
 
     @Test
@@ -92,8 +95,135 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
 
-        presenterTest.shortestPath(initialMatrix,5, path)
-        assertEquals(4, path.path[0])
+        presenterTest.shortestPath(Graph(initialMatrix),5, path)
+        assertEquals(5, path.path[3])
+        assertEquals(4, path.path[2])
         assertEquals(2, path.path[1])
+        assertEquals(0, path.path[0])
+        assertEquals(66, path.totalWeight)
+    }
+
+    @Test
+    fun `list nodes when nothing has been removed`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        val result = graph.getAllNodes()
+
+        assertEquals(0, result[0])
+        assertEquals(1, result[1])
+        assertEquals(2, result[2])
+    }
+
+    @Test
+    fun `list nodes when node is removed`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        graph.removeNode(1)
+        val result = graph.getAllNodes()
+
+        assertEquals(0, result[0])
+        assertEquals(2, result[1])
+    }
+
+    @Test
+    fun `list nodes on removed not in the graph`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        graph.removeNode(5)
+        val result = graph.getAllNodes()
+
+        assertEquals(0, result[0])
+        assertEquals(1, result[1])
+        assertEquals(2, result[2])
+    }
+
+    @Test
+    fun `neighbours on nothing removed`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        val result = graph.getAdjacencyList(0)
+
+        assertEquals(1, result[0])
+        assertEquals(2, result[1])
+    }
+
+    @Test
+    fun `neighbours on node removed`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        graph.removeNode(1)
+        val result = graph.getAdjacencyList(0)
+
+        assertEquals(2, result[0])
+    }
+
+    @Test
+    fun `neighbours on edge removed`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        graph.removeEdge(0, 2)
+        val result = graph.getAdjacencyList(0)
+
+        assertEquals(1, result[0])
+    }
+
+    @Test(expected = Exception::class)
+    fun `neighbours on owner removed`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        graph.removeNode(0)
+        graph.getAdjacencyList(0)
+    }
+
+    @Test
+    fun `yen test`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,20)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,20)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,30)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,30)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
+
+        val result = presenterTest.yens(initialMatrix, 5, 3)
+        assertEquals(3, result.size)
     }
 }
