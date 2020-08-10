@@ -279,12 +279,12 @@ class PocPresenterTest {
         presenterTest.linkRootToNode(initialMatrix, 15, 1)
 
         presenterTest.addEmptyNode(initialMatrix)
-        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,20)
-        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,20)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,1)
 
         presenterTest.addEmptyNode(initialMatrix)
-        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,30)
-        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,30)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,2)
 
         presenterTest.addEmptyNode(initialMatrix)
         presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)

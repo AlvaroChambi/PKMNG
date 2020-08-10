@@ -78,107 +78,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         matrix[matrix.size - 1][position + offset] = value
     }
 
-    fun buildBestPath() {
-        val speeds = ArrayList<Int>()
-
-        pokemons.forEach {
-            if(!speeds.contains(it.speed)) {
-                speeds.add(it.speed)
-            }
-        }
-
-        val matrix = ArrayList<ArrayList<Int>>()
-        //add root node to matrix
-        addEmptyNode(matrix)
-
-        //add first step nodes
-        repeat(speeds.size) {
-            addEmptyNode(matrix)
-        }
-
-        //link nodes to root
-        repeat(speeds.size) {pos ->
-            linkRootToNode(matrix, speeds[pos], pos)
-        }
-
-
-
-
-        val evs = ArrayList<Int>()
-        val ivs = ArrayList<Int>()
-        for (value: Int in 1..63) {
-            evs.add(value)
-        }
-        for (value: Int in 1..31) {
-            ivs.add(value)
-        }
-        val rootOffset = 1
-        //Link speed nodes to the ev nodes
-        //Each speed node will be linked to every ev node
-        evs.forEach {
-            //create node for each IV
-            addEmptyNode(matrix)
-            repeat(speeds.size) { pos ->
-                //Link previous nodes to that node
-                linkPosToNewNode(matrix, offset = rootOffset,
-                        position = pos,value =  it)
-            }
-
-        }
-
-
-
-        //Link every ev to the new Iv's nodes
-        val speedsOffset = rootOffset + speeds.size
-        ivs.forEach {
-            addEmptyNode(matrix)
-            repeat(evs.size) { pos ->
-                linkPosToNewNode(matrix, offset = speedsOffset, position = pos,
-                        value = it)
-            }
-        }
-
-        //Link to end
-        val evsOffset = speedsOffset + evs.size
-        addEmptyNode(matrix)
-        repeat(ivs.size) {pos ->
-            linkPosToNewNode(matrix, offset = evsOffset, position = pos,
-                    value = 1)
-        }
-
-        val result = Path()
-        shortestPath(Graph(matrix= matrix), 0, END_NODE, result)
-
-               //Lets cast this to something I can understand
-
-        //path will include 3 nodes, ivs, evs, base_speed:
-
-        //first we get the iv's step, because is the last one that we added
-       val rawIv = result.path[0]
-       val actualIVIndex = rawIv - evsOffset
-       val iv = ivs[actualIVIndex]
-
-        val rawEv = result.path[1]
-        val  actualEVIndex = rawEv - speedsOffset
-        val ev = evs[actualEVIndex]
-
-        val rawBaseStat = result.path[2]
-        val actualBaseIndex = rawBaseStat - rootOffset
-        val baseSpeed = speeds[actualBaseIndex]
-
-        val pokemonList = ArrayList<Pokemon>()
-        var pokemonString = ""
-        pokemons.forEach {
-            if(it.stats.speed == baseSpeed) {
-                pokemonList.add(it)
-                pokemonString += it.name + ", "
-            }
-        }
-
-        screen.showBestPathResult(pokemonString, ev = ev, iv= iv)
-    }
-
-    fun buildMatrix() {
+    fun buildMatrix(iterations: Int) {
         val speeds = ArrayList<Int>()
 
         pokemons.forEach {
@@ -246,10 +146,43 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     value = 1)
         }
 
+        val start = System.currentTimeMillis()
 
+        val resultList = yens(Graph(matrix = matrix), END_NODE, iterations)
+        Log.i("YEN", "time spent: " + (System.currentTimeMillis() - start))
 
-        val result = yens(Graph(matrix = matrix), END_NODE, 5)
-        result.size
+        //Lets cast this to something I can understand
+
+        //path will include 3 nodes, ivs, evs, base_speed:
+
+        //first we get the iv's step, because is the last one that we added
+        val items = ArrayList<Item>()
+        resultList.forEach { result ->
+            val rawIv = result.path[3]
+            val actualIVIndex = rawIv - evsOffset
+            val iv = ivs[actualIVIndex]
+
+            val rawEv = result.path[2]
+            val  actualEVIndex = rawEv - speedsOffset
+            val ev = evs[actualEVIndex] * 4 //cast to actual ev value
+
+            val rawBaseStat = result.path[1]
+            val actualBaseIndex = rawBaseStat - rootOffset
+            val baseSpeed = speeds[actualBaseIndex]
+
+            val pokemonList = ArrayList<Pokemon>()
+            var pokemonString = ""
+            pokemons.forEach {
+                if(it.stats.speed == baseSpeed) {
+                    pokemonList.add(it)
+                    pokemonString += it.name + ", "
+                }
+            }
+            pokemonString += ": value $baseSpeed"
+            items.add(Item(pokemon = pokemonString, ev = ev.toString(), iv = iv.toString(),
+            total = result.totalWeight.toString()))
+        }
+        screen.showYenResults(items)
     }
 
     /**
@@ -364,9 +297,9 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
                 loop@ for(it in 0..currentPath.path.size-1) {
                     rootPath.add(currentPath.path[it])
-                    //adding weight if path is longer than 1
-                    if(it > rootPath.size - 1) {
-                        completeRootPath.totalWeight+= graph.matrix[it][it - 1]
+                    //get to the end of rootPath, check if something before, add it to the weight
+                    if(it > 0  && it == rootPath.size - 1) {
+                        completeRootPath.totalWeight+= graph.matrix[currentPath.path[it]][currentPath.path[it - 1]]
                     }
                     if(currentPath.path[it] == spurNode) {
                         break@loop
@@ -403,10 +336,10 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     val pathList = ArrayList<Int>()
                     val totalPath = Path(pathList)
 
-                    rootPath.forEach {  // pretty sure I'm missing the path weight here, not sure if it's better to get it here or later
+                    rootPath.forEach {
                         pathList.add(it)
                     }
-                    spurPath.path.forEach { //spur path has it's weight, but I'm still missing it in this mapping
+                    spurPath.path.forEach {
                         if(!pathList.contains(it)) {
                             pathList.add(it)
                         }

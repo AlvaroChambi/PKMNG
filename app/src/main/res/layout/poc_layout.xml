@@ -65,6 +65,8 @@
         android:id="@+id/perform_query_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="Yen"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,51 +75,26 @@
         app:layout_constraintTop_toBottomOf="@+id/natures_number_text"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/path_title"
-        android:layout_width="99dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="16dp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/results_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="32dp"
-        android:text="Best path result"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/natures_number_text" />
 
-    <TextView
-        android:id="@+id/result_pokemon_name"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/path_title"
-        app:layout_constraintTop_toBottomOf="@+id/path_title" />
-
-    <TextView
-        android:id="@+id/result_target_ev"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/result_pokemon_name"
-        app:layout_constraintTop_toTopOf="@+id/result_pokemon_name" />
-
-    <TextView
-        android:id="@+id/result_target_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/result_target_ev"
-        app:layout_constraintTop_toTopOf="@+id/result_target_ev" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="shortest"
-        app:layout_constraintBottom_toTopOf="@+id/perform_query_button"
-        app:layout_constraintEnd_toEndOf="@+id/perform_query_button"
-        app:layout_constraintStart_toStartOf="@+id/perform_query_button" />
+        android:ems="10"
+        android:inputType="number"
+        android:text="10"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/perform_query_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/perform_query_button" />
 
 </android.support.constraint.ConstraintLayout>
