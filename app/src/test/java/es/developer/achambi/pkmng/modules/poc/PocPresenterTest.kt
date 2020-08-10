@@ -95,7 +95,7 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
 
-        presenterTest.shortestPath(Graph(initialMatrix),5, path)
+        presenterTest.shortestPath(Graph(initialMatrix),0, 5, path)
         assertEquals(5, path.path[3])
         assertEquals(4, path.path[2])
         assertEquals(2, path.path[1])
@@ -240,6 +240,37 @@ class PocPresenterTest {
     }
 
     @Test
+    fun `no path removed things`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,20)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,20)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,30)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,30)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
+
+        graph.removeNode(0)
+        graph.removeNode(1)
+        graph.removeEdge(4, 5)
+
+        val path = Path()
+        presenterTest.shortestPath(graph,4, 5, path)
+
+        assertEquals(0, path.path.size)
+        assertEquals(0, path.totalWeight)
+    }
+
+    @Test
     fun `yen test`() {
         repeat(3) {
             presenterTest.addEmptyNode(initialMatrix)
@@ -260,6 +291,6 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
 
         val result = presenterTest.yens(Graph(initialMatrix), 5, 3)
-        assertEquals(3, result.size)
+        assertEquals(4, result.size)
     }
 }

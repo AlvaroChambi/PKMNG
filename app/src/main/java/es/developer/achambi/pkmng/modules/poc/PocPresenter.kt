@@ -147,7 +147,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         }
 
         val result = Path()
-        shortestPath(Graph(matrix= matrix), END_NODE, result)
+        shortestPath(Graph(matrix= matrix), 0, END_NODE, result)
 
                //Lets cast this to something I can understand
 
@@ -274,23 +274,27 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         return result
     }
 
-    fun shortestPath( graph: Graph, end: Int, result: Path ) {
+    fun shortestPath( graph: Graph,start: Int, end: Int, result: Path ) {
         val vertexSet = ArrayList<Node>()
         val visited = ArrayList<Node>()
         //populate vertex set //vertex set should be sorted, but maybe not here, but when values are updated, here i want the source node
         //to be the first one
-        graph.getAllNodes().forEach {
+        val nodes = graph.getAllNodes()
+        vertexSet.add(Node(start))
+        nodes.remove(start) //already added to the vertex, remove to avoid adding it again
+
+        nodes.forEach {
             vertexSet.add(Node(id = it))
         }
 
-
         while(vertexSet.isNotEmpty()) {
-            //pop highest value node: first one should be the source
+            //pop the best value node(it's sorted)
             val currentNode = vertexSet[0]
             vertexSet.remove(currentNode)
             visited.add(currentNode)
 
             //check if we got to the destination and finish
+            //how the hell do we check if the path starts at the source?:
             if(currentNode.id == end) {
                 var setCurrent = visited.find { currentNode.id == it.id }!! //another iteration, but it should be over a rly small list
                     result.totalWeight = setCurrent.value
@@ -301,7 +305,14 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     result.path.add(setCurrent.id)
                 }while(setCurrent.previousId != UNDEFINED)
                 result.path.reverse()
-                return
+                //let's just omit the result if [0] is not source
+                if(result.path[0] == start) {
+                    return
+                } else {
+                    result.totalWeight = 0
+                    result.path.clear()
+                    return
+                }
             }
 
             //iterate each neighbour
@@ -332,7 +343,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
     fun yens(graph: Graph, sink: Int, iterations: Int): ArrayList<Path> {
         val initialPath = Path()
-        shortestPath(graph, sink, initialPath)
+        shortestPath(graph, 0, sink, initialPath)
 
 
         val bestPaths = ArrayList<Path>()
@@ -386,35 +397,33 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 }
 
                 val spurPath = Path()
-                shortestPath(graph, sink, spurPath)
+                shortestPath(graph, spurNode, sink, spurPath)
+                if(spurPath.path.isNotEmpty()) {
+                    //Get total path from the rootPath + the spurPath
+                    val pathList = ArrayList<Int>()
+                    val totalPath = Path(pathList)
 
-                //Get total path from the rootPath + the spurPath
-                val pathList = ArrayList<Int>()
-                val totalPath = Path(pathList)
-                var rootString = ""
-                var spurString = ""
-                rootPath.forEach {  // pretty sure I'm missing the path weight here, not sure if it's better to get it here or later
-                    pathList.add(it)
-                    rootString = "$rootString$it, "
-                }
-                spurPath.path.forEach { //spur path has it's weight, but I'm still missing it in this mapping
-                    spurString = "$spurString$it, "
-                    if(!pathList.contains(it)) {
+                    rootPath.forEach {  // pretty sure I'm missing the path weight here, not sure if it's better to get it here or later
                         pathList.add(it)
                     }
-                }
+                    spurPath.path.forEach { //spur path has it's weight, but I'm still missing it in this mapping
+                        if(!pathList.contains(it)) {
+                            pathList.add(it)
+                        }
+                    }
 
-                //Getting new weight
-                totalPath.totalWeight = completeRootPath.totalWeight + spurPath.totalWeight
-                //Now we need the weight value of linking both paths, that'll be the edge between the last node of the root path
-                //and the first one on the spur path. If it's the same node, weight will be 0, so don't need to worry about that
-                val linkStart = rootPath[rootPath.size - 1]
-                val linkEnd = spurPath.path[0]
-                totalPath.totalWeight += graph.matrix[linkEnd][linkStart]
+                    //Getting new weight
+                    totalPath.totalWeight = completeRootPath.totalWeight + spurPath.totalWeight
+                    //Now we need the weight value of linking both paths, that'll be the edge between the last node of the root path
+                    //and the first one on the spur path. If it's the same node, weight will be 0, so don't need to worry about that
+                    val linkStart = rootPath[rootPath.size - 1]
+                    val linkEnd = spurPath.path[0]
+                    totalPath.totalWeight += graph.matrix[linkEnd][linkStart]
 
 
-                if (!potentialPaths.contains(totalPath)) {
-                    potentialPaths.add(totalPath)
+                    if (!potentialPaths.contains(totalPath)) {
+                        potentialPaths.add(totalPath)
+                    }
                 }
                 graph.restore()
             }
