@@ -175,6 +175,7 @@ class PocPresenterTest {
         val result = graph.getAdjacencyList(0)
 
         assertEquals(2, result[0])
+        assertEquals(2, graph.getAllNodes().size)
     }
 
     @Test
@@ -185,10 +186,11 @@ class PocPresenterTest {
         presenterTest.linkRootToNode(initialMatrix, 10, 0)
         presenterTest.linkRootToNode(initialMatrix, 15, 1)
 
-        graph.removeEdge(0, 2)
+        graph.removeEdge(0, 1)
         val result = graph.getAdjacencyList(0)
 
-        assertEquals(1, result[0])
+        assertEquals(2, result[0])
+        assertEquals(1, result.size)
     }
 
     @Test(expected = Exception::class)
@@ -201,6 +203,40 @@ class PocPresenterTest {
 
         graph.removeNode(0)
         graph.getAdjacencyList(0)
+    }
+
+    @Test
+    fun `edge restored`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        graph.removeEdge(0, 1)
+        graph.restore()
+        val result = graph.getAdjacencyList(0)
+
+        assertEquals(1, result[0])
+        assertEquals(2, result[1])
+        assertEquals(2, result.size)
+    }
+
+    @Test
+    fun `node restored`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        graph.removeNode(1)
+        graph.restore()
+        val result = graph.getAdjacencyList(0)
+
+        assertEquals(1, result[0])
+        assertEquals(2, result[1])
+        assertEquals(3, graph.getAllNodes().size)
     }
 
     @Test
@@ -223,7 +259,7 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
 
-        val result = presenterTest.yens(initialMatrix, 5, 3)
+        val result = presenterTest.yens(Graph(initialMatrix), 5, 3)
         assertEquals(3, result.size)
     }
 }

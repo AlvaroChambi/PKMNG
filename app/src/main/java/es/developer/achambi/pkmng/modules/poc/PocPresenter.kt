@@ -147,7 +147,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         }
 
         val result = Path()
-        shortestPath(Graph(matrix), END_NODE, result)
+        shortestPath(Graph(matrix= matrix), END_NODE, result)
 
                //Lets cast this to something I can understand
 
@@ -248,7 +248,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
 
 
-        val result = yens(matrix, END_NODE, 5)
+        val result = yens(Graph(matrix = matrix), END_NODE, 5)
         result.size
     }
 
@@ -330,9 +330,8 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         }
     }
 
-    fun yens(matrix: ArrayList<ArrayList<Int>>, sink: Int, iterations: Int): ArrayList<Path> {
+    fun yens(graph: Graph, sink: Int, iterations: Int): ArrayList<Path> {
         val initialPath = Path()
-        val graph = Graph(matrix)
         shortestPath(graph, sink, initialPath)
 
 
@@ -352,14 +351,14 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 //using the spur node find the spur path  (from 0 to spurNode) including the spur node
                 //adding nodes from the current best path to the rootPath
 
-                repeat(currentPath.path.size) {
+                loop@ for(it in 0..currentPath.path.size-1) {
                     rootPath.add(currentPath.path[it])
-                    if(currentPath.path[it] == spurNode) {
-                        return@repeat
-                    }
                     //adding weight if path is longer than 1
                     if(it > rootPath.size - 1) {
-                        completeRootPath.totalWeight+= matrix[it][it - 1]
+                        completeRootPath.totalWeight+= graph.matrix[it][it - 1]
+                    }
+                    if(currentPath.path[it] == spurNode) {
+                        break@loop
                     }
                 }
 
@@ -368,7 +367,10 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
                 //first remove edges
                 bestPaths.forEach {
-                    if(rootPath == it.path.subList(0, spurPosition)) {
+                    if(spurPosition >= it.path.size) {
+                        it.path
+                    }
+                    if(rootPath == it.path.subList(0, spurPosition + 1)) {
                         //remove path that are part of the previous shortest path which share the same root path
                         val start = it.path[spurPosition]
                         val end = it.path[spurPosition + 1]
@@ -384,7 +386,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 }
 
                 val spurPath = Path()
-                shortestPath(graph, END_NODE, spurPath)
+                shortestPath(graph, sink, spurPath)
 
                 //Get total path from the rootPath + the spurPath
                 val pathList = ArrayList<Int>()
@@ -408,7 +410,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 //and the first one on the spur path. If it's the same node, weight will be 0, so don't need to worry about that
                 val linkStart = rootPath[rootPath.size - 1]
                 val linkEnd = spurPath.path[0]
-                totalPath.totalWeight += matrix[linkEnd][linkStart]
+                totalPath.totalWeight += graph.matrix[linkEnd][linkStart]
 
 
                 if (!potentialPaths.contains(totalPath)) {
@@ -443,21 +445,23 @@ data class Path(val path: ArrayList<Int> = ArrayList(), var totalWeight: Int = 0
 class Edge(val start: Int, val end: Int,  val weight: Int)
 
 class Graph( val matrix: ArrayList<ArrayList<Int>>,
-            private var removed: ArrayList<Int> = ArrayList(),
-            private var removedEdges: ArrayList<Edge> = ArrayList()) {
+            private var removed: ArrayList<Int> = ArrayList()
+             , private var removedEdges: ArrayList<Edge> = ArrayList()
+            ) {
     fun removeNode(node: Int) {
         removed.add(node)
     }
 
     fun removeEdge(start: Int, end: Int) {
-        val weight = matrix[start][end]
+        val weight = matrix[end][start]
+        matrix[end][start] = 0
         removedEdges.add(Edge(start, end, weight))
     }
 
     fun restore() {
         removed.clear()
         removedEdges.forEach {
-            matrix[it.start][it.end] = it.weight
+            matrix[it.end][it.start] = it.weight
         }
         removedEdges.clear()
     }
@@ -472,7 +476,6 @@ class Graph( val matrix: ArrayList<ArrayList<Int>>,
             if(!removed.contains(it)) {
                 val neighbourWeight = matrix[it][node]
                 if(neighbourWeight != 0) {
-                    removedEdges.add(Edge(start = node, end = node, weight = neighbourWeight))
                     result.add(it)
                 }
             }
