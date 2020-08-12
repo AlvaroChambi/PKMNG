@@ -278,6 +278,7 @@ class PocPresenterTest {
         presenterTest.linkRootToNode(initialMatrix, 10, 0)
         presenterTest.linkRootToNode(initialMatrix, 15, 1)
 
+        //first layer
         presenterTest.addEmptyNode(initialMatrix)
         presenterTest.linkPosToNewNode(initialMatrix, 1, 0,1)
         presenterTest.linkPosToNewNode(initialMatrix, 1, 1,1)
@@ -286,11 +287,21 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 1, 0,2)
         presenterTest.linkPosToNewNode(initialMatrix, 1, 1,2)
 
+        //second layer
         presenterTest.addEmptyNode(initialMatrix)
-        presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
-        presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,1)
 
-        val result = presenterTest.yens(Graph(initialMatrix), 5, 3)
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,2)
+
+        //sink
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, 1)
+
+        val result = presenterTest.yens(graph, 7, 9)
         assertEquals(4, result.size)
     }
 }

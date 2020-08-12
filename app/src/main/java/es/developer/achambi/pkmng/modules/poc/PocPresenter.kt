@@ -8,6 +8,7 @@ import es.developer.achambi.pkmng.modules.search.nature.data.NatureDataAccess
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 
 class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                    val pokemonDataAccess: PokemonDataAccess,
@@ -17,7 +18,6 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
     companion object {
         val UNDEFINED = -1
-        val END_NODE = 214 //only valid for the graph containing base speeds, evs and ivs
     }
 
     fun onViewSetup(){
@@ -78,11 +78,11 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         matrix[matrix.size - 1][position + offset] = value
     }
 
-    fun buildMatrix(iterations: Int) {
+    fun buildMatrix(iterations: Int, targetValue: Int) {
         val speeds = ArrayList<Int>()
 
         pokemons.forEach {
-            if(!speeds.contains(it.speed)) {
+            if(!speeds.contains(it.speed) &&  targetValue + 10> it.speed && it.speed> targetValue - 10) {
                 speeds.add(it.speed)
             }
         }
@@ -147,8 +147,8 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         }
 
         val start = System.currentTimeMillis()
-
-        val resultList = yens(Graph(matrix = matrix), END_NODE, iterations)
+        val resultList = yens(Graph(matrix = matrix), matrix.size - 1, iterations)
+        Log.i("YEN", "found: " + resultList.size + " results" )
         Log.i("YEN", "time spent: " + (System.currentTimeMillis() - start))
 
         //Lets cast this to something I can understand
@@ -164,7 +164,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
             val rawEv = result.path[2]
             val  actualEVIndex = rawEv - speedsOffset
-            val ev = evs[actualEVIndex] * 4 //cast to actual ev value
+            val ev = evs[actualEVIndex]// * 4 //cast to actual ev value
 
             val rawBaseStat = result.path[1]
             val actualBaseIndex = rawBaseStat - rootOffset
@@ -180,7 +180,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             }
             pokemonString += ": value $baseSpeed"
             items.add(Item(pokemon = pokemonString, ev = ev.toString(), iv = iv.toString(),
-            total = result.totalWeight.toString()))
+            total = (result.totalWeight - 1).toString())) //adjust for the value added to reach the sink
         }
         screen.showYenResults(items)
     }
@@ -295,11 +295,17 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 //using the spur node find the spur path  (from 0 to spurNode) including the spur node
                 //adding nodes from the current best path to the rootPath
 
+                //test this shit
                 loop@ for(it in 0..currentPath.path.size-1) {
                     rootPath.add(currentPath.path[it])
+
                     //get to the end of rootPath, check if something before, add it to the weight
                     if(it > 0  && it == rootPath.size - 1) {
-                        completeRootPath.totalWeight+= graph.matrix[currentPath.path[it]][currentPath.path[it - 1]]
+                        val weight = graph.matrix[currentPath.path[it]][currentPath.path[it - 1]]
+                        if(weight == 0) {
+                            throw Exception("corrupted matrix: missing edge: " + (it-1) + "->" +it)
+                        }
+                        completeRootPath.totalWeight+= weight
                     }
                     if(currentPath.path[it] == spurNode) {
                         break@loop
@@ -311,14 +317,14 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
                 //first remove edges
                 bestPaths.forEach {
-                    if(spurPosition >= it.path.size) {
-                        it.path
-                    }
                     if(rootPath == it.path.subList(0, spurPosition + 1)) {
                         //remove path that are part of the previous shortest path which share the same root path
                         val start = it.path[spurPosition]
                         val end = it.path[spurPosition + 1]
-                        graph.removeEdge(start, end)
+                        if(graph.matrix[end][start] != 0) { //check if the edge has not been removed yet //should this happen?
+                            graph.removeEdge(start, end)
+                        }
+                        //graph.removeEdge(start, end)
                     }
                 }
 
@@ -358,6 +364,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                         potentialPaths.add(totalPath)
                     }
                 }
+
                 graph.restore()
             }
             if(potentialPaths.isEmpty())  return bestPaths
@@ -395,6 +402,11 @@ class Graph( val matrix: ArrayList<ArrayList<Int>>,
     }
 
     fun removeEdge(start: Int, end: Int) {
+        removedEdges.forEach {
+            if(it.start == start && it.end == end ) {
+                throw IllegalArgumentException("Edge: " + start + " - " +end + " already removed")
+            }
+        }
         val weight = matrix[end][start]
         matrix[end][start] = 0
         removedEdges.add(Edge(start, end, weight))
