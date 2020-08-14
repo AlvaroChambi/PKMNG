@@ -79,11 +79,11 @@
         android:id="@+id/results_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/natures_number_text" />
+        app:layout_constraintTop_toBottomOf="@+id/info_text" />
 
     <EditText
         android:id="@+id/editTextNumber"
@@ -96,5 +96,25 @@
         app:layout_constraintEnd_toStartOf="@+id/perform_query_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/perform_query_button" />
+
+    <TextView
+        android:id="@+id/info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/natures_number_text" />
+
+    <TextView
+        android:id="@+id/found_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/info_text"
+        app:layout_constraintTop_toTopOf="@+id/info_text" />
 
 </android.support.constraint.ConstraintLayout>

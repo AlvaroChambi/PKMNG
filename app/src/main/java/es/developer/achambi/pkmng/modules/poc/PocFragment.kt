@@ -49,10 +49,10 @@ class PocFragment: BaseFragment(), PocScreen {
     }
 
     override fun onViewSetup(view: View?, savedInstanceState: Bundle?) {
-        pokemon_name_text.text = config.pokemon.name + ": " + config.speed
+        pokemon_name_text.text = config.pokemon.name + ": " + (config.speed + 31)
         perform_query_button.setOnClickListener { presenter.buildMatrix(
                 editTextNumber.text.toString().toInt(),
-                config.speed) }
+                config.pokemon.speed, config.speed + 31) }
         results_recycler.layoutManager = LinearLayoutManager(context)
         presenter.onViewSetup()
     }
@@ -73,20 +73,31 @@ class PocFragment: BaseFragment(), PocScreen {
         natures_number_text.text = total.toString()
     }
 
-    override fun showYenResults(list: ArrayList<Item>) {
+    override fun showYenResults(list: ArrayList<Item>, targetPosition: Int, found: Boolean) {
         val adapter = Adapter(list)
         results_recycler.adapter = adapter
         adapter.notifyDataSetChanged()
+        info_text.text = "Filtered results: " + list.size
+        if(found) {
+            found_text.text = "target found: " + targetPosition
+        } else {
+            found_text.text = "target not contained"
+        }
+        results_recycler.smoothScrollToPosition(targetPosition)
     }
 }
 
 interface PocScreen: Screen {
     fun showNumberOfPokemons(total: Int)
     fun showNumberOfNature(total: Int)
-    fun showYenResults(list: ArrayList<Item>)
+    fun showYenResults(list: ArrayList<Item>, targetPosition: Int, found: Boolean)
 }
 
-data class Item(val pokemon: String, val ev: String, val iv: String, val total: String)
+data class Item(val pokemon: String, val ev: String, val iv: String, val total: String) {
+    override fun equals(other: Any?) = (other is Item)
+            && pokemon == other.pokemon
+            && total == other.total
+}
 
 class Holder(view: View): RecyclerView.ViewHolder(view)
 class Adapter(private var list: ArrayList<Item>): RecyclerView.Adapter<Holder>() {

@@ -78,11 +78,11 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         matrix[matrix.size - 1][position + offset] = value
     }
 
-    fun buildMatrix(iterations: Int, targetValue: Int) {
+    fun buildMatrix(iterations: Int, baseTarget: Int, configTarget: Int) {
         val speeds = ArrayList<Int>()
 
         pokemons.forEach {
-            if(!speeds.contains(it.speed) &&  targetValue + 10> it.speed && it.speed> targetValue - 10) {
+            if(!speeds.contains(it.speed) &&  baseTarget + 10> it.speed && it.speed> baseTarget - 10) {
                 speeds.add(it.speed)
             }
         }
@@ -157,6 +157,8 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
         //first we get the iv's step, because is the last one that we added
         val items = ArrayList<Item>()
+        var targetPosition = 0
+        var found = false
         resultList.forEach { result ->
             val rawIv = result.path[3]
             val actualIVIndex = rawIv - evsOffset
@@ -179,10 +181,22 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 }
             }
             pokemonString += ": value $baseSpeed"
-            items.add(Item(pokemon = pokemonString, ev = ev.toString(), iv = iv.toString(),
-            total = (result.totalWeight - 1).toString())) //adjust for the value added to reach the sink
+            //collapse same pokemon: same total value
+
+            val item = Item(pokemon = pokemonString, ev = ev.toString(), iv = iv.toString(),
+                    total = (result.totalWeight).toString())
+            if(!items.contains(item)) {
+                items.add(item)
+            }
+            if(configTarget == result.totalWeight) {
+                targetPosition = items.size - 1
+                found = true
+            }
         }
-        screen.showYenResults(items)
+        if(targetPosition == 0) {
+            targetPosition = items.size - 1
+        }
+        screen.showYenResults(items, targetPosition, found)
     }
 
     /**
