@@ -9,6 +9,7 @@ import es.developer.achambi.pkmng.modules.search.nature.model.Nature
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess
 import java.lang.Exception
 import java.lang.IllegalArgumentException
+import java.lang.Math.floor
 
 class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                    val pokemonDataAccess: PokemonDataAccess,
@@ -18,6 +19,9 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
     companion object {
         val UNDEFINED = -1
+        val NATURE_NEUTRAL_KEY = 1000
+        val NATURE_POSITIVE_KEY = 2000
+        val NATURE_NEGATIVE_KEY = 3000
     }
 
     fun onViewSetup(){
@@ -80,6 +84,10 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
     fun buildMatrix(iterations: Int, baseTarget: Int, configTarget: Int) {
         val speeds = ArrayList<Int>()
+        val natures = ArrayList<Int>()
+        natures.add(2000)
+        natures.add(1000)
+        natures.add(3000)
 
         pokemons.forEach {
             if(!speeds.contains(it.speed) &&  baseTarget + 10> it.speed && it.speed> baseTarget - 10) {
@@ -138,11 +146,21 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             }
         }
 
-        //Link to end
+        //link every iv to nature nodes
         val evsOffset = speedsOffset + evs.size
+        natures.forEach {
+            addEmptyNode(matrix)
+            repeat(ivs.size) { pos ->
+                linkPosToNewNode(matrix, offset = evsOffset, position = pos,
+                value = it)
+            }
+        }
+
+        //Link to end
+        val ivsOffset = evsOffset + ivs.size
         addEmptyNode(matrix)
-        repeat(ivs.size) {pos ->
-            linkPosToNewNode(matrix, offset = evsOffset, position = pos,
+        repeat(natures.size) {pos ->
+            linkPosToNewNode(matrix, offset = ivsOffset, position = pos,
                     value = 1)
         }
 
@@ -160,6 +178,14 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         var targetPosition = 0
         var found = false
         resultList.forEach { result ->
+            val rawNature = result.path[4]
+            val nature = when(natures[rawNature - ivsOffset]) {
+                NATURE_NEUTRAL_KEY -> "neutral"
+                NATURE_POSITIVE_KEY -> "positive"
+                NATURE_NEGATIVE_KEY -> "negative"
+                else -> "undefined"
+            }
+
             val rawIv = result.path[3]
             val actualIVIndex = rawIv - evsOffset
             val iv = ivs[actualIVIndex]
@@ -184,7 +210,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             //collapse same pokemon: same total value
 
             val item = Item(pokemon = pokemonString, ev = ev.toString(), iv = iv.toString(),
-                    total = (result.totalWeight).toString())
+                    total = (result.totalWeight).toString(), nature = nature)
             if(!items.contains(item)) {
                 items.add(item)
             }
@@ -274,7 +300,13 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 }
                 if(neighbourNode != null) { //Test this thing, when I am getting this value?
                     //calculate new value and check if it's better than the previous
-                    val newValue = currentNode.value + neighbourWeight
+                    val newValue = when(neighbourWeight) {
+                        NATURE_NEUTRAL_KEY -> currentNode.value
+                        NATURE_POSITIVE_KEY -> kotlin.math.floor(currentNode.value * 1.1).toInt()  //round down if decimal
+                        NATURE_NEGATIVE_KEY -> kotlin.math.floor(currentNode.value * 0.9).toInt()
+                        else -> currentNode.value + neighbourWeight
+                    }
+
                     if(newValue > currentNode.value) {
                         neighbourNode?.value = newValue
                         neighbourNode?.previousId = currentNode.id
@@ -338,7 +370,6 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                         if(graph.matrix[end][start] != 0) { //check if the edge has not been removed yet //should this happen?
                             graph.removeEdge(start, end)
                         }
-                        //graph.removeEdge(start, end)
                     }
                 }
 

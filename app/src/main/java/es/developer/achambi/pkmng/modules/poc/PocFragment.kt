@@ -19,6 +19,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig
 import es.developer.achambi.pkmng.modules.search.nature.data.NatureDataAccess
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess
+import kotlinx.android.synthetic.main.nature_list_item_layout.view.*
 import kotlinx.android.synthetic.main.poc_layout.*
 import kotlinx.android.synthetic.main.poc_result_item.view.*
 
@@ -93,7 +94,7 @@ interface PocScreen: Screen {
     fun showYenResults(list: ArrayList<Item>, targetPosition: Int, found: Boolean)
 }
 
-data class Item(val pokemon: String, val ev: String, val iv: String, val total: String) {
+data class Item(val pokemon: String, val ev: String, val iv: String, val total: String, val nature: String) {
     override fun equals(other: Any?) = (other is Item)
             && pokemon == other.pokemon
             && total == other.total
@@ -115,6 +116,7 @@ class Adapter(private var list: ArrayList<Item>): RecyclerView.Adapter<Holder>()
         p0.itemView.item_ev_text.text = "EV: " + list[p1].ev
         p0.itemView.item_iv_text.text = "IV: " + list[p1].iv
         p0.itemView.item_total_text.text = "Total: " + list[p1].total
+        p0.itemView.item_nature_text.text = "Nature: " + list[p1].nature
     }
 
 }
