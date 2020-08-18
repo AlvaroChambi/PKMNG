@@ -50,10 +50,10 @@ class PocFragment: BaseFragment(), PocScreen {
     }
 
     override fun onViewSetup(view: View?, savedInstanceState: Bundle?) {
-        pokemon_name_text.text = config.pokemon.name + ": " + (config.speed + 31)
+        pokemon_name_text.text = config.pokemon.name + ": " + (config.speed)
         perform_query_button.setOnClickListener { presenter.buildMatrix(
                 editTextNumber.text.toString().toInt(),
-                config.pokemon.speed, config.speed + 31) }
+                config.pokemon.speed, config.speed) }
         results_recycler.layoutManager = LinearLayoutManager(context)
         presenter.onViewSetup()
     }
@@ -84,7 +84,7 @@ class PocFragment: BaseFragment(), PocScreen {
         } else {
             found_text.text = "target not contained"
         }
-        results_recycler.smoothScrollToPosition(targetPosition)
+        results_recycler.scrollToPosition(targetPosition)
     }
 }
 
@@ -94,7 +94,8 @@ interface PocScreen: Screen {
     fun showYenResults(list: ArrayList<Item>, targetPosition: Int, found: Boolean)
 }
 
-data class Item(val pokemon: String, val ev: String, val iv: String, val total: String, val nature: String) {
+data class Item(val pokemon: String, val ev: String, val iv: String, val total: String, val nature: String,
+                val weight: String) {
     override fun equals(other: Any?) = (other is Item)
             && pokemon == other.pokemon
             && total == other.total
@@ -117,6 +118,7 @@ class Adapter(private var list: ArrayList<Item>): RecyclerView.Adapter<Holder>()
         p0.itemView.item_iv_text.text = "IV: " + list[p1].iv
         p0.itemView.item_total_text.text = "Total: " + list[p1].total
         p0.itemView.item_nature_text.text = "Nature: " + list[p1].nature
+        p0.itemView.item_weight_text.text = "Weight: " + list[p1].weight
     }
 
 }

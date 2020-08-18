@@ -43,4 +43,26 @@ public class PokemonUtils {
         }
         throw new IllegalArgumentException();
     }
+
+    public static int getStatValue(int baseStatValue, int evValue,
+                                   float natureMultiplier, int level, int iv )
+            throws IllegalArgumentException{
+        if(baseStatValue < 1) {
+            throw new IllegalArgumentException();
+        }
+        if(evValue < 0) {
+            throw new IllegalArgumentException();
+        }
+        if(level < 1 || level > MAX_LEVEL) {
+            throw new IllegalArgumentException();
+        }
+        if( natureMultiplier == Nature.INCREASED_STAT_MODIFIER
+                || natureMultiplier == Nature.DECREASED_STAT_MODIFIER
+                || natureMultiplier == Nature.NEUTRAL_STAT_MODIFIER ) {
+            float stat =  ((( ( 2 * baseStatValue + iv + (evValue/4) ) * level ) /
+                    100 ) + 5 ) * natureMultiplier;
+            return (int)stat;
+        }
+        throw new IllegalArgumentException();
+    }
 }

@@ -7,6 +7,7 @@ import es.developer.achambi.pkmng.modules.overview.model.Pokemon
 import es.developer.achambi.pkmng.modules.search.nature.data.NatureDataAccess
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature
 import es.developer.achambi.pkmng.modules.search.pokemon.data.PokemonDataAccess
+import es.developer.achambi.pkmng.modules.utils.PokemonUtils
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.lang.Math.floor
@@ -85,9 +86,9 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
     fun buildMatrix(iterations: Int, baseTarget: Int, configTarget: Int) {
         val speeds = ArrayList<Int>()
         val natures = ArrayList<Int>()
-        natures.add(2000)
-        natures.add(1000)
-        natures.add(3000)
+        natures.add(NATURE_NEUTRAL_KEY)
+        natures.add(NATURE_POSITIVE_KEY)
+        natures.add(NATURE_NEGATIVE_KEY)
 
         pokemons.forEach {
             if(!speeds.contains(it.speed) &&  baseTarget + 10> it.speed && it.speed> baseTarget - 10) {
@@ -179,11 +180,24 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         var found = false
         resultList.forEach { result ->
             val rawNature = result.path[4]
+            val natureMultiplier : Float
             val nature = when(natures[rawNature - ivsOffset]) {
-                NATURE_NEUTRAL_KEY -> "neutral"
-                NATURE_POSITIVE_KEY -> "positive"
-                NATURE_NEGATIVE_KEY -> "negative"
-                else -> "undefined"
+                NATURE_NEUTRAL_KEY -> {
+                    natureMultiplier = 1f
+                    "neutral"
+                }
+                NATURE_POSITIVE_KEY -> {
+                    natureMultiplier = 1.1f
+                    "positive"
+                }
+                NATURE_NEGATIVE_KEY -> {
+                    natureMultiplier = 0.9f
+                    "negative"
+                }
+                else -> {
+                    natureMultiplier = 1f
+                    "undefined"
+                }
             }
 
             val rawIv = result.path[3]
@@ -207,13 +221,13 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 }
             }
             pokemonString += ": value $baseSpeed"
-            //collapse same pokemon: same total value
-
+            val total = PokemonUtils.getStatValue(baseSpeed, ev, natureMultiplier,50,
+            iv)
             val item = Item(pokemon = pokemonString, ev = ev.toString(), iv = iv.toString(),
-                    total = (result.totalWeight).toString(), nature = nature)
-            if(!items.contains(item)) {
-                items.add(item)
-            }
+                    total = total.toString(), nature = nature, weight = result.totalWeight.toString())
+
+            items.add(item)
+
             if(configTarget == result.totalWeight) {
                 targetPosition = items.size - 1
                 found = true
@@ -267,7 +281,6 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             visited.add(currentNode)
 
             //check if we got to the destination and finish
-            //how the hell do we check if the path starts at the source?:
             if(currentNode.id == end) {
                 var setCurrent = visited.find { currentNode.id == it.id }!! //another iteration, but it should be over a rly small list
                     result.totalWeight = setCurrent.value
