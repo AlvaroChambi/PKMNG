@@ -410,13 +410,28 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     }
 
                     //Getting new weight
-                    totalPath.totalWeight = completeRootPath.totalWeight + spurPath.totalWeight
-                    //Now we need the weight value of linking both paths, that'll be the edge between the last node of the root path
-                    //and the first one on the spur path. If it's the same node, weight will be 0, so don't need to worry about that
-                    val linkStart = rootPath[rootPath.size - 1]
-                    val linkEnd = spurPath.path[0]
-                    totalPath.totalWeight += graph.matrix[linkEnd][linkStart]
+                    //we need, every path value to calculate the new weight, that is
+                    // path[0] = root
+                    //  path[1] -> speed_stat: id,  path[2]  -> ev: id,  path[3] -> iv: id, path[4] -> nature: id
+                    // for each id I need to get the actual weight value, that'll be the weights for
+                    //      speed               ev              iv            nature
+                    // root -> speedId,  speedId -> evId, evId -> ivId,  ivID -> nature
+                    val speedId = pathList[1]
+                    val evId = pathList[2]
+                    val ivID = pathList[3]
+                    val natureId = pathList[4]
 
+                    val speedStat = graph.matrix[speedId][0]
+                    val evStat = graph.matrix[evId][speedId]
+                    val ivStat = graph.matrix[ivID][evId]
+                    val natureMultiplier = when(graph.matrix[natureId][ivID]) {
+                        NATURE_NEUTRAL_KEY -> Nature.NEUTRAL_STAT_MODIFIER
+                        NATURE_POSITIVE_KEY -> Nature.INCREASED_STAT_MODIFIER
+                        NATURE_NEGATIVE_KEY -> Nature.DECREASED_STAT_MODIFIER
+                        else -> Nature.NEUTRAL_STAT_MODIFIER
+                    }
+                    totalPath.totalWeight = PokemonUtils.getStatValue(speedStat, evStat,
+                    natureMultiplier, 50, ivStat)
 
                     if (!potentialPaths.contains(totalPath)) {
                         potentialPaths.add(totalPath)

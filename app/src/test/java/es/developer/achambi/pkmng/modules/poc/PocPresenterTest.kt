@@ -301,7 +301,7 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 5, 0, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 5, 1, 1)
 
-        val result = presenterTest.yens(graph, 7, 9)
+        val result = presenterTest.yens(graph, 7, 3)
         assertEquals(4, result.size)
     }
 
