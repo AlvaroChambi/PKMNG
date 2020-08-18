@@ -83,7 +83,20 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         matrix[matrix.size - 1][position + offset] = value
     }
 
-    fun buildMatrix(iterations: Int, baseTarget: Int, configTarget: Int) {
+    fun startQuery(iterations: Int, configTarget: Int) {
+        val handler = object : ResponseHandler<ArrayList<Item>>(){
+            override fun onSuccess(response: Response<ArrayList<Item>>) {
+
+                screen.showYenResults(response.data)
+            }
+        }
+        request(
+                Request<ArrayList<Item>> { Response(buildMatrix(iterations, configTarget))},
+                handler
+        )
+    }
+
+    fun buildMatrix(iterations: Int, configTarget: Int):ArrayList<Item> {
         val speeds = ArrayList<Int>()
         val natures = ArrayList<Int>()
         natures.add(NATURE_NEUTRAL_KEY)
@@ -91,10 +104,11 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         natures.add(NATURE_NEGATIVE_KEY)
 
         pokemons.forEach {
-            if(!speeds.contains(it.speed) &&  baseTarget + 10> it.speed && it.speed> baseTarget - 10) {
+            if(!speeds.contains(it.speed)) {
                 speeds.add(it.speed)
             }
         }
+
 
         val matrix = ArrayList<ArrayList<Int>>()
         //add root node to matrix
@@ -165,8 +179,11 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     value = 1)
         }
 
+        printMatrix(matrix)
+
         val start = System.currentTimeMillis()
-        val resultList = yens(Graph(matrix = matrix), matrix.size - 1, iterations)
+        val resultList = yens(Graph(matrix = matrix), matrix.size - 1, iterations = iterations,
+                target = configTarget)
         Log.i("YEN", "found: " + resultList.size + " results" )
         Log.i("YEN", "time spent: " + (System.currentTimeMillis() - start))
 
@@ -178,7 +195,9 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         val items = ArrayList<Item>()
         var targetPosition = 0
         var found = false
+
         resultList.forEach { result ->
+            Log.i("YEN", "path size: " + result.path.size)
             val rawNature = result.path[4]
             val natureMultiplier : Float
             val nature = when(natures[rawNature - ivsOffset]) {
@@ -236,7 +255,8 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         if(targetPosition == 0) {
             targetPosition = items.size - 1
         }
-        screen.showYenResults(items, targetPosition, found)
+        printMatrix(matrix)
+        return items
     }
 
     /**
@@ -259,6 +279,90 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             result += '\n'
         }
         return result
+    }
+
+    fun dijkstraTarget( graph: Graph,start: Int, end: Int, result: Path, target: Int ) {
+        val vertexSet = ArrayList<Node>()
+        val visited = ArrayList<Node>()
+        //populate vertex set //vertex set should be sorted, but maybe not here, but when values are updated, here i want the source node
+        //to be the first one
+        val nodes = graph.getAllNodes()
+        vertexSet.add(Node(start))
+        nodes.remove(start) //already added to the vertex, remove to avoid adding it again
+
+        nodes.forEach {
+            vertexSet.add(Node(id = it))
+        }
+
+        while(vertexSet.isNotEmpty()) {
+            //pop the best value node(it's sorted)
+            val currentNode = vertexSet[0]
+            vertexSet.remove(currentNode)
+            visited.add(currentNode)
+
+            //check if we got to the destination and finish
+            if(vertexSet.isEmpty()) {
+                //setting a ceiling, we can find no way to get to the end point
+                var setCurrent = visited.find { end == it.id }!! //another iteration, but it should be over a rly small list
+                result.totalWeight = setCurrent.value
+
+                result.path.add(setCurrent.id)
+
+                if(setCurrent.previousId == UNDEFINED) {
+                    result.totalWeight = 0
+                    result.path.clear()
+                    return
+                }
+
+                do {
+                    setCurrent = visited.find { setCurrent.previousId == it.id }!!
+                    result.path.add(setCurrent.id)
+                }while(setCurrent.previousId != UNDEFINED)
+                result.path.reverse()
+                //let's just omit the result if [0] is not source
+                if(result.path[0] == start) {
+                    return
+                } else {
+                    result.totalWeight = 0
+                    result.path.clear()
+                    return
+                }
+            }
+
+            //iterate each neighbour
+            graph.getAdjacencyList(currentNode.id).forEach {pos -> //position should be the node id
+                val neighbourWeight = graph.matrix[pos][currentNode.id] //current node id should be it's position on the matrix
+                //found valid neighbour: Valid means that it's not on the visited list!
+                var neighbourNode: Node? = null
+                repeat(vertexSet.size) {
+                    val node = vertexSet[it]
+                    if(node.id == pos) {
+                        neighbourNode = node
+                    }
+                }
+
+                if(neighbourNode != null) { //Test this thing, when I am getting this value?
+                    //calculate new value and check if it's better than the previous
+                    val newValue = when(neighbourWeight) {
+                        NATURE_NEUTRAL_KEY -> currentNode.value
+                        NATURE_POSITIVE_KEY -> kotlin.math.floor(currentNode.value * 1.1).toInt()  //round down if decimal
+                        NATURE_NEGATIVE_KEY -> kotlin.math.floor(currentNode.value * 0.9).toInt()
+                        else -> currentNode.value + neighbourWeight
+                    }
+
+                    //here I'd need to stop if I get a weight higher than the target
+                    // let's keep it simple, if higher, just ignore it
+                    if(newValue <= target && newValue >= currentNode.value) {
+                        neighbourNode?.value = newValue
+                        neighbourNode?.previousId = currentNode.id
+                    }
+                }
+
+
+            }
+            //Need to sort, but putting the highest values first
+            vertexSet.sortByDescending { it.value }//This may be more efficient?¿
+        }
     }
 
     fun shortestPath( graph: Graph,start: Int, end: Int, result: Path ) {
@@ -333,10 +437,9 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         }
     }
 
-    fun yens(graph: Graph, sink: Int, iterations: Int): ArrayList<Path> {
+    fun yens(graph: Graph, sink: Int, iterations: Int, target: Int): ArrayList<Path> {
         val initialPath = Path()
-        shortestPath(graph, 0, sink, initialPath)
-
+        dijkstraTarget(graph, 0, sink, initialPath, target)
 
         val bestPaths = ArrayList<Path>()
         bestPaths.add(initialPath)
@@ -394,7 +497,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 }
 
                 val spurPath = Path()
-                shortestPath(graph, spurNode, sink, spurPath)
+                dijkstraTarget(graph, spurNode, sink, spurPath, target - completeRootPath.totalWeight)
                 if(spurPath.path.isNotEmpty()) {
                     //Get total path from the rootPath + the spurPath
                     val pathList = ArrayList<Int>()
@@ -430,17 +533,21 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                         NATURE_NEGATIVE_KEY -> Nature.DECREASED_STAT_MODIFIER
                         else -> Nature.NEUTRAL_STAT_MODIFIER
                     }
-                    totalPath.totalWeight = PokemonUtils.getStatValue(speedStat, evStat,
-                    natureMultiplier, 50, ivStat)
+                    totalPath.totalWeight = /*PokemonUtils.getStatValue(speedStat, evStat,
+                    natureMultiplier, 50, ivStat)*/ ((speedStat + evStat + ivStat) * natureMultiplier).toInt() + 1
 
                     if (!potentialPaths.contains(totalPath)) {
                         potentialPaths.add(totalPath)
                     }
+                } else {
+                    val a: Int
                 }
 
                 graph.restore()
             }
-            if(potentialPaths.isEmpty())  return bestPaths
+            if(potentialPaths.isEmpty()) {
+                return bestPaths
+            }
 
             var bestValue = 0
             var bestPath = Path()

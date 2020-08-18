@@ -51,9 +51,9 @@ class PocFragment: BaseFragment(), PocScreen {
 
     override fun onViewSetup(view: View?, savedInstanceState: Bundle?) {
         pokemon_name_text.text = config.pokemon.name + ": " + (config.speed)
-        perform_query_button.setOnClickListener { presenter.buildMatrix(
+        perform_query_button.setOnClickListener { presenter.startQuery(
                 editTextNumber.text.toString().toInt(),
-                config.pokemon.speed, config.speed) }
+                 config.speed) }
         results_recycler.layoutManager = LinearLayoutManager(context)
         presenter.onViewSetup()
     }
@@ -74,24 +74,17 @@ class PocFragment: BaseFragment(), PocScreen {
         natures_number_text.text = total.toString()
     }
 
-    override fun showYenResults(list: ArrayList<Item>, targetPosition: Int, found: Boolean) {
+    override fun showYenResults(list: ArrayList<Item>) {
         val adapter = Adapter(list)
         results_recycler.adapter = adapter
         adapter.notifyDataSetChanged()
-        info_text.text = "Filtered results: " + list.size
-        if(found) {
-            found_text.text = "target found: " + targetPosition
-        } else {
-            found_text.text = "target not contained"
-        }
-        results_recycler.scrollToPosition(targetPosition)
     }
 }
 
 interface PocScreen: Screen {
     fun showNumberOfPokemons(total: Int)
     fun showNumberOfNature(total: Int)
-    fun showYenResults(list: ArrayList<Item>, targetPosition: Int, found: Boolean)
+    fun showYenResults(list: ArrayList<Item>)
 }
 
 data class Item(val pokemon: String, val ev: String, val iv: String, val total: String, val nature: String,

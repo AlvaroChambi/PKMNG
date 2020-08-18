@@ -104,6 +104,37 @@ class PocPresenterTest {
     }
 
     @Test
+    fun dijkstraTargetTest() {
+        val path = Path()
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,20)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,20)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,40)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,40)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
+
+        presenterTest.printMatrix(initialMatrix)
+
+        presenterTest.dijkstraTarget(Graph(initialMatrix),0, 5, path, 50)
+        assertEquals(5, path.path[3])
+        assertEquals(4, path.path[2])
+        assertEquals(2, path.path[1])
+        assertEquals(0, path.path[0])
+        assertEquals(56, path.totalWeight)
+    }
+
+    @Test
     fun `list nodes when nothing has been removed`() {
         repeat(3) {
             presenterTest.addEmptyNode(initialMatrix)
@@ -301,8 +332,10 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 5, 0, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 5, 1, 1)
 
-        val result = presenterTest.yens(graph, 7, 3)
-        assertEquals(4, result.size)
+        presenterTest.printMatrix(initialMatrix)
+
+        val result = presenterTest.yens(graph, 7, 6, 19)
+        assertEquals(6, result.size)
     }
 
     @Test
