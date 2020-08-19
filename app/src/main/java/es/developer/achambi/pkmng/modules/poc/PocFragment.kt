@@ -53,7 +53,7 @@ class PocFragment: BaseFragment(), PocScreen {
         pokemon_name_text.text = config.pokemon.name + ": " + (config.speed)
         perform_query_button.setOnClickListener { presenter.startQuery(
                 editTextNumber.text.toString().toInt(),
-                 config.speed) }
+                 configTarget = config.speed) }
         results_recycler.layoutManager = LinearLayoutManager(context)
         presenter.onViewSetup()
     }

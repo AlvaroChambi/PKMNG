@@ -179,8 +179,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     value = 1)
         }
 
-        printMatrix(matrix)
-
+        Log.i("YEN", "starting yen...")
         val start = System.currentTimeMillis()
         val resultList = yens(Graph(matrix = matrix), matrix.size - 1, iterations = iterations,
                 target = configTarget)
@@ -255,7 +254,6 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         if(targetPosition == 0) {
             targetPosition = items.size - 1
         }
-        printMatrix(matrix)
         return items
     }
 
@@ -346,7 +344,8 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     val newValue = when(neighbourWeight) {
                         NATURE_NEUTRAL_KEY -> currentNode.value
                         NATURE_POSITIVE_KEY -> kotlin.math.floor(currentNode.value * 1.1).toInt()  //round down if decimal
-                        NATURE_NEGATIVE_KEY -> kotlin.math.floor(currentNode.value * 0.9).toInt()
+                        NATURE_NEGATIVE_KEY -> {
+                            kotlin.math.floor(currentNode.value * 0.9).toInt() }
                         else -> currentNode.value + neighbourWeight
                     }
 
@@ -439,7 +438,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
 
     fun yens(graph: Graph, sink: Int, iterations: Int, target: Int): ArrayList<Path> {
         val initialPath = Path()
-        dijkstraTarget(graph, 0, sink, initialPath, target)
+        bellmanFord(graph, 0, sink, initialPath, target)
 
         val bestPaths = ArrayList<Path>()
         bestPaths.add(initialPath)
@@ -497,7 +496,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                 }
 
                 val spurPath = Path()
-                dijkstraTarget(graph, spurNode, sink, spurPath, target - completeRootPath.totalWeight)
+                bellmanFord(graph, spurNode, sink, spurPath, target - completeRootPath.totalWeight)
                 if(spurPath.path.isNotEmpty()) {
                     //Get total path from the rootPath + the spurPath
                     val pathList = ArrayList<Int>()
@@ -533,8 +532,8 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                         NATURE_NEGATIVE_KEY -> Nature.DECREASED_STAT_MODIFIER
                         else -> Nature.NEUTRAL_STAT_MODIFIER
                     }
-                    totalPath.totalWeight = /*PokemonUtils.getStatValue(speedStat, evStat,
-                    natureMultiplier, 50, ivStat)*/ ((speedStat + evStat + ivStat) * natureMultiplier).toInt() + 1
+                    totalPath.totalWeight = PokemonUtils.getStatValue(speedStat, evStat,
+                    natureMultiplier, 50, ivStat)
 
                     if (!potentialPaths.contains(totalPath)) {
                         potentialPaths.add(totalPath)
@@ -566,6 +565,61 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
             potentialPaths.removeAt(key)
         }
         return bestPaths
+    }
+
+    fun bellmanFord(graph: Graph,start: Int, end: Int, result: Path, target: Int) {
+        val nodes = ArrayList<Node>()
+        graph.getAllNodes().forEach {
+            nodes.add(Node(it))
+        }
+
+        loop@ for(it in 0 .. nodes.size - 2) {
+            val relaxed = ArrayList<Boolean>()
+            repeat(nodes.size) {
+                relaxed.add(false)
+            }
+            nodes.forEach { sourceNode ->
+                graph.getAdjacencyList(sourceNode.id).forEach { neighbourId->
+                    val neighbourNode = nodes.find { neighbourId == it.id }!!
+
+                    val newWeight = when(val linkWeight = graph.matrix[neighbourId][sourceNode.id]) {
+                        NATURE_NEUTRAL_KEY -> sourceNode.value
+                        NATURE_POSITIVE_KEY -> kotlin.math.floor(sourceNode.value * 1.1).toInt()  //round down if decimal
+                        NATURE_NEGATIVE_KEY -> kotlin.math.floor(sourceNode.value * 0.9).toInt()
+                        else -> sourceNode.value + linkWeight
+                    }
+
+                    if( newWeight > neighbourNode.value && newWeight <= target) {
+                        try {
+                            relaxed[neighbourId] = true
+                        } catch (e: Exception){}
+
+                        neighbourNode.value = newWeight
+                        neighbourNode.previousId = sourceNode.id
+                    }
+                }
+            }
+            val somethingChanged = relaxed.find { it }
+            if(somethingChanged == null) {
+                break@loop
+            }
+        }
+
+        var currentNode = nodes.find { it.id == end }!!
+        result.path.add(end)
+        result.totalWeight = currentNode.value
+        while(currentNode.previousId != UNDEFINED) {
+            result.path.add(currentNode.previousId)
+            currentNode = nodes.find { currentNode.previousId == it.id }!!
+        }
+        if(currentNode.id == start) {
+            result.path.reverse()
+            return
+        } else {
+            result.path.clear()
+            result.totalWeight = 0
+            return
+        }
     }
 }
 

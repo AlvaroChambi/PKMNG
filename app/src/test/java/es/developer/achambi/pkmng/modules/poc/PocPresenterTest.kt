@@ -124,7 +124,6 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 3, 0, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 3, 1, 1)
 
-        presenterTest.printMatrix(initialMatrix)
 
         presenterTest.dijkstraTarget(Graph(initialMatrix),0, 5, path, 50)
         assertEquals(5, path.path[3])
@@ -332,7 +331,6 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 5, 0, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 5, 1, 1)
 
-        presenterTest.printMatrix(initialMatrix)
 
         val result = presenterTest.yens(graph, 7, 6, 19)
         assertEquals(6, result.size)
@@ -386,10 +384,71 @@ class PocPresenterTest {
         presenterTest.linkPosToNewNode(initialMatrix, 7, 1, 1)
         presenterTest.linkPosToNewNode(initialMatrix, 7, 2, 1)
 
-        presenterTest.printMatrix(initialMatrix)
 
         val result = Path()
-        presenterTest.shortestPath(graph, 0, 10, result)
+        presenterTest.dijkstraTarget(graph, 0, 10, result,100)
+
+        assertEquals(6, result.path.size)
+        assertEquals(10, result.path[5])
+        assertEquals(8, result.path[4])
+        assertEquals(6, result.path[3])
+        assertEquals(4, result.path[2])
+        assertEquals(2, result.path[1])
+        assertEquals(0, result.path[0])
+        assertEquals(21, result.totalWeight)
+    }
+
+    @Test
+    fun `bellman ford with multiplier`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+        //offset: number of nodes that were added on the previous layers (accumulated) until the next to the immediately previous one
+        //position: relative position of node of the previous layer that I want to link to my new node
+        //value: weight of the link
+
+        //first layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,2)
+
+        //second layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,2)
+
+        //nature multiplier layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, PocPresenter.NATURE_NEUTRAL_KEY)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, PocPresenter.NATURE_NEUTRAL_KEY)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, PocPresenter.NATURE_POSITIVE_KEY)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, PocPresenter.NATURE_POSITIVE_KEY)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, PocPresenter.NATURE_NEGATIVE_KEY)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, PocPresenter.NATURE_NEGATIVE_KEY)
+
+        //sink
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 7, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 7, 1, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 7, 2, 1)
+
+
+        val result = Path()
+        presenterTest.bellmanFord(graph, 0, 10, result, 13)
 
         assertEquals(6, result.path.size)
         assertEquals(10, result.path[5])
