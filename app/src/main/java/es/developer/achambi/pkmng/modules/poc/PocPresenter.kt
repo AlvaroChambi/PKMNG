@@ -96,6 +96,180 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         )
     }
 
+    fun startQueryLowToHigh(iterations: Int, configTarget: Int) {
+        val handler = object : ResponseHandler<ArrayList<Item>>(){
+            override fun onSuccess(response: Response<ArrayList<Item>>) {
+
+                screen.showYenResults(response.data)
+            }
+        }
+        request(
+                Request<ArrayList<Item>> { Response(buildMatrixLowHigh(iterations, configTarget))},
+                handler
+        )
+    }
+
+    fun buildMatrixLowHigh(iterations: Int, configTarget: Int):ArrayList<Item> {
+        val speeds = ArrayList<Int>()
+        val natures = ArrayList<Int>()
+        natures.add(NATURE_NEUTRAL_KEY)
+        natures.add(NATURE_POSITIVE_KEY)
+        natures.add(NATURE_NEGATIVE_KEY)
+
+        pokemons.forEach {
+            if(!speeds.contains(it.speed)) {
+                speeds.add(it.speed)
+            }
+        }
+
+
+        val matrix = ArrayList<ArrayList<Int>>()
+        //add root node to matrix
+        addEmptyNode(matrix)
+
+        //add first step nodes
+        repeat(speeds.size) {
+            addEmptyNode(matrix)
+        }
+
+        //link nodes to root
+        repeat(speeds.size) {pos ->
+            linkRootToNode(matrix, speeds[pos], pos)
+        }
+
+
+
+
+        val evs = ArrayList<Int>()
+        val ivs = ArrayList<Int>()
+        for (value: Int in 1..63) {
+            evs.add(value)
+        }
+        for (value: Int in 1..31) {
+            ivs.add(value)
+        }
+        val rootOffset = 1
+        //Link speed nodes to the ev nodes
+        //Each speed node will be linked to every ev node
+        evs.forEach {
+            //create node for each IV
+            addEmptyNode(matrix)
+            repeat(speeds.size) { pos ->
+                //Link previous nodes to that node
+                linkPosToNewNode(matrix, offset = rootOffset,
+                        position = pos,value =  it)
+            }
+
+        }
+
+
+
+        //Link every ev to the new Iv's nodes
+        val speedsOffset = rootOffset + speeds.size
+        ivs.forEach {
+            addEmptyNode(matrix)
+            repeat(evs.size) { pos ->
+                linkPosToNewNode(matrix, offset = speedsOffset, position = pos,
+                        value = it)
+            }
+        }
+
+        //link every iv to nature nodes
+        val evsOffset = speedsOffset + evs.size
+        natures.forEach {
+            addEmptyNode(matrix)
+            repeat(ivs.size) { pos ->
+                linkPosToNewNode(matrix, offset = evsOffset, position = pos,
+                        value = it)
+            }
+        }
+
+        //Link to end
+        val ivsOffset = evsOffset + ivs.size
+        addEmptyNode(matrix)
+        repeat(natures.size) {pos ->
+            linkPosToNewNode(matrix, offset = ivsOffset, position = pos,
+                    value = 1)
+        }
+
+        Log.i("YEN", "starting yen...")
+        val start = System.currentTimeMillis()
+        val resultList = yensShortest(Graph(matrix = matrix), matrix.size - 1, iterations = iterations,
+                target = configTarget)
+        Log.i("YEN", "found: " + resultList.size + " results" )
+        Log.i("YEN", "time spent: " + (System.currentTimeMillis() - start))
+
+        //Lets cast this to something I can understand
+
+        //path will include 3 nodes, ivs, evs, base_speed:
+
+        //first we get the iv's step, because is the last one that we added
+        val items = ArrayList<Item>()
+        var targetPosition = 0
+        var found = false
+
+        resultList.forEach { result ->
+            Log.i("YEN", "path size: " + result.path.size)
+            val rawNature = result.path[4]
+            val natureMultiplier : Float
+            val nature = when(natures[rawNature - ivsOffset]) {
+                NATURE_NEUTRAL_KEY -> {
+                    natureMultiplier = 1f
+                    "neutral"
+                }
+                NATURE_POSITIVE_KEY -> {
+                    natureMultiplier = 1.1f
+                    "positive"
+                }
+                NATURE_NEGATIVE_KEY -> {
+                    natureMultiplier = 0.9f
+                    "negative"
+                }
+                else -> {
+                    natureMultiplier = 1f
+                    "undefined"
+                }
+            }
+
+            val rawIv = result.path[3]
+            val actualIVIndex = rawIv - evsOffset
+            val iv = ivs[actualIVIndex]
+
+            val rawEv = result.path[2]
+            val  actualEVIndex = rawEv - speedsOffset
+            val ev = evs[actualEVIndex]// * 4 //cast to actual ev value
+
+            val rawBaseStat = result.path[1]
+            val actualBaseIndex = rawBaseStat - rootOffset
+            val baseSpeed = speeds[actualBaseIndex]
+
+            val pokemonList = ArrayList<Pokemon>()
+            var pokemonString = ""
+            pokemons.forEach {
+                if(it.stats.speed == baseSpeed) {
+                    pokemonList.add(it)
+                    pokemonString += it.name + ", "
+                }
+            }
+            pokemonString += ": value $baseSpeed"
+            val total = PokemonUtils.getStatValue(baseSpeed, ev, natureMultiplier,50,
+                    iv)
+            val item = Item(pokemon = pokemonString, ev = ev.toString(), iv = iv.toString(),
+                    total = total.toString(), nature = nature, weight = result.totalWeight.toString())
+
+            items.add(item)
+
+            if(configTarget == result.totalWeight) {
+                targetPosition = items.size - 1
+                found = true
+            }
+        }
+        if(targetPosition == 0) {
+            targetPosition = items.size - 1
+        }
+        return items
+    }
+
     fun buildMatrix(iterations: Int, configTarget: Int):ArrayList<Item> {
         val speeds = ArrayList<Int>()
         val natures = ArrayList<Int>()
@@ -567,6 +741,137 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         return bestPaths
     }
 
+    fun yensShortest(graph: Graph, sink: Int, iterations: Int, target: Int): ArrayList<Path> {
+        val initialPath = Path()
+        bellmanShortest(graph, 0, sink, initialPath, target)
+
+        val bestPaths = ArrayList<Path>()
+        bestPaths.add(initialPath)
+        val potentialPaths = ArrayList<Path>()
+
+        for(iteration in 1..iterations) {
+            //iterate each spur node of the previous best path( initial on the first iteration )
+            //spur will be each path nodes from first to the next to last
+            val currentPath = bestPaths[iteration - 1]
+            for(spurPosition in 0..currentPath.path.size - 2){
+
+                val spurNode = currentPath.path[spurPosition]
+                val rootPath = ArrayList<Int>()
+                val completeRootPath = Path(rootPath)
+                //using the spur node find the spur path  (from 0 to spurNode) including the spur node
+                //adding nodes from the current best path to the rootPath
+
+                //test this shit
+                loop@ for(it in 0..currentPath.path.size-1) {
+                    rootPath.add(currentPath.path[it])
+
+                    //get to the end of rootPath, check if something before, add it to the weight
+                    if(it > 0  && it == rootPath.size - 1) {
+                        val weight = graph.matrix[currentPath.path[it]][currentPath.path[it - 1]]
+                        if(weight == 0) {
+                            throw Exception("corrupted matrix: missing edge: " + (it-1) + "->" +it)
+                        }
+                        completeRootPath.totalWeight+= weight
+                    }
+                    if(currentPath.path[it] == spurNode) {
+                        break@loop
+                    }
+                }
+
+                //Then for each previous path, remove edges when needed to avoid
+                //choosing always the same best paths
+
+                //first remove edges
+                bestPaths.forEach {
+                    if(rootPath == it.path.subList(0, spurPosition + 1)) {
+                        //remove path that are part of the previous shortest path which share the same root path
+                        val start = it.path[spurPosition]
+                        val end = it.path[spurPosition + 1]
+                        if(graph.matrix[end][start] != 0) { //check if the edge has not been removed yet //should this happen?
+                            graph.removeEdge(start, end)
+                        }
+                    }
+                }
+
+                //Remove nodes in root path except the spur node
+                rootPath.forEach {
+                    if(it != spurNode) {
+                        graph.removeNode(it)
+                    }
+                }
+
+                val spurPath = Path()
+                bellmanShortest(graph, spurNode, sink, spurPath, target - completeRootPath.totalWeight)
+                if(spurPath.path.isNotEmpty()) {
+                    //Get total path from the rootPath + the spurPath
+                    val pathList = ArrayList<Int>()
+                    val totalPath = Path(pathList)
+
+                    rootPath.forEach {
+                        pathList.add(it)
+                    }
+                    spurPath.path.forEach {
+                        if(!pathList.contains(it)) {
+                            pathList.add(it)
+                        }
+                    }
+
+                    //Getting new weight
+                    //we need, every path value to calculate the new weight, that is
+                    // path[0] = root
+                    //  path[1] -> speed_stat: id,  path[2]  -> ev: id,  path[3] -> iv: id, path[4] -> nature: id
+                    // for each id I need to get the actual weight value, that'll be the weights for
+                    //      speed               ev              iv            nature
+                    // root -> speedId,  speedId -> evId, evId -> ivId,  ivID -> nature
+                    val speedId = pathList[1]
+                    val evId = pathList[2]
+                    val ivID = pathList[3]
+                    val natureId = pathList[4]
+
+                    val speedStat = graph.matrix[speedId][0]
+                    val evStat = graph.matrix[evId][speedId]
+                    val ivStat = graph.matrix[ivID][evId]
+                    val natureMultiplier = when(graph.matrix[natureId][ivID]) {
+                        NATURE_NEUTRAL_KEY -> Nature.NEUTRAL_STAT_MODIFIER
+                        NATURE_POSITIVE_KEY -> Nature.INCREASED_STAT_MODIFIER
+                        NATURE_NEGATIVE_KEY -> Nature.DECREASED_STAT_MODIFIER
+                        else -> Nature.NEUTRAL_STAT_MODIFIER
+                    }
+                    totalPath.totalWeight = PokemonUtils.getStatValue(speedStat, evStat,
+                            natureMultiplier, 50, ivStat)
+
+                    if (!potentialPaths.contains(totalPath)) {
+                        potentialPaths.add(totalPath)
+                    }
+                } else {
+                    val a: Int
+                }
+
+                graph.restore()
+            }
+            if(potentialPaths.isEmpty()) {
+                return bestPaths
+            }
+
+            var bestValue = 9999
+            var bestPath = Path()
+            var key = -1
+            repeat(potentialPaths.size) {
+                val path = potentialPaths[it]
+                if(path.totalWeight < bestValue) { //if there's any potential path this will always get in
+                    bestValue = path.totalWeight
+                    bestPath = path
+                    key = it
+                }
+            }
+            if(key == -1) throw Exception("How the hell we didn't get any best path?")
+            bestPaths.add(bestPath)
+
+            potentialPaths.removeAt(key)
+        }
+        return bestPaths
+    }
+
     fun bellmanFord(graph: Graph,start: Int, end: Int, result: Path, target: Int) {
         val nodes = ArrayList<Node>()
         graph.getAllNodes().forEach {
@@ -590,6 +895,63 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     }
 
                     if( newWeight > neighbourNode.value && newWeight <= target) {
+                        try {
+                            relaxed[neighbourId] = true
+                        } catch (e: Exception){}
+
+                        neighbourNode.value = newWeight
+                        neighbourNode.previousId = sourceNode.id
+                    }
+                }
+            }
+            val somethingChanged = relaxed.find { it }
+            if(somethingChanged == null) {
+                break@loop
+            }
+        }
+
+        var currentNode = nodes.find { it.id == end }!!
+        result.path.add(end)
+        result.totalWeight = currentNode.value
+        while(currentNode.previousId != UNDEFINED) {
+            result.path.add(currentNode.previousId)
+            currentNode = nodes.find { currentNode.previousId == it.id }!!
+        }
+        if(currentNode.id == start) {
+            result.path.reverse()
+            return
+        } else {
+            result.path.clear()
+            result.totalWeight = 0
+            return
+        }
+    }
+
+    fun bellmanShortest(graph: Graph,start: Int, end: Int, result: Path, target: Int) {
+        val nodes = ArrayList<Node>()
+        graph.getAllNodes().forEach {
+            nodes.add(Node(id=it, value = 99999))
+        }
+
+        nodes[0].value = 0
+
+        loop@ for(it in 0 .. nodes.size - 2) {
+            val relaxed = ArrayList<Boolean>()
+            repeat(nodes.size) {
+                relaxed.add(false)
+            }
+            nodes.forEach { sourceNode ->
+                graph.getAdjacencyList(sourceNode.id).forEach { neighbourId->
+                    val neighbourNode = nodes.find { neighbourId == it.id }!!
+
+                    val newWeight = when(val linkWeight = graph.matrix[neighbourId][sourceNode.id]) {
+                        NATURE_NEUTRAL_KEY -> sourceNode.value
+                        NATURE_POSITIVE_KEY -> kotlin.math.floor(sourceNode.value * 1.1).toInt()  //round down if decimal
+                        NATURE_NEGATIVE_KEY -> kotlin.math.floor(sourceNode.value * 0.9).toInt()
+                        else -> sourceNode.value + linkWeight
+                    }
+
+                    if( newWeight < neighbourNode.value && newWeight >= target) {
                         try {
                             relaxed[neighbourId] = true
                         } catch (e: Exception){}

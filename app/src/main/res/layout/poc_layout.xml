@@ -117,4 +117,13 @@
         app:layout_constraintStart_toEndOf="@+id/info_text"
         app:layout_constraintTop_toTopOf="@+id/info_text" />
 
+    <Button
+        android:id="@+id/low_to_high_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Low to HIgh"
+        app:layout_constraintBottom_toTopOf="@+id/perform_query_button"
+        app:layout_constraintStart_toStartOf="@+id/perform_query_button" />
+
 </android.support.constraint.ConstraintLayout>

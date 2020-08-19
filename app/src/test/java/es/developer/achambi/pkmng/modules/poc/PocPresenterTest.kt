@@ -459,4 +459,103 @@ class PocPresenterTest {
         assertEquals(0, result.path[0])
         assertEquals(21, result.totalWeight)
     }
+
+    @Test
+    fun `bellman shortest path`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+        //offset: number of nodes that were added on the previous layers (accumulated) until the next to the immediately previous one
+        //position: relative position of node of the previous layer that I want to link to my new node
+        //value: weight of the link
+
+        //first layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,2)
+
+        //second layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,2)
+
+        //nature multiplier layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, PocPresenter.NATURE_NEUTRAL_KEY)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, PocPresenter.NATURE_NEUTRAL_KEY)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, PocPresenter.NATURE_POSITIVE_KEY)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, PocPresenter.NATURE_POSITIVE_KEY)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, PocPresenter.NATURE_NEGATIVE_KEY)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, PocPresenter.NATURE_NEGATIVE_KEY)
+
+        //sink
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 7, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 7, 1, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 7, 2, 1)
+
+
+        val result = Path()
+        presenterTest.bellmanShortest(graph, 0, 10, result, 11)
+
+        assertEquals(6, result.path.size)
+        assertEquals(10, result.path[5])
+        assertEquals(9, result.path[4])
+        assertEquals(5, result.path[3])
+        assertEquals(3, result.path[2])
+        assertEquals(2, result.path[1])
+        assertEquals(0, result.path[0])
+        assertEquals(16, result.totalWeight)
+    }
+
+
+    @Test
+    fun `yen low to high`() {
+        repeat(3) {
+            presenterTest.addEmptyNode(initialMatrix)
+        }
+        presenterTest.linkRootToNode(initialMatrix, 10, 0)
+        presenterTest.linkRootToNode(initialMatrix, 15, 1)
+
+        //first layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 1, 1,2)
+
+        //second layer
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,1)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,1)
+
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 0,2)
+        presenterTest.linkPosToNewNode(initialMatrix, 3, 1,2)
+
+        //sink
+        presenterTest.addEmptyNode(initialMatrix)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 0, 1)
+        presenterTest.linkPosToNewNode(initialMatrix, 5, 1, 1)
+
+
+        val result = presenterTest.yensShortest(graph, 7, 6, 0)
+        assertEquals(6, result.size)
+    }
 }

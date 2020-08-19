@@ -54,6 +54,10 @@ class PocFragment: BaseFragment(), PocScreen {
         perform_query_button.setOnClickListener { presenter.startQuery(
                 editTextNumber.text.toString().toInt(),
                  configTarget = config.speed) }
+        low_to_high_button.setOnClickListener {
+            presenter.startQueryLowToHigh(editTextNumber.text.toString().toInt(),
+                    configTarget = config.speed)
+        }
         results_recycler.layoutManager = LinearLayoutManager(context)
         presenter.onViewSetup()
     }
