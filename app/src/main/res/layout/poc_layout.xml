@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
-        android:text="10"
+        android:text="5"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toStartOf="@+id/perform_query_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,5 +125,17 @@
         android:text="Low to HIgh"
         app:layout_constraintBottom_toTopOf="@+id/perform_query_button"
         app:layout_constraintStart_toStartOf="@+id/perform_query_button" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="visible"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/results_recycler" />
 
 </android.support.constraint.ConstraintLayout>

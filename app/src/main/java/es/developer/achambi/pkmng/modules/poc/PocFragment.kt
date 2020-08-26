@@ -83,12 +83,22 @@ class PocFragment: BaseFragment(), PocScreen {
         results_recycler.adapter = adapter
         adapter.notifyDataSetChanged()
     }
+
+    override fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+    }
 }
 
 interface PocScreen: Screen {
     fun showNumberOfPokemons(total: Int)
     fun showNumberOfNature(total: Int)
     fun showYenResults(list: ArrayList<Item>)
+    fun showProgressBar()
+    fun hideProgressBar()
 }
 
 data class Item(val pokemon: String, val ev: String, val iv: String, val total: String, val nature: String,

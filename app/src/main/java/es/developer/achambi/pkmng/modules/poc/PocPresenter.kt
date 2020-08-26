@@ -18,6 +18,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
     private lateinit var pokemons: ArrayList<Pokemon>
     private lateinit var natures: ArrayList<Nature>
 
+    private val bestPaths = ArrayList<Path>()
     companion object {
         val UNDEFINED = -1
         val NATURE_NEUTRAL_KEY = 1000
@@ -84,9 +85,10 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
     }
 
     fun startQuery(iterations: Int, configTarget: Int) {
+        screen.showProgressBar()
         val handler = object : ResponseHandler<ArrayList<Item>>(){
             override fun onSuccess(response: Response<ArrayList<Item>>) {
-
+                screen.hideProgressBar()
                 screen.showYenResults(response.data)
             }
         }
@@ -97,9 +99,10 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
     }
 
     fun startQueryLowToHigh(iterations: Int, configTarget: Int) {
+        screen.showProgressBar()
         val handler = object : ResponseHandler<ArrayList<Item>>(){
             override fun onSuccess(response: Response<ArrayList<Item>>) {
-
+                screen.hideProgressBar()
                 screen.showYenResults(response.data)
             }
         }
@@ -195,7 +198,7 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         Log.i("YEN", "starting yen...")
         val start = System.currentTimeMillis()
         val resultList = yensShortest(Graph(matrix = matrix), matrix.size - 1, iterations = iterations,
-                target = configTarget)
+                target = configTarget, bestPaths = bestPaths)
         Log.i("YEN", "found: " + resultList.size + " results" )
         Log.i("YEN", "time spent: " + (System.currentTimeMillis() - start))
 
@@ -741,12 +744,14 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
         return bestPaths
     }
 
-    fun yensShortest(graph: Graph, sink: Int, iterations: Int, target: Int): ArrayList<Path> {
+    fun yensShortest(graph: Graph, sink: Int, iterations: Int, target: Int, bestPaths: ArrayList<Path>): ArrayList<Path> {
         val initialPath = Path()
         bellmanShortest(graph, 0, sink, initialPath, target)
 
-        val bestPaths = ArrayList<Path>()
-        bestPaths.add(initialPath)
+       if(bestPaths.isEmpty()) {
+           bestPaths.add(initialPath)
+       }
+
         val potentialPaths = ArrayList<Path>()
 
         for(iteration in 1..iterations) {
@@ -843,8 +848,6 @@ class PocPresenter(val executor: MainExecutor, val screen: PocScreen,
                     if (!potentialPaths.contains(totalPath)) {
                         potentialPaths.add(totalPath)
                     }
-                } else {
-                    val a: Int
                 }
 
                 graph.restore()
