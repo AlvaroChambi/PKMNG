@@ -19,6 +19,8 @@
     <string name="search_move_activity_title">Choose Move</string>
 
     <string name="speed_calculator_title">Speed calculator</string>
+    <string name="speed_calculator_base_speed_tag">Base speed: %1$s</string>
+    <string name="speed_calculator_total_speed_tag">Total speed: %1$s</string>
 
     <string name="item_description_text_placeholder">Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.</string>
     <string name="ability_description_text_placeholder"><![CDATA[Strengthens grass moves to inflict 1.5× damage at &#8531; max HP or less.]]></string>

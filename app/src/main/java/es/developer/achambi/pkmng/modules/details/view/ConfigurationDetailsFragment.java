@@ -103,9 +103,8 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
                         UPDATE_CONFIGURATION_REQUEST_CODE );
                 break;
             case R.id.details_damage_calculator_action_button:
-                //TODO pass config
                 startActivityForResult(
-                        SpeedConfigurationActivity.Companion.getStartIntent(getActivity()),
+                        SpeedConfigurationActivity.Companion.getStartIntent(getActivity(), pokemonConfig),
                         UPDATE_CONFIGURATION_REQUEST_CODE );
                 break;
             case R.id.details_choose_configuration_action_button:
