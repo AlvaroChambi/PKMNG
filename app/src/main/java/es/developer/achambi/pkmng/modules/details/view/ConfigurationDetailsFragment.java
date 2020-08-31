@@ -14,6 +14,7 @@ import android.widget.TextView;
 import es.developer.achambi.pkmng.R;
 import es.developer.achambi.coreframework.ui.BaseDialogFragment;
 import es.developer.achambi.coreframework.ui.QuickDetailPopup;
+import es.developer.achambi.pkmng.modules.speed_calculator.SpeedConfigurationActivity;
 import es.developer.achambi.pkmng.modules.ui.screen.AbilityView;
 import es.developer.achambi.pkmng.modules.ui.screen.ItemView;
 import es.developer.achambi.pkmng.modules.ui.screen.NatureView;
@@ -102,8 +103,9 @@ public class ConfigurationDetailsFragment extends BaseDialogFragment
                         UPDATE_CONFIGURATION_REQUEST_CODE );
                 break;
             case R.id.details_damage_calculator_action_button:
+                //TODO pass config
                 startActivityForResult(
-                        DamageCalculatorActivity.getStartIntent(getActivity(), pokemonConfig),
+                        SpeedConfigurationActivity.Companion.getStartIntent(getActivity()),
                         UPDATE_CONFIGURATION_REQUEST_CODE );
                 break;
             case R.id.details_choose_configuration_action_button:

@@ -16,6 +16,11 @@ android {
         termsOfServiceAgree = "yes"
     }
 
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains' , module:'annotations'
+    }
+
     defaultConfig {
         applicationId "es.developer.achambi.pkmng"
         minSdkVersion 21

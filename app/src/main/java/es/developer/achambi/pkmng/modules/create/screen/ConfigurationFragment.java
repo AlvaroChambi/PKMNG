@@ -21,6 +21,7 @@ import es.developer.achambi.coreframework.threading.ResponseHandler;
 import es.developer.achambi.coreframework.ui.BaseRequestFragment;
 import es.developer.achambi.coreframework.ui.Presenter;
 import es.developer.achambi.coreframework.ui.Screen;
+import es.developer.achambi.pkmng.modules.overview.model.BasePokemon;
 import es.developer.achambi.pkmng.modules.ui.presentation.ItemPresentation;
 import es.developer.achambi.pkmng.modules.ui.presentation.TypePresentation;
 import es.developer.achambi.pkmng.modules.ui.screen.TypeView;
@@ -100,9 +101,9 @@ public class ConfigurationFragment extends BaseRequestFragment
         super.onCreate(savedInstanceState);
         setupPresenter();
         if( savedInstanceState == null ) {
-            if( getArguments().containsKey( POKEMON_ARGUMENT_KEY ) ) {
+            if( getArguments() != null && getArguments().containsKey( POKEMON_ARGUMENT_KEY ) ) {
                 presenter.setPokemon( (Pokemon)getArguments().getParcelable(POKEMON_ARGUMENT_KEY) );
-            } else if( getArguments().containsKey( CONFIGURATION_ARGUMENT_KEY ) ) {
+            } else if( getArguments() != null && getArguments().containsKey( CONFIGURATION_ARGUMENT_KEY ) ) {
                 presenter.setPokemonConfiguration(
                         (PokemonConfig)getArguments().getParcelable( CONFIGURATION_ARGUMENT_KEY ) );
             }
@@ -116,31 +117,33 @@ public class ConfigurationFragment extends BaseRequestFragment
 
     @Override
     public void onViewSetup(View view, @Nullable Bundle savedInstanceState) {
-        if(!isViewRecreated()) {
-            configurationPresentation = ConfigurationDetailsPresentation.Builder
-                    .buildPresentation(getActivity(), presenter.getEditablePokemonConfig());
-            MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
-            move0 = builder.build( presenter.getConfiguration().getMove0() );
-            move1 = builder.build( presenter.getConfiguration().getMove1() );
-            move2 = builder.build( presenter.getConfiguration().getMove2() );
-            move3 = builder.build( presenter.getConfiguration().getMove3() );
-            item = ItemPresentation.Builder.buildPresentation( getActivity(),
-                    presenter.getConfiguration().getItem() );
-        }
+        if(presenter.getPokemonConfiguration().getId() != BasePokemon.EMPTY_ID) {
+            if(!isViewRecreated()) {
+                configurationPresentation = ConfigurationDetailsPresentation.Builder
+                        .buildPresentation(getActivity(), presenter.getEditablePokemonConfig());
+                MoveRepresentationBuilder builder = new MoveRepresentationBuilder();
+                move0 = builder.build( presenter.getConfiguration().getMove0() );
+                move1 = builder.build( presenter.getConfiguration().getMove1() );
+                move2 = builder.build( presenter.getConfiguration().getMove2() );
+                move3 = builder.build( presenter.getConfiguration().getMove3() );
+                item = ItemPresentation.Builder.buildPresentation( getActivity(),
+                        presenter.getConfiguration().getItem() );
+            }
 
-        populatePokemonView(view);
-        populateItemView(item, view);
-        populateAbilityView(view);
-        populateNatureView(view);
-        populateMoveView( view.findViewById(R.id.configuration_move_0_frame), move0 );
-        populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
-        populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
-        populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
-        ConfigurationStatSetView configurationStatSetView =
-                view.findViewById(R.id.configuration_ev_set_view);
-        configurationStatSetView.setProgressUpdateProvider( presenter );
-        configurationStatSetView.displayStatSet( presenter.getStatsSet() );
-        configurationStatSetView.displayNatureModifier( presenter.getNature() );
+            populatePokemonView(view);
+            populateItemView(item, view);
+            populateAbilityView(view);
+            populateNatureView(view);
+            populateMoveView( view.findViewById(R.id.configuration_move_0_frame), move0 );
+            populateMoveView( view.findViewById(R.id.configuration_move_1_frame), move1 );
+            populateMoveView( view.findViewById(R.id.configuration_move_2_frame), move2 );
+            populateMoveView( view.findViewById(R.id.configuration_move_3_frame), move3 );
+            ConfigurationStatSetView configurationStatSetView =
+                    view.findViewById(R.id.configuration_ev_set_view);
+            configurationStatSetView.setProgressUpdateProvider( presenter );
+            configurationStatSetView.displayStatSet( presenter.getStatsSet() );
+            configurationStatSetView.displayNatureModifier( presenter.getNature() );
+        }
 
         view.findViewById(R.id.pokemon_image_view).setOnClickListener(this);
         view.findViewById(R.id.configuration_item_frame).setOnClickListener(this);

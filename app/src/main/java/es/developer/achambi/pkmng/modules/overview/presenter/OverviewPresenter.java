@@ -60,17 +60,7 @@ public class OverviewPresenter extends IOverviewPresenter {
 
     @Override
     public DataState getDataState() {
-        if( pokemonPresenter.getDataState() == DataState.NOT_FINISHED ||
-                configurationPresenter.getDataState() == DataState.NOT_FINISHED ) {
-            return DataState.NOT_FINISHED;
-        } if( pokemonPresenter.getDataState() == DataState.EMPTY ||
-                configurationPresenter.getDataState() == DataState.EMPTY ) {
-            return DataState.EMPTY;
-        } if( pokemonPresenter.getDataState() == DataState.ERROR ||
-                configurationPresenter.getDataState() == DataState.ERROR ) {
-            return DataState.ERROR;
-        }
-        return DataState.SUCCESS;
+        return configurationPresenter.getDataState();
     }
 
     @Override

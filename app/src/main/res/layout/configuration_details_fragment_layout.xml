@@ -242,7 +242,8 @@
     </View>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
@@ -254,21 +255,22 @@
             android:text="@string/details_action_button_choose_configuration" />
 
         <Button
-            android:id="@+id/details_edit_configuration_action_button"
-            android:layout_width="0dp"
-            android:layout_height="68dp"
-            android:layout_weight="1"
-            android:text="@string/details_action_button_edit_configuration"
-            android:backgroundTint="@color/primary_light"
-            />
-
-        <Button
             android:id="@+id/details_damage_calculator_action_button"
             android:layout_width="0dp"
             android:layout_height="68dp"
             android:layout_weight="1"
-            android:text="@string/details_action_button_damage_calculator"
+            android:text="@string/speed_calculator_title"
             android:backgroundTint="@color/primary_light"
             />
+
+        <Button
+            android:id="@+id/details_edit_configuration_action_button"
+            android:layout_width="0dp"
+            android:layout_height="68dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/primary_light"
+            android:text="@string/edit_configuration_activity_title" />
+
+
     </LinearLayout>
 </LinearLayout>

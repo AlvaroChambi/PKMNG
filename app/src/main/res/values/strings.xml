@@ -7,7 +7,7 @@
     <string name="search_nature_hint">Search nature</string>
     <string name="search_ability_hint">Search ability</string>
     <string name="search_move_hint">Search move</string>
-    <string name="overview_activity_title">Overview</string>
+    <string name="overview_activity_title">My team</string>
     <string name="damage_calculator_activity_title">Damage Calculator</string>
     <string name="create_config_activity_title">Create Configuration</string>
     <string name="edit_configuration_activity_title">Edit Configuration</string>
@@ -17,6 +17,8 @@
     <string name="search_nature_activity_title">Search Nature</string>
     <string name="search_ability_activity_title">Search Ability</string>
     <string name="search_move_activity_title">Choose Move</string>
+
+    <string name="speed_calculator_title">Speed calculator</string>
 
     <string name="item_description_text_placeholder">Holder has 1.5× Defense and Special Defense, as long as it\'s not fully evolved.</string>
     <string name="ability_description_text_placeholder"><![CDATA[Strengthens grass moves to inflict 1.5× damage at &#8531; max HP or less.]]></string>

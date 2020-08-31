@@ -21,7 +21,7 @@ import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.Pok
 public class PokemonDetailsFragment extends BaseDialogFragment implements View.OnClickListener {
     private static final String POKEMON_ARGUMENT_KEY = "POKEMON_ARGUMENT_KEY";
     private static final String USE_CONTEXT_ARGUMENT_KEY = "USE_CONTEXT_ARGUMENT_KEY";
-    private static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
+    public static final int CREATE_CONFIGURATION_REQUEST_CODE = 101;
 
     private Pokemon pokemon;
     private PokemonPresentation pokemonPresentation;

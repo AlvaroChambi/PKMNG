@@ -22,17 +22,15 @@ import es.developer.achambi.coreframework.threading.ResponseHandler;
 import es.developer.achambi.coreframework.ui.BaseSearchListFragment;
 import es.developer.achambi.coreframework.ui.DataState;
 import es.developer.achambi.coreframework.ui.SearchAdapterDecorator;
-import es.developer.achambi.coreframework.utils.GlideApp;
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment;
+import es.developer.achambi.pkmng.modules.create.screen.CreateConfigurationActivity;
 import es.developer.achambi.pkmng.modules.details.view.ConfigurationDetailsFragment;
 import es.developer.achambi.pkmng.modules.details.view.DetailsUseContext;
 import es.developer.achambi.pkmng.modules.details.view.PokemonDetailsFragment;
 import es.developer.achambi.pkmng.modules.overview.model.Pokemon;
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig;
 import es.developer.achambi.pkmng.modules.overview.presenter.OverviewPresenter;
-import es.developer.achambi.pkmng.modules.search.pokemon.adapter.PokemonSearchAdapter;
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation;
-import es.developer.achambi.pkmng.modules.search.pokemon.screen.presentation.PokemonPresentation;
 import es.developer.achambi.coreframework.ui.Presenter;
 import es.developer.achambi.pkmng.modules.search.configuration.adapter.SearchConfigurationAdapter;
 
@@ -44,7 +42,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     private static final int UPDATE_CONFIGURATION_REQUEST_CODE = 102;
 
     private OverviewPresenter presenter;
-    private PokemonSearchAdapter pokemonSearchAdapter;
     private SearchConfigurationAdapter configurationSearchAdapter;
 
     public static OverviewFragment newInstance( Bundle args ) {
@@ -60,6 +57,13 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
                 || presenter.getDataState() == DataState.NOT_FINISHED ) {
             loadOverviewListData();
         }
+        setFloatingButtonListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivityForResult(CreateConfigurationActivity.getStartIntent(getActivity()),
+                      PokemonDetailsFragment.CREATE_CONFIGURATION_REQUEST_CODE  );
+            }
+        });
     }
 
     @Override
@@ -72,10 +76,7 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     @Override
     public SearchAdapterDecorator provideAdapter() {
-        pokemonSearchAdapter = new PokemonSearchAdapter(requestManager);
-        pokemonSearchAdapter.setListener( presenter.getPokemonPresenter() );
-
-        configurationSearchAdapter = new SearchConfigurationAdapter( pokemonSearchAdapter,
+        configurationSearchAdapter = new SearchConfigurationAdapter(
                 requestManager );
         configurationSearchAdapter.setListener( presenter.getConfigurationPresenter() );
 
@@ -84,23 +85,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
 
     private void loadOverviewListData() {
         startLoading();
-        presenter.fetchPokemonList(new ResponseHandler<ArrayList<Pokemon>>() {
-            @Override
-            public void onSuccess(Response<ArrayList<Pokemon>> response) {
-                pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
-                        getActivity(), response.getData() ) );
-                if( presenter.getDataState() == DataState.SUCCESS ) {
-                    presentAdapterData();
-                    hideLoading();
-                }
-            }
-
-            @Override
-            public void onError(Error error) {
-                super.onError(error);
-                showError( error );
-            }
-        });
         presenter.fetchConfigurationList(new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
@@ -124,8 +108,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
-                getActivity(), presenter.getPokemonList() ) );
         configurationSearchAdapter.setData( PresentationBuilder.buildConfigurationPresentation(
                 getActivity(), presenter.getConfigurationList() ) );
         presentAdapterData();
@@ -181,24 +163,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     @Override
     public void onQueryTextSubmitted(String query) {
         startLoading();
-        presenter.fetchPokemonQuery( query, new ResponseHandler<ArrayList<Pokemon>>() {
-            @Override
-            public void onSuccess(Response<ArrayList<Pokemon>> response) {
-                pokemonSearchAdapter.setData( PresentationBuilder.buildPokemonPresentation  (
-                        getActivity(), response.getData() ) );
-                if( presenter.getDataState() == DataState.SUCCESS ) {
-                    presentAdapterData();
-                    hideLoading();
-                }
-            }
-
-            @Override
-            public void onError(Error error) {
-                super.onError(error);
-                showError( error );
-            }
-        });
-
         presenter.fetchConfigurationQuery( query, new ResponseHandler<ArrayList<PokemonConfig>>() {
             @Override
             public void onSuccess(Response<ArrayList<PokemonConfig>> response) {
@@ -225,18 +189,6 @@ public class OverviewFragment extends BaseSearchListFragment implements IOvervie
     }
 
     private static class PresentationBuilder {
-        @NotNull
-        public static ArrayList<PokemonPresentation> buildPokemonPresentation(
-                Context context, ArrayList<Pokemon> pokemonList ) {
-            ArrayList<PokemonPresentation> presentations = new ArrayList<>();
-            for( Pokemon pokemon : pokemonList ) {
-                presentations.add( PokemonPresentation.Builder
-                        .buildPresentation( context, pokemon ) );
-            }
-
-            return presentations;
-        }
-
         @NotNull
         public static ArrayList<ConfigurationPresentation> buildConfigurationPresentation(
                 Context context, ArrayList<PokemonConfig> configurations ) {

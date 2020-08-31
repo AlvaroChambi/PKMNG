@@ -18,6 +18,10 @@ public class CreateConfigurationActivity extends BaseActivity {
         return intent;
     }
 
+    public static Intent getStartIntent(Context context) {
+        return new Intent( context, CreateConfigurationActivity.class );
+    }
+
     @Override
     public int getScreenTitle() {
         return R.string.create_config_activity_title;
