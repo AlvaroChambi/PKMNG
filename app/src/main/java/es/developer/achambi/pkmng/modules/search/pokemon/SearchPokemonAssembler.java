@@ -4,6 +4,8 @@ import es.developer.achambi.coreframework.threading.MainExecutor;
 import es.developer.achambi.pkmng.modules.PokemonDataAssembler;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.ISearchPokemonPresenterFactory;
 import es.developer.achambi.pkmng.modules.search.pokemon.presenter.SearchPokemonPresenterFactory;
+import es.developer.achambi.pkmng.modules.speed_calculator.ISpeedCalculatorPresenterFactory;
+import es.developer.achambi.pkmng.modules.speed_calculator.SpeedCalculatorFactory;
 
 public class SearchPokemonAssembler {
     private MainExecutor mainExecutor;
@@ -23,5 +25,9 @@ public class SearchPokemonAssembler {
     public ISearchPokemonPresenterFactory getPresenterFactory() {
         return new SearchPokemonPresenterFactory(pokemonDataAssembler.getPokemonDataAccess(),
                 mainExecutor);
+    }
+
+    public ISpeedCalculatorPresenterFactory getSpeedCalculatorFactory() {
+        return new SpeedCalculatorFactory(pokemonDataAssembler.getPokemonDataAccess(), mainExecutor);
     }
 }

@@ -1,23 +1,33 @@
 package es.developer.achambi.pkmng.modules.speed_calculator
 
 import android.app.Activity
+import android.arch.lifecycle.Lifecycle
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import es.developer.achambi.coreframework.ui.BaseFragment
+import es.developer.achambi.coreframework.ui.BaseRequestFragment
+import es.developer.achambi.coreframework.ui.Presenter
+import es.developer.achambi.coreframework.ui.Screen
 import es.developer.achambi.pkmng.R
+import es.developer.achambi.pkmng.core.AppWiring
+import es.developer.achambi.pkmng.modules.PKMNGApplication
 import es.developer.achambi.pkmng.modules.create.screen.ConfigurationFragment
 import es.developer.achambi.pkmng.modules.create.screen.StatEVView
+import es.developer.achambi.pkmng.modules.overview.model.Pokemon
 import es.developer.achambi.pkmng.modules.overview.model.PokemonConfig
 import es.developer.achambi.pkmng.modules.overview.model.Stat
 import es.developer.achambi.pkmng.modules.search.configuration.screen.SearchConfigurationActivity
 import es.developer.achambi.pkmng.modules.search.configuration.screen.presentation.ConfigurationPresentation
 import es.developer.achambi.pkmng.modules.search.nature.model.Nature
 import es.developer.achambi.pkmng.modules.search.nature.screen.SearchNatureActivity
+import es.developer.achambi.pkmng.modules.search.pokemon.SearchPokemonAssembler
 import kotlinx.android.synthetic.main.speed_configuration_layout.*
 
-class SpeedConfigurationFragment: BaseFragment() {
+class SpeedConfigurationFragment: BaseRequestFragment(), SpeedConfigurationScreen {
     private var config: PokemonConfig? = null
+    private lateinit var presenter: SpeedConfigurationPresenter
 
     companion object {
         val CONFIGURATION_KEY = "CONFIGURATION_KEY"
@@ -43,6 +53,17 @@ class SpeedConfigurationFragment: BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         config = arguments?.getParcelable(CONFIGURATION_KEY)
+    }
+
+    override fun setupPresenter(): Presenter {
+        if(!::presenter.isInitialized) {
+            presenter = AppWiring.searchPokemonAssembler.speedCalculatorFactory.buildPresenter(this)
+        }
+        return presenter
+    }
+
+    override fun getLoadingFrame(): Int {
+        return R.id.speed_calculator_content_frame
     }
 
     override fun onViewSetup(view: View?, savedInstanceState: Bundle?) {
@@ -80,6 +101,7 @@ class SpeedConfigurationFragment: BaseFragment() {
             speed_calculator_add_image.setOnClickListener {
                 SearchConfigurationActivity.getStartIntent(activity, null) }
         }
+        presenter.fetchPokemons()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,4 +111,33 @@ class SpeedConfigurationFragment: BaseFragment() {
                     ConfigurationFragment.NATURE_ACTIVITY_RESULT_DATA_KEY)?.name
         }
     }
+
+    override fun pokemonDataReceived(list: ArrayList<Pokemon>) {
+        Log.i(SpeedConfigurationFragment::class.java.toString(), "Pokemon data received: " + list.size)
+    }
+
+    override fun pokemonDataError() {
+
+    }
+
+    override fun showLoading() {
+        super.startLoading()
+        startLoading()
+    }
+
+    override fun finishLoading() {
+        super.hideLoading()
+        hideLoading()
+    }
+
+    override fun screenLifecycle(): Lifecycle {
+        return this.lifecycle
+    }
+}
+
+interface SpeedConfigurationScreen: Screen {
+    fun pokemonDataReceived(list: ArrayList<Pokemon>)
+    fun pokemonDataError()
+    fun showLoading()
+    fun finishLoading()
 }
