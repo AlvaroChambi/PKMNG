@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "es.developer.achambi.myapplication",
+    "sha256_cert_fingerprints":
+    ["FB:9E:DD:BD:64:49:93:88:09:56:F0:67:13:6B:5E:26:24:5B:06:63:61:4B:64:4E:C0:5A:BE:02:4C:31:BF:54"]
+  }
+}]
